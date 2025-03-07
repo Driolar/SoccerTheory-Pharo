@@ -3,7 +3,7 @@
 It is written in Pharo and is coming from a former master thesis implemented in Java.
 
 ## Load SoTheBo
-You can load SoTheBo into a fresh Pharo image (version 12 or newer) with:
+You can load SoTheBo into a fresh Pharo image (version 11 or newer) with:
 ```smalltalk
 Metacello new
         baseline: 'SoccerTheory';
