@@ -7,7 +7,7 @@ You can load SoTheBo into a fresh Pharo image (version 12 or newer) with:
 ```smalltalk
 Metacello new
         baseline: 'SoccerTheory';
-        repository: 'github://Driolar/SoccerTheory:master/src';
+        repository: 'github://Driolar/SoccerTheory-Pharo:master/src';
         load
 ```
 ## Start SoTheBo
