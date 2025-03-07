@@ -1,6 +1,6 @@
 # SoccerTheory-Pharo
-**SoTheBo**, The Soccer Theory Board, is a software application written to visualize the [Theory of Soccer](https://en.wikiversity.org/wiki/The_Theory_of_Soccer).
-It is written in Pharo, originally derived from a former master thesis implemented in Java.
+**SoTheBo**, The Soccer Theory Board, is a software application to visualize the [Theory of Soccer](https://en.wikiversity.org/wiki/The_Theory_of_Soccer).
+It is written in Pharo. The original model is a former master thesis implemented in Java.
 
 ## Load SoTheBo
 You can load SoTheBo into a fresh Pharo 12.0 image with:
