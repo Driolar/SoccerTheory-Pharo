@@ -15,7 +15,7 @@ BaselineOfSoccerTheory >> baseline: spec [
 	spec for: #common do: [
 		spec
 			baseline: 'Bloc'
-			with: [ spec repository: 'github://pharo-graphics/Bloc:v2.2.0/src' ].
+			with: [ spec repository: 'github://pharo-graphics/Bloc:v2.1.0/src' ].
 
 		spec
 			package: 'SoccerTheory-Model';
