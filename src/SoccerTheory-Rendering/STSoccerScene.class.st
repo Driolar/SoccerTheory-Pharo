@@ -47,7 +47,7 @@ STSoccerScene >> addNewShapeOnBall: aBall [
 	ballShape := STBallShape newWithBall: aBall.
 	centerPoint := transformer toDevice: aBall position.
 	centerPoint := centerPoint + borderWidth.
-	self addChild: (ballShape centerPosition: centerPoint)
+	self attachChild: (ballShape centerPosition: centerPoint)
 ]
 
 { #category : 'creation' }
@@ -74,13 +74,6 @@ STSoccerScene >> addShapes [
 		self addNewShapeOnPlayer: player ].
 	soccerFrame teamRight players do: [ :player |
 		self addNewShapeOnPlayer: player ]
-]
-
-{ #category : 'private' }
-STSoccerScene >> deviceExtent [ 
-	"Answer the device extent."
-
-	^transformer deviceExtent 
 ]
 
 { #category : 'initialization' }
@@ -123,7 +116,7 @@ STSoccerScene >> paintGoals [
 	goalPosition := Point
 		                x: borderWidth - goalDepth
 		                y:
-		                self deviceExtent y / 2 + borderWidth
+		                self pitchExtent y / 2 + borderWidth
 		                - (goalWidth / 2).
 	goalLeft := BlElement new
 		            size: (Point x: goalDepth y: goalWidth);
@@ -134,7 +127,7 @@ STSoccerScene >> paintGoals [
 		            yourself.
 
 	goalPosition := Point
-		                x: self deviceExtent x + borderWidth
+		                x: self pitchExtent x + borderWidth
 		                y: goalPosition y.
 	goalRight := BlElement new
 		             size: (Point x: goalDepth y: goalWidth);
@@ -155,7 +148,7 @@ STSoccerScene >> paintGreen [
 	self border:
 		(BlBorder paint: (Color fromHexString: '66CC66') width: borderWidth). "Moderate lime green border"
 
-	self size: self deviceExtent + (2 * borderWidth).
+	self size: self totalExtent.
 	self background: (Color fromHexString: '009666') "dark cyan - lime green"
 ]
 
@@ -166,7 +159,7 @@ STSoccerScene >> paintMiddleLine [
 	| verticalMiddleLine horizontalMiddleLine middlePoint startPoint endPoint |
 	middlePoint := transformer toDevice: soccerFrame pitch middle.
 	startPoint := Point x: middlePoint x y: 0.
-	endPoint := Point x: middlePoint x y: self deviceExtent y.
+	endPoint := Point x: middlePoint x y: self pitchExtent y.
 
 	verticalMiddleLine := BlLineGeometry
 		                      from: startPoint + borderWidth
@@ -187,4 +180,18 @@ STSoccerScene >> paintPitch [
 
 	self paintGreen.
 	self paintMiddleLine
+]
+
+{ #category : 'private' }
+STSoccerScene >> pitchExtent [ 
+	"Answer the pitch's device extent."
+
+	^transformer deviceExtent 
+]
+
+{ #category : 'paint' }
+STSoccerScene >> totalExtent [
+	"Answer the total extent including pitch border"
+
+	^ self pitchExtent + (2 * borderWidth)
 ]

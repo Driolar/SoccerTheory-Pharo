@@ -33,13 +33,6 @@ STFrameEditor class >> open [
 		open
 ]
 
-{ #category : 'update' }
-STFrameEditor >> clearBoard [
-	"Clear the soccer board."
-
-	board space root removeChildren
-]
-
 { #category : 'presenters' }
 STFrameEditor >> controlsPresenter [
 	"Answer the SpPresenter with the controls row."
@@ -148,8 +141,10 @@ STFrameEditor >> loadFrame: aFrame [
 
 	self updateDropListForOffsideRule.
 
-	self clearBoard.
-	board space root addChild: scene
+	board space setExtent: scene totalExtent.
+	board space
+		root: scene;
+		becomeVisible
 ]
 
 { #category : 'presenters' }
