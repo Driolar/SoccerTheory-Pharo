@@ -61,6 +61,37 @@ STPlayerShape >> goalkeeperElement [
 	^ symbolFactory goalkeeperElement
 ]
 
+{ #category : 'private' }
+STPlayerShape >> hoverTextElement [
+	"Answer the player's hover text"
+
+	^ ((BlRopedText string: self jerseyString) fontSize: 15) asElement
+		  background: Color white;
+		  padding: (BlInsets all: 2);
+		  position: (Point x: squareExtent x y: 0)
+]
+
+{ #category : 'initialization' }
+STPlayerShape >> initializeEventHandlers [
+	"Answer the mouseOverEventHandler that shows the hover text."
+
+	self addEventHandler: BlPullHandler new.
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseOverEvent
+			 do: [ :anEvent |
+				 anEvent currentTarget
+					 addChild: self hoverTextElement
+					 as: #hovertext ]).
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseOutEvent
+			 do: [ :anEvent |
+			 anEvent currentTarget removeChildWithId: #hovertext ]).
+	self addEventHandler: (BlEventHandler
+			 on: BlDropEvent
+			 do: [ :anEvent |
+			 anEvent currentTarget removeChildWithId: #hovertext ])
+]
+
 { #category : 'initialization' }
 STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 	"Initialize the shape instance for a given STBall and a graphic factory."
@@ -71,23 +102,37 @@ STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 	self size: squareExtent.
 	self background: self jerseyGradient.
 	player isGoalkeeper ifTrue: [
-		self addChild:
-			(self goalkeeperElement position: (Point x: 1 y: 1)) ].
+		self addChild: (self goalkeeperElement position: (Point x: 1 y: 1)) ].
 	(player isOffside isNotNil and: [ player isOffside ])
 		ifTrue: [ self showOffside ]
 		ifFalse: [
 			(player isCovered isNotNil and: [ player isCovered not ]) ifTrue: [
 				self showUncovered ] ].
-	self addEventHandler: BlPullHandler new
+	self initializeEventHandlers.
+	self clipChildren: false "for hover text"
 ]
 
-{ #category : 'showing' }
+{ #category : 'private' }
 STPlayerShape >> jerseyGradient [
 	"Answer the gradient for the field player jersey."
 
 	^ BlLinearGradientPaint horizontal
 		  from: (Color colorFrom: player team color1)
 		  to: (Color colorFrom: player team color2)
+]
+
+{ #category : 'private' }
+STPlayerShape >> jerseyNumber [ 
+	"Answer the players jersey number"
+
+	^player jerseyNumber
+]
+
+{ #category : 'private' }
+STPlayerShape >> jerseyString [ 
+	"Answer the players jersey number asString"
+
+	^player jerseyNumber asString 
 ]
 
 { #category : 'private' }
