@@ -32,7 +32,7 @@ STCommonSoccerStrategy class >> newWithPlay: aPlay [
 	^self new initializeWithPlay: aPlay
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 STCommonSoccerStrategy >> attackingTeam [
 	^play owningTeam 
 ]
@@ -95,12 +95,15 @@ STCommonSoccerStrategy >> resetCoveringStates [
 
 { #category : 'model updates' }
 STCommonSoccerStrategy >> updateCovering [
+
 	self resetCoveringStates.
 
 	"Respect the sequence: First flag offside, then flag covering."
 	"Covering flags depend on offside flags."
-	self attackingTeam
-		ifNotNil: [ 
-			self flagOffsidePlayers.
-			self flagCoveredPlayers ]
+	self attackingTeam ifNotNil: [
+		self flagOffsidePlayers.
+		self flagCoveredPlayers ].
+
+	STSoccerFrame announcer announce: STOffsideSwitchedAnnouncement new.
+	STSoccerFrame announcer announce: STUncoveredSwitchedAnnouncement new
 ]

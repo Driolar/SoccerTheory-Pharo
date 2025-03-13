@@ -108,6 +108,20 @@ STPlayerShape >> goalkeeperElement [
 	^ graphicFactory goalkeeperElement
 ]
 
+{ #category : 'showing' }
+STPlayerShape >> hideOffside [
+	"Remove the offside tag if present."
+
+	self removeChildWithId: #offside
+]
+
+{ #category : 'showing' }
+STPlayerShape >> hideUncovered [
+		"Remove the uncovered tag if present."
+
+	self removeChildWithId: #uncovered
+]
+
 { #category : 'private' }
 STPlayerShape >> hoverTextElement [
 	"Answer the player's hover text"
@@ -158,13 +172,18 @@ STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 	self background: self jerseyGradient.
 	player isGoalkeeper ifTrue: [
 		self addChild: (self goalkeeperElement position: (Point x: 1 y: 1)) ].
-	(player isOffside isNotNil and: [ player isOffside ])
-		ifTrue: [ self showOffside ]
-		ifFalse: [
-			(player isCovered isNotNil and: [ player isCovered not ]) ifTrue: [
-				self showUncovered ] ].
+	self updateOffside.
+	self updateUncovered.
 	self addEventHandlers.
+	self registerAtAnnouncer.
 	self clipChildren: false "for hover text"
+]
+
+{ #category : 'private' }
+STPlayerShape >> isOffside [
+	"Answer whether player is in offside or not."
+
+	^ player isOffside isNotNil and: [ player isOffside ]
 ]
 
 { #category : 'private' }
@@ -197,18 +216,32 @@ STPlayerShape >> offsideElement [
 	^graphicFactory offsideElement 
 ]
 
+{ #category : 'initialization' }
+STPlayerShape >> registerAtAnnouncer [
+	"Register to the announcements I am interested in."
+
+	self announcer
+		when: STOffsideSwitchedAnnouncement
+		do: [ :ann | self updateOffside ]
+		for: self.
+	self announcer
+		when: STUncoveredSwitchedAnnouncement
+		do: [ :ann | self updateUncovered ]
+		for: self
+]
+
 { #category : 'showing' }
 STPlayerShape >> showOffside [
 	"Tag me being offside."
 
-	self addChild: self offsideElement 
+	self addChild: self offsideElement as: #offside 
 ]
 
 { #category : 'showing' }
 STPlayerShape >> showUncovered [
 		"Tag me being uncovered."
 
-	self addChild: self uncoveredElement 
+	self addChild: self uncoveredElement as: #uncovered 
 ]
 
 { #category : 'private' }
@@ -216,4 +249,27 @@ STPlayerShape >> uncoveredElement [
 	"Answer the uncovered BlElement."
 
 	^ graphicFactory uncoveredElement
+]
+
+{ #category : 'showing' }
+STPlayerShape >> updateOffside [
+	"Show or remove the offside flag reflecting the model."
+
+	self isOffside
+		ifTrue: [
+			self hideUncovered.
+			self showOffside ]
+		ifFalse: [ self hideOffside ]
+]
+
+{ #category : 'showing' }
+STPlayerShape >> updateUncovered [
+	"Show or remove the uncovered flag reflecting the model."
+
+	self isOffside
+		ifTrue: [ self hideUncovered ]
+		ifFalse: [
+			(player isCovered isNotNil and: [ player isCovered not ])
+				ifTrue: [ self showUncovered ]
+				ifFalse: [ self hideUncovered ] ]
 ]
