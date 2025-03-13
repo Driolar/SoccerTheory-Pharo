@@ -33,8 +33,8 @@ STPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory [
 ]
 
 { #category : 'initialization' }
-STPlayerShape >> addEventHandlers [
-	"Answer the mouseOverEventHandler that shows the hover text."
+STPlayerShape >> addMouseEventHandlers [
+	"Add my mouse event handlers."
 
 	self addEventHandler: BlPullHandler new.
 	
@@ -174,7 +174,7 @@ STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 		self addChild: (self goalkeeperElement position: (Point x: 1 y: 1)) ].
 	self updateOffside.
 	self updateUncovered.
-	self addEventHandlers.
+	self addMouseEventHandlers.
 	self registerAtAnnouncer.
 	self clipChildren: false "for hover text"
 ]

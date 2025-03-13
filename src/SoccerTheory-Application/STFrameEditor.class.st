@@ -213,11 +213,22 @@ STFrameEditor >> registerAtAnnouncer [
 			| player targetWorldPoint |
 			player := ann player.
 			targetWorldPoint := scene toWorld:
-				                    ann targetDevicePoint - scene borderWidth.
+				                    ann targetDevicePoint - scene borderWidth. "ugly"
 			gameCommander movePlayer: player toPosition: targetWorldPoint.
 			statusbar pushMessage:
 				'Player ' , player jerseyNumber displayString , ' ('
 				, player teamName , ') moved to '
+				, (self formattedStringForWorldPosition: targetWorldPoint) ]
+		for: self.
+
+	self announcer
+		when: STBallShapeMovedAnnouncement
+		do: [ :ann |
+			| targetWorldPoint |
+			targetWorldPoint := scene toWorld:
+				                    ann targetDevicePoint - scene borderWidth. "ugly"
+			gameCommander moveBallToPosition: targetWorldPoint.
+			statusbar pushMessage: 'Ball moved to '
 				, (self formattedStringForWorldPosition: targetWorldPoint) ]
 		for: self
 ]

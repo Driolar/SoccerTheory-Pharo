@@ -84,6 +84,27 @@ STBallShape class >> newWithBall: aBall [
 	^ self new initializeWithBall: aBall 
 ]
 
+{ #category : 'initialization' }
+STBallShape >> addMouseEventHandlers [
+	"Add my mouse event handlers"
+
+	self addEventHandler: BlPullHandler new.
+	
+	self addEventHandler: (BlEventHandler
+			 on: BlDragEndEvent
+			 do: [ :anEvent |
+				 self announcer announce:
+					 (STBallShapeMovedAnnouncement newWithTargetPosition:
+						  self centerPosition) ])
+]
+
+{ #category : 'private' }
+STBallShape >> announcer [
+	"Answer the announcer to send and receive announcements."
+
+	^ STSoccerFrame announcer
+]
+
 { #category : 'accessing' }
 STBallShape >> centerPosition [
 	"Answer the very center Point of the shape."
@@ -121,5 +142,5 @@ STBallShape >> initializeWithBall: aBall [
 	ballIconElement := ballIcon asElement.
 	ballIconElement position: (Point x: 1 y: 1).
 	self addChild: ballIconElement.
-	self addEventHandler: BlPullHandler new
+	self addMouseEventHandlers
 ]

@@ -1,5 +1,5 @@
 "
-I announce that a player shape has been moved, typically by drap and drop.
+I announce that a player shape has been moved, typically by drag and drop.
 "
 Class {
 	#name : 'STPlayerShapeMovedAnnouncement',

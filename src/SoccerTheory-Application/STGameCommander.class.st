@@ -36,6 +36,13 @@ STGameCommander >> initializeWithFrame: aFrame [
 ]
 
 { #category : 'actions api' }
+STGameCommander >> moveBallToPosition: aPosition [
+	"Move the ball to the given world point."
+
+	actionManager moveBallToPosition: aPosition
+]
+
+{ #category : 'actions api' }
 STGameCommander >> movePlayer: aPlayer toPosition: aPosition [
 	"Move the given model player to the given world point."
 
