@@ -84,3 +84,10 @@ STTeam >> playerWithJerseyNumber: aJerseyNumber [
 STTeam >> players [
 	^ players
 ]
+
+{ #category : 'accessing' }
+STTeam >> teamName [
+	"Answer my team name."
+
+	^teamName 
+]

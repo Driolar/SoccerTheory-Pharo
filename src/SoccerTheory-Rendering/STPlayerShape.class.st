@@ -16,7 +16,7 @@ Class {
 	#instVars : [
 		'player',
 		'squareExtent',
-		'symbolFactory'
+		'graphicFactory'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',
@@ -30,6 +30,45 @@ STPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory [
 	^ self new
 		  initializeForPlayer: aPlayer
 		  graphicFactory: aGraphicFactory
+]
+
+{ #category : 'initialization' }
+STPlayerShape >> addEventHandlers [
+	"Answer the mouseOverEventHandler that shows the hover text."
+
+	self addEventHandler: BlPullHandler new.
+	
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseOverEvent
+			 do: [ :anEvent |
+				 anEvent currentTarget
+					 addChild: self hoverTextElement
+					 as: #hovertext ]).
+	
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseOutEvent
+			 do: [ :anEvent |
+			 anEvent currentTarget removeChildWithId: #hovertext ]).
+	
+	self addEventHandler: (BlEventHandler
+			 on: BlDragStartEvent 
+			 do: [ :anEvent |
+			 anEvent currentTarget removeChildWithId: #hovertext ]).
+	
+	self addEventHandler: (BlEventHandler
+			 on: BlDragEndEvent 
+			 do: [ :anEvent |
+				 anEvent currentTarget removeChildWithId: #hovertext.
+				 self announcer announce: (STPlayerShapeMovedAnnouncement
+						  newOnPlayer: player
+						  targetPosition: self centerPosition) ])
+]
+
+{ #category : 'private' }
+STPlayerShape >> announcer [
+	"Answer the announcer to send and receive announcements."
+
+	^ STSoccerFrame announcer
 ]
 
 { #category : 'accessing' }
@@ -55,10 +94,18 @@ STPlayerShape >> centerPosition: aPosition [
 ]
 
 { #category : 'private' }
+STPlayerShape >> formattedPlayerPositionString [
+	"Answer the formatted string representing the model player's position."
+
+	^ '(' , (player position x printShowingDecimalPlaces: 1) , '@'
+	  , (player position y printShowingDecimalPlaces: 1) , ')'
+]
+
+{ #category : 'private' }
 STPlayerShape >> goalkeeperElement [
 	"Answer the goalkeeper BlElement."
 
-	^ symbolFactory goalkeeperElement
+	^ graphicFactory goalkeeperElement
 ]
 
 { #category : 'private' }
@@ -97,28 +144,7 @@ STPlayerShape >> hoverTextPositionY [
 STPlayerShape >> hoverTextString [
 	"Answer the string for the hover text element."
 
-	^ self jerseyString , ' ' , player position displayString
-]
-
-{ #category : 'initialization' }
-STPlayerShape >> initializeEventHandlers [
-	"Answer the mouseOverEventHandler that shows the hover text."
-
-	self addEventHandler: BlPullHandler new.
-	self addEventHandler: (BlEventHandler
-			 on: BlMouseOverEvent
-			 do: [ :anEvent |
-				 anEvent currentTarget
-					 addChild: self hoverTextElement
-					 as: #hovertext ]).
-	self addEventHandler: (BlEventHandler
-			 on: BlMouseOutEvent
-			 do: [ :anEvent |
-			 anEvent currentTarget removeChildWithId: #hovertext ]).
-	self addEventHandler: (BlEventHandler
-			 on: BlDropEvent
-			 do: [ :anEvent |
-			 anEvent currentTarget removeChildWithId: #hovertext ])
+	^ self jerseyString , ' ' , self formattedPlayerPositionString
 ]
 
 { #category : 'initialization' }
@@ -126,7 +152,7 @@ STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 	"Initialize the shape instance for a given STBall and a graphic factory."
 
 	player := aPlayer.
-	symbolFactory := aGraphicFactory.
+	graphicFactory := aGraphicFactory.
 	squareExtent := 18 @ 18.
 	self size: squareExtent.
 	self background: self jerseyGradient.
@@ -137,7 +163,7 @@ STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 		ifFalse: [
 			(player isCovered isNotNil and: [ player isCovered not ]) ifTrue: [
 				self showUncovered ] ].
-	self initializeEventHandlers.
+	self addEventHandlers.
 	self clipChildren: false "for hover text"
 ]
 
@@ -168,7 +194,7 @@ STPlayerShape >> jerseyString [
 STPlayerShape >> offsideElement [ 
 	"Answer the offside BlElement."
 
-	^symbolFactory offsideElement 
+	^graphicFactory offsideElement 
 ]
 
 { #category : 'showing' }
@@ -189,5 +215,5 @@ STPlayerShape >> showUncovered [
 STPlayerShape >> uncoveredElement [
 	"Answer the uncovered BlElement."
 
-	^ symbolFactory uncoveredElement
+	^ graphicFactory uncoveredElement
 ]

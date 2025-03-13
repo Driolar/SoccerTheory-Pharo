@@ -32,7 +32,14 @@ STGameCommander >> initializeWithFrame: aFrame [
 	"Initialize with the given STSoccerFrame."
 
 	frame := aFrame.
-	actionManager := STActionManager newWithPlay: aFrame 
+	actionManager := STActionManager newWithPlay: aFrame
+]
+
+{ #category : 'actions api' }
+STGameCommander >> movePlayer: aPlayer toPosition: aPosition [
+	"Move the given model player to the given world point."
+
+	actionManager movePlayer: aPlayer toPosition: aPosition
 ]
 
 { #category : 'accessing' }

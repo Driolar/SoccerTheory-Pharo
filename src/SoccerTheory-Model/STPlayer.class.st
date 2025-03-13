@@ -103,9 +103,7 @@ STPlayer >> isOffside: aBoolean [
 
 { #category : 'accessing' }
 STPlayer >> jerseyNumber [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
+	"Answer the number printed on the player's jersey."
 
 	^ number
 ]
@@ -126,15 +124,8 @@ STPlayer >> position: aPosition [
 ]
 
 { #category : 'accessing' }
-STPlayer >> squadNumber [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
-
-	^ number
-]
-
-{ #category : 'accessing' }
 STPlayer >> team [
+	"Answer the STTeam where I belong."
+
 	^ team
 ]

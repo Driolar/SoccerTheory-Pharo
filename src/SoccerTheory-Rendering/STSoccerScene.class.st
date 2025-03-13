@@ -65,7 +65,7 @@ STSoccerScene >> addNewShapeOnPlayer: aPlayer [
 		before: ballShape "The ball must always be visible."
 ]
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 STSoccerScene >> addShapes [
 	"Add all the shapes from the soccer frame."
 
@@ -74,6 +74,13 @@ STSoccerScene >> addShapes [
 		self addNewShapeOnPlayer: player ].
 	soccerFrame teamRight players do: [ :player |
 		self addNewShapeOnPlayer: player ]
+]
+
+{ #category : 'api - transformation' }
+STSoccerScene >> borderWidth [ 
+	"Answer the border width. This is temporary until refactoring."
+
+	^borderWidth 
 ]
 
 { #category : 'initialization' }
@@ -187,6 +194,13 @@ STSoccerScene >> pitchExtent [
 	"Answer the pitch's device extent."
 
 	^transformer deviceExtent 
+]
+
+{ #category : 'api - transformation' }
+STSoccerScene >> toWorld: aDevicePoint [
+	"Transform device Point to world Point."
+
+	^ transformer toWorld: aDevicePoint
 ]
 
 { #category : 'paint' }
