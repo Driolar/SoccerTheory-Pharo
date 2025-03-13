@@ -129,3 +129,10 @@ STPlayer >> team [
 
 	^ team
 ]
+
+{ #category : 'accessing' }
+STPlayer >> teamName [
+	"Answer my team's name"
+
+	^ team teamName
+]

@@ -215,9 +215,9 @@ STFrameEditor >> registerAtAnnouncer [
 			targetWorldPoint := scene toWorld:
 				                    ann targetDevicePoint - scene borderWidth.
 			gameCommander movePlayer: player toPosition: targetWorldPoint.
-			statusbar message:
-				'Player ' + player jerseyNumber asString + ' (team ' , player teamName
-				, ') moved to '
+			statusbar pushMessage:
+				'Player ' , player jerseyNumber displayString , ' ('
+				, player teamName , ') moved to '
 				, (self formattedStringForWorldPosition: targetWorldPoint) ]
 		for: self
 ]

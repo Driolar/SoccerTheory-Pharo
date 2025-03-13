@@ -124,8 +124,8 @@ STSoccerFrameBuilder class >> fixture3Frame [
 	middle := pitch middle.
 	ball := STBall newWithPosition: (Point x: middle x + 20 y: middle y).
 	frameBuilder := self
-		                newWithTeamLeft: 'Team B'
-		                teamRight: 'Team A'
+		                newWithTeamLeft: 'Team A'
+		                teamRight: 'Team B'
 		                pitch: pitch
 		                ball: ball.
 	frameBuilder setBallPosessionRight.
@@ -192,8 +192,8 @@ STSoccerFrameBuilder class >> fixture4FrameBuilder [
 	middle := pitch middle.
 	ball := STBall newWithPosition: (Point x: middle x - 20 y: middle y).
 	frameBuilder := self
-		                newWithTeamLeft: 'Team B'
-		                teamRight: 'Team A'
+		                newWithTeamLeft: 'Team A'
+		                teamRight: 'Team B'
 		                pitch: pitch
 		                ball: ball.
 	frameBuilder setBallPosessionRight.
