@@ -7,10 +7,9 @@ I am also pullable.
 "
 Class {
 	#name : 'STBallShape',
-	#superclass : 'BlElement',
+	#superclass : 'STMovableShape',
 	#instVars : [
-		'ball',
-		'squareExtent'
+		'ball'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',
@@ -99,32 +98,11 @@ STBallShape >> addMouseEventHandlers [
 ]
 
 { #category : 'private' }
-STBallShape >> announcer [
-	"Answer the announcer to send and receive announcements."
+STBallShape >> hoverTextString [
+	"Answer the string for the hover text element."
 
-	^ STSoccerFrame announcer
-]
-
-{ #category : 'accessing' }
-STBallShape >> centerPosition [
-	"Answer the very center Point of the shape."
-
-	"This doesn't always work: self position: aPosition - (self extent / 2). 
-	Sometimes self extent returns here 0@0 instead of 18@18.
-	For this reason, the variable squareExtent is introduced."
-
-	^ self position + (squareExtent / 2)
-]
-
-{ #category : 'accessing' }
-STBallShape >> centerPosition: aPosition [
-	"Set the device origin top left based on the center position."
-
-	"This doesn't always work: self position: aPosition - (self extent / 2). 
-	Sometimes self extent returns here 0@0 instead of 18@18.
-	For this reason, the variable squareExtent is introduced."
-
-	self position: aPosition - (squareExtent / 2)
+	^ '(' , (ball position x printShowingDecimalPlaces: 1) , '@'
+	  , (ball position y printShowingDecimalPlaces: 1) , ')'
 ]
 
 { #category : 'initialization' }

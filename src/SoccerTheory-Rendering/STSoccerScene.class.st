@@ -14,7 +14,7 @@ Class {
 		'soccerFrame',
 		'borderWidth',
 		'ballShape',
-		'symbolFactory'
+		'graphicFactory'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',
@@ -22,12 +22,12 @@ Class {
 }
 
 { #category : 'instance creation' }
-STSoccerScene class >> newApplicationSceneWithFrame: aFrame symbolFactory: aSymbolFactory [
+STSoccerScene class >> newApplicationSceneWithFrame: aFrame graphicFactory: aGraphicFactory [
 	"Answer a new instance for application purpose with the given STSoccerFrame and STGraphicFactory."
 
 	^ self new
 		  initializeForApplicationWithFrame: aFrame
-		  symbolFactory: aSymbolFactory
+		  graphicFactory: aGraphicFactory
 ]
 
 { #category : 'instance creation' }
@@ -36,7 +36,7 @@ STSoccerScene class >> newSampleSceneWithFrame: aFrame [
 
 	^ self new
 		  initializeForSampleWithFrame: aFrame
-		  symbolFactory: STGraphicFactory new
+		  graphicFactory: STGraphicFactory new
 ]
 
 { #category : 'creation' }
@@ -57,7 +57,7 @@ STSoccerScene >> addNewShapeOnPlayer: aPlayer [
 	| playerShape centerPoint |
 	playerShape := STPlayerShape
 		               newWithPlayer: aPlayer
-		               graphicFactory: symbolFactory.
+		               graphicFactory: graphicFactory.
 	centerPoint := transformer toDevice: aPlayer position.
 	centerPoint := centerPoint + borderWidth.
 	self
@@ -84,11 +84,11 @@ STSoccerScene >> borderWidth [
 ]
 
 { #category : 'initialization' }
-STSoccerScene >> initializeForApplicationWithFrame: aFrame symbolFactory: aSymbolFactory [
+STSoccerScene >> initializeForApplicationWithFrame: aFrame graphicFactory: aGraphicFactory [
 	"Initialize for application purpose with the given STSoccerFrame and STGraphicFactory."
 
 	soccerFrame := aFrame.
-	symbolFactory := aSymbolFactory.
+	graphicFactory := aGraphicFactory.
 	borderWidth := 30.
 	transformer := STCoordinatesTransformer
 		               newForApplicationWithWorldExtent: aFrame pitch extent.
@@ -98,11 +98,11 @@ STSoccerScene >> initializeForApplicationWithFrame: aFrame symbolFactory: aSymbo
 ]
 
 { #category : 'initialization' }
-STSoccerScene >> initializeForSampleWithFrame: aFrame symbolFactory: aSymbolFactory [
+STSoccerScene >> initializeForSampleWithFrame: aFrame graphicFactory: aGraphicFactory [
 	"Initialize for demo purpose with the given STSoccerFrame and STGraphicFactory."
 
 	soccerFrame := aFrame.
-	symbolFactory := aSymbolFactory.
+	graphicFactory := aGraphicFactory.
 	borderWidth := 10.
 	transformer := STCoordinatesTransformer newForSampleWithWorldExtent:
 		               aFrame pitch extent.

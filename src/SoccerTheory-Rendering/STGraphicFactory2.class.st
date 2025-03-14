@@ -30,5 +30,5 @@ STGraphicFactory2 >> uncoveredElement [
 		  background: Color black;
 		  geometry: BlCircleGeometry new;
 		  size: 12 @ 12;
-		  position: 3 asPoint
+		  position: (3 asPoint)
 ]

@@ -155,7 +155,7 @@ STFrameEditor >> loadFrame: aFrame named: aFrameName [
 
 	scene := STSoccerScene
 		         newApplicationSceneWithFrame: aFrame
-		         symbolFactory: symbolFactory.
+		         graphicFactory: symbolFactory.
 	gameCommander := STGameCommander newWithFrame: aFrame.
 
 	self registerAtAnnouncer.
