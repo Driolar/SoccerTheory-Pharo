@@ -83,17 +83,19 @@ STSoccerPlay >> initializeWithPitch: aPitch [
 
 { #category : 'initialization' }
 STSoccerPlay >> initializeWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall [
+
 	teamLeft := STTeam newLeftToRight: aStringLeft.
 	teamRight := STTeam newRightToLeft: aStringRight.
 	pitch := aPitch.
-	ball := aBall
+	ball := aBall.
+	self setNoOffsideSoccerStrategy
 ]
 
 { #category : 'notification' }
 STSoccerPlay >> notifyCovering [ 
 	"I tell the strategy to update covering"
 
-	strategy ifNotNil: [ strategy updateCovering ]
+	strategy updateCovering
 ]
 
 { #category : 'accessing' }
@@ -132,6 +134,13 @@ STSoccerPlay >> setModernSoccerStrategy [
 	"The play is to be ruled by the modern soccer strategy"
 
 	strategy := STModernSoccerStrategy newWithPlay: self
+]
+
+{ #category : 'initialization' }
+STSoccerPlay >> setNoOffsideSoccerStrategy [
+	"The play is to be ruled with no offside."
+
+	strategy := STNoOffsideSoccerStrategy newWithPlay: self
 ]
 
 { #category : 'accessing' }

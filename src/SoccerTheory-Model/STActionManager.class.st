@@ -30,6 +30,8 @@ STActionManager >> addPlayer: aPlayer toTeam: aTeam [
 
 { #category : 'actions api' }
 STActionManager >> changeBallOwnerToTeam: aTeam [
+	"Change the ball owner and notify the change."
+
 	play ball owningTeam: aTeam.
 	self notifyCovering
 ]
@@ -80,4 +82,12 @@ STActionManager >> setModernSoccerStrategy [
 
 	play setModernSoccerStrategy.
 	self notifyCovering
+]
+
+{ #category : 'initialization' }
+STActionManager >> setNoOffsideSoccerStrategy [
+	"The play is to be ruled with no offside rule."
+
+	play setNoOffsideSoccerStrategy.
+	self notifyCovering 
 ]

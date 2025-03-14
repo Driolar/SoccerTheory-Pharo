@@ -28,7 +28,9 @@ STDemoData >> newStartFrame [
 STDemoData >> showBall [
 
 	<demo>
-	^ STBallShape newWithBall: self newEmptyFrame ball
+	^ STBallShape
+		  newForBall: self newEmptyFrame ball
+		  graphicFactory: STGraphicFactory new
 ]
 
 { #category : 'showing scenes' }
@@ -113,7 +115,7 @@ STDemoData >> showIconForBall [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ STBallShape ballForm asElement 
+	^ STGraphicFactory new ballForm asElement 
 ]
 
 { #category : 'showing shapes' }

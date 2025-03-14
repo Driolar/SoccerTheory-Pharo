@@ -14,8 +14,7 @@ Class {
 	#name : 'STPlayerShape',
 	#superclass : 'STMovableShape',
 	#instVars : [
-		'player',
-		'graphicFactory'
+		'player'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',

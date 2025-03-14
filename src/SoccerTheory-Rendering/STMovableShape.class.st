@@ -5,7 +5,8 @@ Class {
 	#name : 'STMovableShape',
 	#superclass : 'BlElement',
 	#instVars : [
-		'squareExtent'
+		'squareExtent',
+		'graphicFactory'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',

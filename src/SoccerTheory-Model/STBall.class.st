@@ -30,12 +30,16 @@ STBall >> initializeWithPosition: aPoint [
 
 { #category : 'accessing' }
 STBall >> owningTeam [
+	"Answer the STTeam in ball possession or nil if possession is neutral."
+
 	^ owningTeam
 ]
 
 { #category : 'accessing' }
-STBall >> owningTeam: anObject [
-	owningTeam := anObject
+STBall >> owningTeam: aTeam [
+	"Set the STTeam in ball possession. Nil means nobody's ball (neutral possession)."
+
+	owningTeam := aTeam
 ]
 
 { #category : 'accessing' }
