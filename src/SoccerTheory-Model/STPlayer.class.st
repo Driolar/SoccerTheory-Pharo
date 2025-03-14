@@ -93,7 +93,7 @@ STPlayer >> isMoreAdvancedThanCoordinateX: anXCoordinate [
 
 { #category : 'accessing' }
 STPlayer >> isOffside [
-	^ isOffside notNil and: [ isOffside ]
+	^ isOffside
 ]
 
 { #category : 'accessing' }

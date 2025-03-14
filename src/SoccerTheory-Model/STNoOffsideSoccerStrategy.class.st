@@ -16,14 +16,13 @@ STNoOffsideSoccerStrategy >> displayRule [
 
 { #category : 'flagging' }
 STNoOffsideSoccerStrategy >> flagCoveredPlayers [
-	"With no offside rule, apply man covering."
+	"With no offside rule, apply man covering as well."
 
 	self flagManCoveredPlayers
 ]
 
 { #category : 'flagging' }
 STNoOffsideSoccerStrategy >> flagOffsidePlayers [
-	"Do nothing."
 
-	
+	self attackingTeam players do: [ :player | player isOffside: false ]
 ]
