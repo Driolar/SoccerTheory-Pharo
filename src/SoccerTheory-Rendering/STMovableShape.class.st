@@ -12,6 +12,36 @@ Class {
 	#tag : 'Basic'
 }
 
+{ #category : 'initialization' }
+STMovableShape >> addMouseEventHandlers [
+	"Add my mouse event handlers."
+
+	self addEventHandler: BlPullHandler new.
+
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseOverEvent
+			 do: [ :anEvent |
+				 anEvent currentTarget
+					 addChild: self hoverTextElement
+					 as: #hovertext ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseOutEvent
+			 do: [ :anEvent |
+			 anEvent currentTarget removeChildWithId: #hovertext ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: BlDragStartEvent
+			 do: [ :anEvent |
+			 anEvent currentTarget removeChildWithId: #hovertext ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: BlDragEndEvent
+			 do: [ :anEvent |
+				 anEvent currentTarget removeChildWithId: #hovertext.
+				 self announcer announce: self movedAnnouncement ])
+]
+
 { #category : 'private' }
 STMovableShape >> announcer [
 	"Answer the announcer to send and receive announcements."
@@ -46,7 +76,7 @@ STMovableShape >> hoverTextElement [
 	"Answer the player's hover text"
 
 	| hoverText |
-	hoverText := ((BlRopedText string: self hoverTextString) fontSize: 12)
+	hoverText := ((BlRopedText string: self hoverTextString) fontSize: 11)
 		             asElement
 		             background: Color white;
 		             padding: (BlInsets all: 2).
@@ -76,6 +106,13 @@ STMovableShape >> hoverTextPositionY [
 { #category : 'private' }
 STMovableShape >> hoverTextString [
 	"Answer the string for the hover text element."
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'private' }
+STMovableShape >> movedAnnouncement [
+	"Answer the announcement that I have been moved."
 
 	^ self subclassResponsibility
 ]

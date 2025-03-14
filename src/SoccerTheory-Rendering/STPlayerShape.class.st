@@ -31,38 +31,6 @@ STPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory [
 		  graphicFactory: aGraphicFactory
 ]
 
-{ #category : 'initialization' }
-STPlayerShape >> addMouseEventHandlers [
-	"Add my mouse event handlers."
-
-	self addEventHandler: BlPullHandler new.
-	
-	self addEventHandler: (BlEventHandler
-			 on: BlMouseOverEvent
-			 do: [ :anEvent |
-				 anEvent currentTarget
-					 addChild: self hoverTextElement
-					 as: #hovertext ]).
-	
-	self addEventHandler: (BlEventHandler
-			 on: BlMouseOutEvent
-			 do: [ :anEvent |
-			 anEvent currentTarget removeChildWithId: #hovertext ]).
-	
-	self addEventHandler: (BlEventHandler
-			 on: BlDragStartEvent 
-			 do: [ :anEvent |
-			 anEvent currentTarget removeChildWithId: #hovertext ]).
-	
-	self addEventHandler: (BlEventHandler
-			 on: BlDragEndEvent 
-			 do: [ :anEvent |
-				 anEvent currentTarget removeChildWithId: #hovertext.
-				 self announcer announce: (STPlayerShapeMovedAnnouncement
-						  newOnPlayer: player
-						  targetPosition: self centerPosition) ])
-]
-
 { #category : 'private' }
 STPlayerShape >> formattedPlayerPositionString [
 	"Answer the formatted string representing the model player's position."
@@ -148,6 +116,15 @@ STPlayerShape >> jerseyString [
 ]
 
 { #category : 'private' }
+STPlayerShape >> movedAnnouncement [
+	"Answer the announcement that I have been moved."
+
+	^ STPlayerShapeMovedAnnouncement
+		  newOnPlayer: player
+		  targetPosition: self centerPosition
+]
+
+{ #category : 'private' }
 STPlayerShape >> offsideElement [ 
 	"Answer the offside BlElement."
 
@@ -186,7 +163,7 @@ STPlayerShape >> showUncovered [
 STPlayerShape >> uncoveredElement [
 	"Answer the uncovered BlElement."
 
-	^ STGraphicFactory new uncoveredElement
+	^ graphicFactory uncoveredElement
 ]
 
 { #category : 'showing' }

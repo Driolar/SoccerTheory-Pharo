@@ -83,20 +83,6 @@ STBallShape class >> newWithBall: aBall [
 	^ self new initializeWithBall: aBall 
 ]
 
-{ #category : 'initialization' }
-STBallShape >> addMouseEventHandlers [
-	"Add my mouse event handlers"
-
-	self addEventHandler: BlPullHandler new.
-	
-	self addEventHandler: (BlEventHandler
-			 on: BlDragEndEvent
-			 do: [ :anEvent |
-				 self announcer announce:
-					 (STBallShapeMovedAnnouncement newWithTargetPosition:
-						  self centerPosition) ])
-]
-
 { #category : 'private' }
 STBallShape >> hoverTextString [
 	"Answer the string for the hover text element."
@@ -120,5 +106,14 @@ STBallShape >> initializeWithBall: aBall [
 	ballIconElement := ballIcon asElement.
 	ballIconElement position: (Point x: 1 y: 1).
 	self addChild: ballIconElement.
-	self addMouseEventHandlers
+	self addMouseEventHandlers.
+		self clipChildren: false "for hover text"
+]
+
+{ #category : 'private' }
+STBallShape >> movedAnnouncement [
+	"Answer the announcement that I have been moved."
+
+	^ STBallShapeMovedAnnouncement newWithTargetPosition:
+		  self centerPosition
 ]
