@@ -52,6 +52,13 @@ STPlayerShape >> hideOffside [
 	self removeChildWithId: #offside
 ]
 
+{ #category : 'private' }
+STPlayerShape >> hideShadow [
+	"Show my shadow (when being deselected)."
+
+	self effect: nil
+]
+
 { #category : 'showing' }
 STPlayerShape >> hideUncovered [
 		"Remove the uncovered tag if present."
@@ -159,6 +166,13 @@ STPlayerShape >> showOffside [
 	"Tag me being offside."
 
 	self addChild: self offsideElement as: #offside 
+]
+
+{ #category : 'private' }
+STPlayerShape >> showShadow [
+	"Show my shadow (when being selected)."
+
+	self effect: (BlSimpleShadowEffect color: Color black offset: 2 @ 2)
 ]
 
 { #category : 'showing' }
