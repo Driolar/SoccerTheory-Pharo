@@ -31,6 +31,12 @@ STBallShape >> ballForm [
 ]
 
 { #category : 'private' }
+STBallShape >> hideShadow [
+
+	self border: BlBorder empty 
+]
+
+{ #category : 'private' }
 STBallShape >> hoverTextString [
 	"Answer the string for the hover text element."
 
@@ -77,6 +83,14 @@ STBallShape >> registerAtAnnouncer [
 		when: STBallPossessionChangedAnnouncement
 		do: [ :ann | self updateColor ]
 		for: self
+]
+
+{ #category : 'private' }
+STBallShape >> showShadow [
+
+	self
+		border: (BlBorder paint: Color black width: 1);
+		beOutskirtsOutside
 ]
 
 { #category : 'private' }

@@ -56,7 +56,18 @@ STMovableShape >> addMouseEventHandlers [
 
 	self addEventHandler: (BlEventHandler
 			 on: BlClickEvent
-			 do: [ :anEvent | self requestFocus ])
+			 do: [ :anEvent |
+				 self hasFocus
+					 ifTrue: [
+						 self hideShadow.
+						 self loseFocus ]
+					 ifFalse: [
+						 self showShadow.
+						 self requestFocus ] ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: BlFocusOutEvent
+			 do: [ :anEvent | self hideShadow ])
 ]
 
 { #category : 'private' }
@@ -86,6 +97,13 @@ STMovableShape >> centerPosition: aPosition [
 	For this reason, the variable squareExtent is introduced."
 
 	self position: aPosition - (squareExtent / 2)
+]
+
+{ #category : 'private' }
+STMovableShape >> hideShadow [
+	"Show my shadow (when being deselected)."
+
+	^ self subclassResponsibility
 ]
 
 { #category : 'private' }
@@ -130,6 +148,13 @@ STMovableShape >> hoverTextString [
 { #category : 'private' }
 STMovableShape >> newMovedAnnouncementWithTarget: aPosition [
 	"Answer the announcement that I have been moved to the given device position."
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'private' }
+STMovableShape >> showShadow [
+	"Show my shadow (when being selected)."
 
 	^ self subclassResponsibility
 ]

@@ -33,6 +33,15 @@ STDemoData >> showBall [
 		  graphicFactory: STGraphicFactory new
 ]
 
+{ #category : 'showing shapes' }
+STDemoData >> showBallWithShadow [
+
+	<demo>
+	^ (STBallShape
+		  newForBall: self newEmptyFrame ball
+		  graphicFactory: STGraphicFactory new) showShadow 
+]
+
 { #category : 'showing scenes' }
 STDemoData >> showEmptyPitch [
 
