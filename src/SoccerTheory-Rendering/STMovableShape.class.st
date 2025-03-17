@@ -14,6 +14,17 @@ Class {
 }
 
 { #category : 'initialization' }
+STMovableShape >> addKeyEventHandlers [
+	"Add my key event handlers."
+
+	self addEventHandler: (BlEventHandler
+			 on: BlKeyDownEvent
+			 do: [ :anEvent |
+				 self removeChildWithId: #hovertext.
+				 self stepTheArrowWay: anEvent key ])
+]
+
+{ #category : 'initialization' }
 STMovableShape >> addMouseEventHandlers [
 	"Add my mouse event handlers."
 
@@ -40,7 +51,12 @@ STMovableShape >> addMouseEventHandlers [
 			 on: BlDragEndEvent
 			 do: [ :anEvent |
 				 anEvent currentTarget removeChildWithId: #hovertext.
-				 self announcer announce: self movedAnnouncement ])
+				 self announcer announce:
+					 (self newMovedAnnouncementWithTarget: self centerPosition) ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: BlClickEvent
+			 do: [ :anEvent | self requestFocus ])
 ]
 
 { #category : 'private' }
@@ -112,8 +128,41 @@ STMovableShape >> hoverTextString [
 ]
 
 { #category : 'private' }
-STMovableShape >> movedAnnouncement [
-	"Answer the announcement that I have been moved."
+STMovableShape >> newMovedAnnouncementWithTarget: aPosition [
+	"Answer the announcement that I have been moved to the given device position."
 
 	^ self subclassResponsibility
+]
+
+{ #category : 'private' }
+STMovableShape >> stepTheArrowWay: aKeyboardKey [
+	"Move me one step following the given keyboard key if it is an arrow key."
+
+	| offset offsetPoint newCenterPosition |
+	offset := 1.
+	offsetPoint := nil.
+
+	aKeyboardKey isArrowLeft ifTrue: [
+		offsetPoint := Point x: offset negated y: 0 ].
+
+	aKeyboardKey isArrowRight ifTrue: [
+		offsetPoint := Point x: offset y: 0 ].
+
+	aKeyboardKey isArrowUp ifTrue: [
+		offsetPoint := Point x: 0 y: offset negated ].
+
+	aKeyboardKey isArrowDown ifTrue: [
+		offsetPoint := Point x: 0 y: offset ].
+
+	offsetPoint ifNil: [ ^ self ].
+	self transform
+		translateBy: offsetPoint;
+		apply.
+
+	"I need the temp value because of a timing conflict.
+	The centerPosition method may answer the old position when creating the announcement!"
+	newCenterPosition := self centerPosition + offsetPoint.
+	self centerPosition: newCenterPosition.
+	self announcer announce:
+		(self newMovedAnnouncementWithTarget: newCenterPosition)
 ]

@@ -49,7 +49,7 @@ STSoccerScene >> addNewShapeOnBall: aBall [
 		             graphicFactory: graphicFactory.
 	centerPoint := transformer toDevice: aBall position.
 	centerPoint := centerPoint + borderWidth.
-	self attachChild: (ballShape centerPosition: centerPoint)
+	self addChild: (ballShape centerPosition: centerPoint)
 ]
 
 { #category : 'creation' }

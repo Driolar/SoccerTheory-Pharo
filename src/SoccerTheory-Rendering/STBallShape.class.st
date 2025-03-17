@@ -36,6 +36,9 @@ STBallShape >> hoverTextString [
 
 	^ '(' , (ball position x printShowingDecimalPlaces: 1) , '@'
 	  , (ball position y printShowingDecimalPlaces: 1) , ')'
+
+"	^ '(' , self centerPosition x displayString , '@'
+	  , self centerPosition y displayString , ')'"
 ]
 
 { #category : 'initialization' }
@@ -55,15 +58,15 @@ STBallShape >> initializeForBall: aBall graphicFactory: aGraphicFactory [
 	self addChild: ballIconElement.
 	self registerAtAnnouncer.
 	self addMouseEventHandlers.
+	self addKeyEventHandlers.
 	self clipChildren: false "for hover text"
 ]
 
 { #category : 'private' }
-STBallShape >> movedAnnouncement [
-	"Answer the announcement that I have been moved."
+STBallShape >> newMovedAnnouncementWithTarget: aPosition [
+	"Answer the announcement that I have been moved to the given device position."
 
-	^ STBallShapeMovedAnnouncement newWithTargetPosition:
-		  self centerPosition
+	^ STBallShapeMovedAnnouncement newWithTargetPosition: aPosition
 ]
 
 { #category : 'initialization' }

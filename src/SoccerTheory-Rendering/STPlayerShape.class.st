@@ -80,6 +80,7 @@ STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 	self updateOffside.
 	self updateUncovered.
 	self addMouseEventHandlers.
+	self addKeyEventHandlers.
 	self registerAtAnnouncer.
 	self clipChildren: false "for hover text"
 ]
@@ -115,12 +116,21 @@ STPlayerShape >> jerseyString [
 ]
 
 { #category : 'private' }
-STPlayerShape >> movedAnnouncement [
+STPlayerShape >> newMovedAnnouncementWithTarget [
 	"Answer the announcement that I have been moved."
 
 	^ STPlayerShapeMovedAnnouncement
 		  newOnPlayer: player
 		  targetPosition: self centerPosition
+]
+
+{ #category : 'private' }
+STPlayerShape >> newMovedAnnouncementWithTarget: aPosition [
+	"Answer the announcement that I have been moved to the given device position."
+
+	^ STPlayerShapeMovedAnnouncement
+		  newOnPlayer: player
+		  targetPosition: aPosition
 ]
 
 { #category : 'private' }
