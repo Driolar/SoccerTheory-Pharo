@@ -76,7 +76,7 @@ STSoccerPlay >> initializeWithPitch: aPitch [
 
 	self
 		initializeWithTeamLeft: 'Team A'
-		teamRight: 'B'
+		teamRight: 'Team B'
 		pitch: aPitch
 		ball: (STBall new position: aPitch middle)
 ]

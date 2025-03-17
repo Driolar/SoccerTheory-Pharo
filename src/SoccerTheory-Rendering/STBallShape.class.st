@@ -42,9 +42,6 @@ STBallShape >> hoverTextString [
 
 	^ '(' , (ball position x printShowingDecimalPlaces: 1) , '@'
 	  , (ball position y printShowingDecimalPlaces: 1) , ')'
-
-"	^ '(' , self centerPosition x displayString , '@'
-	  , self centerPosition y displayString , ')'"
 ]
 
 { #category : 'initialization' }
@@ -66,6 +63,13 @@ STBallShape >> initializeForBall: aBall graphicFactory: aGraphicFactory [
 	self addMouseEventHandlers.
 	self addKeyEventHandlers.
 	self clipChildren: false "for hover text"
+]
+
+{ #category : 'accessing' }
+STBallShape >> name [
+	"Answer my name string."
+
+	^ 'Ball'
 ]
 
 { #category : 'private' }

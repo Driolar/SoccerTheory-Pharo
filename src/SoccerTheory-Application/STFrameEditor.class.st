@@ -244,6 +244,12 @@ STFrameEditor >> registerAtAnnouncer [
 			gameCommander moveBallToPosition: targetWorldPoint.
 			statusbar pushMessage: 'Ball moved to '
 				, (self formattedStringForWorldPosition: targetWorldPoint) ]
+		for: self.
+
+	self announcer
+		when: STMovableShapeSelectedAnnouncement
+		do: [ :ann |
+		statusbar pushMessage: ann movableShape name , ' selected.' ]
 		for: self
 ]
 

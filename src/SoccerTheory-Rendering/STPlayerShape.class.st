@@ -122,6 +122,13 @@ STPlayerShape >> jerseyString [
 	^player jerseyNumber asString 
 ]
 
+{ #category : 'accessing' }
+STPlayerShape >> name [
+	"Answer my name string."
+
+	^ 'Player ' , self jerseyString , ' of ' , player teamName
+]
+
 { #category : 'private' }
 STPlayerShape >> newMovedAnnouncementWithTarget [
 	"Answer the announcement that I have been moved."

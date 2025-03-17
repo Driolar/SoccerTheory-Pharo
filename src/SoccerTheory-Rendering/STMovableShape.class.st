@@ -63,7 +63,9 @@ STMovableShape >> addMouseEventHandlers [
 						 self loseFocus ]
 					 ifFalse: [
 						 self showShadow.
-						 self requestFocus ] ]).
+						 self requestFocus.
+						 self announcer announce:
+							 (STMovableShapeSelectedAnnouncement newOn: self) ] ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlFocusOutEvent
@@ -141,6 +143,13 @@ STMovableShape >> hoverTextPositionY [
 { #category : 'private' }
 STMovableShape >> hoverTextString [
 	"Answer the string for the hover text element."
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+STMovableShape >> name [
+	"Answer my name string."
 
 	^ self subclassResponsibility
 ]
