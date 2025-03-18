@@ -86,10 +86,6 @@ STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
 		self addChild: (self goalkeeperElement position: (Point x: 1 y: 1)) ].
 	self updateOffside.
 	self updateUncovered.
-	self addMouseEventHandlers.
-	self addKeyEventHandlers.
-	self registerAtAnnouncer.
-	self clipChildren: false "for hover text"
 ]
 
 { #category : 'private' }
@@ -133,7 +129,7 @@ STPlayerShape >> name [
 STPlayerShape >> newMovedAnnouncementWithTarget: aPosition [
 	"Answer the announcement that I have been moved to the given center position."
 
-	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position eve after notifyPositionChanged. Timing problem?"
+	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
 
 	^ STPlayerShapeMovedAnnouncement
 		  newOnPlayer: player

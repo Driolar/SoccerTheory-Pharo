@@ -1,6 +1,3 @@
-"
-Baseline managing the SoccerTheory project for the Pharo bootstrap.
-"
 Class {
 	#name : 'BaselineOfSoccerTheory',
 	#superclass : 'BaselineOf',

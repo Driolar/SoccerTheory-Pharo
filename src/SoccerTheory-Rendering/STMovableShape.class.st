@@ -14,6 +14,14 @@ Class {
 }
 
 { #category : 'initialization' }
+STMovableShape >> addEventHandlers [
+	"Add my event handlers."
+
+	self addMouseEventHandlers.
+	self addKeyEventHandlers 
+]
+
+{ #category : 'initialization' }
 STMovableShape >> addKeyEventHandlers [
 	"Add my key event handlers."
 
@@ -52,20 +60,11 @@ STMovableShape >> addMouseEventHandlers [
 			 do: [ :anEvent |
 				 anEvent currentTarget removeChildWithId: #hovertext.
 				 self announcer announce:
-					 (self newMovedAnnouncementWithTarget: self centerPosition) ]).
+					 (self newMovedAnnouncementWithTarget: self limitPosition) ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlClickEvent
-			 do: [ :anEvent |
-				 self hasFocus
-					 ifTrue: [
-						 self hideShadow.
-						 self loseFocus ]
-					 ifFalse: [
-						 self showShadow.
-						 self requestFocus.
-						 self announcer announce:
-							 (STMovableShapeSelectedAnnouncement newOn: self) ] ]).
+			 do: [ :anEvent | self switchFocus ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlFocusOutEvent
@@ -147,6 +146,30 @@ STMovableShape >> hoverTextString [
 	^ self subclassResponsibility
 ]
 
+{ #category : 'initialization' }
+STMovableShape >> initialize [ 
+	
+
+	super initialize.
+	self addEventHandlers.
+	self registerAtAnnouncer.
+	self clipChildren: false "for hover text"
+]
+
+{ #category : 'private' }
+STMovableShape >> limitPosition [
+	"Limit the current center position to the play field's extent if necessary. Answer the limited center position."
+
+	| limitedPosition |
+	limitedPosition := self centerPosition
+		                   min: self playFieldExtent
+		                   max: 0 @ 0.
+	limitedPosition = self centerPosition ifFalse: [
+		self centerPosition: limitedPosition.
+		self notifyPositionChanged ].
+	^ limitedPosition
+]
+
 { #category : 'accessing' }
 STMovableShape >> name [
 	"Answer my name string."
@@ -157,6 +180,20 @@ STMovableShape >> name [
 { #category : 'private' }
 STMovableShape >> newMovedAnnouncementWithTarget: aPosition [
 	"Answer the announcement that I have been moved to the given center position."
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'private' }
+STMovableShape >> playFieldExtent [
+	"Answer the play field's extent"
+
+	^self parent parent playFieldExtent 
+]
+
+{ #category : 'initialization' }
+STMovableShape >> registerAtAnnouncer [
+	"Register to the announcements I am interested in."
 
 	^ self subclassResponsibility
 ]
@@ -190,8 +227,26 @@ STMovableShape >> stepTheArrowWay: aKeyboardKey [
 
 	offsetPoint ifNil: [ ^ self ].
 	newCenterPosition := self centerPosition + offsetPoint.
+	newCenterPosition := newCenterPosition
+		                     min: self playFieldExtent
+		                     max: 0 @ 0.
 	self centerPosition: newCenterPosition.
 	self notifyPositionChanged.
 	self announcer announce:
 		(self newMovedAnnouncementWithTarget: newCenterPosition)
+]
+
+{ #category : 'private' }
+STMovableShape >> switchFocus [
+	"Switch my focus including announcement and shadow distinction."
+
+	self hasFocus
+		ifTrue: [
+			self hideShadow.
+			self loseFocus ]
+		ifFalse: [
+			self showShadow.
+			self requestFocus.
+			self announcer announce:
+				(STMovableShapeSelectedAnnouncement newOn: self) ]
 ]

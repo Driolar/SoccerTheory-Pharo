@@ -123,7 +123,7 @@ STSoccerScene >> paintGoals [
 
 	goalPosition := Point
 		                x: goalDepth negated
-		                y: self pitchExtent y / 2 - (goalWidth / 2).
+		                y: self playFieldExtent y / 2 - (goalWidth / 2).
 	goalLeft := BlElement new
 		            size: (Point x: goalDepth y: goalWidth);
 		            position: goalPosition;
@@ -132,7 +132,7 @@ STSoccerScene >> paintGoals [
 				             to: (Color colorFrom: soccerFrame teamLeft color2));
 		            yourself.
 
-	goalPosition := Point x: self pitchExtent x y: goalPosition y.
+	goalPosition := Point x: self playFieldExtent x y: goalPosition y.
 	goalRight := BlElement new
 		             size: (Point x: goalDepth y: goalWidth);
 		             position: goalPosition;
@@ -150,12 +150,12 @@ STSoccerScene >> paintGoals [
 STSoccerScene >> paintGreen [
 	"Paint the green lawn."
 
-	self size: self pitchExtent + self borderExtent.
+	self size: self playFieldExtent + self borderExtent.
 	self background: (Color fromHexString: '66CC66'). "Moderate lime green border"
 
-	playField := BlElement new size: self pitchExtent.
+	playField := BlElement new size: self playFieldExtent.
 	playField background: (Color fromHexString: '009666'). "dark cyan - lime green"
-	playField position: 30 @ 30.
+	playField position: self borderExtent / 2.
 	playField clipChildren: false.
 	self addChild: playField
 ]
@@ -167,7 +167,7 @@ STSoccerScene >> paintMiddleLine [
 	| verticalMiddleLine horizontalMiddleLine middlePoint startPoint endPoint |
 	middlePoint := transformer toDevice: soccerFrame pitch middle.
 	startPoint := Point x: middlePoint x y: 0.
-	endPoint := Point x: middlePoint x y: self pitchExtent y.
+	endPoint := Point x: middlePoint x y: self playFieldExtent y.
 
 	verticalMiddleLine := BlLineGeometry
 		                      from: startPoint
@@ -191,7 +191,7 @@ STSoccerScene >> paintPitch [
 ]
 
 { #category : 'private' }
-STSoccerScene >> pitchExtent [ 
+STSoccerScene >> playFieldExtent [ 
 	"Answer the pitch's device extent."
 
 	^transformer deviceExtent 
@@ -208,5 +208,5 @@ STSoccerScene >> toWorld: aDevicePoint [
 STSoccerScene >> totalExtent [
 	"Answer the total extent including the play field's border"
 
-	^ self pitchExtent + self borderExtent 
+	^ self playFieldExtent + self borderExtent 
 ]

@@ -59,10 +59,6 @@ STBallShape >> initializeForBall: aBall graphicFactory: aGraphicFactory [
 	ballIconElement := ballIcon asElement.
 	ballIconElement position: (Point x: 1 y: 1).
 	self addChild: ballIconElement.
-	self registerAtAnnouncer.
-	self addMouseEventHandlers.
-	self addKeyEventHandlers.
-	self clipChildren: false "for hover text"
 ]
 
 { #category : 'accessing' }
@@ -76,7 +72,7 @@ STBallShape >> name [
 STBallShape >> newMovedAnnouncementWithTarget: aPosition [
 	"Answer the announcement that I have been moved to the given center position."
 
-	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position eve after notifyPositionChanged. Timing problem?"
+	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
 
 	^ STBallShapeMovedAnnouncement newWithTargetPosition: aPosition
 ]
