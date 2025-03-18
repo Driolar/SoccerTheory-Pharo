@@ -14,7 +14,8 @@ Class {
 		'soccerFrame',
 		'borderWidth',
 		'ballShape',
-		'graphicFactory'
+		'graphicFactory',
+		'playField'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',
@@ -48,8 +49,7 @@ STSoccerScene >> addNewShapeOnBall: aBall [
 		             newForBall: aBall
 		             graphicFactory: graphicFactory.
 	centerPoint := transformer toDevice: aBall position.
-	centerPoint := centerPoint + borderWidth.
-	self addChild: (ballShape centerPosition: centerPoint)
+	playField addChild: (ballShape centerPosition: centerPoint)
 ]
 
 { #category : 'creation' }
@@ -61,8 +61,7 @@ STSoccerScene >> addNewShapeOnPlayer: aPlayer [
 		               newWithPlayer: aPlayer
 		               graphicFactory: graphicFactory.
 	centerPoint := transformer toDevice: aPlayer position.
-	centerPoint := centerPoint + borderWidth.
-	self
+	playField
 		addChild: (playerShape centerPosition: centerPoint)
 		before: ballShape "The ball must always be visible."
 ]
@@ -78,11 +77,11 @@ STSoccerScene >> addShapes [
 		self addNewShapeOnPlayer: player ]
 ]
 
-{ #category : 'api - transformation' }
-STSoccerScene >> borderWidth [ 
-	"Answer the border width. This is temporary until refactoring."
+{ #category : 'paint' }
+STSoccerScene >> borderExtent [
+	"Answer the border extent as a Point."
 
-	^borderWidth 
+	^ borderWidth asPoint * 2
 ]
 
 { #category : 'initialization' }
@@ -123,10 +122,8 @@ STSoccerScene >> paintGoals [
 	goalDepth := borderWidth / 2.
 
 	goalPosition := Point
-		                x: borderWidth - goalDepth
-		                y:
-		                self pitchExtent y / 2 + borderWidth
-		                - (goalWidth / 2).
+		                x: goalDepth negated
+		                y: self pitchExtent y / 2 - (goalWidth / 2).
 	goalLeft := BlElement new
 		            size: (Point x: goalDepth y: goalWidth);
 		            position: goalPosition;
@@ -135,30 +132,32 @@ STSoccerScene >> paintGoals [
 				             to: (Color colorFrom: soccerFrame teamLeft color2));
 		            yourself.
 
-	goalPosition := Point
-		                x: self pitchExtent x + borderWidth
-		                y: goalPosition y.
+	goalPosition := Point x: self pitchExtent x y: goalPosition y.
 	goalRight := BlElement new
 		             size: (Point x: goalDepth y: goalWidth);
 		             position: goalPosition;
-		            background: (BlLinearGradientPaint horizontal
-				             from: (Color colorFrom: soccerFrame teamRight color1)
-				             to: (Color colorFrom: soccerFrame teamRight color2));
+		             background: (BlLinearGradientPaint horizontal
+				              from:
+					              (Color colorFrom: soccerFrame teamRight color1)
+				              to: (Color colorFrom: soccerFrame teamRight color2));
 		             yourself.
 
-	self addChild: goalLeft.
-	self addChild: goalRight
+	playField addChild: goalLeft.
+	playField addChild: goalRight
 ]
 
 { #category : 'paint' }
 STSoccerScene >> paintGreen [
 	"Paint the green lawn."
 
-	self border:
-		(BlBorder paint: (Color fromHexString: '66CC66') width: borderWidth). "Moderate lime green border"
+	self size: self pitchExtent + self borderExtent.
+	self background: (Color fromHexString: '66CC66'). "Moderate lime green border"
 
-	self size: self totalExtent.
-	self background: (Color fromHexString: '009666') "dark cyan - lime green"
+	playField := BlElement new size: self pitchExtent.
+	playField background: (Color fromHexString: '009666'). "dark cyan - lime green"
+	playField position: 30 @ 30.
+	playField clipChildren: false.
+	self addChild: playField
 ]
 
 { #category : 'paint' }
@@ -171,15 +170,15 @@ STSoccerScene >> paintMiddleLine [
 	endPoint := Point x: middlePoint x y: self pitchExtent y.
 
 	verticalMiddleLine := BlLineGeometry
-		                      from: startPoint + borderWidth
-		                      to: endPoint + borderWidth.
-	self addChild: (verticalMiddleLine asElement border:
+		                      from: startPoint
+		                      to: endPoint.
+	playField addChild: (verticalMiddleLine asElement border:
 			 (BlBorder paint: Color white width: 1)).
 
 	horizontalMiddleLine := BlLineGeometry
-		                        from: middlePoint - (4 @ 0) + borderWidth
-		                        to: middlePoint + (4 @ 0) + borderWidth.
-	self addChild: (horizontalMiddleLine asElement border:
+		                        from: middlePoint - (4 @ 0) 
+		                        to: middlePoint + (4 @ 0).
+	playField addChild: (horizontalMiddleLine asElement border:
 			 (BlBorder paint: Color white width: 1))
 ]
 
@@ -207,7 +206,7 @@ STSoccerScene >> toWorld: aDevicePoint [
 
 { #category : 'paint' }
 STSoccerScene >> totalExtent [
-	"Answer the total extent including pitch border"
+	"Answer the total extent including the play field's border"
 
-	^ self pitchExtent + (2 * borderWidth)
+	^ self pitchExtent + self borderExtent 
 ]
