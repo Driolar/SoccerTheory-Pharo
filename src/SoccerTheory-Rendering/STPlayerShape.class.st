@@ -130,17 +130,10 @@ STPlayerShape >> name [
 ]
 
 { #category : 'private' }
-STPlayerShape >> newMovedAnnouncementWithTarget [
-	"Answer the announcement that I have been moved."
-
-	^ STPlayerShapeMovedAnnouncement
-		  newOnPlayer: player
-		  targetPosition: self centerPosition
-]
-
-{ #category : 'private' }
 STPlayerShape >> newMovedAnnouncementWithTarget: aPosition [
-	"Answer the announcement that I have been moved to the given device position."
+	"Answer the announcement that I have been moved to the given center position."
+
+	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position eve after notifyPositionChanged. Timing problem?"
 
 	^ STPlayerShapeMovedAnnouncement
 		  newOnPlayer: player

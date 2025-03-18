@@ -156,7 +156,7 @@ STMovableShape >> name [
 
 { #category : 'private' }
 STMovableShape >> newMovedAnnouncementWithTarget: aPosition [
-	"Answer the announcement that I have been moved to the given device position."
+	"Answer the announcement that I have been moved to the given center position."
 
 	^ self subclassResponsibility
 ]
@@ -189,14 +189,9 @@ STMovableShape >> stepTheArrowWay: aKeyboardKey [
 		offsetPoint := Point x: 0 y: offset ].
 
 	offsetPoint ifNil: [ ^ self ].
-	self transform
-		translateBy: offsetPoint;
-		apply.
-
-	"I need the temp value because of a timing conflict.
-	The centerPosition method may answer the old position when creating the announcement!"
 	newCenterPosition := self centerPosition + offsetPoint.
 	self centerPosition: newCenterPosition.
+	self notifyPositionChanged.
 	self announcer announce:
 		(self newMovedAnnouncementWithTarget: newCenterPosition)
 ]
