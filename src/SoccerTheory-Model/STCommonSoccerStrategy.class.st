@@ -38,11 +38,6 @@ STCommonSoccerStrategy >> attackingTeam [
 ]
 
 { #category : 'flagging' }
-STCommonSoccerStrategy >> displayRule [
-	^ self subclassResponsibility
-]
-
-{ #category : 'flagging' }
 STCommonSoccerStrategy >> flagCoveredPlayers [
 	^ self subclassResponsibility
 ]

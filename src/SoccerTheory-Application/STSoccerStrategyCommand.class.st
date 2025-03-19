@@ -1,0 +1,24 @@
+"
+I am the convenience superclass for all the commands of the Soccer Theory application.
+"
+Class {
+	#name : 'STSoccerStrategyCommand',
+	#superclass : 'CmCommand',
+	#category : 'SoccerTheory-Application-Commander',
+	#package : 'SoccerTheory-Application',
+	#tag : 'Commander'
+}
+
+{ #category : 'accessing' }
+STSoccerStrategyCommand >> gameCommander [
+	"Answer the application's game commander."
+
+	^ self context gameCommander
+]
+
+{ #category : 'accessing' }
+STSoccerStrategyCommand >> strategyClass [
+	"Answer my strategy class."
+
+	self subclassResponsibility
+]

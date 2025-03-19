@@ -12,15 +12,6 @@ Class {
 }
 
 { #category : 'flagging' }
-STModernSoccerStrategy >> displayRule [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
-
-	^ 'Modern offside rule'
-]
-
-{ #category : 'flagging' }
 STModernSoccerStrategy >> flagCoveredPlayers [
 	"With the modern offside rule, there is no defender in the defence zone. The modern offside rule is strategically insuficient. Man covering must always be applied."
 

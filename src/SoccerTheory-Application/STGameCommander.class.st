@@ -16,9 +16,9 @@ Class {
 		'frame',
 		'actionManager'
 	],
-	#category : 'SoccerTheory-Application-Basic',
+	#category : 'SoccerTheory-Application-Commander',
 	#package : 'SoccerTheory-Application',
-	#tag : 'Basic'
+	#tag : 'Commander'
 }
 
 { #category : 'instance creation' }
@@ -62,6 +62,30 @@ STGameCommander >> owningTeam [
 	"Answer the STTeam currently owning the ball."
 
 	^ frame owningTeam 
+]
+
+{ #category : 'actions api' }
+STGameCommander >> setAncientSoccerStrategy [
+
+	^ actionManager setAncientSoccerStrategy
+]
+
+{ #category : 'actions api' }
+STGameCommander >> setClassicSoccerStrategy [ 
+
+	^ actionManager setClassicSoccerStrategy
+]
+
+{ #category : 'actions api' }
+STGameCommander >> setModernSoccerStrategy [ 
+
+	^ actionManager setModernSoccerStrategy
+]
+
+{ #category : 'actions api' }
+STGameCommander >> setNoOffsideSoccerStrategy [ 
+
+	^ actionManager setNoOffsideSoccerStrategy
 ]
 
 { #category : 'accessing' }

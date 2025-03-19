@@ -21,9 +21,9 @@ Class {
 		'leftTeamPossessionButton',
 		'neutralPossessionButton'
 	],
-	#category : 'SoccerTheory-Application-Basic',
+	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
-	#tag : 'Basic'
+	#tag : 'Presenter'
 }
 
 { #category : 'instance creation' }
@@ -51,8 +51,6 @@ STFrameEditor >> controlsPresenter [
 
 	| presenter |
 	presenter := SpPresenter new.
-	dropListForOffsideRule := SpDropListPresenter new.
-	dropListForOffsideRule disable.
 	presenter layout: (SpBoxLayout newLeftToRight
 			 beHomogeneous;
 			 add: self frameControlsLayout;
@@ -90,6 +88,13 @@ STFrameEditor >> frameControlsLayout [
 		  add: self menuButtonForLoadingExamples width: 100;
 		  add: self resettingButton expand: false;
 		  yourself
+]
+
+{ #category : 'accessing' }
+STFrameEditor >> gameCommander [
+	"Answer my game commander."
+
+	^ gameCommander
 ]
 
 { #category : 'initialization' }
@@ -310,6 +315,17 @@ STFrameEditor >> shapeControlsLayout [
 STFrameEditor >> strategyControlsLayout [
 	"Answer the layout for strategy controls."
 
+	dropListForOffsideRule := SpDropListPresenter new.
+	dropListForOffsideRule items: (OrderedCollection new
+			 add: (STNoOffsideStrategyCommand forContext: self);
+			 add: (STAncientStrategyCommand forContext: self);
+			 add: (STClassicStrategyCommand forContext: self);
+			 add: (STModernStrategyCommand forContext: self);
+			 yourself).
+	dropListForOffsideRule display: [ :command | command name ].
+	dropListForOffsideRule whenSelectedItemChangedDo: [ :command |
+		command execute ].
+
 	^ SpBoxLayout newLeftToRight
 		  hAlignEnd;
 		  add: dropListForOffsideRule expand: false;
@@ -320,12 +336,9 @@ STFrameEditor >> strategyControlsLayout [
 STFrameEditor >> updateDropListForOffsideRule [
 	"Update the corresponding drop list with the current offside value."
 
-	| label |
-	label := gameCommander strategy displayRule.
-	dropListForOffsideRule emptyList.
-	dropListForOffsideRule items: (OrderedCollection new
-			 add: label;
-			 yourself)
+	dropListForOffsideRule selectItem:
+		(dropListForOffsideRule items detect: [ :strategyCommand |
+			 gameCommander strategy isMemberOf: strategyCommand strategyClass ])
 ]
 
 { #category : 'update' }

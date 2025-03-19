@@ -12,15 +12,6 @@ Class {
 }
 
 { #category : 'flagging' }
-STAncientSoccerStrategy >> displayRule [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
-
-	^ 'Ancient offside rule'
-]
-
-{ #category : 'flagging' }
 STAncientSoccerStrategy >> flagCoveredPlayers [
 	"With the ancient offside rule, the defence zone is always determined by the ball position.
 	As far as one defender at least is in the defence zone, all attacking players are covered."

@@ -10,11 +10,6 @@ Class {
 }
 
 { #category : 'flagging' }
-STNoOffsideSoccerStrategy >> displayRule [
-	^ 'No offside rule'
-]
-
-{ #category : 'flagging' }
 STNoOffsideSoccerStrategy >> flagCoveredPlayers [
 	"With no offside rule, apply man covering as well."
 
