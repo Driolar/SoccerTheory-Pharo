@@ -25,11 +25,13 @@ STClassicSoccerStrategy >> flagCoveredPlayers [
 
 { #category : 'flagging' }
 STClassicSoccerStrategy >> flagOffsidePlayers [
+
 	| defenseLineX |
-	defenseLineX := (play thirdDefenderFromTheBack notNil
-		and: [ play thirdDefenderFromTheBack isBehindTheBall ])
-		ifTrue: [ play thirdDefenderFromTheBack position x ]
-		ifFalse: [ play ball position x ].
-	self attackingTeam players
-		do: [ :player | player isOffside: (player isMoreAdvancedThanCoordinateX: defenseLineX) ]
+	defenseLineX := (play thirdDefenderFromTheBack notNil and: [
+		                 play thirdDefenderFromTheBack isBehindTheBall ])
+		                ifTrue: [ play thirdDefenderFromTheBack position x ]
+		                ifFalse: [ play ball position x ].
+	self attackingTeam players do: [ :player |
+		player isOffside: (player isInOwnHalf not and: [
+				 player isMoreAdvancedThanCoordinateX: defenseLineX ]) ]
 ]

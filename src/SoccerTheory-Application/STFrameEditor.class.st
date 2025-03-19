@@ -38,11 +38,11 @@ STFrameEditor class >> open [
 		open
 ]
 
-{ #category : 'private' }
+{ #category : 'accessing' }
 STFrameEditor >> announcer [
 	"Answer the announcer I use to subscribe for announcements."
 
-	^ STSoccerFrame announcer
+	^ STSoccerPlay announcer
 ]
 
 { #category : 'presenters' }

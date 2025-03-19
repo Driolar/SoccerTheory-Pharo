@@ -36,6 +36,8 @@ STF2Test >> testCase4 [
 		movePlayer: playerA2
 		toPosition: (Point x: playerB1 position x + 10 y: playerA2 position y).
 	
+	self assert: playerA2 isInOwnHalf not.
+	
 	actionManager setClassicSoccerStrategy.
 	self assert: playerA2 isOffside.
 	
@@ -92,7 +94,24 @@ STF2Test >> testCase8 [
 
 	actionManager
 		movePlayer: playerB1
-		toPosition: (Point x: playerA2 position x - 10 y: playerB1 position y).
+		toPosition:
+		(Point x: playerA2 position x - 10 y: playerB1 position y).
+
+	self assert: playerA2 isInOwnHalf.
+	actionManager setClassicSoccerStrategy.
+	self deny: playerA2 isOffside.
+	actionManager setModernSoccerStrategy.
+	self deny: playerA2 isOffside.
+
+	actionManager movePlayer: playerA2 toPosition: 0 @ 0. "middle of pitch"
+	self assert: playerA2 isInOwnHalf.
+	actionManager setClassicSoccerStrategy.
+	self deny: playerA2 isOffside.
+	actionManager setModernSoccerStrategy.
+	self deny: playerA2 isOffside.
+
+	actionManager movePlayer: playerA2 toPosition: 5 @ 5. 
+	self deny: playerA2 isInOwnHalf.
 	actionManager setClassicSoccerStrategy.
 	self assert: playerA2 isOffside.
 	actionManager setModernSoccerStrategy.

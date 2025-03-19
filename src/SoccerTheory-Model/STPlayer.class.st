@@ -59,9 +59,10 @@ STPlayer >> isAttacking [
 
 { #category : 'accessing' }
 STPlayer >> isBehindTheBall [
-	team attackDirection == #toRight
-		ifTrue: [ ^ position x < play ball position x ]
-		ifFalse: [ ^ position x > play ball position x ]
+
+	^ team attackDirection == #toRight
+		  ifTrue: [ position x < play ball position x ]
+		  ifFalse: [ position x > play ball position x ]
 ]
 
 { #category : 'accessing' }
@@ -77,6 +78,16 @@ STPlayer >> isCovered: aBoolean [
 { #category : 'accessing' }
 STPlayer >> isGoalkeeper [
 	^ isGoalkeeper
+]
+
+{ #category : 'accessing' }
+STPlayer >> isInOwnHalf [
+	"Answer true if I am in my own pitch half, including the middle line. Answer false if not.
+	This is relevant for the offside rule. Since 1907, a player in the own half (including the middle line) is never offside."
+
+	^ team attackDirection == #toRight
+		  ifTrue: [ position x <= play pitch middle x ]
+		  ifFalse: [ position x >= play pitch middle x ]
 ]
 
 { #category : 'accessing' }
