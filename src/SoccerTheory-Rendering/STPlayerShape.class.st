@@ -161,7 +161,9 @@ STPlayerShape >> registerAtAnnouncer [
 STPlayerShape >> showOffside [
 	"Tag me being offside."
 
-	self addChild: self offsideElement as: #offside 
+	self
+		childWithId: #offside
+		ifNone: [ self addChild: self offsideElement as: #offside ]
 ]
 
 { #category : 'private' }
@@ -173,9 +175,11 @@ STPlayerShape >> showShadow [
 
 { #category : 'showing' }
 STPlayerShape >> showUncovered [
-		"Tag me being uncovered."
+	"Tag me being uncovered."
 
-	self addChild: self uncoveredElement as: #uncovered 
+	self
+		childWithId: #uncovered
+		ifNone: [ self addChild: self uncoveredElement as: #uncovered ]
 ]
 
 { #category : 'private' }

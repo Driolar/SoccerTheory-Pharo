@@ -10,9 +10,6 @@ Class {
 		'position',
 		'owningTeam'
 	],
-	#classInstVars : [
-		'position'
-	],
 	#category : 'SoccerTheory-Model-Game',
 	#package : 'SoccerTheory-Model',
 	#tag : 'Game'
@@ -25,6 +22,7 @@ STBall class >> newWithPosition: aPoint [
 
 { #category : 'initialization' }
 STBall >> initializeWithPosition: aPoint [
+
 	position := aPoint
 ]
 

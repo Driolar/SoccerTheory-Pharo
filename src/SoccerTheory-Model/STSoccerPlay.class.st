@@ -19,6 +19,9 @@ Class {
 		'strategy',
 		'teamRight'
 	],
+	#classVars : [
+		'UniqueAnnouncer'
+	],
 	#classInstVars : [
 		'ball',
 		'pitch',
@@ -31,6 +34,14 @@ Class {
 	#tag : 'Operate'
 }
 
+{ #category : 'accessing' }
+STSoccerPlay class >> announcer [
+	"Answer the unique announcer (singleton)"
+
+	UniqueAnnouncer ifNil: [ UniqueAnnouncer := Announcer new ].
+	^ UniqueAnnouncer
+]
+
 { #category : 'instance creation' }
 STSoccerPlay class >> newWithPitch: aPitch [
 
@@ -40,6 +51,13 @@ STSoccerPlay class >> newWithPitch: aPitch [
 { #category : 'instance creation' }
 STSoccerPlay class >> newWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall [
 	^ self new initializeWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall
+]
+
+{ #category : 'accessing' }
+STSoccerPlay >> announcer [ 
+	"Answer the unique announcer (singleton)"
+
+	^self class announcer 
 ]
 
 { #category : 'accessing' }
@@ -72,13 +90,20 @@ STSoccerPlay >> initGoalkeeperForTeam: aTeam [
 ]
 
 { #category : 'initialization' }
+STSoccerPlay >> initialize [
+
+	super initialize.
+	self class announcer initialize
+]
+
+{ #category : 'initialization' }
 STSoccerPlay >> initializeWithPitch: aPitch [
 
 	self
 		initializeWithTeamLeft: 'Team A'
 		teamRight: 'Team B'
 		pitch: aPitch
-		ball: (STBall new position: aPitch middle)
+		ball: (STBall newWithPosition: aPitch middle)
 ]
 
 { #category : 'initialization' }

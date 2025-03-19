@@ -32,6 +32,13 @@ STCommonSoccerStrategy class >> newWithPlay: aPlay [
 	^self new initializeWithPlay: aPlay
 ]
 
+{ #category : 'private' }
+STCommonSoccerStrategy >> announcer [
+	"Answer the announcer singleton."
+
+	^ play announcer
+]
+
 { #category : 'accessing' }
 STCommonSoccerStrategy >> attackingTeam [
 	^play owningTeam 
@@ -100,8 +107,7 @@ STCommonSoccerStrategy >> updateCovering [
 		self flagCoveredPlayers ].
 
 	"Maybe to do: If performance suffers, optimize by firing the announcements only if something really changed."
-	STSoccerFrame announcer announce: STOffsideSwitchedAnnouncement new.
-	STSoccerFrame announcer announce: STUncoveredSwitchedAnnouncement new.
-	STSoccerFrame announcer announce:
-		STBallPossessionChangedAnnouncement new
+	self announcer announce: STOffsideSwitchedAnnouncement new.
+	self announcer announce: STUncoveredSwitchedAnnouncement new.
+	self announcer announce: STBallPossessionChangedAnnouncement new
 ]
