@@ -15,7 +15,7 @@ Class {
 STClassicSoccerStrategy >> flagCoveredPlayers [
 "With the classic offside rule, the defence zone is normally determined by the third defender from the back. But as soon as the ball moves behind him, the ball determines the defense line. As far as one defender at least is in the defence zone, all attacking players are covered."
 
-	play sortedDefendingFieldPlayers
+	frame sortedDefendingFieldPlayers
 		detect: [ :defender | defender isBehindTheBall ]
 		ifFound:
 			[ self attackingTeam players do: [ :player | player isCovered: true ] ]
@@ -27,10 +27,10 @@ STClassicSoccerStrategy >> flagCoveredPlayers [
 STClassicSoccerStrategy >> flagOffsidePlayers [
 
 	| defenseLineX |
-	defenseLineX := (play thirdDefenderFromTheBack notNil and: [
-		                 play thirdDefenderFromTheBack isBehindTheBall ])
-		                ifTrue: [ play thirdDefenderFromTheBack position x ]
-		                ifFalse: [ play ball position x ].
+	defenseLineX := (frame thirdDefenderFromTheBack notNil and: [
+		                 frame thirdDefenderFromTheBack isBehindTheBall ])
+		                ifTrue: [ frame thirdDefenderFromTheBack position x ]
+		                ifFalse: [ frame ball position x ].
 	self attackingTeam players do: [ :player |
 		player isOffside: (player isInOwnHalf not and: [
 				 player isMoreAdvancedThanCoordinateX: defenseLineX ]) ]

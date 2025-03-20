@@ -20,7 +20,7 @@ Class {
 	#name : 'STCommonSoccerStrategy',
 	#superclass : 'Object',
 	#instVars : [
-		'play'
+		'frame'
 	],
 	#category : 'SoccerTheory-Model-Strategy',
 	#package : 'SoccerTheory-Model',
@@ -29,19 +29,19 @@ Class {
 
 { #category : 'instance creation' }
 STCommonSoccerStrategy class >> newWithPlay: aPlay [
-	^self new initializeWithPlay: aPlay
+	^self new initializeWithFrame: aPlay
 ]
 
 { #category : 'private' }
 STCommonSoccerStrategy >> announcer [
 	"Answer the announcer singleton."
 
-	^ play announcer
+	^ frame announcer
 ]
 
 { #category : 'accessing' }
 STCommonSoccerStrategy >> attackingTeam [
-	^play owningTeam 
+	^frame owningTeam 
 ]
 
 { #category : 'flagging' }
@@ -61,7 +61,7 @@ STCommonSoccerStrategy >> flagManCoveredPlayers [
 				ifTrue: [ player isCovered: true ] ].
 
 	"Merge defenders and attackers sorted by the defender's attack direction."
-	playersSortedByX := play sortedDefendingFieldPlayers.
+	playersSortedByX := frame sortedDefendingFieldPlayers.
 	relevantAttackingPlayers := self attackingTeam players
 		reject: [ :player | player isOffside or: [ player isGoalkeeper ] ].
 	playersSortedByX addAll: relevantAttackingPlayers.
@@ -84,15 +84,15 @@ STCommonSoccerStrategy >> flagOffsidePlayers [
 ]
 
 { #category : 'initialization' }
-STCommonSoccerStrategy >> initializeWithPlay: aPlay [
-	play := aPlay 
+STCommonSoccerStrategy >> initializeWithFrame: aPlay [
+	frame := aPlay 
 ]
 
 { #category : 'flagging' }
 STCommonSoccerStrategy >> resetCoveringStates [
 
-	play teamLeft players do: [ :player | player isOffside: nil. player isCovered: nil ].
-	play teamRight players do: [ :player | player isOffside: nil. player isCovered: nil ]
+	frame teamLeft players do: [ :player | player isOffside: nil. player isCovered: nil ].
+	frame teamRight players do: [ :player | player isOffside: nil. player isCovered: nil ]
 ]
 
 { #category : 'model updates' }

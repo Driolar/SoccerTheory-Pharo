@@ -16,11 +16,11 @@ Class {
 	#instVars : [
 		'position',
 		'team',
-		'play',
 		'number',
 		'isCovered',
 		'isOffside',
-		'isGoalkeeper'
+		'isGoalkeeper',
+		'frame'
 	],
 	#classInstVars : [
 		'isOffside',
@@ -38,31 +38,31 @@ STPlayer class >> newWithPosition: aPoint team: aTeam play: aPlay number: aSmall
 	player
 		initializeWithPosition: aPoint 
 		team: aTeam
-		play: aPlay
+		frame: aPlay
 		number: aSmallInteger.
 	^ player
 ]
 
 { #category : 'initialization' }
-STPlayer >> initializeWithPosition: aPoint team: aTeam play: aPlay number: aSmallInteger [
+STPlayer >> initializeWithPosition: aPoint team: aTeam frame: aFrame number: aSmallInteger [
 	position := aPoint.
 	team := aTeam.
-	play := aPlay.
+	frame := aFrame.
 	number := aSmallInteger.
 	isGoalkeeper := false.
 ]
 
 { #category : 'accessing' }
 STPlayer >> isAttacking [
-	^ team == play owningTeam 
+	^ team == frame owningTeam 
 ]
 
 { #category : 'accessing' }
 STPlayer >> isBehindTheBall [
 
 	^ team attackDirection == #toRight
-		  ifTrue: [ position x < play ball position x ]
-		  ifFalse: [ position x > play ball position x ]
+		  ifTrue: [ position x < frame ball position x ]
+		  ifFalse: [ position x > frame ball position x ]
 ]
 
 { #category : 'accessing' }
@@ -86,13 +86,13 @@ STPlayer >> isInOwnHalf [
 	This is relevant for the offside rule. Since 1907, a player in the own half (including the middle line) is never offside."
 
 	^ team attackDirection == #toRight
-		  ifTrue: [ position x <= play pitch middle x ]
-		  ifFalse: [ position x >= play pitch middle x ]
+		  ifTrue: [ position x <= frame pitch middle x ]
+		  ifFalse: [ position x >= frame pitch middle x ]
 ]
 
 { #category : 'accessing' }
 STPlayer >> isMoreAdvancedThanBall [
-	^self isMoreAdvancedThanCoordinateX: play ball position x
+	^self isMoreAdvancedThanCoordinateX: frame ball position x
 ]
 
 { #category : 'accessing' }

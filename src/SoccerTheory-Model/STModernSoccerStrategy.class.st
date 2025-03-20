@@ -22,10 +22,10 @@ STModernSoccerStrategy >> flagCoveredPlayers [
 STModernSoccerStrategy >> flagOffsidePlayers [
 
 	| defenseLineX |
-	defenseLineX := (play secondDefenderFromTheBack notNil and: [
-		                 play secondDefenderFromTheBack isBehindTheBall ])
-		                ifTrue: [ play secondDefenderFromTheBack position x ]
-		                ifFalse: [ play ball position x ].
+	defenseLineX := (frame secondDefenderFromTheBack notNil and: [
+		                 frame secondDefenderFromTheBack isBehindTheBall ])
+		                ifTrue: [ frame secondDefenderFromTheBack position x ]
+		                ifFalse: [ frame ball position x ].
 	self attackingTeam players do: [ :player |
 		player isOffside: (player isInOwnHalf not and: [
 				 player isMoreAdvancedThanCoordinateX: defenseLineX ]) ]

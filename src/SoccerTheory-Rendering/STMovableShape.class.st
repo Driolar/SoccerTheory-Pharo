@@ -75,7 +75,7 @@ STMovableShape >> addMouseEventHandlers [
 STMovableShape >> announcer [
 	"Answer the announcer to send and receive announcements."
 
-	^ STSoccerPlay announcer
+	^ STSoccerFrame announcer
 ]
 
 { #category : 'accessing' }

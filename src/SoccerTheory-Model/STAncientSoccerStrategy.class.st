@@ -16,7 +16,7 @@ STAncientSoccerStrategy >> flagCoveredPlayers [
 	"With the ancient offside rule, the defence zone is always determined by the ball position.
 	As far as one defender at least is in the defence zone, all attacking players are covered."
 
-	play sortedDefendingFieldPlayers
+	frame sortedDefendingFieldPlayers
 		detect: [ :defender | defender isBehindTheBall ]
 		ifFound:
 			[ self attackingTeam players do: [ :player | player isCovered: true ] ]

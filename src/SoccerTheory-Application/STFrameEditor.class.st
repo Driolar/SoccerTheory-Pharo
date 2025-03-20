@@ -42,7 +42,7 @@ STFrameEditor class >> open [
 STFrameEditor >> announcer [
 	"Answer the announcer I use to subscribe for announcements."
 
-	^ STSoccerPlay announcer
+	^ STSoccerFrame announcer
 ]
 
 { #category : 'presenters' }

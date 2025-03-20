@@ -10,7 +10,7 @@ Class {
 	#name : 'STActionManager',
 	#superclass : 'Object',
 	#instVars : [
-		'play'
+		'frame'
 	],
 	#category : 'SoccerTheory-Model-Operate',
 	#package : 'SoccerTheory-Model',
@@ -19,7 +19,7 @@ Class {
 
 { #category : 'instance creation' }
 STActionManager class >> newWithPlay: aPlay [
-	^ self new initializeWithPlay: aPlay
+	^ self new initializeWithFrame: aPlay
 ]
 
 { #category : 'actions api' }
@@ -32,18 +32,18 @@ STActionManager >> addPlayer: aPlayer toTeam: aTeam [
 STActionManager >> changeBallOwnerToTeam: aTeam [
 	"Change the ball owner and notify the change."
 
-	play ball owningTeam: aTeam.
+	frame ball owningTeam: aTeam.
 	self notifyCovering
 ]
 
 { #category : 'initialization' }
-STActionManager >> initializeWithPlay: aPlay [
-	play := aPlay
+STActionManager >> initializeWithFrame: aFrame [
+	frame := aFrame
 ]
 
 { #category : 'actions api' }
 STActionManager >> moveBallToPosition: aPosition [
-	play ball position: aPosition.
+	frame ball position: aPosition.
 	self notifyCovering
 ]
 
@@ -57,14 +57,14 @@ STActionManager >> movePlayer: aPlayer toPosition: aPosition [
 STActionManager >> notifyCovering [
 	"Notify that some event affecting covering happened."
 
-	play notifyCovering
+	frame notifyCovering
 ]
 
 { #category : 'initialization' }
 STActionManager >> setAncientSoccerStrategy [
 	"The play is to be ruled by the ancient soccer strategy"
 
-	play setAncientSoccerStrategy.
+	frame setAncientSoccerStrategy.
 	self notifyCovering 
 ]
 
@@ -72,7 +72,7 @@ STActionManager >> setAncientSoccerStrategy [
 STActionManager >> setClassicSoccerStrategy [
 	"The play is to be ruled by the classic soccer strategy"
 
-	play setClassicSoccerStrategy.
+	frame setClassicSoccerStrategy.
 	self notifyCovering
 ]
 
@@ -80,7 +80,7 @@ STActionManager >> setClassicSoccerStrategy [
 STActionManager >> setModernSoccerStrategy [
 	"The play is to be ruled by the classic soccer strategy"
 
-	play setModernSoccerStrategy.
+	frame setModernSoccerStrategy.
 	self notifyCovering
 ]
 
@@ -88,6 +88,6 @@ STActionManager >> setModernSoccerStrategy [
 STActionManager >> setNoOffsideSoccerStrategy [
 	"The play is to be ruled with no offside rule."
 
-	play setNoOffsideSoccerStrategy.
+	frame setNoOffsideSoccerStrategy.
 	self notifyCovering 
 ]
