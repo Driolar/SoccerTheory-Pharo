@@ -8,7 +8,7 @@ Start me doing this: STFrameEditor open.
 "
 Class {
 	#name : 'STFrameEditor',
-	#superclass : 'SpPresenterWithModel',
+	#superclass : 'SpPresenter',
 	#instVars : [
 		'gameCommander',
 		'scene',
@@ -34,7 +34,7 @@ STFrameEditor class >> open [
 	self new asWindow
 		title: 'SoTheBo – The Soccer Theory Board';
 		initialExtent: 1180 @ 884;
-		beNotResizable;
+		beNotResizable; "but is still maximizable"
 		open
 ]
 
@@ -168,7 +168,7 @@ STFrameEditor >> loadFixture4WithModernOffsideRule [
 ]
 
 { #category : 'loading' }
-STFrameEditor >> loadFrame: aFrame named: aFrameName [
+STFrameEditor >> loadFrame: aFrame [ 
 	"Load the given STSoccerFrame on the scene."
 
 	scene := STSoccerScene
@@ -182,9 +182,14 @@ STFrameEditor >> loadFrame: aFrame named: aFrameName [
 	self updateRadioButtonsForBallPossession.
 
 	board space setExtent: scene totalExtent.
-	board space
-		root: scene;
-		becomeVisible.
+	board space root addChild: scene
+]
+
+{ #category : 'loading' }
+STFrameEditor >> loadFrame: aFrame named: aFrameName [
+	"Load the given STSoccerFrame on the scene and push a message on the status bar."
+
+	self loadFrame: aFrame.
 	statusbar pushMessage: aFrameName , ' loaded.'
 ]
 
