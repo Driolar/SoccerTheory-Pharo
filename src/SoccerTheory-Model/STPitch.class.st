@@ -23,9 +23,6 @@ STPitch class >> newDefault [
 
 { #category : 'accessing' }
 STPitch >> extent [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
 
 	^ Point x: length y: width
 ]
@@ -37,9 +34,6 @@ STPitch >> goalLineForDirection: aDirection [
 
 { #category : 'accessing' }
 STPitch >> goalWidth [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
 
 	^ goalWidth
 ]

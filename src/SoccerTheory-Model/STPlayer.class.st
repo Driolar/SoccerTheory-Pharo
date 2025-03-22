@@ -32,7 +32,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-STPlayer class >> newWithPosition: aPoint team: aTeam play: aPlay number: aSmallInteger [
+STPlayer class >> newWithPosition: aPoint team: aTeam frame: aPlay number: aSmallInteger [
 	| player |
 	player := self new.
 	player
@@ -60,7 +60,7 @@ STPlayer >> isAttacking [
 { #category : 'accessing' }
 STPlayer >> isBehindTheBall [
 
-	^ team attackDirection == #toRight
+	^ team isTeamLeft
 		  ifTrue: [ position x < frame ball position x ]
 		  ifFalse: [ position x > frame ball position x ]
 ]
@@ -85,7 +85,7 @@ STPlayer >> isInOwnHalf [
 	"Answer true if I am in my own pitch half, including the middle line. Answer false if not.
 	This is relevant for the offside rule. Since 1907, a player in the own half (including the middle line) is never offside."
 
-	^ team attackDirection == #toRight
+	^ team isTeamLeft
 		  ifTrue: [ position x <= frame pitch middle x ]
 		  ifFalse: [ position x >= frame pitch middle x ]
 ]
@@ -97,9 +97,10 @@ STPlayer >> isMoreAdvancedThanBall [
 
 { #category : 'accessing' }
 STPlayer >> isMoreAdvancedThanCoordinateX: anXCoordinate [
-	team attackDirection == #toRight
-		ifTrue: [ ^ position x > anXCoordinate  ]
-		ifFalse: [ ^ position x < anXCoordinate  ]
+
+	team isTeamLeft
+		ifTrue: [ ^ position x > anXCoordinate ]
+		ifFalse: [ ^ position x < anXCoordinate ]
 ]
 
 { #category : 'accessing' }

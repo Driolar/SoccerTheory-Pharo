@@ -22,7 +22,7 @@ STClassicStrategyCommand >> initialize [
 
 	super initialize.
 	self
-		name: 'Classic offside rule';
+		name: 'classic offside rule';
 		description: 'Set the classic offside rule'
 ]
 

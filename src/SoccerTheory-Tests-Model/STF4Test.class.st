@@ -26,7 +26,7 @@ STF4Test >> setUp [
 	playerA2 := frame teamRight playerWithJerseyNumber: 3.
 	playerA3 := frame teamRight playerWithJerseyNumber: 4.
 	playerB3 := frame teamLeft playerWithJerseyNumber: 4.
-	actionManager := STActionManager newWithPlay: frame
+	actionManager := STActionManager newWithFrame: frame
 ]
 
 { #category : 'tests' }

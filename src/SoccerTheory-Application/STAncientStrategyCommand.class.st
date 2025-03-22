@@ -22,7 +22,7 @@ STAncientStrategyCommand >> initialize [
 
 	super initialize.
 	self
-		name: 'Ancient offside rule';
+		name: 'ancient offside rule';
 		description: 'Set the ancient offside rule'
 ]
 

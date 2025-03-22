@@ -18,7 +18,7 @@ STF1Test >> setUp [
 	frame := STSoccerFrameBuilder fixture1Frame.	 
 	playerA1 := frame teamLeft players at: 1.
 	playerB1 := frame teamRight players at: 1.
-	actionManager := STActionManager newWithPlay: frame
+	actionManager := STActionManager newWithFrame: frame
 ]
 
 { #category : 'tests' }

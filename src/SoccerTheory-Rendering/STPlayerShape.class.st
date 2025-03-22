@@ -70,7 +70,7 @@ STPlayerShape >> hideUncovered [
 STPlayerShape >> hoverTextString [
 	"Answer the string for the hover text element."
 
-	^ self jerseyString , ' ' , self formattedPlayerPositionString
+	^ '#',self jerseyString , ' ' , self formattedPlayerPositionString
 ]
 
 { #category : 'initialization' }
@@ -97,11 +97,9 @@ STPlayerShape >> isOffside [
 
 { #category : 'private' }
 STPlayerShape >> jerseyGradient [
-	"Answer the gradient for the field player jersey."
+	"Answer the gradient for the field player's jersey."
 
-	^ BlLinearGradientPaint horizontal
-		  from: (Color colorFrom: player team color1)
-		  to: (Color colorFrom: player team color2)
+	^ player team jerseyGradient 
 ]
 
 { #category : 'private' }

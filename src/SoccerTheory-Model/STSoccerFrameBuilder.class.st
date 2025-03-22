@@ -266,7 +266,7 @@ STSoccerFrameBuilder >> createGoalkeeperInTeam: aTeam position: aPoint number: a
 	player := STPlayer
 		newWithPosition: aPoint
 		team: aTeam
-		play: frame
+		frame: frame
 		number: aSmallInteger.
 	player makeGoalkeeper.
 	actionManager addPlayer: player toTeam: aTeam
@@ -294,7 +294,7 @@ STSoccerFrameBuilder >> createPlayerInTeam: aTeam position: aPoint number: aSmal
 	player := STPlayer
 		newWithPosition: aPoint
 		team: aTeam
-		play: frame
+		frame: frame
 		number: aSmallInteger.
 	actionManager addPlayer: player toTeam: aTeam.
 	^ player
@@ -317,7 +317,7 @@ STSoccerFrameBuilder >> createPlayerInTeamRightAtPosition: aPoint number: aSmall
 STSoccerFrameBuilder >> initializeWithPitch: aPitch [
 
 	frame := STSoccerFrame newWithPitch: aPitch.
-	actionManager := STActionManager newWithPlay: frame
+	actionManager := STActionManager newWithFrame: frame
 ]
 
 { #category : 'initialization' }
@@ -328,7 +328,7 @@ STSoccerFrameBuilder >> initializeWithTeamLeft: aStringLeft teamRight: aStringRi
 		teamRight: aStringRight
 		pitch: aPitch
 		ball: aBall.
-	actionManager := STActionManager newWithPlay: frame.
+	actionManager := STActionManager newWithFrame: frame.
 ]
 
 { #category : 'creation' }

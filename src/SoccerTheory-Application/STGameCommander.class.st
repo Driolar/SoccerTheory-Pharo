@@ -29,10 +29,33 @@ STGameCommander class >> newWithFrame: aFrame [
 ]
 
 { #category : 'actions api' }
+STGameCommander >> addNewPlayerToTeam: aTeam [
+	"Create a new player for aTeam and let it add to aTeam. Answer the new player."
+
+	| player |
+	player := STPlayer
+		          newWithPosition: (self entryPointForPlayerOfTeam: aTeam)
+		          team: aTeam
+		          frame: frame
+		          number: aTeam nextFreeJerseyNumber.
+
+	actionManager addPlayer: player toTeam: aTeam.
+
+	^ player
+]
+
+{ #category : 'actions api' }
 STGameCommander >> changeBallOwnerToTeam: aTeam [
 	"Set ball possession to the given STTeam."
 
 	actionManager changeBallOwnerToTeam: aTeam
+]
+
+{ #category : 'private' }
+STGameCommander >> entryPointForPlayerOfTeam: aTeam [
+	"Answer the pitch point where a new player of aTeam is initially located."
+
+	^ Point x: frame pitch middle x y: frame pitch extent y / 2
 ]
 
 { #category : 'initialization' }
@@ -40,7 +63,7 @@ STGameCommander >> initializeWithFrame: aFrame [
 	"Initialize with the given STSoccerFrame."
 
 	frame := aFrame.
-	actionManager := STActionManager newWithPlay: aFrame
+	actionManager := STActionManager newWithFrame: aFrame
 ]
 
 { #category : 'actions api' }

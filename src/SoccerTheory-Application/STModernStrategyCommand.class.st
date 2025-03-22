@@ -22,7 +22,7 @@ STModernStrategyCommand >> initialize [
 
 	super initialize.
 	self
-		name: 'Modern offside rule';
+		name: 'modern offside rule';
 		description: 'Set the modern offside rule'
 ]
 

@@ -25,7 +25,7 @@ STF2Test >> setUp [
 	playerB2 := frame teamRight playerWithJerseyNumber: 3.
 	"Player A3 is just fort test 9"
 	playerA3 := frame teamLeft playerWithJerseyNumber: 4.
-	actionManager := STActionManager newWithPlay: frame
+	actionManager := STActionManager newWithFrame: frame
 ]
 
 { #category : 'tests' }

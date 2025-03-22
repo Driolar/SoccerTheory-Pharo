@@ -22,7 +22,7 @@ STNoOffsideStrategyCommand >> initialize [
 
 	super initialize.
 	self
-		name: 'No offside rule';
+		name: 'no offside rule';
 		description: 'Set no offside rule'
 ]
 

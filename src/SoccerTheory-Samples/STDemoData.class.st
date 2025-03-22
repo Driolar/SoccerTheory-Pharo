@@ -6,6 +6,19 @@ Class {
 	#tag : 'Node'
 }
 
+{ #category : 'private' }
+STDemoData >> defaultOutfieldPlayer [
+
+	| soccerFrame player |
+	soccerFrame := self newEmptyFrame.
+	player := STPlayer
+		          newWithPosition: (Point x: 0 negated y: 0)
+		          team: soccerFrame teamLeft
+		          frame: soccerFrame
+		          number: 2.
+	^ player
+]
+
 { #category : 'showing scenes' }
 STDemoData >> newEmptyFrame [
 	"comment stating purpose of instance-side method"
@@ -53,13 +66,8 @@ STDemoData >> showEmptyPitch [
 STDemoData >> showGoalkeeperOffside [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
+	| player |
+	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
 	^ (STPlayerShape
 		   newWithPlayer: player
@@ -70,13 +78,8 @@ STDemoData >> showGoalkeeperOffside [
 STDemoData >> showGoalkeeperOffside2 [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
+	| player |
+	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
 	^ (STPlayerShape
 		   newWithPlayer: player
@@ -87,13 +90,8 @@ STDemoData >> showGoalkeeperOffside2 [
 STDemoData >> showGoalkeeperUncovered [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
+	| player |
+	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
 	^ (STPlayerShape
 		   newWithPlayer: player
@@ -104,13 +102,8 @@ STDemoData >> showGoalkeeperUncovered [
 STDemoData >> showGoalkeeperUncovered2 [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
+	| player |
+	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
 	^ (STPlayerShape
 		   newWithPlayer: player
@@ -119,27 +112,17 @@ STDemoData >> showGoalkeeperUncovered2 [
 
 { #category : 'show icons' }
 STDemoData >> showIconForBall [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ STGraphicFactory new ballForm asElement 
+	^ STGraphicFactory new ballForm asElement
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showOutfieldPlayerOffside [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
 	^ (STPlayerShape
-		   newWithPlayer: player
+		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory) showOffside
 ]
 
@@ -147,15 +130,8 @@ STDemoData >> showOutfieldPlayerOffside [
 STDemoData >> showOutfieldPlayerOffside2 [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
 	^ (STPlayerShape
-		   newWithPlayer: player
+		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory2) showOffside
 ]
 
@@ -163,15 +139,8 @@ STDemoData >> showOutfieldPlayerOffside2 [
 STDemoData >> showOutfieldPlayerUncovered [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
 	^ (STPlayerShape
-		   newWithPlayer: player
+		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory) showUncovered
 ]
 
@@ -179,15 +148,8 @@ STDemoData >> showOutfieldPlayerUncovered [
 STDemoData >> showOutfieldPlayerUncovered2 [
 
 	<demo>
-	| soccerFrame player |
-	soccerFrame := self newEmptyFrame.
-	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
-		          team: soccerFrame teamLeft
-		          play: soccerFrame
-		          number: 2.
 	^ (STPlayerShape
-		   newWithPlayer: player
+		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory2) showUncovered
 ]
 
@@ -202,7 +164,7 @@ STDemoData >> showPitchWithPlayerAtBottomLeft [
 	player := STPlayer
 		          newWithPosition: (pitchExtent / 2) negated
 		          team: soccerFrame teamLeft
-		          play: soccerFrame
+		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
 	^ soccerScene
@@ -220,7 +182,7 @@ STDemoData >> showPitchWithPlayerAtBottomRight [
 		          newWithPosition:
 		          (Point x: pitchExtent x / 2 y: (pitchExtent y / 2) negated)
 		          team: soccerFrame teamLeft
-		          play: soccerFrame
+		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
 	^ soccerScene
@@ -238,7 +200,7 @@ STDemoData >> showPitchWithPlayerAtTopLeft [
 		          newWithPosition:
 		          (Point x: (pitchExtent x / 2) negated y: pitchExtent y / 2)
 		          team: soccerFrame teamLeft
-		          play: soccerFrame
+		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
 	^ soccerScene
@@ -255,7 +217,7 @@ STDemoData >> showPitchWithPlayerAtTopRight [
 	player := STPlayer
 		          newWithPosition: pitchExtent / 2
 		          team: soccerFrame teamLeft
-		          play: soccerFrame
+		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
 	^ soccerScene
@@ -272,7 +234,7 @@ STDemoData >> showPitchWithPlayerInMiddle [
 	player := STPlayer
 		          newWithPosition: soccerFrame pitch middle
 		          team: soccerFrame teamLeft
-		          play: soccerFrame
+		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
 	^ soccerScene
@@ -283,6 +245,13 @@ STDemoData >> showStartPitch [
 
 	<demo>
 	^ STSoccerScene newSampleSceneWithFrame: self newStartFrame
+]
+
+{ #category : 'show icons' }
+STDemoData >> showSymbolForAddingToTeam [
+
+	<demo>
+	^ STGraphicFactory new plusSignElement 
 ]
 
 { #category : 'show icons' }

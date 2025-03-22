@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-STActionManager class >> newWithPlay: aPlay [
+STActionManager class >> newWithFrame: aPlay [
 	^ self new initializeWithFrame: aPlay
 ]
 

@@ -28,7 +28,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-STCommonSoccerStrategy class >> newWithPlay: aPlay [
+STCommonSoccerStrategy class >> newWithFrame: aPlay [
 	^self new initializeWithFrame: aPlay
 ]
 

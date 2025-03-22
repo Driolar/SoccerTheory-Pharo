@@ -19,7 +19,9 @@ Class {
 		'graphicFactory',
 		'rightTeamPossessionButton',
 		'leftTeamPossessionButton',
-		'neutralPossessionButton'
+		'neutralPossessionButton',
+		'leftTeamAddPlayerButton',
+		'rightTeamAddPlayerButton'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -38,11 +40,59 @@ STFrameEditor class >> open [
 		open
 ]
 
+{ #category : 'private' }
+STFrameEditor >> addNewPlayerToTeam: aTeam [
+	"Add a new player to aTeam and place its shape on the play field."
+
+	| player |
+	player := gameCommander addNewPlayerToTeam: aTeam.
+	scene addNewShapeOnPlayer: player.
+	statusbar pushMessage:
+		'new player #' , player jerseyNumber displayString , ' ('
+		, player teamName , ') added on '
+		, (self formattedStringForWorldPosition: player position)
+]
+
 { #category : 'accessing' }
 STFrameEditor >> announcer [
 	"Answer the announcer I use to subscribe for announcements."
 
 	^ STSoccerFrame announcer
+]
+
+{ #category : 'layout' }
+STFrameEditor >> ballPossessionControlsLayout [
+	"Answer the layout for ball possession controls."
+
+	leftTeamPossessionButton := self newRadioButton
+		                            label: 'Ball team left';
+		                            whenActivatedDo: [
+			                            gameCommander changeBallOwnerToTeam:
+					                            gameCommander teamLeft ];
+		                            yourself.
+
+	rightTeamPossessionButton := self newRadioButton
+		                             label: 'Ball team right';
+		                             whenActivatedDo: [
+			                             gameCommander changeBallOwnerToTeam:
+					                             gameCommander teamRight ];
+		                             yourself.
+
+	neutralPossessionButton := self newRadioButton
+		                           label: 'Ball neutral';
+		                           whenActivatedDo: [
+			                           gameCommander changeBallOwnerToTeam: nil ];
+		                           yourself.
+
+	leftTeamPossessionButton associatedRadioButtons: {
+			neutralPossessionButton.
+			rightTeamPossessionButton }.
+
+	^ SpBoxLayout newLeftToRight
+		  add: leftTeamPossessionButton;
+		  add: neutralPossessionButton;
+		  add: rightTeamPossessionButton;
+		  yourself
 ]
 
 { #category : 'presenters' }
@@ -168,7 +218,7 @@ STFrameEditor >> loadFixture4WithModernOffsideRule [
 ]
 
 { #category : 'loading' }
-STFrameEditor >> loadFrame: aFrame [ 
+STFrameEditor >> loadFrame: aFrame [
 	"Load the given STSoccerFrame on the scene."
 
 	scene := STSoccerScene
@@ -178,6 +228,7 @@ STFrameEditor >> loadFrame: aFrame [
 
 	self registerAtAnnouncer.
 
+	self updateButtonsForAddingPlayer.
 	self updateDropListForOffsideRule.
 	self updateRadioButtonsForBallPossession.
 
@@ -239,7 +290,7 @@ STFrameEditor >> registerAtAnnouncer [
 			targetWorldPoint := scene toWorld: ann targetDevicePoint.
 			gameCommander movePlayer: player toPosition: targetWorldPoint.
 			statusbar pushMessage:
-				'Player ' , player jerseyNumber displayString , ' ('
+				'Player #' , player jerseyNumber displayString , ' ('
 				, player teamName , ') moved to '
 				, (self formattedStringForWorldPosition: targetWorldPoint) ]
 		for: self.
@@ -283,36 +334,12 @@ STFrameEditor >> resettingButton [
 
 { #category : 'layout' }
 STFrameEditor >> shapeControlsLayout [
-	"Answer the layout for shape controls."
-
-	leftTeamPossessionButton := self newRadioButton
-		                            label: 'Ball team left';
-		                            whenActivatedDo: [
-			                            gameCommander changeBallOwnerToTeam:
-					                            gameCommander teamLeft ];
-		                            yourself.
-
-	rightTeamPossessionButton := self newRadioButton
-		                             label: 'Ball team right';
-		                             whenActivatedDo: [
-			                             gameCommander changeBallOwnerToTeam:
-					                             gameCommander teamRight ];
-		                             yourself.
-
-	neutralPossessionButton := self newRadioButton
-		                           label: 'Ball neutral';
-		                           whenActivatedDo: [
-			                           gameCommander changeBallOwnerToTeam: nil ];
-		                           yourself.
-
-	leftTeamPossessionButton associatedRadioButtons: {
-			neutralPossessionButton.
-			rightTeamPossessionButton }.
+	"Answer the layout for shape (ball, players) controls."
 
 	^ SpBoxLayout newLeftToRight
-		  add: leftTeamPossessionButton;
-		  add: neutralPossessionButton;
-		  add: rightTeamPossessionButton;
+		  add: (leftTeamAddPlayerButton := self newButton);
+		  add: self ballPossessionControlsLayout;
+		  add: (rightTeamAddPlayerButton := self newButton);
 		  yourself
 ]
 
@@ -329,12 +356,41 @@ STFrameEditor >> strategyControlsLayout [
 			 yourself).
 	dropListForOffsideRule display: [ :command | command name ].
 	dropListForOffsideRule whenSelectedItemChangedDo: [ :command |
-		command execute ].
+		command execute.
+		statusbar pushMessage: 'Offside set to ' , command name , '.' ].
 
 	^ SpBoxLayout newLeftToRight
 		  hAlignEnd;
 		  add: dropListForOffsideRule expand: false;
 		  yourself
+]
+
+{ #category : 'update' }
+STFrameEditor >> updateButton: aButton forAddingPlayerOfTeam: aTeam [
+	"Update the given player addition button for the corresponding team."
+
+	| playerSquare |
+	playerSquare := BlElement new
+		                background: aTeam jerseyGradient;
+		                size: 18 asPoint;
+		                yourself.
+	playerSquare addChild: graphicFactory plusSignElement.
+	aButton
+		icon: playerSquare asForm;
+		help: 'Add field player to ' , aTeam teamName;
+		action: [ self addNewPlayerToTeam: aTeam ]
+]
+
+{ #category : 'update' }
+STFrameEditor >> updateButtonsForAddingPlayer [
+	"Update both buttons for team player addition."
+
+	self
+		updateButton: leftTeamAddPlayerButton
+		forAddingPlayerOfTeam: gameCommander teamLeft.
+	self
+		updateButton: rightTeamAddPlayerButton
+		forAddingPlayerOfTeam: gameCommander teamRight
 ]
 
 { #category : 'update' }
@@ -348,7 +404,7 @@ STFrameEditor >> updateDropListForOffsideRule [
 
 { #category : 'update' }
 STFrameEditor >> updateRadioButtonsForBallPossession [
-	"Update the buttons controlling the ball possession."
+	"Update the buttons that control the ball possession."
 
 	| owningTeam |
 	owningTeam := gameCommander owningTeam.

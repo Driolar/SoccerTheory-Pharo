@@ -73,7 +73,7 @@ STSoccerFrame >> initGoalkeeperForTeam: aTeam [
 				x: (pitch goalLineForDirection: aTeam attackDirection)
 				y: pitch middle y)
 		team: aTeam
-		play: self
+		frame: self
 		number: 1.
 	keeper makeGoalkeeper.
 	aTeam addPlayer: keeper.
@@ -135,28 +135,28 @@ STSoccerFrame >> secondDefenderFromTheBack [
 STSoccerFrame >> setAncientSoccerStrategy [
 	"The play is to be ruled by the ancient soccer strategy"
 
-	strategy := STAncientSoccerStrategy newWithPlay: self
+	strategy := STAncientSoccerStrategy newWithFrame: self
 ]
 
 { #category : 'initialization' }
 STSoccerFrame >> setClassicSoccerStrategy [
 	"The play is to be ruled by the classic soccer strategy"
 
-	strategy := STClassicSoccerStrategy newWithPlay: self
+	strategy := STClassicSoccerStrategy newWithFrame: self
 ]
 
 { #category : 'initialization' }
 STSoccerFrame >> setModernSoccerStrategy [
 	"The play is to be ruled by the modern soccer strategy"
 
-	strategy := STModernSoccerStrategy newWithPlay: self
+	strategy := STModernSoccerStrategy newWithFrame: self
 ]
 
 { #category : 'initialization' }
 STSoccerFrame >> setNoOffsideSoccerStrategy [
 	"The play is to be ruled with no offside."
 
-	strategy := STNoOffsideSoccerStrategy newWithPlay: self
+	strategy := STNoOffsideSoccerStrategy newWithFrame: self
 ]
 
 { #category : 'accessing' }
@@ -172,13 +172,14 @@ STSoccerFrame >> sortedDefendingPlayers [
 	"I provide the defending players sorted by x-position, ascending in the own attacking direction."
 
 	| sortedDefenders |
-	sortedDefenders := self defendingTeam attackDirection == #toRight
-		ifTrue: [ SortedCollection
-				sortBlock: [ :p1 :p2 | p1 position x < p2 position x ] ]
-		ifFalse: [ SortedCollection
-				sortBlock: [ :p1 :p2 | p1 position x > p2 position x ] ].
-			sortedDefenders
-		addAll: self defendingTeam players.
+	sortedDefenders := self defendingTeam isTeamLeft
+		                   ifTrue: [
+			                   SortedCollection sortBlock: [ :p1 :p2 |
+				                   p1 position x < p2 position x ] ]
+		                   ifFalse: [
+			                   SortedCollection sortBlock: [ :p1 :p2 |
+				                   p1 position x > p2 position x ] ].
+	sortedDefenders addAll: self defendingTeam players.
 	^ sortedDefenders
 ]
 

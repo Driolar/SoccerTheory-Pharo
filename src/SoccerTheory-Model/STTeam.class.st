@@ -73,6 +73,37 @@ STTeam >> initializeRightToLeft: aString [
 ]
 
 { #category : 'accessing' }
+STTeam >> isTeamLeft [
+
+	"Answer true if the team attacks from left to right. Otherwise, answer false."
+
+	^ attackDirection == #toRight
+]
+
+{ #category : 'accessing' }
+STTeam >> jerseyGradient [
+	"Answer the gradient for my field player jerseys."
+
+	^ BlLinearGradientPaint horizontal
+		  from: (Color colorFrom: self color1)
+		  to: (Color colorFrom: self color2)
+]
+
+{ #category : 'accessing' }
+STTeam >> nextFreeJerseyNumber [
+	"Answer the next free jersey number for a new field player."
+
+	| assignedNumbers candidateNumber |
+	assignedNumbers := self players
+		                   collect: [ :player | player jerseyNumber ]
+		                   into: Set new.
+	candidateNumber := 1. "Reserve number 1 for goalkeeper."
+	[ candidateNumber := candidateNumber + 1 ] doWhileTrue: [
+		assignedNumbers includes: candidateNumber ].
+	^ candidateNumber
+]
+
+{ #category : 'accessing' }
 STTeam >> playerWithJerseyNumber: aJerseyNumber [
 
 	^ players
