@@ -28,3 +28,10 @@ STAncientSoccerStrategy >> flagOffsidePlayers [
 	self attackingTeam players
 		do: [ :player | player isOffside: player isMoreAdvancedThanBall ]
 ]
+
+{ #category : 'accessing' }
+STAncientSoccerStrategy >> isAncient [
+	"Answer that I am the ancient soccer strategy."
+
+	^ true
+]

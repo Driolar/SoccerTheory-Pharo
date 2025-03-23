@@ -88,6 +88,13 @@ STCommonSoccerStrategy >> initializeWithFrame: aPlay [
 	frame := aPlay 
 ]
 
+{ #category : 'accessing' }
+STCommonSoccerStrategy >> isAncient [
+	"Answer true if I am the ancient soccer strategy, otherwise false."
+
+	^ false
+]
+
 { #category : 'flagging' }
 STCommonSoccerStrategy >> resetCoveringStates [
 

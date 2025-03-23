@@ -37,6 +37,13 @@ STDemoData >> newStartFrame [
 	^ STSoccerFrameBuilder startFrameWithPitch: STPitch newDefault
 ]
 
+{ #category : 'show icons' }
+STDemoData >> showAttackLine [
+
+	<demo>
+	^ STAttackLineShape newWithBottomEndPoint: 5@100 color: Color black 
+]
+
 { #category : 'showing shapes' }
 STDemoData >> showBall [
 

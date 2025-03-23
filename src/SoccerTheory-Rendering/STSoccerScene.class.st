@@ -13,7 +13,6 @@ Class {
 		'transformer',
 		'soccerFrame',
 		'borderWidth',
-		'ballShape',
 		'graphicFactory',
 		'playField'
 	],
@@ -44,12 +43,16 @@ STSoccerScene class >> newSampleSceneWithFrame: aFrame [
 STSoccerScene >> addNewShapeOnBall: aBall [
 	"Add a new STBallShape on a STBall."
 
-	| centerPoint |
+	| centerPoint ballShape |
 	ballShape := STBallShape
 		             newForBall: aBall
 		             graphicFactory: graphicFactory.
 	centerPoint := transformer toDevice: aBall position.
-	playField addChild: (ballShape centerPosition: centerPoint)
+	playField
+		addChild: (ballShape centerPosition: centerPoint)
+		as: #ballShape.
+	"self updateAttackLineAtCoordinateX: centerPoint x"
+	self updateAttackLineAtCoordinateX: nil
 ]
 
 { #category : 'creation' }
@@ -62,8 +65,10 @@ STSoccerScene >> addNewShapeOnPlayer: aPlayer [
 		               graphicFactory: graphicFactory.
 	centerPoint := transformer toDevice: aPlayer position.
 	playField
-		addChild: (playerShape centerPosition: centerPoint)
-		before: ballShape "The ball must always be visible."
+		addChild: (playerShape
+				 centerPosition: centerPoint;
+				 yourself)
+		before: self ballShape "The ball must always be visible."
 ]
 
 { #category : 'creation' }
@@ -75,6 +80,20 @@ STSoccerScene >> addShapes [
 		self addNewShapeOnPlayer: player ].
 	soccerFrame teamRight players do: [ :player |
 		self addNewShapeOnPlayer: player ]
+]
+
+{ #category : 'accessing' }
+STSoccerScene >> announcer [
+	"Answer the announcer I register at."
+
+	^ soccerFrame announcer
+]
+
+{ #category : 'private' }
+STSoccerScene >> ballShape [
+	"Answer the ball shape."
+
+	^ playField childWithId: #ballShape
 ]
 
 { #category : 'paint' }
@@ -93,9 +112,9 @@ STSoccerScene >> initializeForApplicationWithFrame: aFrame graphicFactory: aGrap
 	borderWidth := 30.
 	transformer := STCoordinatesTransformer
 		               newForApplicationWithWorldExtent: aFrame pitch extent.
-	self paintPitch.
-	self paintGoals.
-	self addShapes
+	playField := BlElement new size: self playFieldExtent.
+	self registerAtAnnouncer.
+	self initializeShapes
 ]
 
 { #category : 'initialization' }
@@ -107,6 +126,15 @@ STSoccerScene >> initializeForSampleWithFrame: aFrame graphicFactory: aGraphicFa
 	borderWidth := 10.
 	transformer := STCoordinatesTransformer newForSampleWithWorldExtent:
 		               aFrame pitch extent.
+	playField := BlElement new size: self playFieldExtent.
+	self registerAtAnnouncer.
+	self initializeShapes
+]
+
+{ #category : 'initialization' }
+STSoccerScene >> initializeShapes [
+	"Initialize all my shapes."
+
 	self paintPitch.
 	self paintGoals.
 	self addShapes
@@ -153,7 +181,6 @@ STSoccerScene >> paintGreen [
 	self size: self playFieldExtent + self borderExtent.
 	self background: (Color fromHexString: '66CC66'). "Moderate lime green border"
 
-	playField := BlElement new size: self playFieldExtent.
 	playField background: (Color fromHexString: '009666'). "dark cyan - lime green"
 	playField position: self borderExtent / 2.
 	playField clipChildren: false.
@@ -197,6 +224,23 @@ STSoccerScene >> playFieldExtent [
 	^transformer deviceExtent 
 ]
 
+{ #category : 'initialization' }
+STSoccerScene >> registerAtAnnouncer [
+	"Register to the announcements I am interested in."
+
+	self announcer
+		when: STBallShapeMovedAnnouncement
+		do: [ :ann |
+			self updateAttackLineAtCoordinateX: self ballShape centerPosition x ]
+		for: self.
+
+	self announcer
+		when: STBallPossessionChangedAnnouncement
+		do: [ :ann |
+			self updateAttackLineAtCoordinateX: self ballShape centerPosition x ]
+		for: self
+]
+
 { #category : 'api - transformation' }
 STSoccerScene >> toWorld: aDevicePoint [
 	"Transform device Point to world Point."
@@ -209,4 +253,33 @@ STSoccerScene >> totalExtent [
 	"Answer the total extent including the play field's border"
 
 	^ self playFieldExtent + self borderExtent 
+]
+
+{ #category : 'paint' }
+STSoccerScene >> updateAttackLineAtCoordinateX: deviceX [
+	"Lazy create and add the attack line shape and update its position and color. 
+	Remove the attack line shape if not relevant for the current soccer strategy."
+
+	| bottomEndPoint color |
+	soccerFrame strategy isAncient ifTrue: [
+		^ playField removeChildWithId: #attackLine ].
+
+	bottomEndPoint := Point x: deviceX y: transformer deviceExtent y.
+	color := soccerFrame owningTeam
+		         ifNotNil: [ :team | Color colorFrom: team color2 ]
+		         ifNil: [ Color black ].
+
+	playField
+		childWithId: #attackLine
+		ifFound: [ :attackLine |
+			attackLine
+				bottomEndPoint: bottomEndPoint;
+				color: color ]
+		ifNone: [
+			| attackLine |
+			attackLine := STAttackLineShape new
+				              bottomEndPoint: 555 @ 200;
+				              color: Color yellow.
+			attackLine id: #attackLine.
+			playField addChildFirst: attackLine ]
 ]
