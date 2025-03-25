@@ -22,8 +22,8 @@ BaselineOfSoccerTheory >> baseline: spec [
 			with: [ spec requires: #( 'SoccerTheory-Rendering' ) ];
 			package: 'SoccerTheory-Samples'
 			with: [ spec requires: #( 'SoccerTheory-Rendering' ) ];
-			package: 'SoccerTheory-Tests-Model'
+			package: 'SoccerTheory-Model-Tests'
 			with: [ spec requires: #( 'SoccerTheory-Model' ) ];
-			package: 'SoccerTheory-Tests-Rendering'
+			package: 'SoccerTheory-Rendering-Tests'
 			with: [ spec requires: #( 'SoccerTheory-Rendering' ) ] ]
 ]
