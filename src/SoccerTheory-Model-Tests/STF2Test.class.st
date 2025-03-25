@@ -9,8 +9,9 @@ Class {
 		'playerB2',
 		'playerA3'
 	],
-	#category : 'SoccerTheory-Tests-Model',
-	#package : 'SoccerTheory-Tests-Model'
+	#category : 'SoccerTheory-Model-Tests-Tests',
+	#package : 'SoccerTheory-Model-Tests',
+	#tag : 'Tests'
 }
 
 { #category : 'running' }

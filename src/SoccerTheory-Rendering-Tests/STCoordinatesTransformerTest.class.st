@@ -4,8 +4,9 @@ Class {
 	#instVars : [
 		'transformer'
 	],
-	#category : 'SoccerTheory-Tests-Rendering',
-	#package : 'SoccerTheory-Tests-Rendering'
+	#category : 'SoccerTheory-Rendering-Tests-Tests',
+	#package : 'SoccerTheory-Rendering-Tests',
+	#tag : 'Tests'
 }
 
 { #category : 'private' }

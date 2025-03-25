@@ -6,8 +6,9 @@ Class {
 		'playerA1',
 		'playerB1'
 	],
-	#category : 'SoccerTheory-Tests-Model',
-	#package : 'SoccerTheory-Tests-Model'
+	#category : 'SoccerTheory-Model-Tests-Tests',
+	#package : 'SoccerTheory-Model-Tests',
+	#tag : 'Tests'
 }
 
 { #category : 'running' }
