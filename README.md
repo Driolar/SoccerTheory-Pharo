@@ -11,4 +11,4 @@ Metacello new
         load
 ```
 ## Start SoTheBo
-Do *STFrameEditor open* to see the starting window:![Bild_2025-03-06_125056415](https://github.com/user-attachments/assets/211db4aa-06b1-492b-8e71-24520a1414bb)
+Do *STFrameEditor open* to launch the starting window:![Bild_2025-03-06_125056415](https://github.com/user-attachments/assets/211db4aa-06b1-492b-8e71-24520a1414bb)
