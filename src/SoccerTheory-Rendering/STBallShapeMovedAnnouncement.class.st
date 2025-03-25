@@ -13,22 +13,22 @@ Class {
 }
 
 { #category : 'instance creation' }
-STBallShapeMovedAnnouncement class >> newWithTargetPosition: aTargetPosition [
+STBallShapeMovedAnnouncement class >> newWithTargetPosition: aPoint [
 	"Answer a new announcement about having moved the ball to the given device point."
 
-	^ self new initializeWithTargetPosition: aTargetPosition
+	^ self new initializeWithTargetPosition: aPoint
 ]
 
 { #category : 'initialization' }
-STBallShapeMovedAnnouncement >> initializeWithTargetPosition: aTargetPosition [
+STBallShapeMovedAnnouncement >> initializeWithTargetPosition: aPoint [
 	"Initialize a new announcement about having moved the ball to the given device point."
 
-	targetDevicePoint := aTargetPosition
+	targetDevicePoint := aPoint
 ]
 
 { #category : 'accessing' }
 STBallShapeMovedAnnouncement >> targetDevicePoint [
-	"Answer the device point where the player shape was moved to."
+	"Answer the device Point where the player shape was moved to."
 
 	^ targetDevicePoint
 ]

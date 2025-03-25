@@ -41,11 +41,11 @@ STFrameEditor class >> open [
 ]
 
 { #category : 'private' }
-STFrameEditor >> addNewPlayerToTeam: aTeam [
+STFrameEditor >> addNewPlayerToTeam: aSTTeam [
 	"Add a new player to aTeam and place its shape on the play field."
 
 	| player |
-	player := gameCommander addNewPlayerToTeam: aTeam.
+	player := gameCommander addNewPlayerToTeam: aSTTeam.
 	scene addNewShapeOnPlayer: player.
 	statusbar pushMessage:
 		'new player #' , player jerseyNumber displayString , ' ('
@@ -58,6 +58,28 @@ STFrameEditor >> announcer [
 	"Answer the announcer I use to subscribe for announcements."
 
 	^ STSoccerFrame announcer
+]
+
+{ #category : 'private' }
+STFrameEditor >> attackLineFormForLegend [
+	"Answer a sample attack line for legend as Form."
+
+	| attackLine |
+	attackLine := STAttackLineShape
+		              newWithSegmentLength: 100
+		              slideX: 0
+		              color: Color black.
+	attackLine transform
+		topLeftOrigin;
+		rotateBy: -90;
+		translateBy: 0 @ 5;
+		apply.
+
+	^ BlElement new
+		  size: 100 @ 10;
+		  background: Color white;
+		  addChild: attackLine;
+		  asForm
 ]
 
 { #category : 'layout' }
@@ -123,11 +145,11 @@ STFrameEditor >> defaultLayout [
 ]
 
 { #category : 'private' }
-STFrameEditor >> formattedStringForWorldPosition: aPosition [
+STFrameEditor >> formattedStringForWorldPosition: aPoint [
 	"Answer the formatted string for the given world position."
 
-	^ '(' , (aPosition x printShowingDecimalPlaces: 1) , '@'
-	  , (aPosition y printShowingDecimalPlaces: 1) , ')'
+	^ '(' , (aPoint x printShowingDecimalPlaces: 1) , '@'
+	  , (aPoint y printShowingDecimalPlaces: 1) , ')'
 ]
 
 { #category : 'layout' }
@@ -182,7 +204,11 @@ STFrameEditor >> legendPresenter [
 			 add: (SpLabelPresenter new label: '') width: 20;
 			 add: (SpImagePresenter new image: graphicFactory goalkeeperForm);
 			 add: (SpLabelPresenter new label: '') width: 2;
-			 add: (SpLabelPresenter new label: 'goalkeeper')).
+			 add: (SpLabelPresenter new label: 'goalkeeper');
+			 add: (SpLabelPresenter new label: '') width: 20;
+			 add: (SpImagePresenter new image: self attackLineFormForLegend);
+			 add: (SpLabelPresenter new label: '') width: 5;
+			 add: (SpLabelPresenter new label: 'attack line')).
 	^ presenter
 ]
 
@@ -226,14 +252,14 @@ STFrameEditor >> loadFrame: aFrame [
 		         graphicFactory: graphicFactory.
 	gameCommander := STGameCommander newWithFrame: aFrame.
 
-	self registerAtAnnouncer.
-
 	self updateButtonsForAddingPlayer.
 	self updateDropListForOffsideRule.
 	self updateRadioButtonsForBallPossession.
 
 	board space setExtent: scene totalExtent.
-	board space root addChild: scene
+	board space root addChild: scene.
+	
+	self registerAtAnnouncer
 ]
 
 { #category : 'loading' }
@@ -366,19 +392,19 @@ STFrameEditor >> strategyControlsLayout [
 ]
 
 { #category : 'update' }
-STFrameEditor >> updateButton: aButton forAddingPlayerOfTeam: aTeam [
+STFrameEditor >> updateButton: aSpButtonPresenter forAddingPlayerOfTeam: aSTTeam [
 	"Update the given player addition button for the corresponding team."
 
 	| playerSquare |
 	playerSquare := BlElement new
-		                background: aTeam jerseyGradient;
+		                background: aSTTeam jerseyGradient;
 		                size: 18 asPoint;
 		                yourself.
 	playerSquare addChild: graphicFactory plusSignElement.
-	aButton
+	aSpButtonPresenter
 		icon: playerSquare asForm;
-		help: 'Add field player to ' , aTeam teamName;
-		action: [ self addNewPlayerToTeam: aTeam ]
+		help: 'Add field player to ' , aSTTeam teamName;
+		action: [ self addNewPlayerToTeam: aSTTeam ]
 ]
 
 { #category : 'update' }

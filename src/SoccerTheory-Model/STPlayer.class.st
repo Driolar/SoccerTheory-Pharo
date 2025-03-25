@@ -44,10 +44,10 @@ STPlayer class >> newWithPosition: aPoint team: aTeam frame: aPlay number: aSmal
 ]
 
 { #category : 'initialization' }
-STPlayer >> initializeWithPosition: aPoint team: aTeam frame: aFrame number: aSmallInteger [
+STPlayer >> initializeWithPosition: aPoint team: aSTTeam frame: aSTSoccerFrame number: aSmallInteger [
 	position := aPoint.
-	team := aTeam.
-	frame := aFrame.
+	team := aSTTeam.
+	frame := aSTSoccerFrame.
 	number := aSmallInteger.
 	isGoalkeeper := false.
 ]
@@ -96,11 +96,11 @@ STPlayer >> isMoreAdvancedThanBall [
 ]
 
 { #category : 'accessing' }
-STPlayer >> isMoreAdvancedThanCoordinateX: anXCoordinate [
+STPlayer >> isMoreAdvancedThanCoordinateX: xCoordinate [
 
 	team isTeamLeft
-		ifTrue: [ ^ position x > anXCoordinate ]
-		ifFalse: [ ^ position x < anXCoordinate ]
+		ifTrue: [ ^ position x > xCoordinate ]
+		ifFalse: [ ^ position x < xCoordinate ]
 ]
 
 { #category : 'accessing' }
@@ -131,8 +131,8 @@ STPlayer >> position [
 ]
 
 { #category : 'accessing' }
-STPlayer >> position: aPosition [
-	position := aPosition
+STPlayer >> position: aPoint [
+	position := aPoint
 ]
 
 { #category : 'accessing' }

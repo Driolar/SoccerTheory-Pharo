@@ -3,6 +3,8 @@ I am an Action Manager.
 
 I can add players to a team.
 I can determine the team that possesses the ball.
+I can set the soccer strategy.
+I can move a player or the ball.
 
 I notify relevant actions to observers.
 "
@@ -24,8 +26,29 @@ STActionManager class >> newWithFrame: aPlay [
 
 { #category : 'actions api' }
 STActionManager >> addPlayer: aPlayer toTeam: aTeam [
+
 	aTeam addPlayer: aPlayer.
-	self notifyCovering 
+	self notifyCovering
+]
+
+{ #category : 'notification' }
+STActionManager >> announceBallPossessionChanged [
+	"Announce that the ball possession has changed."
+
+	self announcer announce: STBallPossessionChangedAnnouncement new
+]
+
+{ #category : 'notification' }
+STActionManager >> announceStrategyChanged [
+	"Announce that the soccer strategy has been changed."
+
+	self announcer announce: STSoccerStrategyChangedAnnouncement new
+]
+
+{ #category : 'notification' }
+STActionManager >> announcer [
+
+	^ frame announcer
 ]
 
 { #category : 'actions api' }
@@ -33,12 +56,14 @@ STActionManager >> changeBallOwnerToTeam: aTeam [
 	"Change the ball owner and notify the change."
 
 	frame ball owningTeam: aTeam.
-	self notifyCovering
+	self announceBallPossessionChanged
 ]
 
 { #category : 'initialization' }
 STActionManager >> initializeWithFrame: aFrame [
-	frame := aFrame
+
+	frame := aFrame.
+	self registerAtAnnouncer
 ]
 
 { #category : 'actions api' }
@@ -60,34 +85,48 @@ STActionManager >> notifyCovering [
 	frame notifyCovering
 ]
 
-{ #category : 'initialization' }
+{ #category : 'notification' }
+STActionManager >> registerAtAnnouncer [
+
+	self announcer
+		when: STSoccerStrategyChangedAnnouncement
+		do: [ :ann | self notifyCovering ]
+		for: self.
+
+	self announcer
+		when: STBallPossessionChangedAnnouncement
+		do: [ :ann | self notifyCovering ]
+		for: self
+]
+
+{ #category : 'actions api' }
 STActionManager >> setAncientSoccerStrategy [
 	"The play is to be ruled by the ancient soccer strategy"
 
 	frame setAncientSoccerStrategy.
-	self notifyCovering 
+	self announceStrategyChanged
 ]
 
-{ #category : 'initialization' }
+{ #category : 'actions api' }
 STActionManager >> setClassicSoccerStrategy [
 	"The play is to be ruled by the classic soccer strategy"
 
 	frame setClassicSoccerStrategy.
-	self notifyCovering
+	self announceStrategyChanged
 ]
 
-{ #category : 'initialization' }
+{ #category : 'actions api' }
 STActionManager >> setModernSoccerStrategy [
 	"The play is to be ruled by the classic soccer strategy"
 
 	frame setModernSoccerStrategy.
-	self notifyCovering
+	self announceStrategyChanged
 ]
 
-{ #category : 'initialization' }
+{ #category : 'actions api' }
 STActionManager >> setNoOffsideSoccerStrategy [
 	"The play is to be ruled with no offside rule."
 
 	frame setNoOffsideSoccerStrategy.
-	self notifyCovering 
+	self announceStrategyChanged
 ]

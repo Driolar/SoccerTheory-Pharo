@@ -47,11 +47,11 @@ STCoordinatesTransformer >> deviceExtent [
 ]
 
 { #category : 'initialization' }
-STCoordinatesTransformer >> initializeWithWorldExtent: aWorldPoint deviceExtent: aDevicePoint [
+STCoordinatesTransformer >> initializeWithWorldExtent: worldPoint deviceExtent: devicePoint [
 	"Initialize with world and device extent Points."
 
-	worldExtent := aWorldPoint.
-	deviceExtent := aDevicePoint 
+	worldExtent := worldPoint.
+	deviceExtent := devicePoint 
 ]
 
 { #category : 'api - transformation' }
@@ -69,19 +69,19 @@ STCoordinatesTransformer >> scaleWorldPoint: aPoint [
 ]
 
 { #category : 'api - transformation' }
-STCoordinatesTransformer >> toDevice: aWorldPoint [
+STCoordinatesTransformer >> toDevice: worldPoint [
 	"Transform world Point to device Point."
 
-	^ (self scaleWorldPoint: (self translateWorldPoint: aWorldPoint)) rounded
+	^ (self scaleWorldPoint: (self translateWorldPoint: worldPoint)) rounded
 ]
 
 { #category : 'api - transformation' }
-STCoordinatesTransformer >> toWorld: aDevicePoint [
+STCoordinatesTransformer >> toWorld: devicePoint [
 	"Transform device Point to world Point."
 
 	| transformedPoint |
 	transformedPoint := self scaleDevicePoint:
-		                    (self translateDevicePoint: aDevicePoint).
+		                    (self translateDevicePoint: devicePoint).
 	^ Point x: transformedPoint x y: transformedPoint y negated
 ]
 

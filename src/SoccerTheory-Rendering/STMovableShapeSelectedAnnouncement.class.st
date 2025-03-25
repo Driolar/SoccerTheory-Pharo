@@ -13,17 +13,17 @@ Class {
 }
 
 { #category : 'instance creation' }
-STMovableShapeSelectedAnnouncement class >> newOn: aMovableShape [
+STMovableShapeSelectedAnnouncement class >> newOn: aSTMovableShape [
 	"Answer a new announcement that aMovableShape was selected."
 
-	^ self new initializeOn: aMovableShape
+	^ self new initializeOn: aSTMovableShape
 ]
 
 { #category : 'initialization' }
-STMovableShapeSelectedAnnouncement >> initializeOn: aMovableShape [
+STMovableShapeSelectedAnnouncement >> initializeOn: aSTMovableShape [
 	"Initialize on aMovableShape."
 
-	movableShape := aMovableShape
+	movableShape := aSTMovableShape
 ]
 
 { #category : 'accessing' }

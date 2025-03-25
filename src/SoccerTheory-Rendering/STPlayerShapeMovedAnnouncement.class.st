@@ -14,20 +14,20 @@ Class {
 }
 
 { #category : 'instance creation' }
-STPlayerShapeMovedAnnouncement class >> newOnPlayer: aPlayer targetPosition: aTargetPosition [
+STPlayerShapeMovedAnnouncement class >> newOnPlayer: aSTPlayer targetPosition: aPoint [
 	"Answer a new announcement about having moved a player to the given device point."
 
 	^ self new
-		  initializeOnPlayer: aPlayer
-		  targetPosition: aTargetPosition
+		  initializeOnPlayer: aSTPlayer
+		  targetPosition: aPoint
 ]
 
 { #category : 'initialization' }
-STPlayerShapeMovedAnnouncement >> initializeOnPlayer: aPlayer targetPosition: aTargetPosition [
+STPlayerShapeMovedAnnouncement >> initializeOnPlayer: aSTPlayer targetPosition: aPoint [
 	"Initialize a new announcement about having moved a player to the given device point."
 
-	player := aPlayer.
-	targetDevicePoint := aTargetPosition
+	player := aSTPlayer.
+	targetDevicePoint := aPoint
 ]
 
 { #category : 'accessing' }

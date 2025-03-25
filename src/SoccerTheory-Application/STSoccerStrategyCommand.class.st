@@ -9,6 +9,12 @@ Class {
 	#tag : 'Commander'
 }
 
+{ #category : 'executing' }
+STSoccerStrategyCommand >> execute [
+
+	self subclassResponsibility
+]
+
 { #category : 'accessing' }
 STSoccerStrategyCommand >> gameCommander [
 	"Answer the application's game commander."

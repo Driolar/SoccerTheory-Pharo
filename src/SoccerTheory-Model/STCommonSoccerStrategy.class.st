@@ -115,6 +115,5 @@ STCommonSoccerStrategy >> updateCovering [
 
 	"Maybe to do: If performance suffers, optimize by firing the announcements only if something really changed."
 	self announcer announce: STOffsideSwitchedAnnouncement new.
-	self announcer announce: STUncoveredSwitchedAnnouncement new.
-	self announcer announce: STBallPossessionChangedAnnouncement new
+	self announcer announce: STUncoveredSwitchedAnnouncement new
 ]

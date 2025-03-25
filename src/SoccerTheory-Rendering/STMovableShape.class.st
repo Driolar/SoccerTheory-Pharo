@@ -178,7 +178,7 @@ STMovableShape >> name [
 ]
 
 { #category : 'private' }
-STMovableShape >> newMovedAnnouncementWithTarget: aPosition [
+STMovableShape >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
 	^ self subclassResponsibility

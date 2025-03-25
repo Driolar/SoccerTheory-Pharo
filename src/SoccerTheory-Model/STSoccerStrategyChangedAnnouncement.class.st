@@ -1,8 +1,8 @@
 "
-I announce that at least one player's uncovered flag has switched.
+I announce that the soccer strategy was changed by the user.
 "
 Class {
-	#name : 'STUncoveredSwitchedAnnouncement',
+	#name : 'STSoccerStrategyChangedAnnouncement',
 	#superclass : 'Announcement',
 	#category : 'SoccerTheory-Model-Announcement',
 	#package : 'SoccerTheory-Model',

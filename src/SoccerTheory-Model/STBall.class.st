@@ -34,10 +34,10 @@ STBall >> owningTeam [
 ]
 
 { #category : 'accessing' }
-STBall >> owningTeam: aTeam [
+STBall >> owningTeam: aSTTeam [
 	"Set the STTeam in ball possession. Nil means nobody's ball (neutral possession)."
 
-	owningTeam := aTeam
+	owningTeam := aSTTeam
 ]
 
 { #category : 'accessing' }

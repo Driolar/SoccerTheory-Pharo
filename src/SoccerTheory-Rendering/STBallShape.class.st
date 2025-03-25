@@ -45,12 +45,12 @@ STBallShape >> hoverTextString [
 ]
 
 { #category : 'initialization' }
-STBallShape >> initializeForBall: aBall graphicFactory: aGraphicFactory [
+STBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory [
 	"Initialize the shape instance for a given STBall."
 
 	| ballIcon ballIconElement |
-	ball := aBall.
-	graphicFactory := aGraphicFactory.
+	ball := aSTBall.
+	graphicFactory := aSTGraphicFactory.
 	squareExtent := 10 @ 10.
 	self size: squareExtent.
 	self updateColor.
@@ -69,12 +69,12 @@ STBallShape >> name [
 ]
 
 { #category : 'private' }
-STBallShape >> newMovedAnnouncementWithTarget: aPosition [
+STBallShape >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
 	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
 
-	^ STBallShapeMovedAnnouncement newWithTargetPosition: aPosition
+	^ STBallShapeMovedAnnouncement newWithTargetPosition: aPoint
 ]
 
 { #category : 'initialization' }
@@ -100,6 +100,7 @@ STBallShape >> updateColor [
 	"Update my color depending on the ball owning team."
 
 	ball owningTeam
-		ifNotNil: [ :team | self background: (Color colorFrom: team color1) ]
+		ifNotNil: [ :team |
+		self background: (Color colorFrom: team gradientColorHigh) ]
 		ifNil: [ self background: self defaultBackground ]
 ]

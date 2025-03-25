@@ -41,7 +41,7 @@ STDemoData >> newStartFrame [
 STDemoData >> showAttackLine [
 
 	<demo>
-	^ STAttackLineShape newWithBottomEndPoint: 5@100 color: Color black 
+	^ STAttackLineShape newWithSegmentLength: 100 slideX: 5 color: Color black
 ]
 
 { #category : 'showing shapes' }

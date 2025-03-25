@@ -29,55 +29,55 @@ STGameCommander class >> newWithFrame: aFrame [
 ]
 
 { #category : 'actions api' }
-STGameCommander >> addNewPlayerToTeam: aTeam [
+STGameCommander >> addNewPlayerToTeam: aSTTeam [
 	"Create a new player for aTeam and let it add to aTeam. Answer the new player."
 
 	| player |
 	player := STPlayer
-		          newWithPosition: (self entryPointForPlayerOfTeam: aTeam)
-		          team: aTeam
+		          newWithPosition: (self entryPointForPlayerOfTeam: aSTTeam)
+		          team: aSTTeam
 		          frame: frame
-		          number: aTeam nextFreeJerseyNumber.
+		          number: aSTTeam nextFreeJerseyNumber.
 
-	actionManager addPlayer: player toTeam: aTeam.
+	actionManager addPlayer: player toTeam: aSTTeam.
 
 	^ player
 ]
 
 { #category : 'actions api' }
-STGameCommander >> changeBallOwnerToTeam: aTeam [
+STGameCommander >> changeBallOwnerToTeam: aSTTeam [
 	"Set ball possession to the given STTeam."
 
-	actionManager changeBallOwnerToTeam: aTeam
+	actionManager changeBallOwnerToTeam: aSTTeam
 ]
 
 { #category : 'private' }
-STGameCommander >> entryPointForPlayerOfTeam: aTeam [
+STGameCommander >> entryPointForPlayerOfTeam: aSTTeam [
 	"Answer the pitch point where a new player of aTeam is initially located."
 
 	^ Point x: frame pitch middle x y: frame pitch extent y / 2
 ]
 
 { #category : 'initialization' }
-STGameCommander >> initializeWithFrame: aFrame [
+STGameCommander >> initializeWithFrame: aSTSoccerFrame [
 	"Initialize with the given STSoccerFrame."
 
-	frame := aFrame.
-	actionManager := STActionManager newWithFrame: aFrame
+	frame := aSTSoccerFrame.
+	actionManager := STActionManager newWithFrame: aSTSoccerFrame
 ]
 
 { #category : 'actions api' }
-STGameCommander >> moveBallToPosition: aPosition [
+STGameCommander >> moveBallToPosition: aPoint [
 	"Move the ball to the given world point."
 
-	actionManager moveBallToPosition: aPosition
+	actionManager moveBallToPosition: aPoint
 ]
 
 { #category : 'actions api' }
-STGameCommander >> movePlayer: aPlayer toPosition: aPosition [
+STGameCommander >> movePlayer: aSTPlayer toPosition: aPoint [
 	"Move the given model player to the given world point."
 
-	actionManager movePlayer: aPlayer toPosition: aPosition
+	actionManager movePlayer: aSTPlayer toPosition: aPoint
 ]
 
 { #category : 'accessing' }

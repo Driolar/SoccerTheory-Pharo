@@ -74,11 +74,11 @@ STPlayerShape >> hoverTextString [
 ]
 
 { #category : 'initialization' }
-STPlayerShape >> initializeForPlayer: aPlayer graphicFactory: aGraphicFactory [
+STPlayerShape >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactory [
 	"Initialize the shape instance for a given STBall and a graphic factory."
 
-	player := aPlayer.
-	graphicFactory := aGraphicFactory.
+	player := aSTPlayer.
+	graphicFactory := aSTGraphicFactory.
 	squareExtent := 18 @ 18.
 	self size: squareExtent.
 	self background: self jerseyGradient.
@@ -124,14 +124,14 @@ STPlayerShape >> name [
 ]
 
 { #category : 'private' }
-STPlayerShape >> newMovedAnnouncementWithTarget: aPosition [
+STPlayerShape >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
 	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
 
 	^ STPlayerShapeMovedAnnouncement
 		  newOnPlayer: player
-		  targetPosition: aPosition
+		  targetPosition: aPoint
 ]
 
 { #category : 'private' }

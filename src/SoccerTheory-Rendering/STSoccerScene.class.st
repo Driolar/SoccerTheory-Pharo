@@ -40,22 +40,6 @@ STSoccerScene class >> newSampleSceneWithFrame: aFrame [
 ]
 
 { #category : 'creation' }
-STSoccerScene >> addNewShapeOnBall: aBall [
-	"Add a new STBallShape on a STBall."
-
-	| centerPoint ballShape |
-	ballShape := STBallShape
-		             newForBall: aBall
-		             graphicFactory: graphicFactory.
-	centerPoint := transformer toDevice: aBall position.
-	playField
-		addChild: (ballShape centerPosition: centerPoint)
-		as: #ballShape.
-	"self updateAttackLineAtCoordinateX: centerPoint x"
-	self updateAttackLineAtCoordinateX: nil
-]
-
-{ #category : 'creation' }
 STSoccerScene >> addNewShapeOnPlayer: aPlayer [
 	"Add a new STBallPlayer on a STPlayer."
 
@@ -72,10 +56,27 @@ STSoccerScene >> addNewShapeOnPlayer: aPlayer [
 ]
 
 { #category : 'creation' }
+STSoccerScene >> addNewShapesOnBall: aBall [
+	"Add a new STBallShape on a STBall and also the corresponding attack line."
+
+	| centerPoint ballShape |
+	ballShape := STBallShape
+		             newForBall: aBall
+		             graphicFactory: graphicFactory.
+	centerPoint := transformer toDevice: aBall position.
+	playField
+		addChild: (ballShape centerPosition: centerPoint)
+		as: #ballShape.
+		
+   self updateAttackLinePositionX: centerPoint x
+
+]
+
+{ #category : 'creation' }
 STSoccerScene >> addShapes [
 	"Add all the shapes from the soccer frame."
 
-	soccerFrame ball ifNotNil: [ :ball | self addNewShapeOnBall: ball ].
+	soccerFrame ball ifNotNil: [ :ball | self addNewShapesOnBall: ball ].
 	soccerFrame teamLeft players do: [ :player |
 		self addNewShapeOnPlayer: player ].
 	soccerFrame teamRight players do: [ :player |
@@ -87,6 +88,22 @@ STSoccerScene >> announcer [
 	"Answer the announcer I register at."
 
 	^ soccerFrame announcer
+]
+
+{ #category : 'private' }
+STSoccerScene >> attackLine [
+	"Answer the attack line."
+
+	^ playField childWithId: #attackLine
+]
+
+{ #category : 'paint' }
+STSoccerScene >> attackLineColor [
+	"Answer the current attackLineColor"
+
+	^ soccerFrame owningTeam
+		  ifNotNil: [ :team | Color colorFrom: team gradientColorHigh ]
+		  ifNil: [ Color yellow ]
 ]
 
 { #category : 'private' }
@@ -113,8 +130,8 @@ STSoccerScene >> initializeForApplicationWithFrame: aFrame graphicFactory: aGrap
 	transformer := STCoordinatesTransformer
 		               newForApplicationWithWorldExtent: aFrame pitch extent.
 	playField := BlElement new size: self playFieldExtent.
-	self registerAtAnnouncer.
-	self initializeShapes
+	self initializeShapes.
+	self registerAtAnnouncer
 ]
 
 { #category : 'initialization' }
@@ -127,8 +144,8 @@ STSoccerScene >> initializeForSampleWithFrame: aFrame graphicFactory: aGraphicFa
 	transformer := STCoordinatesTransformer newForSampleWithWorldExtent:
 		               aFrame pitch extent.
 	playField := BlElement new size: self playFieldExtent.
-	self registerAtAnnouncer.
-	self initializeShapes
+	self initializeShapes.
+	self registerAtAnnouncer
 ]
 
 { #category : 'initialization' }
@@ -155,19 +172,14 @@ STSoccerScene >> paintGoals [
 	goalLeft := BlElement new
 		            size: (Point x: goalDepth y: goalWidth);
 		            position: goalPosition;
-		            background: (BlLinearGradientPaint horizontal
-				             from: (Color colorFrom: soccerFrame teamLeft color1)
-				             to: (Color colorFrom: soccerFrame teamLeft color2));
+		            background: soccerFrame teamLeft jerseyGradient;
 		            yourself.
 
 	goalPosition := Point x: self playFieldExtent x y: goalPosition y.
 	goalRight := BlElement new
 		             size: (Point x: goalDepth y: goalWidth);
 		             position: goalPosition;
-		             background: (BlLinearGradientPaint horizontal
-				              from:
-					              (Color colorFrom: soccerFrame teamRight color1)
-				              to: (Color colorFrom: soccerFrame teamRight color2));
+		             background: soccerFrame teamRight jerseyGradient;
 		             yourself.
 
 	playField addChild: goalLeft.
@@ -231,13 +243,17 @@ STSoccerScene >> registerAtAnnouncer [
 	self announcer
 		when: STBallShapeMovedAnnouncement
 		do: [ :ann |
-			self updateAttackLineAtCoordinateX: self ballShape centerPosition x ]
+		self updateAttackLinePositionX: ann targetDevicePoint x ]
 		for: self.
 
 	self announcer
 		when: STBallPossessionChangedAnnouncement
-		do: [ :ann |
-			self updateAttackLineAtCoordinateX: self ballShape centerPosition x ]
+		do: [ :ann | self updateAttackLineColor ]
+		for: self.
+
+	self announcer
+		when: STSoccerStrategyChangedAnnouncement
+		do: [ :ann | self updateAttackLineVisibility ]
 		for: self
 ]
 
@@ -256,30 +272,35 @@ STSoccerScene >> totalExtent [
 ]
 
 { #category : 'paint' }
-STSoccerScene >> updateAttackLineAtCoordinateX: deviceX [
-	"Lazy create and add the attack line shape and update its position and color. 
-	Remove the attack line shape if not relevant for the current soccer strategy."
-
-	| bottomEndPoint color |
-	soccerFrame strategy isAncient ifTrue: [
-		^ playField removeChildWithId: #attackLine ].
-
-	bottomEndPoint := Point x: deviceX y: transformer deviceExtent y.
-	color := soccerFrame owningTeam
-		         ifNotNil: [ :team | Color colorFrom: team color2 ]
-		         ifNil: [ Color black ].
+STSoccerScene >> updateAttackLineColor [
+	"Update the attack line with the correct color."
 
 	playField
 		childWithId: #attackLine
-		ifFound: [ :attackLine |
-			attackLine
-				bottomEndPoint: bottomEndPoint;
-				color: color ]
+		ifFound: [ :attackLine | attackLine color: self attackLineColor ]
+]
+
+{ #category : 'paint' }
+STSoccerScene >> updateAttackLinePositionX: deviceX [
+	"Lazy create and add the attack line shape and update its position."
+
+	playField
+		childWithId: #attackLine
+		ifFound: [ :attackLine | attackLine slideXValue: deviceX ]
 		ifNone: [
-			| attackLine |
-			attackLine := STAttackLineShape new
-				              bottomEndPoint: 555 @ 200;
-				              color: Color yellow.
-			attackLine id: #attackLine.
-			playField addChildFirst: attackLine ]
+			playField
+				addChildFirst: (STAttackLineShape
+						 newWithSegmentLength: transformer deviceExtent y
+						 slideX: deviceX
+						 color: self attackLineColor)
+				as: #attackLine ]
+]
+
+{ #category : 'paint' }
+STSoccerScene >> updateAttackLineVisibility [
+	"Hide or show the attack line shape depending on the current soccer strategy."
+
+	^ soccerFrame strategy isAncient
+		  ifTrue: [ self attackLine visibility: BlVisibility gone ]
+		  ifFalse: [ self attackLine visibility: BlVisibility visible ]
 ]

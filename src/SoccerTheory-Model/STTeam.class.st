@@ -11,8 +11,8 @@ Class {
 		'teamName',
 		'players',
 		'attackDirection',
-		'color1',
-		'color2'
+		'gradientColorHigh',
+		'gradientColorLow'
 	],
 	#category : 'SoccerTheory-Model-Game',
 	#package : 'SoccerTheory-Model',
@@ -30,8 +30,9 @@ STTeam class >> newRightToLeft: aString [
 ]
 
 { #category : 'accessing' }
-STTeam >> addPlayer: aPlayer [
-	players add: aPlayer
+STTeam >> addPlayer: aSTPlayer [
+
+	players add: aSTPlayer
 ]
 
 { #category : 'accessing' }
@@ -40,15 +41,17 @@ STTeam >> attackDirection [
 ]
 
 { #category : 'accessing' }
-STTeam >> color1 [
+STTeam >> gradientColorHigh [
+	"Answer the hexadecimal string for the high gradient color."
 
-	^ color1
+	^ gradientColorHigh
 ]
 
 { #category : 'accessing' }
-STTeam >> color2 [
+STTeam >> gradientColorLow [
+	"Answer the hexadecimal string for the low gradient color."
 
-	^ color2
+	^ gradientColorLow
 ]
 
 { #category : 'initialization' }
@@ -60,16 +63,16 @@ STTeam >> initialize [
 STTeam >> initializeLeftToRight: aString [
 	teamName := aString.
 	attackDirection := #toRight.
-	color1 := '#0000FF'.
-	color2 := '#00FFFF'
+	gradientColorHigh := '#0000FF'. "blue"
+	gradientColorLow := '#00FFFF' "aqua"
 ]
 
 { #category : 'initialization' }
 STTeam >> initializeRightToLeft: aString [
 	teamName := aString.
 	attackDirection := #toLeft.
-	color1 := '#FF00FF'.
-	color2 := '#FF0000'
+	gradientColorHigh := '#FF0000'. "red" 
+	gradientColorLow := '#FF00FF' "fuchsia"
 ]
 
 { #category : 'accessing' }
@@ -84,9 +87,18 @@ STTeam >> isTeamLeft [
 STTeam >> jerseyGradient [
 	"Answer the gradient for my field player jerseys."
 
+	| gradientColorFrom gradientColorTo |
+	gradientColorFrom := self isTeamLeft
+		                     ifTrue: [ self gradientColorHigh ]
+		                     ifFalse: [ self gradientColorLow ].
+	gradientColorTo := self isTeamLeft
+		                   ifTrue: [ self gradientColorLow ]
+		                   ifFalse: [ self gradientColorHigh ].
+
+
 	^ BlLinearGradientPaint horizontal
-		  from: (Color colorFrom: self color1)
-		  to: (Color colorFrom: self color2)
+		  from: (Color colorFrom: gradientColorFrom)
+		  to: (Color colorFrom: gradientColorTo)
 ]
 
 { #category : 'accessing' }
@@ -104,10 +116,10 @@ STTeam >> nextFreeJerseyNumber [
 ]
 
 { #category : 'accessing' }
-STTeam >> playerWithJerseyNumber: aJerseyNumber [
+STTeam >> playerWithJerseyNumber: aSmallInteger [
 
 	^ players
-		  detect: [ :aPlayer | aPlayer jerseyNumber = aJerseyNumber ]
+		  detect: [ :aPlayer | aPlayer jerseyNumber = aSmallInteger ]
 		  ifNone: [ nil ]
 ]
 

@@ -15,3 +15,10 @@ Class {
 	#package : 'SoccerTheory-Rendering',
 	#tag : 'Basic'
 }
+
+{ #category : 'private' }
+STAttackLineShape >> borderBuilder [
+	"Answer my border builder."
+
+	^ super borderBuilder dashed
+]

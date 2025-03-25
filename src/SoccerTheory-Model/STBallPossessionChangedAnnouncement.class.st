@@ -4,7 +4,7 @@ I announce that at least one player's uncovered flag has switched.
 Class {
 	#name : 'STBallPossessionChangedAnnouncement',
 	#superclass : 'Announcement',
-	#category : 'SoccerTheory-Model-Strategy',
+	#category : 'SoccerTheory-Model-Announcement',
 	#package : 'SoccerTheory-Model',
-	#tag : 'Strategy'
+	#tag : 'Announcement'
 }
