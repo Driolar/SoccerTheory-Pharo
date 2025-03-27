@@ -25,9 +25,9 @@ STActionManager class >> newWithFrame: aPlay [
 ]
 
 { #category : 'actions api' }
-STActionManager >> addPlayer: aPlayer toTeam: aTeam [
+STActionManager >> addPlayer: aSTPlayer toTeam: aSTTeam [
 
-	aTeam addPlayer: aPlayer.
+	aSTTeam addPlayer: aSTPlayer.
 	self notifyCovering
 ]
 
@@ -52,29 +52,30 @@ STActionManager >> announcer [
 ]
 
 { #category : 'actions api' }
-STActionManager >> changeBallOwnerToTeam: aTeam [
+STActionManager >> changeBallOwnerToTeam: aSTTeam [
 	"Change the ball owner and notify the change."
 
-	frame ball owningTeam: aTeam.
+	frame ball owningTeam: aSTTeam.
 	self announceBallPossessionChanged
 ]
 
 { #category : 'initialization' }
-STActionManager >> initializeWithFrame: aFrame [
+STActionManager >> initializeWithFrame: aSTSoccerFrame [
 
-	frame := aFrame.
+	frame := aSTSoccerFrame.
 	self registerAtAnnouncer
 ]
 
 { #category : 'actions api' }
-STActionManager >> moveBallToPosition: aPosition [
-	frame ball position: aPosition.
+STActionManager >> moveBallToPosition: aPoint [
+	frame ball position: aPoint.
 	self notifyCovering
 ]
 
 { #category : 'actions api' }
-STActionManager >> movePlayer: aPlayer toPosition: aPosition [
-	aPlayer position: aPosition.
+STActionManager >> movePlayer: aSTPlayer toPosition: aPoint [
+
+	aSTPlayer position: aPoint.
 	self notifyCovering
 ]
 

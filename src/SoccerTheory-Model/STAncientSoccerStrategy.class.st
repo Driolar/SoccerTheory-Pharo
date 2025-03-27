@@ -20,13 +20,7 @@ STAncientSoccerStrategy >> flagCoveredPlayers [
 		detect: [ :defender | defender isBehindTheBall ]
 		ifFound:
 			[ self attackingTeam players do: [ :player | player isCovered: true ] ]
-		ifNone: [ "If no defender is in the defence zone, we must apply man covering." self flagManCoveredPlayers ]
-]
-
-{ #category : 'flagging' }
-STAncientSoccerStrategy >> flagOffsidePlayers [
-	self attackingTeam players
-		do: [ :player | player isOffside: player isMoreAdvancedThanBall ]
+		ifNone: [ "If no defender is in the defence zone, we must apply man coverage." self flagManCoveredPlayers ]
 ]
 
 { #category : 'accessing' }
@@ -34,4 +28,18 @@ STAncientSoccerStrategy >> isAncient [
 	"Answer that I am the ancient soccer strategy."
 
 	^ true
+]
+
+{ #category : 'testing' }
+STAncientSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
+	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."
+
+	^ aSTPlayer isMoreAdvancedThanCoordinateX: xCoordinate
+]
+
+{ #category : 'private' }
+STAncientSoccerStrategy >> offsideX [
+	"Answer the current offside line's x-coordinate. For the ancient rule, this is by rule definition the ball x-coordinate."
+
+	^ frame ball position x
 ]

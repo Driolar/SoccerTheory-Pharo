@@ -64,22 +64,7 @@ STFrameEditor >> announcer [
 STFrameEditor >> attackLineFormForLegend [
 	"Answer a sample attack line for legend as Form."
 
-	| attackLine |
-	attackLine := STAttackLineShape
-		              newWithSegmentLength: 100
-		              slideX: 0
-		              color: Color black.
-	attackLine transform
-		topLeftOrigin;
-		rotateBy: -90;
-		translateBy: 0 @ 5;
-		apply.
-
-	^ BlElement new
-		  size: 100 @ 10;
-		  background: Color white;
-		  addChild: attackLine;
-		  asForm
+^ self legendFormForStrategicLineClass: STAttackLineShape
 ]
 
 { #category : 'layout' }
@@ -181,6 +166,28 @@ STFrameEditor >> initializePresenters [
 	self resetBoard
 ]
 
+{ #category : 'private' }
+STFrameEditor >> legendFormForStrategicLineClass: aClass [ 
+	"Answer a sample strategic line for the legend as Form."
+
+	| strategicLine |
+	strategicLine := aClass 
+		              newWithSegmentLength: 100
+		              strategicX: 0
+		              color: Color black.
+	strategicLine transform
+		topLeftOrigin;
+		rotateBy: -90;
+		translateBy: 0 @ 5;
+		apply.
+
+	^ BlElement new
+		  size: 100 @ 10;
+		  background: Color white;
+		  addChild: strategicLine;
+		  asForm
+]
+
 { #category : 'presenters' }
 STFrameEditor >> legendPresenter [
 	"Answer the SpPresenter containing the legend."
@@ -208,7 +215,11 @@ STFrameEditor >> legendPresenter [
 			 add: (SpLabelPresenter new label: '') width: 20;
 			 add: (SpImagePresenter new image: self attackLineFormForLegend);
 			 add: (SpLabelPresenter new label: '') width: 5;
-			 add: (SpLabelPresenter new label: 'attack line')).
+			 add: (SpLabelPresenter new label: 'attack line');
+			 add: (SpLabelPresenter new label: '') width: 20;
+			 add: (SpImagePresenter new image: self offsideLineFormForLegend);
+			 add: (SpLabelPresenter new label: '') width: 5;
+			 add: (SpLabelPresenter new label: 'offside line')).
 	^ presenter
 ]
 
@@ -302,6 +313,13 @@ STFrameEditor >> menuButtonForLoadingExamples [
 						 ] ];
 			yourself ].
 	^ menuButton
+]
+
+{ #category : 'private' }
+STFrameEditor >> offsideLineFormForLegend [
+	"Answer a sample offside line for legend as Form."
+
+	^ self legendFormForStrategicLineClass: STOffsideLineShape
 ]
 
 { #category : 'initialization' }

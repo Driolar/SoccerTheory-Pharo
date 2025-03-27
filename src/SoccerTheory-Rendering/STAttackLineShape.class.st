@@ -22,3 +22,23 @@ STAttackLineShape >> borderBuilder [
 
 	^ super borderBuilder dashed
 ]
+
+{ #category : 'private' }
+STAttackLineShape >> bottomEndPoint [
+	"Answer the BlElement that decorates the segment's bottom end."
+
+	| endPoint |
+	endPoint := self newEndPointTrianglePrototype.
+	endPoint geometry beBottom.
+	^ endPoint
+]
+
+{ #category : 'private' }
+STAttackLineShape >> topEndPoint [
+	"Answer the BlElement that decorates the segment's top end."
+
+	| endPoint |
+	endPoint := self newEndPointTrianglePrototype.
+	endPoint geometry beTop.
+	^ endPoint
+]

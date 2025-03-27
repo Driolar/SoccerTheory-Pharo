@@ -232,9 +232,9 @@ STSoccerFrameBuilder class >> fixture4FrameBuilder [
 ]
 
 { #category : 'instance creation' }
-STSoccerFrameBuilder class >> newWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall [
+STSoccerFrameBuilder class >> newWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRight pitch: aPitch ball: aBall [
 	
-^ self new initializeWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall
+^ self new initializeWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRight pitch: aPitch ball: aBall
 ]
 
 { #category : 'instance creation' }
@@ -261,15 +261,15 @@ STSoccerFrameBuilder >> builtFrame [
 ]
 
 { #category : 'private' }
-STSoccerFrameBuilder >> createGoalkeeperInTeam: aTeam position: aPoint number: aSmallInteger [
+STSoccerFrameBuilder >> createGoalkeeperInTeam: aSTTeam position: aPoint number: aSmallInteger [
 	| player |
 	player := STPlayer
 		newWithPosition: aPoint
-		team: aTeam
+		team: aSTTeam
 		frame: frame
 		number: aSmallInteger.
 	player makeGoalkeeper.
-	actionManager addPlayer: player toTeam: aTeam
+	actionManager addPlayer: player toTeam: aSTTeam
 ]
 
 { #category : 'creation' }
@@ -289,14 +289,14 @@ STSoccerFrameBuilder >> createGoalkeeperInTeamRightAtPosition: aPoint number: aS
 ]
 
 { #category : 'private' }
-STSoccerFrameBuilder >> createPlayerInTeam: aTeam position: aPoint number: aSmallInteger [
+STSoccerFrameBuilder >> createPlayerInTeam: aSTTeam position: aPoint number: aSmallInteger [
 	| player |
 	player := STPlayer
 		newWithPosition: aPoint
-		team: aTeam
+		team: aSTTeam
 		frame: frame
 		number: aSmallInteger.
-	actionManager addPlayer: player toTeam: aTeam.
+	actionManager addPlayer: player toTeam: aSTTeam.
 	^ player
 ]
 
@@ -314,20 +314,20 @@ STSoccerFrameBuilder >> createPlayerInTeamRightAtPosition: aPoint number: aSmall
 ]
 
 { #category : 'initialization' }
-STSoccerFrameBuilder >> initializeWithPitch: aPitch [
+STSoccerFrameBuilder >> initializeWithPitch: aSTPitch [
 
-	frame := STSoccerFrame newWithPitch: aPitch.
+	frame := STSoccerFrame newWithPitch: aSTPitch.
 	actionManager := STActionManager newWithFrame: frame
 ]
 
 { #category : 'initialization' }
-STSoccerFrameBuilder >> initializeWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall [
+STSoccerFrameBuilder >> initializeWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRight pitch: aSTPitch ball: aSTBall [
 
 	frame := STSoccerFrame
-		newWithTeamLeft: aStringLeft
-		teamRight: aStringRight
-		pitch: aPitch
-		ball: aBall.
+		newWithTeamLeft: nameOfTeamLeft
+		teamRight: nameOfTeamRight
+		pitch: aSTPitch
+		ball: aSTBall.
 	actionManager := STActionManager newWithFrame: frame.
 ]
 

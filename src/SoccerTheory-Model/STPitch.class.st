@@ -28,11 +28,6 @@ STPitch >> extent [
 ]
 
 { #category : 'accessing' }
-STPitch >> goalLineForDirection: aDirection [
-	self shouldBeImplemented
-]
-
-{ #category : 'accessing' }
 STPitch >> goalWidth [
 
 	^ goalWidth

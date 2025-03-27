@@ -67,6 +67,7 @@ STPlayer >> isBehindTheBall [
 
 { #category : 'accessing' }
 STPlayer >> isCovered [
+
 	^ isCovered
 ]
 
@@ -77,6 +78,7 @@ STPlayer >> isCovered: aBoolean [
 
 { #category : 'accessing' }
 STPlayer >> isGoalkeeper [
+
 	^ isGoalkeeper
 ]
 
@@ -91,11 +93,6 @@ STPlayer >> isInOwnHalf [
 ]
 
 { #category : 'accessing' }
-STPlayer >> isMoreAdvancedThanBall [
-	^self isMoreAdvancedThanCoordinateX: frame ball position x
-]
-
-{ #category : 'accessing' }
 STPlayer >> isMoreAdvancedThanCoordinateX: xCoordinate [
 
 	team isTeamLeft
@@ -105,12 +102,14 @@ STPlayer >> isMoreAdvancedThanCoordinateX: xCoordinate [
 
 { #category : 'accessing' }
 STPlayer >> isOffside [
+
 	^ isOffside
 ]
 
 { #category : 'accessing' }
 STPlayer >> isOffside: aBoolean [
-	isOffside := aBoolean 
+
+	isOffside := aBoolean
 ]
 
 { #category : 'accessing' }
@@ -122,16 +121,19 @@ STPlayer >> jerseyNumber [
 
 { #category : 'setting' }
 STPlayer >> makeGoalkeeper [
+
 	isGoalkeeper := true
 ]
 
 { #category : 'accessing' }
-STPlayer >> position [ 
+STPlayer >> position [
+
 	^ position
 ]
 
 { #category : 'accessing' }
 STPlayer >> position: aPoint [
+
 	position := aPoint
 ]
 

@@ -11,13 +11,21 @@ Class {
 
 { #category : 'flagging' }
 STNoOffsideSoccerStrategy >> flagCoveredPlayers [
-	"With no offside rule, apply man covering as well."
+	"With no offside rule, apply man coverage as well."
 
 	self flagManCoveredPlayers
 ]
 
-{ #category : 'flagging' }
-STNoOffsideSoccerStrategy >> flagOffsidePlayers [
+{ #category : 'testing' }
+STNoOffsideSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
+	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."
 
-	self attackingTeam players do: [ :player | player isOffside: false ]
+	^ false
+]
+
+{ #category : 'private' }
+STNoOffsideSoccerStrategy >> offsideX [
+	"Answer nil since offside rule does not exist."
+
+	^ nil
 ]

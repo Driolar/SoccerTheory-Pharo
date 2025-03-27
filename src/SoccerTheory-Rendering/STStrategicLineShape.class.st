@@ -17,12 +17,12 @@ Class {
 }
 
 { #category : 'instance creation' }
-STStrategicLineShape class >> newWithSegmentLength: length slideX: slideX color: aColor [
-	"Answer a new vertical strategic line of given length, initial sweep x-coordinate xSweep and color aColor."
+STStrategicLineShape class >> newWithSegmentLength: length strategicX: xCoordinate color: aColor [
+	"Answer a new vertical strategic line of given length, initial sliding xCoordinate and color aColor."
 
 	^ self new
 		  initializeWithSegmentLength: length
-		  slideX: slideX
+		  strategicX: xCoordinate
 		  color: aColor
 ]
 
@@ -31,12 +31,10 @@ STStrategicLineShape >> addEndPoints [
 	"Add my end point shapes."
 
 	| topEndPoint bottomEndPoint |
-	topEndPoint := self newEndPointPrototype.
-	topEndPoint geometry beTop.
+	topEndPoint := self topEndPoint.
 	topEndPoint position: (self endPointSize / 2) negated @ 0.
 
-	bottomEndPoint := self newEndPointPrototype.
-	bottomEndPoint geometry beBottom.
+	bottomEndPoint := self bottomEndPoint.
 	bottomEndPoint position:
 		(self endPointSize / 2) negated
 		@ (segmentLength - self endPointSize).
@@ -51,6 +49,13 @@ STStrategicLineShape >> borderBuilder [
 	"Answer my border builder."
 
 	^BlBorderBuilder new 
+]
+
+{ #category : 'private' }
+STStrategicLineShape >> bottomEndPoint [
+	"Answer the BlElement that decorates the top segment end."
+
+	self subclassResponsibility 
 ]
 
 { #category : 'accessing' }
@@ -70,18 +75,28 @@ STStrategicLineShape >> endPointSize [
 ]
 
 { #category : 'initialization' }
-STStrategicLineShape >> initializeWithSegmentLength: length slideX: xCoordinate color: aColor [
+STStrategicLineShape >> initializeWithSegmentLength: length strategicX: xCoordinate color: aColor [
 
 	segmentLength := length.
 	self geometry: (BlLineGeometry from: 0 @ 0 to: 0 @ segmentLength).
-	self slideXValue: xCoordinate.
+	self strategicXValue: xCoordinate.
 	self addEndPoints.
 	self color: aColor
 ]
 
 { #category : 'private' }
-STStrategicLineShape >> newEndPointPrototype [
-	"Answer a prototype for building the top or the bottom end point."
+STStrategicLineShape >> newEndPointCirclePrototype [
+	"Answer a circle prototype for building the top or the bottom end point."
+
+	^ BlElement new
+		  geometry: BlCircleGeometry new;
+		  border: BlBorder empty;
+		  size: self endPointSize asPoint
+]
+
+{ #category : 'private' }
+STStrategicLineShape >> newEndPointTrianglePrototype [
+	"Answer a triangle prototype for building the top or the bottom end point."
 
 	^ BlElement new
 		  geometry: BlTriangleGeometry new;
@@ -90,7 +105,15 @@ STStrategicLineShape >> newEndPointPrototype [
 ]
 
 { #category : 'accessing' }
-STStrategicLineShape >> slideXValue: xCoordinate [
+STStrategicLineShape >> strategicXValue: xDeviceCoordinate [
+	"Set my current (sliding) device x-coordinate."
 
-	self position: xCoordinate @ 0
+	self position: xDeviceCoordinate @ 0
+]
+
+{ #category : 'private' }
+STStrategicLineShape >> topEndPoint [
+	"Answer the BlElement that decorates the top segment end."
+
+	self subclassResponsibility 
 ]

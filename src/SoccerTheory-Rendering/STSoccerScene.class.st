@@ -99,7 +99,7 @@ STSoccerScene >> attackLine [
 
 { #category : 'paint' }
 STSoccerScene >> attackLineColor [
-	"Answer the current attackLineColor"
+	"Answer the current attack line Color."
 
 	^ soccerFrame owningTeam
 		  ifNotNil: [ :team | Color colorFrom: team gradientColorHigh ]
@@ -155,6 +155,14 @@ STSoccerScene >> initializeShapes [
 	self paintPitch.
 	self paintGoals.
 	self addShapes
+]
+
+{ #category : 'paint' }
+STSoccerScene >> offsideLineColor [
+	"Answer the current offside line Color."
+
+	^ soccerFrame defendingTeam ifNotNil: [ :team |
+		  Color colorFrom: team gradientColorHigh ]
 ]
 
 { #category : 'paint' }
@@ -254,6 +262,10 @@ STSoccerScene >> registerAtAnnouncer [
 	self announcer
 		when: STSoccerStrategyChangedAnnouncement
 		do: [ :ann | self updateAttackLineVisibility ]
+		for: self.
+	self announcer
+		when: STOffsideLineChangedAnnouncement
+		do: [ :ann | self updateDefenceLinePositionX: ann offsideX ]
 		for: self
 ]
 
@@ -286,12 +298,12 @@ STSoccerScene >> updateAttackLinePositionX: deviceX [
 
 	playField
 		childWithId: #attackLine
-		ifFound: [ :attackLine | attackLine slideXValue: deviceX ]
+		ifFound: [ :attackLine | attackLine strategicXValue: deviceX ]
 		ifNone: [
 			playField
 				addChildFirst: (STAttackLineShape
 						 newWithSegmentLength: transformer deviceExtent y
-						 slideX: deviceX
+						 strategicX: deviceX
 						 color: self attackLineColor)
 				as: #attackLine ]
 ]
@@ -303,4 +315,24 @@ STSoccerScene >> updateAttackLineVisibility [
 	^ soccerFrame strategy isAncient
 		  ifTrue: [ self attackLine visibility: BlVisibility gone ]
 		  ifFalse: [ self attackLine visibility: BlVisibility visible ]
+]
+
+{ #category : 'paint' }
+STSoccerScene >> updateDefenceLinePositionX: worldX [
+	"Lazy create and add the offside line shape and update its position."
+
+	| deviceX |
+	worldX ifNil: [ ^ playField removeChildWithId: #offsideLine ].
+
+	deviceX := (transformer toDevice: worldX asPoint) x.
+	playField
+		childWithId: #offsideLine
+		ifFound: [ :offsideLine | offsideLine strategicXValue: deviceX ]
+		ifNone: [
+			playField
+				addChildFirst: (STOffsideLineShape
+						 newWithSegmentLength: transformer deviceExtent y
+						 strategicX: deviceX
+						 color: self offsideLineColor)
+				as: #offsideLine ]
 ]

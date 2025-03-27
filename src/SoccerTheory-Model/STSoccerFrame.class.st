@@ -40,8 +40,8 @@ STSoccerFrame class >> newWithPitch: aPitch [
 ]
 
 { #category : 'instance creation' }
-STSoccerFrame class >> newWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall [
-	^ self new initializeWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall
+STSoccerFrame class >> newWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRight pitch: aSTPitch ball: aSTBall [
+	^ self new initializeWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRight pitch: aSTPitch ball: aSTBall
 ]
 
 { #category : 'accessing' }
@@ -65,22 +65,6 @@ STSoccerFrame >> defendingTeam [
 ]
 
 { #category : 'initialization' }
-STSoccerFrame >> initGoalkeeperForTeam: aTeam [
-	| keeper |
-	keeper := STPlayer
-		newWithPosition:
-			(Point
-				x: (pitch goalLineForDirection: aTeam attackDirection)
-				y: pitch middle y)
-		team: aTeam
-		frame: self
-		number: 1.
-	keeper makeGoalkeeper.
-	aTeam addPlayer: keeper.
-	^ keeper
-]
-
-{ #category : 'initialization' }
 STSoccerFrame >> initialize [
 
 	super initialize.
@@ -88,22 +72,22 @@ STSoccerFrame >> initialize [
 ]
 
 { #category : 'initialization' }
-STSoccerFrame >> initializeWithPitch: aPitch [
+STSoccerFrame >> initializeWithPitch: aSTPitch [
 
 	self
 		initializeWithTeamLeft: 'Team A'
 		teamRight: 'Team B'
-		pitch: aPitch
-		ball: (STBall newWithPosition: aPitch middle)
+		pitch: aSTPitch
+		ball: (STBall newWithPosition: aSTPitch middle)
 ]
 
 { #category : 'initialization' }
-STSoccerFrame >> initializeWithTeamLeft: aStringLeft teamRight: aStringRight pitch: aPitch ball: aBall [
+STSoccerFrame >> initializeWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRight pitch: aSTPitch ball: aSTBall [
 
-	teamLeft := STTeam newLeftToRight: aStringLeft.
-	teamRight := STTeam newRightToLeft: aStringRight.
-	pitch := aPitch.
-	ball := aBall.
+	teamLeft := STTeam newLeftToRight: nameOfTeamLeft.
+	teamRight := STTeam newRightToLeft: nameOfTeamRight.
+	pitch := aSTPitch.
+	ball := aSTBall.
 	self setNoOffsideSoccerStrategy
 ]
 

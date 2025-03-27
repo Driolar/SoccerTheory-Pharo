@@ -13,20 +13,25 @@ Class {
 
 { #category : 'flagging' }
 STModernSoccerStrategy >> flagCoveredPlayers [
-	"With the modern offside rule, there is no defender in the defence zone. The modern offside rule is strategically insuficient. Man covering must always be applied."
+	"With the modern offside rule, there is no defender in the defence zone. The modern offside rule is strategically insuficient. Man coverage must always be applied."
 
 	self flagManCoveredPlayers
 ]
 
-{ #category : 'flagging' }
-STModernSoccerStrategy >> flagOffsidePlayers [
+{ #category : 'testing' }
+STModernSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
+	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."
 
-	| defenseLineX |
-	defenseLineX := (frame secondDefenderFromTheBack notNil and: [
-		                 frame secondDefenderFromTheBack isBehindTheBall ])
-		                ifTrue: [ frame secondDefenderFromTheBack position x ]
-		                ifFalse: [ frame ball position x ].
-	self attackingTeam players do: [ :player |
-		player isOffside: (player isInOwnHalf not and: [
-				 player isMoreAdvancedThanCoordinateX: defenseLineX ]) ]
+	^ aSTPlayer isInOwnHalf not and: [
+		  aSTPlayer isMoreAdvancedThanCoordinateX: xCoordinate ]
+]
+
+{ #category : 'private' }
+STModernSoccerStrategy >> offsideX [
+
+	^ self attackingTeam players
+		  detect: [ :attacker | attacker isInOwnHalf not ]
+		  ifFound: [
+		  self offsideXAccordingToDefender: frame secondDefenderFromTheBack ]
+		  ifNone: [ nil ]
 ]

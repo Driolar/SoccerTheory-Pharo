@@ -80,12 +80,19 @@ STCommonSoccerStrategy >> flagManCoveredPlayers [
 
 { #category : 'flagging' }
 STCommonSoccerStrategy >> flagOffsidePlayers [
-	^self subclassResponsibility 
+
+	self offsideX
+		ifNotNil: [ :offsideX |
+			self attackingTeam players do: [ :player |
+				player isOffside:
+					(self isOffsidePlayer: player offsideX: offsideX) ] ]
+		ifNil: [
+			self attackingTeam players do: [ :player | player isOffside: false ] ]
 ]
 
 { #category : 'initialization' }
-STCommonSoccerStrategy >> initializeWithFrame: aPlay [
-	frame := aPlay 
+STCommonSoccerStrategy >> initializeWithFrame: aSTSoccerFrame [
+	frame := aSTSoccerFrame 
 ]
 
 { #category : 'accessing' }
@@ -93,6 +100,29 @@ STCommonSoccerStrategy >> isAncient [
 	"Answer true if I am the ancient soccer strategy, otherwise false."
 
 	^ false
+]
+
+{ #category : 'testing' }
+STCommonSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
+	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."
+
+	self subclassResponsibility 
+]
+
+{ #category : 'private' }
+STCommonSoccerStrategy >> offsideX [
+	"Answer the current offside line's x-coordinate. Answer nil if offside does not apply."
+
+	self subclassResponsibility
+]
+
+{ #category : 'flagging' }
+STCommonSoccerStrategy >> offsideXAccordingToDefender: aSTPlayer [
+	"Answer the offside line's x-coordinate according to the given defender."
+
+	^ (aSTPlayer notNil and: [ aSTPlayer isBehindTheBall ])
+		  ifTrue: [ aSTPlayer position x ]
+		  ifFalse: [ frame ball position x ]
 ]
 
 { #category : 'flagging' }
@@ -115,5 +145,7 @@ STCommonSoccerStrategy >> updateCovering [
 
 	"Maybe to do: If performance suffers, optimize by firing the announcements only if something really changed."
 	self announcer announce: STOffsideSwitchedAnnouncement new.
-	self announcer announce: STUncoveredSwitchedAnnouncement new
+	self announcer announce: STUncoveredSwitchedAnnouncement new.
+	self announcer announce:
+		(STOffsideLineChangedAnnouncement newWithOffsideX: self offsideX)
 ]

@@ -41,7 +41,10 @@ STDemoData >> newStartFrame [
 STDemoData >> showAttackLine [
 
 	<demo>
-	^ STAttackLineShape newWithSegmentLength: 100 slideX: 5 color: Color black
+	^ STAttackLineShape
+		  newWithSegmentLength: 100
+		  strategicX: 5
+		  color: Color black
 ]
 
 { #category : 'showing shapes' }
@@ -60,6 +63,16 @@ STDemoData >> showBallWithShadow [
 	^ (STBallShape
 		  newForBall: self newEmptyFrame ball
 		  graphicFactory: STGraphicFactory new) showShadow 
+]
+
+{ #category : 'show icons' }
+STDemoData >> showDefenceLine [
+
+	<demo>
+	^ STOffsideLineShape
+	newWithSegmentLength: 100
+	strategicX: 5
+	color: Color black
 ]
 
 { #category : 'showing scenes' }

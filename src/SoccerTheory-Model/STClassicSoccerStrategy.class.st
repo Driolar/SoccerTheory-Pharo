@@ -23,15 +23,10 @@ STClassicSoccerStrategy >> flagCoveredPlayers [
 			[ "If no defender is in the defence zone, we must apply man covering." self flagManCoveredPlayers ]
 ]
 
-{ #category : 'flagging' }
-STClassicSoccerStrategy >> flagOffsidePlayers [
+{ #category : 'testing' }
+STClassicSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
+	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."
 
-	| defenseLineX |
-	defenseLineX := (frame thirdDefenderFromTheBack notNil and: [
-		                 frame thirdDefenderFromTheBack isBehindTheBall ])
-		                ifTrue: [ frame thirdDefenderFromTheBack position x ]
-		                ifFalse: [ frame ball position x ].
-	self attackingTeam players do: [ :player |
-		player isOffside: (player isInOwnHalf not and: [
-				 player isMoreAdvancedThanCoordinateX: defenseLineX ]) ]
+	^ aSTPlayer isInOwnHalf not and: [ "Since 1907, a player in the own half (including the middle line) is never offside."
+		  aSTPlayer isMoreAdvancedThanCoordinateX: xCoordinate ]
 ]
