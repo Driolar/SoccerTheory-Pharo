@@ -79,9 +79,8 @@ STStrategicLineShape >> initializeWithSegmentLength: length strategicX: xCoordin
 
 	segmentLength := length.
 	self geometry: (BlLineGeometry from: 0 @ 0 to: 0 @ segmentLength).
-	self strategicXValue: xCoordinate.
 	self addEndPoints.
-	self color: aColor
+	self strategicXValue: xCoordinate color: aColor
 ]
 
 { #category : 'private' }
@@ -105,10 +104,11 @@ STStrategicLineShape >> newEndPointTrianglePrototype [
 ]
 
 { #category : 'accessing' }
-STStrategicLineShape >> strategicXValue: xDeviceCoordinate [
-	"Set my current (sliding) device x-coordinate."
+STStrategicLineShape >> strategicXValue: xDeviceCoordinate color: aColor [
+	"Set my current (sliding) device x-coordinate and my color."
 
-	self position: xDeviceCoordinate @ 0
+	self position: xDeviceCoordinate @ 0.
+	self color: aColor
 ]
 
 { #category : 'private' }

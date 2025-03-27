@@ -41,5 +41,7 @@ STAncientSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
 STAncientSoccerStrategy >> offsideX [
 	"Answer the current offside line's x-coordinate. For the ancient rule, this is by rule definition the ball x-coordinate."
 
-	^ frame ball position x
+	^ self attackingTeam
+		  ifNil: [ nil ]
+		  ifNotNil: [ frame ball position x ]
 ]

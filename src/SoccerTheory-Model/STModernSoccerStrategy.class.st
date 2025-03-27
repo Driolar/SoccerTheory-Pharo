@@ -29,9 +29,8 @@ STModernSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
 { #category : 'private' }
 STModernSoccerStrategy >> offsideX [
 
-	^ self attackingTeam players
-		  detect: [ :attacker | attacker isInOwnHalf not ]
-		  ifFound: [
+	^ self attackingTeam
+		  ifNil: [ nil ]
+		  ifNotNil: [
 		  self offsideXAccordingToDefender: frame secondDefenderFromTheBack ]
-		  ifNone: [ nil ]
 ]

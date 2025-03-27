@@ -34,10 +34,8 @@ STClassicSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
 { #category : 'private' }
 STClassicSoccerStrategy >> offsideX [
 
-	^ self attackingTeam players
-		  detect: [ :attacker | "Since 1907, a player in the own half (including the middle line) is never offside."
-			  attacker isInOwnHalf not ]
-		  ifFound: [
+	^ self attackingTeam
+		  ifNil: [ nil ]
+		  ifNotNil: [
 		  self offsideXAccordingToDefender: frame thirdDefenderFromTheBack ]
-		  ifNone: [ nil ]
 ]
