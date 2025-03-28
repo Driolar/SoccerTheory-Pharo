@@ -18,14 +18,14 @@ Class {
 }
 
 { #category : 'private' }
-STOffsideLineShape >> bottomEndPoint [
+STOffsideLineShape >> newBottomEndPoint [
 	"Answer the BlElement that decorates the top segment end."
 
 	^self newEndPointCirclePrototype 
 ]
 
 { #category : 'private' }
-STOffsideLineShape >> topEndPoint [
+STOffsideLineShape >> newTopEndPoint [
 	"Answer the BlElement that decorates the top segment end."
 
 	^self newEndPointCirclePrototype 

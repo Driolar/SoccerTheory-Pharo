@@ -31,17 +31,17 @@ STStrategicLineShape >> addEndPoints [
 	"Add my end point shapes."
 
 	| topEndPoint bottomEndPoint |
-	topEndPoint := self topEndPoint.
+	topEndPoint := self newTopEndPoint.
 	topEndPoint position: (self endPointSize / 2) negated @ 0.
 
-	bottomEndPoint := self bottomEndPoint.
+	bottomEndPoint := self newBottomEndPoint.
 	bottomEndPoint position:
 		(self endPointSize / 2) negated
 		@ (segmentLength - self endPointSize).
 
 	self clipChildren: false.
-	self addChild: topEndPoint.
-	self addChild: bottomEndPoint
+	self addChild: topEndPoint as: #topEndPoint.
+	self addChild: bottomEndPoint as: #bottomEndPoint
 ]
 
 { #category : 'private' }
@@ -49,13 +49,6 @@ STStrategicLineShape >> borderBuilder [
 	"Answer my border builder."
 
 	^BlBorderBuilder new 
-]
-
-{ #category : 'private' }
-STStrategicLineShape >> bottomEndPoint [
-	"Answer the BlElement that decorates the top segment end."
-
-	self subclassResponsibility 
 ]
 
 { #category : 'accessing' }
@@ -84,6 +77,13 @@ STStrategicLineShape >> initializeWithSegmentLength: length strategicX: xCoordin
 ]
 
 { #category : 'private' }
+STStrategicLineShape >> newBottomEndPoint [
+	"Answer the BlElement that decorates the top segment end."
+
+	self subclassResponsibility 
+]
+
+{ #category : 'private' }
 STStrategicLineShape >> newEndPointCirclePrototype [
 	"Answer a circle prototype for building the top or the bottom end point."
 
@@ -103,17 +103,17 @@ STStrategicLineShape >> newEndPointTrianglePrototype [
 		  size: self endPointSize asPoint
 ]
 
+{ #category : 'private' }
+STStrategicLineShape >> newTopEndPoint [
+	"Answer the BlElement that decorates the top segment end."
+
+	self subclassResponsibility 
+]
+
 { #category : 'accessing' }
 STStrategicLineShape >> strategicXValue: xDeviceCoordinate color: aColor [
 	"Set my current (sliding) device x-coordinate and my color."
 
 	self position: xDeviceCoordinate @ 0.
 	self color: aColor
-]
-
-{ #category : 'private' }
-STStrategicLineShape >> topEndPoint [
-	"Answer the BlElement that decorates the top segment end."
-
-	self subclassResponsibility 
 ]

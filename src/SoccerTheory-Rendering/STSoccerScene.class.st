@@ -98,12 +98,10 @@ STSoccerScene >> attackLine [
 ]
 
 { #category : 'paint' }
-STSoccerScene >> attackLineColor [
-	"Answer the current attack line Color."
+STSoccerScene >> attackingTeam [ 
+	"Answer the attacking team or nil if ball is neutral."
 
 	^ soccerFrame owningTeam
-		  ifNotNil: [ :team | Color colorFrom: team gradientColorHigh ]
-		  ifNil: [ Color yellow ]
 ]
 
 { #category : 'private' }
@@ -263,12 +261,12 @@ STSoccerScene >> registerAtAnnouncer [
 
 	self announcer
 		when: STBallPossessionChangedAnnouncement
-		do: [ :ann | self updateAttackLineColor ]
+		do: [ :ann | self updateAttackLineAppearance ]
 		for: self.
 
 	self announcer
 		when: STOffsideLineChangedAnnouncement
-		do: [ :ann | self updateDefenceLinePositionX: ann offsideX ]
+		do: [ :ann | self updateOffsideLinePositionX: ann offsideX ]
 		for: self
 ]
 
@@ -286,13 +284,11 @@ STSoccerScene >> totalExtent [
 	^ self playFieldExtent + self borderExtent 
 ]
 
-{ #category : 'paint' }
-STSoccerScene >> updateAttackLineColor [
-	"Update the attack line with the correct color."
+{ #category : 'private' }
+STSoccerScene >> updateAttackLineAppearance [
+	"Update the attack line appearance depending on the attacking team."
 
-	playField
-		childWithId: #attackLine
-		ifFound: [ :attackLine | attackLine color: self attackLineColor ]
+	self attackLine changeAppearanceForAttackingTeam: self attackingTeam
 ]
 
 { #category : 'paint' }
@@ -302,18 +298,20 @@ STSoccerScene >> updateAttackLinePositionX: deviceX [
 	playField
 		childWithId: #attackLine
 		ifFound: [ :attackLine |
-			attackLine strategicXValue: deviceX color: self attackLineColor ]
+			attackLine
+				strategicXValue: deviceX
+				attackingTeam: self attackingTeam ]
 		ifNone: [
 			playField
 				addChildFirst: (STAttackLineShape
 						 newWithSegmentLength: transformer deviceExtent y
 						 strategicX: deviceX
-						 color: self attackLineColor)
+						 attackingTeam: self attackingTeam)
 				as: #attackLine ]
 ]
 
 { #category : 'paint' }
-STSoccerScene >> updateDefenceLinePositionX: worldX [
+STSoccerScene >> updateOffsideLinePositionX: worldX [
 	"Lazy create and add the offside line shape and update its position."
 
 	| deviceX |
