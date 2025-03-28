@@ -45,6 +45,12 @@ STCommonSoccerStrategy >> attackingTeam [
 	^ frame owningTeam
 ]
 
+{ #category : 'accessing' }
+STCommonSoccerStrategy >> defendingTeam [
+
+	^ frame defendingTeam
+]
+
 { #category : 'flagging' }
 STCommonSoccerStrategy >> flagCoveredPlayers [
 
@@ -121,17 +127,24 @@ STCommonSoccerStrategy >> offsideX [
 { #category : 'flagging' }
 STCommonSoccerStrategy >> offsideXAccordingToDefender: aSTPlayer [
 	"Answer the offside line's x-coordinate according to the given defender. 
-	Answer nil if every attacker is in its own half.
 	aSTPlayer may be nil if there are (too) few players on the pitch."
 
-	^ self attackingTeam players
-		  detect: [ :attacker | "Since 1907, a player in the own half (including the middle line) is never offside."
-			  attacker isInOwnHalf not ]
-		  ifFound: [
-			  (aSTPlayer notNil and: [ aSTPlayer isBehindTheBall ])
-				  ifTrue: [ aSTPlayer position x ]
-				  ifFalse: [ frame ball position x ] ]
-		  ifNone: [ nil ]
+	| offsideX |
+	offsideX := (aSTPlayer notNil and: [ aSTPlayer isBehindTheBall ])
+		            ifTrue: [ aSTPlayer position x ]
+		            ifFalse: [ frame ball position x ].
+
+	"Since 1907, a player in the own half (including the middle line) is never offside."
+
+	^ self defendingTeam isTeamLeft
+		  ifTrue: [ offsideX min: self pitch middle x ]
+		  ifFalse: [ offsideX max: self pitch middle x ]
+]
+
+{ #category : 'accessing' }
+STCommonSoccerStrategy >> pitch [
+
+	^ frame pitch
 ]
 
 { #category : 'flagging' }
