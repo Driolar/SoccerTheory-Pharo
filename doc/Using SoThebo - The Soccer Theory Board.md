@@ -10,7 +10,7 @@ After opening the SoTheBo application, we see the main window consisting of the 
 
 The window's size is 1180 x 884 pixel. It is not resizable but maximizable (not recommended).
 The play field has a fixed size of 1110 x 720 pixel without the border.
-## Setting a soccer scene
+## Arranging a soccer scene
 Basically, a soccer scene consists of a two-dimensional play field with some players and the ball placed on it.
 
 The *play field* is intentionally unadorned.
@@ -25,7 +25,7 @@ The *ball* is trivially represented by a ball icon.
 When moving the mouse onto one of these shapes, the center position of the shape is indicated in world coordinates.
 In the case of players, the jersey number is shown additionally.
 
-We can change a soccer scene in many ways.
+We can arrange a soccer scene in many ways.
   ### Loading a scene
   The button "Examples" offers some simple test scenes to load.
   ### Resetting the scene
@@ -51,7 +51,7 @@ We can change a soccer scene in many ways.
   The ball possession can be changed by clicking one of the buttons "Ball team left", "Ball team right" or "Ball neutral".
   If the ball is not neutral, it has the background color of the team possessing the ball.
 ## Strategic aspects
-Normally, a scene change affects the strategic attributes.
+Normally, a change on the scene affects the strategic attributes.
   ### Strategic lines
   There are two strategic lines shown on the scene: the offside line and the attack line.
 
