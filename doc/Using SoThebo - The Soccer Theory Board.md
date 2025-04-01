@@ -19,7 +19,8 @@ The field boundaries, the halfway line and the goals are required.
 Each goal is painted with the color of the team defending it.
 The represented goal width is proportional to the goal width defined in the world model.
 
-Each *player* is represented by a square colored with the corresponding team color. 
+Each *player* is represented by a square colored with the corresponding team color.
+The goalkeeper is denoted with a person raising the arms.
 The *ball* is trivially represented by a ball icon.
 When moving the mouse onto one of these shapes, the center position of the shape is indicated in world coordinates.
 In the case of players, the jersey number is shown additionally.
