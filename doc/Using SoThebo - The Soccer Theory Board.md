@@ -35,15 +35,16 @@ We can change a soccer scene in many ways.
   ### Moving a player or the ball
   Any player and the ball may be separately moved either by drag and drop or through the arrow keys.
 
-  When *dropping* a shape on the border outside the play field, it is automatically relocated next on the playfield's border line. 
-
   To move a shape with the *arrow keys*, first it must be selected by clicking once on it. 
   A selected player is distiguished by a shadow.
   A thin enclosing rectangle border indicates that the ball is selected.
   Each arrow key step moves by one pixel, what is useful for accurate moving. 
+
+  The arrow steps are limited by the play field boundaries.
+  When *dropping* a shape on the border outside the play field, it is automatically relocated nearest on the playfield's border line. 
   ### Adding field players
   In order to add a field player to a team, click at the plus sign button having the background color of the concerned team. 
-  This will place a new player on the crossing of the halfway line and the upper touchline.
+  This will place a new player on the crossing of the halfway line and the upper touchline ready to be further moved.
   ### Removing field players
   Removing field players is not implemented yet.
   ### Changing ball possession
@@ -54,15 +55,15 @@ Normally, a scene change affects the strategic attributes.
   ### Strategic lines
   There are two strategic lines shown on the scene: the offside line and the attack line.
 
-  The *offside line* is represented by a line segment with circles at its ends and coloured like the defending team. 
+  The *offside line* is represented by a line segment parallel to the goal lines with circles at its ends and coloured like the defending team. 
   It is a boundary of the offiside zone, a rectangle that can be entered by the attacker taking the ball but not by the rest of attackers. 
   The offside zone boundaries are: both side lines, the defending team's goal line and the offside line.
   The position of the offside line is determined by the position of the ball or of some specific defender, depending on the offside rule that applies.
 
-  The *attack line* is represented by a dashed line segment coloured like the attacking team with triangles at its ends pointing into the attack direction. 
+  The *attack line* is represented by a dashed line segment parallel to the goal lines and coloured like the attacking team with triangles at its ends pointing into the attack direction. 
   It is a line at ball's level in parallel to the goal lines. 
   It is a boundary of the active zone, a rectangle where it is specially important to observe the covering relations.
-  The active zone boundaries are: both side lines, the defending team's goal line and a line at ball's level in parallel to the goal lines.
+  The active zone boundaries are: both side lines, the defending team's goal line and the attack line.
 
   Sometimes, the offside zone and the attack zone may completely coincide. 
   This is the case when the offside line is determined by the ball position.
