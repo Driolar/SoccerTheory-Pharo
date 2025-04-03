@@ -68,4 +68,4 @@ A slight word modification – penultimate instead of antepenultimate – had an
 ## Conclusion
 In past times, the coverage was entirely supported by the former offside laws. 
 But the current offside law doesn’t guarantee the coverage.
-Thus a non game rule related collaborative defence strategy must be applied in modern times.
+Thus a non offside rule related collaborative defence strategy must be applied in modern times.
