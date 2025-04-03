@@ -22,7 +22,19 @@ According to the Theory of Soccer, there are three stable strategic systems in t
 They correspond to the three successive offside laws.
 
 ### The Ancient Offside Rule (1863)
+In its primitive origins, soccer had only vague rules. 
+It was more rude sport than game. Each participant disputed the ball possession selfishly. 
+There was no sense of collaboration or game ordering.
+Gradually leaving primitive soccer, soccer participants began to decide before starting the game which rules (number of players, pitch measures, duration, fouls,...) would be applied. 
+Among the rules, there was one, called the offside rule, that restricted the advance of attacking players. 
+It was an offence to pass the ball to a player at the time he was in a offside position. The *Ancient Offside Rule* stated:
+> An attacking player is in offside position if he is more advanced than the ball.
 
+![Bild_2025-04-03_150734469](https://github.com/user-attachments/assets/220dbfc7-20b0-4ef3-993d-7876790db88c)
+
+Obeying the offside rule, which became official law in 1863, each team was obliged to stay behind the ball, as illustrated above. 
+The attacking players without the ball couldn’t advance freely in order to receive a forward pass.
+They were all covered.
 ### The Classic Offside Rule (1866)
 
 ### The Modern Offside Rule (1925)
