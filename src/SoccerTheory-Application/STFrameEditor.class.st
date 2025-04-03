@@ -28,6 +28,12 @@ Class {
 	#tag : 'Presenter'
 }
 
+{ #category : 'TOREMOVE' }
+STFrameEditor class >> aboutText [
+
+	^ 'SoTheBo, The Soccer Theory Board, is a software application to visualize the Theory of Soccer.'
+]
+
 { #category : 'instance creation' }
 STFrameEditor class >> open [
 	"Open the Soccer Theory Board."
@@ -35,6 +41,7 @@ STFrameEditor class >> open [
 	<script>
 	self new asWindow
 		title: 'SoTheBo – The Soccer Theory Board';
+		aboutText: self aboutText;
 		initialExtent: 1180 @ 884;
 		beNotResizable; "but is still maximizable"
 		open
@@ -363,7 +370,7 @@ STFrameEditor >> resetBoard [
 	self
 		loadFrame:
 		(STSoccerFrameBuilder startFrameWithPitch: STPitch newDefault)
-		named: 'Start frame'
+		named: 'Initial scene'
 ]
 
 { #category : 'presenters' }
