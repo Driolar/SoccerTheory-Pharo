@@ -29,7 +29,7 @@ We can arrange a soccer scene in many ways.
   ### Loading a scene
   The button "Examples" offers some simple test scenes to load.
   ### Resetting the scene
-  Pushing the reset button erases the current scene and restablishes the starting scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
+  Pushing the reset button erases the current scene and restablishes the initial scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
   ### Choosing an offside rule
   You can choose the offside rule you might experiment with (ancient, classic, modern or no offside rule) from a drop down list.
   ### Moving a player or the ball
