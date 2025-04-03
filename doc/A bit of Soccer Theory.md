@@ -1,14 +1,14 @@
 # A bit of Soccer Theory
 This is a summary of the Soccer Theory, explained in-depth in [this Wikiversity article](https://en.wikiversity.org/wiki/The_Theory_of_Soccer).
-## Key strategical concepts of the soccer game
+## Key Strategical Concepts of the Soccer Game
 The essential strategical questions of the soccer game are:
 * How can the team in possession get one of its players in free position and pass him the ball for scoring?
 * How can the opposing team avoid it?
-### The attack challenge: freeing the finisher
+### The Attack Challenge: Freeing the Finisher
 There is a basic need for team collaboration to pass the ball to the team-mate who is in the best position to score, let's call him the finisher. 
 A very good opportunity to score is when the finisher is in a free position. 
 In such a position, he wouldn’t be met by an opponent except the goalkeeper on his way to score. 
-### The defence challenge: coverage
+### The Defence Challenge: Coverage
 The defending team must prevent any opponent from getting into a free position and receiving the ball to finish successfully. 
 It must subtly avoid the advance of any attacking player that has no ball at his feet. 
 This defence challenge is called coverage.
@@ -37,7 +37,7 @@ The attacking players without the ball couldn’t advance freely in order to rec
 They were all covered.
 ### The Classic Offside Rule (1866)
 The offside law in ancient soccer restricted the attacking team collaboration greatly. 
-To alleviate this, a new offside law was invented in 1866:
+To alleviate this, the *Classic Offside Rule* was invented in 1866:
 > An attacking player is in offside position if he is more advanced than both the ball and the *antepenultimate* opponent.
 
 ![Bild_2025-04-03_151624853](https://github.com/user-attachments/assets/1a40c982-8d77-45e6-9384-d81030f0d98c)
@@ -48,6 +48,23 @@ One defender always opposed the attacker that had the ball and determined, by hi
 The other defender was situated more backward, in the offside zone, being able to intercept any attacker that could enter the offside zone legally with the ball.
 
 ### The Modern Offside Rule (1925)
+Although the classical system offered beautiful soccer for a long time, a crisis exploded in the English Professional League.
+The number of goals and spectators decreased continuously. 
+This was due to some defenders who provoked countless offside whistles with an offside trap. 
+In 1925, officials decided to diminish the power of the law and redefined it to the *Modern Offside Rule* as follows:
+> An attacking player is in offside position if he is more advanced than both the ball and the *penultimate* opponent.
+
+This law definition is, with minor modifications, still in force.
+
+![Bild_2025-04-03_152741060](https://github.com/user-attachments/assets/b47ab7ae-67fb-4ca9-9ee3-ba4716e5c9e4)
+
+Look at the diagram above. 
+In the classic model, the defender who determined the offside line could stop the advance of all opponents, since another defender was behind him.
+But with the new rule, there is no defender in the offside zone.
+The player with the ball can pass it to a team-mate in free position to score.
+
+A slight word modification – penultimate instead of antepenultimate – had an enormous impact: In its modern version, the offside law has ceased to be a sufficient, automatic defence strategy.
+
 ## Conclusion
 In past times, the coverage was entirely supported by the former offside laws. 
 But the current offside law doesn’t guarantee the coverage.
