@@ -12,6 +12,7 @@ In such a position, he wouldn’t be met by an opponent except the goalkeeper on
 The defending team must prevent any opponent from getting into a free position and receiving the ball to finish successfully. 
 It must subtly avoid the advance of any attacking player that has no ball at his feet. 
 This defence challenge is called coverage.
+A covered player won't advance until he perceives a propitious situation that might cause him or a team-mate to become uncovered.
 ## The Historical Evolution of the Soccer Offside Rule
 Historically, soccer strategy is tightly related to the ruling offside law. 
 The original offside rule was regulated to a game law in 1863, but it was in practice long before. 
@@ -26,3 +27,6 @@ They correspond to the three successive offside laws.
 
 ### The Modern Offside Rule (1925)
 ## Conclusion
+In past times, the coverage was entirely supported by the former offside laws. 
+But the current offside law doesn’t guarantee the coverage.
+Thus a non game rule related collaborative defence strategy must be applied in modern times.
