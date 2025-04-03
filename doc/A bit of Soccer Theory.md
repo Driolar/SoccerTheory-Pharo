@@ -36,6 +36,16 @@ Obeying the offside rule, which became official law in 1863, each team was oblig
 The attacking players without the ball couldn’t advance freely in order to receive a forward pass.
 They were all covered.
 ### The Classic Offside Rule (1866)
+The offside law in ancient soccer restricted the attacking team collaboration greatly. 
+To alleviate this, a new offside law was invented in 1866:
+> An attacking player is in offside position if he is more advanced than both the ball and the *antepenultimate* opponent.
+
+![Bild_2025-04-03_151624853](https://github.com/user-attachments/assets/1a40c982-8d77-45e6-9384-d81030f0d98c)
+
+The new offside law definition led gradually to the classic soccer system, where a remarkable phenomenon appeared: 
+Only two defenders, besides the goalkeeper, were sufficient to manage the coverage controlling the advance of any number of attackers. 
+One defender always opposed the attacker that had the ball and determined, by his position, the offside zone. 
+The other defender was situated more backward, in the offside zone, being able to intercept any attacker that could enter the offside zone legally with the ball.
 
 ### The Modern Offside Rule (1925)
 ## Conclusion
