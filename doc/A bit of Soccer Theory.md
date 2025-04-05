@@ -2,7 +2,7 @@
 This is a summary of the Soccer Theory, explained in-depth in [this Wikiversity article](https://en.wikiversity.org/wiki/The_Theory_of_Soccer).
 ## Key Strategical Concepts of the Soccer Game
 The essential strategical questions of the soccer game are:
-* How can the team in possession get one of its players in free position and pass him the ball for scoring?
+* How can the team in ball possession get one of its players in free position and pass him the ball for scoring?
 * How can the opposing team avoid it?
 ### The Attack Challenge: Freeing the Finisher
 There is a basic need for team collaboration to pass the ball to the team-mate who is in the best position to score, let's call him the finisher. 
