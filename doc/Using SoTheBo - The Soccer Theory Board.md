@@ -60,8 +60,8 @@ Normally, a change on the scene affects the strategic attributes.
   The offside zone boundaries are: both side lines, the defending team's goal line and the offside line.
   The position of the offside line is determined by the position of the ball or of some specific defender, depending on the offside rule that applies.
 
-  The *attack line* is represented by a dashed line segment parallel to the goal lines and coloured like the attacking team with triangles at its ends pointing into the attack direction. 
-  It is a line at ball's level in parallel to the goal lines. 
+  The *attack line* is represented by a dashed line segment coloured like the attacking team with triangles at its ends pointing into the attack direction. 
+  It is at ball's level in parallel to the goal lines. 
   It is a boundary of the active zone, a rectangle where it is specially important to observe the covering relations.
   The active zone boundaries are: both side lines, the defending team's goal line and the attack line.
 
