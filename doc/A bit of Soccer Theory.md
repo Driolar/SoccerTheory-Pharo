@@ -45,7 +45,7 @@ To alleviate this, the *Classic Offside Rule* was invented in 1866:
 The new offside law definition led gradually to the classic soccer system, where a remarkable phenomenon appeared: 
 Only two defenders, besides the goalkeeper, were sufficient to manage the coverage controlling the advance of any number of attackers. 
 One defender always opposed the attacker that had the ball and determined, by his position, the offside zone. 
-The other defender was situated more backward, in the offside zone, being able to intercept any attacker that could enter the offside zone legally with the ball.
+The other defender was situated more backward, in the offside zone, being able to intercept any attacker that could enter the offside zone legally controlling the ball.
 
 ### The Modern Offside Rule (1925)
 Although the classical system offered beautiful soccer for a long time, a crisis exploded in the English Professional League.
