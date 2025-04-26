@@ -8,7 +8,7 @@ After opening the SoTheBo application, we see the main window consisting of the 
 * the legend
 * the status bar
 
-The window's size is 1180 x 884 pixel. It is not resizable but maximizable (not recommended).
+The main window with size 1180 x 884 pixel is not resizable.
 The play field has a fixed size of 1110 x 720 pixel without the border.
 ## Arranging a soccer scene
 Basically, a soccer scene consists of a two-dimensional play field with some players and the ball placed on it.
@@ -51,7 +51,7 @@ We can arrange a soccer scene in many ways.
   The ball possession can be changed by clicking one of the buttons "Ball team left", "Ball team right" or "Ball neutral".
   If the ball is not neutral, it has the background color of the team possessing the ball.
 ## Strategic aspects
-Normally, a change on the scene affects the strategic attributes.
+Normally, a change on the scene affects the following strategic attributes.
   ### Strategic lines
   There are two strategic lines shown on the scene: the offside line and the attack line.
 
@@ -69,7 +69,7 @@ Normally, a change on the scene affects the strategic attributes.
   This is the case when the offside line is determined by the ball position.
   ### Player tags
   Each field player may be tagged with one of the following graphical tags:
-  * the offside tag, a yellow (linesman) flag indicating that the field player is in offside position.
+  * the offside tag, a yellow (linesman) flag indicating that the player is in offside position.
   * the uncovered tag, an eye (watch out!) indicating that the field player is uncovered.
 
 Both tags cannot apply at the same time for a player, since a player in offside is automatically covered. 
