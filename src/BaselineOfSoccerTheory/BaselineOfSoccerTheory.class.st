@@ -23,8 +23,6 @@ BaselineOfSoccerTheory >> baseline: spec [
 				package: 'SoccerTheory-Application' with: [
 					spec requires:
 							#( 'SoccerTheory-Rendering' 'SoccerTheory-SoccerML' ) ];
-				package: 'SoccerTheory-FileTransform'
-				with: [ spec requires: #( 'SoccerTheory-Model' ) ];
 				package: 'SoccerTheory-Samples'
 				with: [ spec requires: #( 'SoccerTheory-Rendering' ) ];
 				package: 'SoccerTheory-Model-Tests'
