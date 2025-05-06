@@ -2,7 +2,7 @@
 This is a summary of the Soccer Theory, explained in-depth in [this Wikiversity article](https://en.wikiversity.org/wiki/The_Theory_of_Soccer).
 ## Key Strategical Concepts of the Soccer Game
 The essential strategical questions of the soccer game are:
-* How can the team in possession get one of its players in free position and pass him the ball for scoring?
+* How can the team in ball possession get one of its players in free position and pass him the ball for scoring?
 * How can the opposing team avoid it?
 ### The Attack Challenge: Freeing the Finisher
 There is a basic need for team collaboration to pass the ball to the team-mate who is in the best position to score, let's call him the finisher. 
@@ -45,7 +45,7 @@ To alleviate this, the *Classic Offside Rule* was invented in 1866:
 The new offside law definition led gradually to the classic soccer system, where a remarkable phenomenon appeared: 
 Only two defenders, besides the goalkeeper, were sufficient to manage the coverage controlling the advance of any number of attackers. 
 One defender always opposed the attacker that had the ball and determined, by his position, the offside zone. 
-The other defender was situated more backward, in the offside zone, being able to intercept any attacker that could enter the offside zone legally with the ball.
+The other defender was situated more backward, in the offside zone, being able to intercept any attacker that could enter the offside zone legally controlling the ball.
 
 ### The Modern Offside Rule (1925)
 Although the classical system offered beautiful soccer for a long time, a crisis exploded in the English Professional League.
@@ -68,4 +68,4 @@ A slight word modification – penultimate instead of antepenultimate – had an
 ## Conclusion
 In past times, the coverage was entirely supported by the former offside laws. 
 But the current offside law doesn’t guarantee the coverage.
-Thus a non game rule related collaborative defence strategy must be applied in modern times.
+Thus a non offside rule related collaborative defence strategy must be applied in modern times.
