@@ -16,6 +16,13 @@ STNoOffsideSoccerStrategy >> flagCoveredPlayers [
 	self flagManCoveredPlayers
 ]
 
+{ #category : 'accessing' }
+STNoOffsideSoccerStrategy >> isNone [ 
+	"Answer that I am the no offside soccer strategy."
+
+	^ true
+]
+
 { #category : 'testing' }
 STNoOffsideSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
 	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."

@@ -189,21 +189,67 @@ STSoccerMLTest >> soccerMLFixture2Invalid [
 ]
 
 { #category : 'tests' }
-STSoccerMLTest >> testWellFormed [
+STSoccerMLTest >> testBadFormed [
 
 	self
-		shouldnt: [
-				XMLDOMParser
-					parse: self soccerMLFixture2
-					usingNamespaces: false
-					validation: false ]
-		raise: XMLWellFormednessException.
+		should: [ STSoccerDocumentReader parse: self soccerMLFixture2Broken ]
+		raise: XMLWellFormednessException
+]
+
+{ #category : 'tests' }
+STSoccerMLTest >> testFrameCreation [
+
+	| reader createdFrame |
+	reader := STSoccerDocumentReader parse: self soccerMLFixture2.
+	createdFrame := reader currentSoccerFrame.
+
+	self assert: createdFrame owningTeam equals: createdFrame teamLeft.
+	self assert: createdFrame ball position equals: -20.0 @ 0.0.
+	self assert: createdFrame strategy isNone.
+	self assert: createdFrame pitch extent equals: 105 @ 68.
+	self assert: createdFrame pitch goalWidth equals: 7.32.
+	self assert: createdFrame teamLeft players size equals: 3.
+	self assert: createdFrame teamRight players size equals: 3.
+	self
+		assert: (createdFrame teamLeft players select: [ :player |
+				 player isGoalkeeper ]) size
+		equals: 1.
+	self
+		assert: (createdFrame teamRight players select: [ :player |
+				 player isGoalkeeper ]) size
+		equals: 1
+]
+
+{ #category : 'tests' }
+STSoccerMLTest >> testFrameNodes [
+
+	| reader |
+	reader := STSoccerDocumentReader parse: self soccerMLFixture2.
+	self assert: reader frameNodes size equals: 1
+]
+
+{ #category : 'tests' }
+STSoccerMLTest >> testInvalid [
 
 	self
 		should: [
-				XMLDOMParser
-					parse: self soccerMLFixture2Broken
-					usingNamespaces: false
-					validation: false ]
+		STSoccerDocumentReader parse: self soccerMLFixture2Invalid ]
+		raise: XMLValidationException
+]
+
+{ #category : 'tests' }
+STSoccerMLTest >> testTeamNames [
+
+	| reader |
+	reader := STSoccerDocumentReader parse: self soccerMLFixture2.
+	self assert: reader teamLeftName equals: 'Team A'.
+	self assert: reader teamRightName equals: 'Team B'
+]
+
+{ #category : 'tests' }
+STSoccerMLTest >> testWellFormed [
+
+	self
+		shouldnt: [ STSoccerDocumentReader parse: self soccerMLFixture2 ]
 		raise: XMLWellFormednessException
 ]

@@ -17,8 +17,17 @@ Class {
 }
 
 { #category : 'instance creation' }
+STPitch class >> extent: aPoint goalWidth: goalWidth [
+"Answer a new STPitch with the given extent (length@width) and goalWidth, all in meters."
+
+	^ self new initializeWithExtent: aPoint goalWidth: goalWidth
+]
+
+{ #category : 'instance creation' }
 STPitch class >> newDefault [
-	^ self new
+	"Answer a new STPitch with the standard soccer dimensions."
+
+	^ self extent: 165 @ 68 goalWidth: 7.32
 ]
 
 { #category : 'accessing' }
@@ -34,11 +43,12 @@ STPitch >> goalWidth [
 ]
 
 { #category : 'initialization' }
-STPitch >> initialize [
-	super initialize.
-	length := 105.
-	width := 68.
-	goalWidth := 7.32
+STPitch >> initializeWithExtent: aPoint goalWidth: aNumber [
+
+	self initialize.
+	length := aPoint x.
+	width := aPoint y.
+	goalWidth := aNumber 
 ]
 
 { #category : 'accessing' }

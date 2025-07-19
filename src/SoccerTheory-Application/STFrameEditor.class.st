@@ -43,7 +43,7 @@ STFrameEditor class >> open [
 		title: 'SoTheBo – The Soccer Theory Board';
 		aboutText: self aboutText;
 		initialExtent: 1180 @ 884;
-		beNotResizable; "but is still maximizable"
+		beNotResizable; 
 		open
 ]
 

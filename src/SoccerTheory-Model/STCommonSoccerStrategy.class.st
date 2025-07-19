@@ -110,6 +110,13 @@ STCommonSoccerStrategy >> isAncient [
 	^ false
 ]
 
+{ #category : 'accessing' }
+STCommonSoccerStrategy >> isNone [
+	"Answer true if I am the no offside soccer strategy, otherwise false."
+
+	^ false
+]
+
 { #category : 'testing' }
 STCommonSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
 	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."

@@ -1,9 +1,7 @@
 "
 I represent a single two-dimensional snapshot of a soccer game.
 A pitch, a ball and two player teams are required for the game.
-Furthermore, the play follows a concrete soccer strategy.
-
-The class STSoccerSequence plays a coherent sequence of frames.
+Furthermore, the game follows a concrete soccer strategy.
 
 
 "
