@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE DRIOLAR SYSTEM "soccerML.dtd">
+
+<DRIOLAR xmlns:soc="http://driolar.org/SoccerML">
+  <soc:Header>
+    <soc:Source>Driolar Editor</soc:Source>
+    <soc:Rules>
+      <soc:Offside>1925</soc:Offside>
+    </soc:Rules>
+    <soc:Pitch>
+      <soc:Length>105.0</soc:Length>
+      <soc:Width>68.0</soc:Width>
+      <soc:GoalWidth>7.32</soc:GoalWidth>
+    </soc:Pitch>
+  </soc:Header>
+  <soc:Sequence>
+    <soc:Team side="l">
+      <soc:TeamName>Team A</soc:TeamName>
+    </soc:Team>
+    <soc:Team side="r">
+      <soc:TeamName>Team B</soc:TeamName>
+    </soc:Team>
+    <soc:Frame time="1">
+      <soc:Ball>
+        <soc:X>-30.364864</soc:X>
+        <soc:Y>-21.675</soc:Y>
+        <soc:PossessingTeam>r</soc:PossessingTeam>
+      </soc:Ball>
+      <soc:Player team="l" number="1" isGoalie="true">
+        <soc:X>-52.5</soc:X>
+        <soc:Y>0.0</soc:Y>
+      </soc:Player>
+      <soc:Player team="l" number="2">
+        <soc:X>-34.337837</soc:X>
+        <soc:Y>-21.25</soc:Y>
+      </soc:Player>
+      <soc:Player team="l" number="3">
+        <soc:X>-36.182434</soc:X>
+        <soc:Y>-2.4083333</soc:Y>
+      </soc:Player>
+      <soc:Player team="l" number="4">
+        <soc:X>-33.77027</soc:X>
+        <soc:Y>15.158334</soc:Y>
+      </soc:Player>
+      <soc:Player team="l" number="5">
+        <soc:X>-16.60135</soc:X>
+        <soc:Y>-21.108334</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="1" isGoalie="true">
+        <soc:X>52.5</soc:X>
+        <soc:Y>0.0</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="2">
+        <soc:X>-28.52027</soc:X>
+        <soc:Y>-22.383333</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="3">
+        <soc:X>-31.783783</soc:X>
+        <soc:Y>-2.125</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="4">
+        <soc:X>-29.93919</soc:X>
+        <soc:Y>14.733334</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="5">
+        <soc:X>-21.85135</soc:X>
+        <soc:Y>-18.275</soc:Y>
+      </soc:Player>
+    </soc:Frame>
+  </soc:Sequence>
+</DRIOLAR>
+

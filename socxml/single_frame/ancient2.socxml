@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE DRIOLAR SYSTEM "soccerML.dtd">
+
+<DRIOLAR xmlns:soc="http://driolar.org/SoccerML">
+  <soc:Header>
+    <soc:Source>Driolar Editor</soc:Source>
+    <soc:Rules>
+      <soc:Offside>1863</soc:Offside>
+    </soc:Rules>
+    <soc:Pitch>
+      <soc:Length>105.0</soc:Length>
+      <soc:Width>68.0</soc:Width>
+      <soc:GoalWidth>7.32</soc:GoalWidth>
+    </soc:Pitch>
+  </soc:Header>
+  <soc:Sequence>
+    <soc:Team side="l">
+      <soc:TeamName>Team A</soc:TeamName>
+    </soc:Team>
+    <soc:Team side="r">
+      <soc:TeamName>Team B</soc:TeamName>
+    </soc:Team>
+    <soc:Frame time="1">
+      <soc:Ball>
+        <soc:X>15.040541</soc:X>
+        <soc:Y>-8.925</soc:Y>
+        <soc:PossessingTeam>r</soc:PossessingTeam>
+      </soc:Ball>
+      <soc:Player team="l" number="1" isGoalie="true">
+        <soc:X>-52.5</soc:X>
+        <soc:Y>0.0</soc:Y>
+      </soc:Player>
+      <soc:Player team="l" number="2">
+        <soc:X>10.3581085</soc:X>
+        <soc:Y>-13.033334</soc:Y>
+      </soc:Player>
+      <soc:Player team="l" number="3">
+        <soc:X>9.222973</soc:X>
+        <soc:Y>-9.35</soc:Y>
+      </soc:Player>
+      <soc:Player team="l" number="4">
+        <soc:X>9.222973</soc:X>
+        <soc:Y>-5.383333</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="1" isGoalie="true">
+        <soc:X>52.5</soc:X>
+        <soc:Y>0.0</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="2">
+        <soc:X>18.02027</soc:X>
+        <soc:Y>-9.35</soc:Y>
+      </soc:Player>
+      <soc:Player team="r" number="3">
+        <soc:X>25.682432</soc:X>
+        <soc:Y>8.358334</soc:Y>
+      </soc:Player>
+    </soc:Frame>
+  </soc:Sequence>
+</DRIOLAR>
+

@@ -5,7 +5,7 @@
   <soc:Header>
     <soc:Source>Driolar Editor</soc:Source>
     <soc:Rules>
-      <soc:Offside>1863</soc:Offside>
+      <soc:Offside>1925</soc:Offside>
     </soc:Rules>
     <soc:Pitch>
       <soc:Length>105.0</soc:Length>
@@ -15,15 +15,15 @@
   </soc:Header>
   <soc:Sequence>
     <soc:Team side="l">
-      <soc:TeamName>Team A</soc:TeamName>
+      <soc:TeamName />
     </soc:Team>
     <soc:Team side="r">
-      <soc:TeamName>Team B</soc:TeamName>
+      <soc:TeamName />
     </soc:Team>
     <soc:Frame time="1">
       <soc:Ball>
-        <soc:X>-18.304054</soc:X>
-        <soc:Y>-13.883333</soc:Y>
+        <soc:X>-16.885136</soc:X>
+        <soc:Y>-2.4083333</soc:Y>
         <soc:PossessingTeam>r</soc:PossessingTeam>
       </soc:Ball>
       <soc:Player team="l" number="1" isGoalie="true">
@@ -31,89 +31,90 @@
         <soc:Y>0.0</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="2">
-        <soc:X>-24.405405</soc:X>
-        <soc:Y>-22.808332</soc:Y>
+        <soc:X>-33.48649</soc:X>
+        <soc:Y>-22.525</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="3">
-        <soc:X>-21.993244</soc:X>
-        <soc:Y>-19.125</soc:Y>
+        <soc:X>-37.175674</soc:X>
+        <soc:Y>-1.1333333</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="4">
-        <soc:X>-26.108109</soc:X>
-        <soc:Y>-18.133333</soc:Y>
+        <soc:X>-38.027027</soc:X>
+        <soc:Y>15.583333</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="5">
-        <soc:X>-22.277027</soc:X>
-        <soc:Y>-16.15</soc:Y>
+        <soc:X>-22.418919</soc:X>
+        <soc:Y>10.625</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="6">
-        <soc:X>-21.141891</soc:X>
-        <soc:Y>-12.608334</soc:Y>
+        <soc:X>-23.128378</soc:X>
+        <soc:Y>-2.6916666</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="7">
-        <soc:X>-19.864864</soc:X>
-        <soc:Y>-8.641666</soc:Y>
+        <soc:X>-24.831081</soc:X>
+        <soc:Y>-16.575</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="8">
-        <soc:X>-29.655405</soc:X>
-        <soc:Y>-18.133333</soc:Y>
+        <soc:X>-13.47973</soc:X>
+        <soc:Y>-11.333333</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="9">
-        <soc:X>-33.06081</soc:X>
-        <soc:Y>-7.7916665</soc:Y>
+        <soc:X>-5.108108</soc:X>
+        <soc:Y>-30.175</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="10">
-        <soc:X>-27.243244</soc:X>
-        <soc:Y>-9.916667</soc:Y>
+        <soc:X>-4.256757</soc:X>
+        <soc:Y>0.0</soc:Y>
       </soc:Player>
       <soc:Player team="l" number="11">
-        <soc:X>-27.952703</soc:X>
-        <soc:Y>-14.591666</soc:Y>
+        <soc:X>-3.2635136</soc:X>
+        <soc:Y>23.375</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="1" isGoalie="true">
         <soc:X>52.5</soc:X>
         <soc:Y>0.0</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="2">
-        <soc:X>-15.6081085</soc:X>
-        <soc:Y>-15.158334</soc:Y>
+        <soc:X>24.547297</soc:X>
+        <soc:Y>-27.908333</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="3">
-        <soc:X>-9.648648</soc:X>
-        <soc:Y>-16.15</soc:Y>
+        <soc:X>27.668919</soc:X>
+        <soc:Y>-1.7</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="4">
-        <soc:X>-11.918919</soc:X>
-        <soc:Y>-11.616667</soc:Y>
+        <soc:X>25.682432</soc:X>
+        <soc:Y>17.85</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="5">
-        <soc:X>-5.25</soc:X>
-        <soc:Y>-7.7916665</soc:Y>
+        <soc:X>-20.14865</soc:X>
+        <soc:Y>-15.725</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="6">
-        <soc:X>3.5472972</soc:X>
-        <soc:Y>-2.975</soc:Y>
+        <soc:X>-7.8040543</soc:X>
+        <soc:Y>-9.775</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="7">
-        <soc:X>-9.081081</soc:X>
-        <soc:Y>-25.641666</soc:Y>
+        <soc:X>-14.614865</soc:X>
+        <soc:Y>-2.8333333</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="8">
-        <soc:X>2.412162</soc:X>
-        <soc:Y>-25.216667</soc:Y>
+        <soc:X>-15.8918915</soc:X>
+        <soc:Y>13.175</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="9">
-        <soc:X>6.385135</soc:X>
-        <soc:Y>-30.033333</soc:Y>
+        <soc:X>-27.952703</soc:X>
+        <soc:Y>-23.375</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="10">
-        <soc:X>7.0945945</soc:X>
-        <soc:Y>-20.825</soc:Y>
+        <soc:X>-33.06081</soc:X>
+        <soc:Y>-0.56666666</soc:Y>
       </soc:Player>
       <soc:Player team="r" number="11">
-        <soc:X>-8.513514</soc:X>
-        <soc:Y>13.458333</soc:Y>
+        <soc:X>-33.344593</soc:X>
+        <soc:Y>21.108334</soc:Y>
       </soc:Player>
     </soc:Frame>
   </soc:Sequence>
 </DRIOLAR>
+
