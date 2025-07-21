@@ -15,21 +15,10 @@ Class {
 		'strategy',
 		'teamRight'
 	],
-	#classVars : [
-		'UniqueAnnouncer'
-	],
 	#category : 'SoccerTheory-Model-Operate',
 	#package : 'SoccerTheory-Model',
 	#tag : 'Operate'
 }
-
-{ #category : 'accessing' }
-STSoccerFrame class >> announcer [
-	"Answer the unique announcer (singleton)"
-
-	UniqueAnnouncer ifNil: [ UniqueAnnouncer := Announcer new ].
-	^ UniqueAnnouncer
-]
 
 { #category : 'instance creation' }
 STSoccerFrame class >> newWithPitch: aPitch [
@@ -46,7 +35,7 @@ STSoccerFrame class >> newWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRigh
 STSoccerFrame >> announcer [ 
 	"Answer the unique announcer (singleton)"
 
-	^self class announcer 
+	^self ball announcer 
 ]
 
 { #category : 'accessing' }
@@ -60,13 +49,6 @@ STSoccerFrame >> defendingTeam [
 	
 (self owningTeam == teamLeft) ifTrue:[
 	^teamRight] ifFalse: [ ^teamLeft]
-]
-
-{ #category : 'initialization' }
-STSoccerFrame >> initialize [
-
-	super initialize.
-	self class announcer initialize
 ]
 
 { #category : 'initialization' }

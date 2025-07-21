@@ -75,7 +75,13 @@ STMovableShape >> addMouseEventHandlers [
 STMovableShape >> announcer [
 	"Answer the announcer to send and receive announcements."
 
-	^ STSoccerFrame announcer
+	^ self ball announcer
+]
+
+{ #category : 'accessing' }
+STMovableShape >> ball [
+
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
@@ -147,13 +153,17 @@ STMovableShape >> hoverTextString [
 ]
 
 { #category : 'initialization' }
-STMovableShape >> initialize [ 
-	
+STMovableShape >> initialize [
 
 	super initialize.
-	self addEventHandlers.
-	self registerAtAnnouncer.
 	self clipChildren: false "for hover text"
+]
+
+{ #category : 'initialization' }
+STMovableShape >> initializeEventHandling [
+
+	self addEventHandlers.
+	self registerAtAnnouncer
 ]
 
 { #category : 'private' }

@@ -30,6 +30,12 @@ STPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory [
 		  graphicFactory: aGraphicFactory
 ]
 
+{ #category : 'accessing' }
+STPlayerShape >> ball [
+
+	^ player ball
+]
+
 { #category : 'private' }
 STPlayerShape >> formattedPlayerPositionString [
 	"Answer the formatted string representing the model player's position."
@@ -79,11 +85,13 @@ STPlayerShape >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactor
 
 	player := aSTPlayer.
 	graphicFactory := aSTGraphicFactory.
+	self initializeEventHandling.
+
 	squareExtent := 18 @ 18.
 	self extent: squareExtent.
 	self background: self jerseyGradient.
 	player isGoalkeeper ifTrue: [
-		self addChild: (self goalkeeperElement position: (Point x: 1 y: 1)) ].
+		self addChild: (self goalkeeperElement position: 1 @ 1) ].
 	self updateOffside.
 	self updateUncovered
 ]
@@ -127,7 +135,7 @@ STPlayerShape >> name [
 STPlayerShape >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
-	"Don't rely on self centerPosition here but use aPosition. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
+	"Don't rely on self centerPosition here but use aPoint. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
 
 	^ STPlayerShapeMovedAnnouncement
 		  newOnPlayer: player

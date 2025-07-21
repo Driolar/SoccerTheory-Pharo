@@ -23,6 +23,12 @@ STBallShape class >> newForBall: aBall graphicFactory: aGraphicFactory [
 	^ self new initializeForBall: aBall graphicFactory: aGraphicFactory
 ]
 
+{ #category : 'accessing' }
+STBallShape >> ball [
+
+	^ ball 
+]
+
 { #category : 'private' }
 STBallShape >> ballForm [ 
 	"Answer my ball form."
@@ -51,13 +57,15 @@ STBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory [
 	| ballIcon ballIconElement |
 	ball := aSTBall.
 	graphicFactory := aSTGraphicFactory.
+	self initializeEventHandling. 
+	
 	squareExtent := 10 @ 10.
 	self extent: squareExtent.
 	self updateColor.
 	ballIcon := self ballForm.
 	ballIcon := ballIcon magnifyBy: 0.5.
 	ballIconElement := ballIcon asElement.
-	ballIconElement position: (Point x: 1 y: 1).
+	ballIconElement position: 1 @ 1.
 	self addChild: ballIconElement
 ]
 

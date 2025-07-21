@@ -357,3 +357,9 @@ STSoccerFrameBuilder >> setModernSoccerStrategy [
 
 	actionManager setModernSoccerStrategy 
 ]
+
+{ #category : 'creation' }
+STSoccerFrameBuilder >> setNoOffsideSoccerStrategy [
+
+	actionManager setNoOffsideSoccerStrategy
+]

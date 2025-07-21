@@ -43,6 +43,12 @@ STPlayer class >> newWithPosition: aPoint team: aTeam frame: aPlay number: aSmal
 	^ player
 ]
 
+{ #category : 'accessing' }
+STPlayer >> ball [
+
+	^ frame ball
+]
+
 { #category : 'initialization' }
 STPlayer >> initializeWithPosition: aPoint team: aSTTeam frame: aSTSoccerFrame number: aSmallInteger [
 	position := aPoint.
@@ -61,8 +67,8 @@ STPlayer >> isAttacking [
 STPlayer >> isBehindTheBall [
 
 	^ team isTeamLeft
-		  ifTrue: [ position x < frame ball position x ]
-		  ifFalse: [ position x > frame ball position x ]
+		  ifTrue: [ position x < self ball position x ]
+		  ifFalse: [ position x > self ball position x ]
 ]
 
 { #category : 'accessing' }

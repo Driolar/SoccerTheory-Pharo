@@ -65,7 +65,7 @@ STFrameEditor >> addNewPlayerToTeam: aSTTeam [
 STFrameEditor >> announcer [
 	"Answer the announcer I use to subscribe for announcements."
 
-	^ STSoccerFrame announcer
+	^ scene announcer
 ]
 
 { #category : 'private' }
