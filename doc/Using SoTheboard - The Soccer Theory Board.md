@@ -1,7 +1,7 @@
-# Using SoTheBo - The Soccer Theory Board
+# Using SoTheBoard - The Soccer Theory Board
 ## Getting Started
-SoTheBo, The Soccer Theory Board, is a Pharo application to visually experiment with the Soccer Theory.
-After opening the SoTheBo application, we see the main window consisting of the following parts from top to bottom:
+SoTheBoard, The Soccer Theory Board, is a Pharo application to visually experiment with the Soccer Theory.
+After opening the SoTheBoard application, we see the main window consisting of the following parts from top to bottom:
 * the window title
 * the controls
 * the play field
@@ -27,7 +27,9 @@ In the case of players, the jersey number is shown additionally.
 
 We can arrange a soccer scene in many ways.
   ### Loading a scene
-  The button "Examples" offers some simple test scenes to load.
+  The button "Open..." opens a modal window to select a file with extension .socxml for loading with validation. You can download some [file examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml). If the file contains more than one frame, only the first frame will be displayed. To view all the frames, please use the SoThePlayer application (coming soon).
+  
+  Furthermore, the button "Examples" offers some simple built-in test scenes to load quickly.
   ### Resetting the scene
   Pushing the reset button erases the current scene and restablishes the initial scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
   ### Choosing an offside rule
