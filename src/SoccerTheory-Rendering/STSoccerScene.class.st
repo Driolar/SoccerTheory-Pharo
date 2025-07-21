@@ -127,7 +127,7 @@ STSoccerScene >> initializeForApplicationWithFrame: aFrame graphicFactory: aGrap
 	borderWidth := 30.
 	transformer := STCoordinatesTransformer
 		               newForApplicationWithWorldExtent: aFrame pitch extent.
-	playField := BlElement new size: self playFieldExtent.
+	playField := BlElement new extent: self playFieldExtent.
 	self initializeShapes.
 	self registerAtAnnouncer
 ]
@@ -183,14 +183,14 @@ STSoccerScene >> paintGoals [
 		                x: goalDepth negated
 		                y: self playFieldExtent y / 2 - (goalWidth / 2).
 	goalLeft := BlElement new
-		            size: (Point x: goalDepth y: goalWidth);
+		            extent: (Point x: goalDepth y: goalWidth);
 		            position: goalPosition;
 		            background: soccerFrame teamLeft jerseyGradient;
 		            yourself.
 
 	goalPosition := Point x: self playFieldExtent x y: goalPosition y.
 	goalRight := BlElement new
-		             size: (Point x: goalDepth y: goalWidth);
+		             extent: (Point x: goalDepth y: goalWidth);
 		             position: goalPosition;
 		             background: soccerFrame teamRight jerseyGradient;
 		             yourself.
@@ -203,7 +203,7 @@ STSoccerScene >> paintGoals [
 STSoccerScene >> paintGreen [
 	"Paint the green lawn."
 
-	self size: self playFieldExtent + self borderExtent.
+	self extent: self playFieldExtent + self borderExtent.
 	self background: (Color fromHexString: '66CC66'). "Moderate lime green border"
 
 	playField background: (Color fromHexString: '009666'). "dark cyan - lime green"

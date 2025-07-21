@@ -90,7 +90,7 @@ STStrategicLineShape >> newEndPointCirclePrototype [
 	^ BlElement new
 		  geometry: BlCircleGeometry new;
 		  border: BlBorder empty;
-		  size: self endPointSize asPoint
+		  extent: self endPointSize asPoint
 ]
 
 { #category : 'private' }
@@ -100,7 +100,7 @@ STStrategicLineShape >> newEndPointTrianglePrototype [
 	^ BlElement new
 		  geometry: BlTriangleGeometry new;
 		  border: BlBorder empty;
-		  size: self endPointSize asPoint
+		  extent: self endPointSize asPoint
 ]
 
 { #category : 'private' }

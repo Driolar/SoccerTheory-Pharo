@@ -52,13 +52,13 @@ STBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory [
 	ball := aSTBall.
 	graphicFactory := aSTGraphicFactory.
 	squareExtent := 10 @ 10.
-	self size: squareExtent.
+	self extent: squareExtent.
 	self updateColor.
 	ballIcon := self ballForm.
 	ballIcon := ballIcon magnifyBy: 0.5.
 	ballIconElement := ballIcon asElement.
 	ballIconElement position: (Point x: 1 y: 1).
-	self addChild: ballIconElement.
+	self addChild: ballIconElement
 ]
 
 { #category : 'accessing' }

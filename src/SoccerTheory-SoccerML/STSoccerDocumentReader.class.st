@@ -18,7 +18,14 @@ Class {
 STSoccerDocumentReader class >> on: aStringOrStream [
 	"Answer a new instance to read given SoccerML string or stream."
 
-	^ self new initializeWith: aStringOrStream
+	^ self new initializeWith: (XMLDOMParser on: aStringOrStream)
+]
+
+{ #category : 'instance creation' }
+STSoccerDocumentReader class >> onFileNamed: aFileName [
+	"Answer a new instance to read the SoccerML file named aFileName."
+
+	^ self new initializeWith: (XMLDOMParser onFileNamed: aFileName)
 ]
 
 { #category : 'instance creation' }
@@ -26,6 +33,13 @@ STSoccerDocumentReader class >> parse: aStringOrStream [
 	"Answer a new instance with parsed SoccerML."
 
 	^ (self on: aStringOrStream) parse
+]
+
+{ #category : 'instance creation' }
+STSoccerDocumentReader class >> parseFileNamed: aFileNameString [
+	"Answer a new instance with parsed SoccerML."
+
+	^ (self onFileNamed: aFileNameString) parse
 ]
 
 { #category : 'private - building' }
@@ -123,11 +137,11 @@ STSoccerDocumentReader >> initialize [
 ]
 
 { #category : 'initialization' }
-STSoccerDocumentReader >> initializeWith: aStringOrStream [
-	"Initialize with the given SoccerML string or stream."
+STSoccerDocumentReader >> initializeWith: aXMLDOMParser [
+	"Initialize with the given parser."
 
 	self initialize.
-	domParser := XMLDOMParser on: aStringOrStream.
+	domParser := aXMLDOMParser.
 	domParser
 		resolvesExternalEntities: true;
 		usesNamespaces: true;
@@ -139,6 +153,14 @@ STSoccerDocumentReader >> parse [
 	"Parse my document."
 
 	domParser parseDocument
+]
+
+{ #category : 'api' }
+STSoccerDocumentReader >> parseFirstFrame [
+	"Parse the first frame of my document."
+
+	domParser parseDocumentUntil: [
+		self document notNil and: [ self frameNodes size > 1 ] ]
 ]
 
 { #category : 'private - traversing' }
@@ -171,7 +193,7 @@ STSoccerDocumentReader >> setStrategy [
 	"Set the strategy for the current STSoccerFrame being built."
 
 	| offside |
-	offside := self currentFrameNode contentStringAt: 'Offside'.
+	offside := (self document findElementNamed: 'Offside') contentString.
 
 	offside = 'none' ifTrue: [ frameBuilder setNoOffsideSoccerStrategy ].
 	offside = '1925' ifTrue: [ frameBuilder setModernSoccerStrategy ].

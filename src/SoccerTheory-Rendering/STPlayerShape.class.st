@@ -80,12 +80,12 @@ STPlayerShape >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactor
 	player := aSTPlayer.
 	graphicFactory := aSTGraphicFactory.
 	squareExtent := 18 @ 18.
-	self size: squareExtent.
+	self extent: squareExtent.
 	self background: self jerseyGradient.
 	player isGoalkeeper ifTrue: [
 		self addChild: (self goalkeeperElement position: (Point x: 1 y: 1)) ].
 	self updateOffside.
-	self updateUncovered.
+	self updateUncovered
 ]
 
 { #category : 'private' }

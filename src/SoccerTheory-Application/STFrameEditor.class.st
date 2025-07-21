@@ -21,7 +21,8 @@ Class {
 		'leftTeamPossessionButton',
 		'neutralPossessionButton',
 		'leftTeamAddPlayerButton',
-		'rightTeamAddPlayerButton'
+		'rightTeamAddPlayerButton',
+		'openFilePresenter'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -31,7 +32,7 @@ Class {
 { #category : 'TOREMOVE' }
 STFrameEditor class >> aboutText [
 
-	^ 'SoTheBo, The Soccer Theory Board, is a software application to visualize the Theory of Soccer.'
+	^ 'SoTheBoard, The Soccer Theory Board, is a software application to visualize the Theory of Soccer.'
 ]
 
 { #category : 'instance creation' }
@@ -40,7 +41,7 @@ STFrameEditor class >> open [
 
 	<script>
 	self new asWindow
-		title: 'SoTheBo – The Soccer Theory Board';
+		title: 'SoTheBoard – The Soccer Theory Board';
 		aboutText: self aboutText;
 		initialExtent: 1180 @ 884;
 		beNotResizable; 
@@ -149,6 +150,7 @@ STFrameEditor >> frameControlsLayout [
 	"Answer the layout for frame controls."
 
 	^ SpBoxLayout newLeftToRight
+		  add: self openingButton expand: false;
 		  add: self menuButtonForLoadingExamples width: 100;
 		  add: self resettingButton expand: false;
 		  yourself
@@ -170,18 +172,19 @@ STFrameEditor >> initializePresenters [
 	controls := self controlsPresenter.
 	board := SpBlSpaceInMorphPresenter new.
 	statusbar := self newStatusBar.
+	openFilePresenter := self openingFilePresenter.
 	self resetBoard
 ]
 
 { #category : 'private' }
-STFrameEditor >> legendFormForStrategicLineClass: aClass [ 
+STFrameEditor >> legendFormForStrategicLineClass: aClass [
 	"Answer a sample strategic line for the legend as Form."
 
 	| strategicLine |
-	strategicLine := aClass 
-		              newWithSegmentLength: 100
-		              strategicX: 0
-		              color: Color black.
+	strategicLine := aClass
+		                 newWithSegmentLength: 100
+		                 strategicX: 0
+		                 color: Color black.
 	strategicLine transform
 		topLeftOrigin;
 		rotateBy: -90;
@@ -189,7 +192,7 @@ STFrameEditor >> legendFormForStrategicLineClass: aClass [
 		apply.
 
 	^ BlElement new
-		  size: 100 @ 10;
+		  extent: 100 @ 10;
 		  background: Color white;
 		  addChild: strategicLine;
 		  asForm
@@ -228,6 +231,18 @@ STFrameEditor >> legendPresenter [
 			 add: (SpLabelPresenter new label: '') width: 5;
 			 add: (SpLabelPresenter new label: 'offside line')).
 	^ presenter
+]
+
+{ #category : 'loading' }
+STFrameEditor >> loadFile: aFileReference [
+	"Extract the first STSoccerFrame from the given SoccerML file, display it and push a message on the status bar."
+
+	| reader |
+	reader := STSoccerDocumentReader on: aFileReference contents.
+	reader parseFirstFrame.
+	self
+		loadFrame: reader currentSoccerFrame
+		named: aFileReference basename
 ]
 
 { #category : 'loading' }
@@ -329,6 +344,25 @@ STFrameEditor >> offsideLineFormForLegend [
 	^ self legendFormForStrategicLineClass: STOffsideLineShape
 ]
 
+{ #category : 'presenters' }
+STFrameEditor >> openingButton [
+	"Answer the button for opening a SoccerML file."
+
+	^ SpButtonPresenter new
+		  label: 'Open...';
+		  action: [ openFilePresenter openModal ]
+]
+
+{ #category : 'presenters' }
+STFrameEditor >> openingFilePresenter [
+
+	^ (StOpenFilePresenter on: StFileSystemModel new)
+		  extensions: #( 'socxml' );
+		  okAction: [ :selectedFileReference |
+			  self loadFile: selectedFileReference ];
+		  yourself
+]
+
 { #category : 'initialization' }
 STFrameEditor >> registerAtAnnouncer [
 	"Register to the announcements I am interested in."
@@ -423,7 +457,7 @@ STFrameEditor >> updateButton: aSpButtonPresenter forAddingPlayerOfTeam: aSTTeam
 	| playerSquare |
 	playerSquare := BlElement new
 		                background: aSTTeam jerseyGradient;
-		                size: 18 asPoint;
+		                extent: 18 asPoint;
 		                yourself.
 	playerSquare addChild: graphicFactory plusSignElement.
 	aSpButtonPresenter
