@@ -27,9 +27,9 @@ In the case of players, the jersey number is shown additionally.
 
 We can arrange a soccer scene in many ways.
   ### Loading a scene
-  The button "Open..." opens a modal window to select a file with extension .socxml for loading with validation. You can download some [file examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml). If the file contains more than one frame, only the first frame will be displayed. To view all the frames, please use the SoThePlayer application (coming soon).
+  The button "Open..." opens a modal window to select a *SoccerML* file with extension .socxml for loading under validation. You can download some [SoccerML file examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml). If the file contains more than one frame, only the first frame will be displayed. To view all the frames, please use the SoThePlayer application (coming soon).
   
-  Furthermore, the button "Examples" offers some simple built-in test scenes to load quickly.
+  Furthermore, the button "Examples" offers some trivial test scenes built-in for straightforward load.
   ### Resetting the scene
   Pushing the reset button erases the current scene and restablishes the initial scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
   ### Choosing an offside rule
