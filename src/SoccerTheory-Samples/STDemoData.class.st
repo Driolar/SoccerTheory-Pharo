@@ -28,6 +28,13 @@ STDemoData >> newEmptyFrame [
 	^ STSoccerFrameBuilder emptyFrameWithPitch: STPitch newDefault
 ]
 
+{ #category : 'private' }
+STDemoData >> newSampleSceneWithFrame: aFrame [
+
+	^ STSoccerScene newSampleSceneWithGameCommander:
+		  (STGameCommander newWithFrame: aFrame)
+]
+
 { #category : 'showing scenes' }
 STDemoData >> newStartFrame [
 	"comment stating purpose of instance-side method"
@@ -79,7 +86,7 @@ STDemoData >> showDefenceLine [
 STDemoData >> showEmptyPitch [
 
 	<demo>
-	^ STSoccerScene newSampleSceneWithFrame: self newEmptyFrame
+	^ self newSampleSceneWithFrame: self newEmptyFrame
 ]
 
 { #category : 'showing shapes' }
@@ -180,7 +187,7 @@ STDemoData >> showPitchWithPlayerAtBottomLeft [
 	| soccerFrame soccerScene pitchExtent player |
 	soccerFrame := self newEmptyFrame.
 	pitchExtent := soccerFrame pitch extent.
-	soccerScene := STSoccerScene newSampleSceneWithFrame: soccerFrame.
+	soccerScene := self newSampleSceneWithFrame: soccerFrame.
 	player := STPlayer
 		          newWithPosition: (pitchExtent / 2) negated
 		          team: soccerFrame teamLeft
@@ -197,10 +204,10 @@ STDemoData >> showPitchWithPlayerAtBottomRight [
 	| soccerFrame soccerScene pitchExtent player |
 	soccerFrame := self newEmptyFrame.
 	pitchExtent := soccerFrame pitch extent.
-	soccerScene := STSoccerScene newSampleSceneWithFrame: soccerFrame.
+	soccerScene := self newSampleSceneWithFrame: soccerFrame.
 	player := STPlayer
 		          newWithPosition:
-		          (Point x: pitchExtent x / 2 y: (pitchExtent y / 2) negated)
+		          pitchExtent x / 2 @ (pitchExtent y / 2) negated
 		          team: soccerFrame teamLeft
 		          frame: soccerFrame
 		          number: 2.
@@ -215,10 +222,10 @@ STDemoData >> showPitchWithPlayerAtTopLeft [
 	| soccerFrame soccerScene pitchExtent player |
 	soccerFrame := self newEmptyFrame.
 	pitchExtent := soccerFrame pitch extent.
-	soccerScene := STSoccerScene newSampleSceneWithFrame: soccerFrame.
+	soccerScene := self newSampleSceneWithFrame: soccerFrame.
 	player := STPlayer
 		          newWithPosition:
-		          (Point x: (pitchExtent x / 2) negated y: pitchExtent y / 2)
+		          (pitchExtent x / 2) negated @ pitchExtent y / 2
 		          team: soccerFrame teamLeft
 		          frame: soccerFrame
 		          number: 2.
@@ -233,7 +240,7 @@ STDemoData >> showPitchWithPlayerAtTopRight [
 	| soccerFrame soccerScene pitchExtent player |
 	soccerFrame := self newEmptyFrame.
 	pitchExtent := soccerFrame pitch extent.
-	soccerScene := STSoccerScene newSampleSceneWithFrame: soccerFrame.
+	soccerScene := self newSampleSceneWithFrame: soccerFrame.
 	player := STPlayer
 		          newWithPosition: pitchExtent / 2
 		          team: soccerFrame teamLeft
@@ -250,7 +257,7 @@ STDemoData >> showPitchWithPlayerInMiddle [
 	| soccerFrame soccerScene pitchExtent player |
 	soccerFrame := self newEmptyFrame.
 	pitchExtent := soccerFrame pitch extent.
-	soccerScene := STSoccerScene newSampleSceneWithFrame: soccerFrame.
+	soccerScene := self newSampleSceneWithFrame: soccerFrame.
 	player := STPlayer
 		          newWithPosition: soccerFrame pitch middle
 		          team: soccerFrame teamLeft
@@ -264,7 +271,7 @@ STDemoData >> showPitchWithPlayerInMiddle [
 STDemoData >> showStartPitch [
 
 	<demo>
-	^ STSoccerScene newSampleSceneWithFrame: self newStartFrame
+	^ self newSampleSceneWithFrame: self newStartFrame
 ]
 
 { #category : 'show icons' }

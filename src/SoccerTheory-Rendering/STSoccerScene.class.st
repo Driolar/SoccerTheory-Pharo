@@ -11,10 +11,10 @@ Class {
 	#superclass : 'BlElement',
 	#instVars : [
 		'transformer',
-		'soccerFrame',
 		'borderWidth',
 		'graphicFactory',
-		'playField'
+		'playField',
+		'gameCommander'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',
@@ -22,20 +22,20 @@ Class {
 }
 
 { #category : 'instance creation' }
-STSoccerScene class >> newApplicationSceneWithFrame: aFrame graphicFactory: aGraphicFactory [
+STSoccerScene class >> newApplicationSceneWithGameCommander: aGameCommander graphicFactory: aGraphicFactory [
 	"Answer a new instance for application purpose with the given STSoccerFrame and STGraphicFactory."
 
 	^ self new
-		  initializeForApplicationWithFrame: aFrame
+		  initializeForApplicationWithGameCommander: aGameCommander
 		  graphicFactory: aGraphicFactory
 ]
 
 { #category : 'instance creation' }
-STSoccerScene class >> newSampleSceneWithFrame: aFrame [
-	"Answer a new instance for demo purpose with the given STSoccerFrame and STGraphicFactory."
+STSoccerScene class >> newSampleSceneWithGameCommander: aGameCommander [
+	"Answer a new instance for demo purpose with the given STGameCommander and STGraphicFactory."
 
 	^ self new
-		  initializeForSampleWithFrame: aFrame
+		  initializeForSampleWithGameCommander: aGameCommander
 		  graphicFactory: STGraphicFactory new
 ]
 
@@ -76,10 +76,10 @@ STSoccerScene >> addNewShapesOnBall: aBall [
 STSoccerScene >> addShapes [
 	"Add all the shapes from the soccer frame."
 
-	soccerFrame ball ifNotNil: [ :ball | self addNewShapesOnBall: ball ].
-	soccerFrame teamLeft players do: [ :player |
+	self ball ifNotNil: [ :ball | self addNewShapesOnBall: ball ].
+	self teamLeft players do: [ :player |
 		self addNewShapeOnPlayer: player ].
-	soccerFrame teamRight players do: [ :player |
+	self teamRight players do: [ :player |
 		self addNewShapeOnPlayer: player ]
 ]
 
@@ -87,7 +87,7 @@ STSoccerScene >> addShapes [
 STSoccerScene >> announcer [
 	"Answer the announcer I register at."
 
-	^ soccerFrame announcer
+	^ self ball announcer
 ]
 
 { #category : 'private' }
@@ -97,11 +97,18 @@ STSoccerScene >> attackLine [
 	^ playField childWithId: #attackLine ifNone: [ nil ]
 ]
 
-{ #category : 'paint' }
+{ #category : 'private' }
 STSoccerScene >> attackingTeam [ 
 	"Answer the attacking team or nil if ball is neutral."
 
-	^ soccerFrame owningTeam
+	^ gameCommander owningTeam
+]
+
+{ #category : 'private' }
+STSoccerScene >> ball [ 
+	"Answer the ball model."
+
+	^ gameCommander ball
 ]
 
 { #category : 'private' }
@@ -118,30 +125,37 @@ STSoccerScene >> borderExtent [
 	^ borderWidth asPoint * 2
 ]
 
+{ #category : 'private' }
+STSoccerScene >> defendingTeam [ 
+	"Answer the defending team or nil if ball is neutral."
+
+	^ gameCommander defendingTeam 
+]
+
 { #category : 'initialization' }
-STSoccerScene >> initializeForApplicationWithFrame: aFrame graphicFactory: aGraphicFactory [
+STSoccerScene >> initializeForApplicationWithGameCommander: aGameCommander graphicFactory: aGraphicFactory [
 	"Initialize for application purpose with the given STSoccerFrame and STGraphicFactory."
 
-	soccerFrame := aFrame.
+	gameCommander := aGameCommander.
 	graphicFactory := aGraphicFactory.
 	borderWidth := 30.
 	transformer := STCoordinatesTransformer
-		               newForApplicationWithWorldExtent: aFrame pitch extent.
+		               newForApplicationWithWorldExtent: aGameCommander pitch extent.
 	playField := BlElement new extent: self playFieldExtent.
 	self initializeShapes.
 	self registerAtAnnouncer
 ]
 
 { #category : 'initialization' }
-STSoccerScene >> initializeForSampleWithFrame: aFrame graphicFactory: aGraphicFactory [
+STSoccerScene >> initializeForSampleWithGameCommander: aGameCommander graphicFactory: aGraphicFactory [
 	"Initialize for demo purpose with the given STSoccerFrame and STGraphicFactory."
 
-	soccerFrame := aFrame.
+	gameCommander := aGameCommander.
 	graphicFactory := aGraphicFactory.
 	borderWidth := 10.
 	transformer := STCoordinatesTransformer newForSampleWithWorldExtent:
-		               aFrame pitch extent.
-	playField := BlElement new size: self playFieldExtent.
+		               aGameCommander pitch extent.
+	playField := BlElement new extent: self playFieldExtent.
 	self initializeShapes.
 	self registerAtAnnouncer
 ]
@@ -166,7 +180,7 @@ STSoccerScene >> offsideLine [
 STSoccerScene >> offsideLineColor [
 	"Answer the current offside line Color."
 
-	^ soccerFrame defendingTeam ifNotNil: [ :team |
+	^ self defendingTeam ifNotNil: [ :team |
 		  Color colorFrom: team gradientColorHigh ]
 ]
 
@@ -175,24 +189,23 @@ STSoccerScene >> paintGoals [
 	"Paint the left and the right goal on the pitch's border."
 
 	| goalWidth goalDepth goalLeft goalRight goalPosition |
-	goalWidth := (transformer scaleWorldPoint:
-		              (Point x: 0 y: soccerFrame pitch goalWidth)) y.
+	goalWidth := (transformer scaleWorldPoint: 0 @ self pitch goalWidth)
+		             y.
 	goalDepth := borderWidth / 2.
 
-	goalPosition := Point
-		                x: goalDepth negated
-		                y: self playFieldExtent y / 2 - (goalWidth / 2).
+	goalPosition := goalDepth negated
+	                @ (self playFieldExtent y / 2 - (goalWidth / 2)).
 	goalLeft := BlElement new
-		            extent: (Point x: goalDepth y: goalWidth);
+		            extent: goalDepth @ goalWidth;
 		            position: goalPosition;
-		            background: soccerFrame teamLeft jerseyGradient;
+		            background: self teamLeft jerseyGradient;
 		            yourself.
 
-	goalPosition := Point x: self playFieldExtent x y: goalPosition y.
+	goalPosition := self playFieldExtent x @ goalPosition y.
 	goalRight := BlElement new
-		             extent: (Point x: goalDepth y: goalWidth);
+		             extent: goalDepth @ goalWidth;
 		             position: goalPosition;
-		             background: soccerFrame teamRight jerseyGradient;
+		             background: self teamRight jerseyGradient;
 		             yourself.
 
 	playField addChild: goalLeft.
@@ -217,18 +230,16 @@ STSoccerScene >> paintMiddleLine [
 	"Paint the middle line of the soccer pitch."
 
 	| verticalMiddleLine horizontalMiddleLine middlePoint startPoint endPoint |
-	middlePoint := transformer toDevice: soccerFrame pitch middle.
-	startPoint := Point x: middlePoint x y: 0.
-	endPoint := Point x: middlePoint x y: self playFieldExtent y.
+	middlePoint := transformer toDevice: self pitch middle.
+	startPoint := middlePoint x @ 0.
+	endPoint := middlePoint x @ self playFieldExtent y.
 
-	verticalMiddleLine := BlLineGeometry
-		                      from: startPoint
-		                      to: endPoint.
+	verticalMiddleLine := BlLineGeometry from: startPoint to: endPoint.
 	playField addChild: (verticalMiddleLine asElement border:
 			 (BlBorder paint: Color white width: 1)).
 
 	horizontalMiddleLine := BlLineGeometry
-		                        from: middlePoint - (4 @ 0) 
+		                        from: middlePoint - (4 @ 0)
 		                        to: middlePoint + (4 @ 0).
 	playField addChild: (horizontalMiddleLine asElement border:
 			 (BlBorder paint: Color white width: 1))
@@ -243,6 +254,13 @@ STSoccerScene >> paintPitch [
 ]
 
 { #category : 'private' }
+STSoccerScene >> pitch [
+	"Answer the pitch model."
+
+	^ gameCommander pitch
+]
+
+{ #category : 'private' }
 STSoccerScene >> playFieldExtent [ 
 	"Answer the pitch's device extent."
 
@@ -254,9 +272,22 @@ STSoccerScene >> registerAtAnnouncer [
 	"Register to the announcements I am interested in."
 
 	self announcer
+		when: STPlayerShapeMovedAnnouncement
+		do: [ :ann |
+				| player targetWorldPoint |
+				player := ann player.
+				targetWorldPoint := self toWorld: ann targetDevicePoint.
+				gameCommander movePlayer: player toPosition: targetWorldPoint ]
+		for: self.
+
+	self announcer
 		when: STBallShapeMovedAnnouncement
 		do: [ :ann |
-		self updateAttackLinePositionX: ann targetDevicePoint x ]
+				| targetWorldPoint |
+				targetWorldPoint := self toWorld: ann targetDevicePoint.
+				gameCommander moveBallToPosition: targetWorldPoint.
+
+				self updateAttackLinePositionX: ann targetDevicePoint x ]
 		for: self.
 
 	self announcer
@@ -268,6 +299,20 @@ STSoccerScene >> registerAtAnnouncer [
 		when: STOffsideLineChangedAnnouncement
 		do: [ :ann | self updateOffsideLinePositionX: ann offsideX ]
 		for: self
+]
+
+{ #category : 'private' }
+STSoccerScene >> teamLeft [ 
+	"Answer the team left."
+
+	^ gameCommander teamLeft 
+]
+
+{ #category : 'private' }
+STSoccerScene >> teamRight [ 
+	"Answer the team right."
+
+	^ gameCommander teamRight 
 ]
 
 { #category : 'api - transformation' }

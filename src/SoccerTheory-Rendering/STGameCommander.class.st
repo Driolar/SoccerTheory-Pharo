@@ -12,13 +12,9 @@ Class {
 		'frame',
 		'actionManager'
 	],
-	#classInstVars : [
-		'frame',
-		'actionManager'
-	],
-	#category : 'SoccerTheory-Application-Commander',
-	#package : 'SoccerTheory-Application',
-	#tag : 'Commander'
+	#category : 'SoccerTheory-Rendering-Basic',
+	#package : 'SoccerTheory-Rendering',
+	#tag : 'Basic'
 }
 
 { #category : 'instance creation' }
@@ -44,6 +40,13 @@ STGameCommander >> addNewPlayerToTeam: aSTTeam [
 	^ player
 ]
 
+{ #category : 'accessing' }
+STGameCommander >> ball [
+	"Answer the STBall currently in play."
+
+	^ frame ball
+]
+
 { #category : 'actions api' }
 STGameCommander >> changeBallOwnerToTeam: aSTTeam [
 	"Set ball possession to the given STTeam."
@@ -51,11 +54,11 @@ STGameCommander >> changeBallOwnerToTeam: aSTTeam [
 	actionManager changeBallOwnerToTeam: aSTTeam
 ]
 
-{ #category : 'private' }
-STGameCommander >> entryPointForPlayerOfTeam: aSTTeam [
-	"Answer the pitch point where a new player of aTeam is initially located."
+{ #category : 'accessing' }
+STGameCommander >> defendingTeam [ 
+	"Answer the STTeam currently defending."
 
-	^ Point x: frame pitch middle x y: frame pitch extent y / 2
+	^ frame defendingTeam 
 ]
 
 { #category : 'initialization' }
@@ -85,6 +88,13 @@ STGameCommander >> owningTeam [
 	"Answer the STTeam currently owning the ball."
 
 	^ frame owningTeam 
+]
+
+{ #category : 'accessing' }
+STGameCommander >> pitch [
+	"Answer the STPitch where game takes place."
+
+	^ frame pitch
 ]
 
 { #category : 'actions api' }

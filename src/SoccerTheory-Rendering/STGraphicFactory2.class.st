@@ -18,7 +18,7 @@ STGraphicFactory2 >> offsideElement [
 	^ BlElement new
 		  background: Color yellow;
 		  geometry: BlTriangleGeometry new beRight;
-		  size: 12 @ 12;
+		  extent: 12 @ 12;
 		  position: 3 asPoint
 ]
 
@@ -29,6 +29,6 @@ STGraphicFactory2 >> uncoveredElement [
 	^ BlElement new
 		  background: Color black;
 		  geometry: BlCircleGeometry new;
-		  size: 12 @ 12;
-		  position: (3 asPoint)
+		  extent: 12 @ 12;
+		  position: 3 asPoint
 ]

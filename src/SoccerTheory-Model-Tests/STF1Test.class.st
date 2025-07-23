@@ -17,8 +17,8 @@ STF1Test >> setUp [
 	
 	super setUp.
 	frame := STSoccerFrameBuilder fixture1Frame.	 
-	playerA1 := frame teamLeft players at: 1.
-	playerB1 := frame teamRight players at: 1.
+	playerA1 := frame teamLeft players first.
+	playerB1 := frame teamRight players first.
 	actionManager := STActionManager newWithFrame: frame
 ]
 

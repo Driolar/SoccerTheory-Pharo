@@ -6,6 +6,13 @@ Class {
 	#tag : 'Node'
 }
 
+{ #category : 'instance creation' }
+STDemoData2 >> newSampleSceneWithFrame: aFrame [
+
+	^ STSoccerScene newSampleSceneWithGameCommander:
+		  (STGameCommander newWithFrame: aFrame)
+]
+
 { #category : 'showing scenes' }
 STDemoData2 >> showFixture1 [
 	"comment stating purpose of instance-side method"
@@ -13,8 +20,7 @@ STDemoData2 >> showFixture1 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ STSoccerScene newSampleSceneWithFrame:
-		  STSoccerFrameBuilder fixture1Frame
+	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture1Frame
 ]
 
 { #category : 'showing scenes' }
@@ -24,8 +30,7 @@ STDemoData2 >> showFixture2 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ STSoccerScene newSampleSceneWithFrame:
-		  STSoccerFrameBuilder fixture2Frame
+	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture2Frame
 ]
 
 { #category : 'showing scenes' }
@@ -35,8 +40,7 @@ STDemoData2 >> showFixture3 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ STSoccerScene newSampleSceneWithFrame:
-		  STSoccerFrameBuilder fixture3Frame
+	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture3Frame
 ]
 
 { #category : 'showing scenes' }
@@ -46,6 +50,5 @@ STDemoData2 >> showFixture4 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ STSoccerScene newSampleSceneWithFrame:
-		  STSoccerFrameBuilder fixture4Frame
+	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture4Frame
 ]

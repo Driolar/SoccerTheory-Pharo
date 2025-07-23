@@ -68,13 +68,6 @@ STFrameEditor >> announcer [
 	^ scene announcer
 ]
 
-{ #category : 'private' }
-STFrameEditor >> attackLineFormForLegend [
-	"Answer a sample attack line for legend as Form."
-
-^ self legendFormForStrategicLineClass: STAttackLineShape
-]
-
 { #category : 'layout' }
 STFrameEditor >> ballPossessionControlsLayout [
 	"Answer the layout for ball possession controls."
@@ -176,61 +169,11 @@ STFrameEditor >> initializePresenters [
 	self resetBoard
 ]
 
-{ #category : 'private' }
-STFrameEditor >> legendFormForStrategicLineClass: aClass [
-	"Answer a sample strategic line for the legend as Form."
-
-	| strategicLine |
-	strategicLine := aClass
-		                 newWithSegmentLength: 100
-		                 strategicX: 0
-		                 color: Color black.
-	strategicLine transform
-		topLeftOrigin;
-		rotateBy: -90;
-		translateBy: 0 @ 5;
-		apply.
-
-	^ BlElement new
-		  extent: 100 @ 10;
-		  background: Color white;
-		  addChild: strategicLine;
-		  asForm
-]
-
 { #category : 'presenters' }
 STFrameEditor >> legendPresenter [
 	"Answer the SpPresenter containing the legend."
 
-	| presenter |
-	presenter := SpPresenter new.
-	presenter layout: (SpBoxLayout newLeftToRight
-			 hAlignCenter;
-			 add: (SpLabelPresenter new
-					  label: 'Legend:';
-					  displayBold: [ :aClass | true ];
-					  yourself)
-			 width: 60;
-			 add: (SpImagePresenter new image: graphicFactory offsideForm);
-			 add: (SpLabelPresenter new label: '') width: 2;
-			 add: (SpLabelPresenter new label: 'is offside');
-			 add: (SpLabelPresenter new label: '') width: 20;
-			 add: (SpImagePresenter new image: graphicFactory uncoveredForm);
-			 add: (SpLabelPresenter new label: '') width: 2;
-			 add: (SpLabelPresenter new label: 'is uncovered');
-			 add: (SpLabelPresenter new label: '') width: 20;
-			 add: (SpImagePresenter new image: graphicFactory goalkeeperForm);
-			 add: (SpLabelPresenter new label: '') width: 2;
-			 add: (SpLabelPresenter new label: 'goalkeeper');
-			 add: (SpLabelPresenter new label: '') width: 20;
-			 add: (SpImagePresenter new image: self attackLineFormForLegend);
-			 add: (SpLabelPresenter new label: '') width: 5;
-			 add: (SpLabelPresenter new label: 'attack line');
-			 add: (SpLabelPresenter new label: '') width: 20;
-			 add: (SpImagePresenter new image: self offsideLineFormForLegend);
-			 add: (SpLabelPresenter new label: '') width: 5;
-			 add: (SpLabelPresenter new label: 'offside line')).
-	^ presenter
+	^ STLegendPresenter newWithGraphicFactory: graphicFactory
 ]
 
 { #category : 'loading' }
@@ -280,10 +223,10 @@ STFrameEditor >> loadFixture4WithModernOffsideRule [
 STFrameEditor >> loadFrame: aFrame [
 	"Load the given STSoccerFrame on the scene."
 
-	scene := STSoccerScene
-		         newApplicationSceneWithFrame: aFrame
-		         graphicFactory: graphicFactory.
 	gameCommander := STGameCommander newWithFrame: aFrame.
+	scene := STSoccerScene
+		         newApplicationSceneWithGameCommander: gameCommander
+		         graphicFactory: graphicFactory.
 
 	self updateButtonsForAddingPlayer.
 	self updateDropListForOffsideRule.
@@ -291,7 +234,7 @@ STFrameEditor >> loadFrame: aFrame [
 
 	board space setExtent: scene totalExtent.
 	board space root addChild: scene.
-	
+
 	self registerAtAnnouncer
 ]
 
@@ -337,13 +280,6 @@ STFrameEditor >> menuButtonForLoadingExamples [
 	^ menuButton
 ]
 
-{ #category : 'private' }
-STFrameEditor >> offsideLineFormForLegend [
-	"Answer a sample offside line for legend as Form."
-
-	^ self legendFormForStrategicLineClass: STOffsideLineShape
-]
-
 { #category : 'presenters' }
 STFrameEditor >> openingButton [
 	"Answer the button for opening a SoccerML file."
@@ -373,7 +309,6 @@ STFrameEditor >> registerAtAnnouncer [
 			| player targetWorldPoint |
 			player := ann player.
 			targetWorldPoint := scene toWorld: ann targetDevicePoint.
-			gameCommander movePlayer: player toPosition: targetWorldPoint.
 			statusbar pushMessage:
 				'Player #' , player jerseyNumber displayString , ' ('
 				, player teamName , ') moved to '
@@ -385,7 +320,6 @@ STFrameEditor >> registerAtAnnouncer [
 		do: [ :ann |
 			| targetWorldPoint |
 			targetWorldPoint := scene toWorld: ann targetDevicePoint.
-			gameCommander moveBallToPosition: targetWorldPoint.
 			statusbar pushMessage: 'Ball moved to '
 				, (self formattedStringForWorldPosition: targetWorldPoint) ]
 		for: self.
