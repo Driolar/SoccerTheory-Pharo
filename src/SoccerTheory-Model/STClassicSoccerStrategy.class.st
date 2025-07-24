@@ -11,6 +11,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'naming' }
+STClassicSoccerStrategy class >> offsideRuleName [
+
+	^ 'classic offside rule'
+]
+
 { #category : 'flagging' }
 STClassicSoccerStrategy >> flagCoveredPlayers [
 "With the classic offside rule, the defence zone is normally determined by the third defender from the back. But as soon as the ball moves behind him, the ball determines the defense line. As far as one defender at least is in the defence zone, all attacking players are covered."

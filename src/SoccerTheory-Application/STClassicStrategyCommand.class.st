@@ -21,9 +21,7 @@ STClassicStrategyCommand >> execute [
 STClassicStrategyCommand >> initialize [
 
 	super initialize.
-	self
-		name: 'classic offside rule';
-		description: 'Set the classic offside rule'
+	self description: 'Set the classic offside rule'
 ]
 
 { #category : 'accessing' }

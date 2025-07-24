@@ -9,6 +9,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'naming' }
+STNoOffsideSoccerStrategy class >> offsideRuleName [
+
+	^ 'no offside rule'
+]
+
 { #category : 'flagging' }
 STNoOffsideSoccerStrategy >> flagCoveredPlayers [
 	"With no offside rule, apply man coverage as well."

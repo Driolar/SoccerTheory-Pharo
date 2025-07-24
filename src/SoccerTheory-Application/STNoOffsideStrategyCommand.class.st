@@ -21,9 +21,7 @@ STNoOffsideStrategyCommand >> execute [
 STNoOffsideStrategyCommand >> initialize [
 
 	super initialize.
-	self
-		name: 'no offside rule';
-		description: 'Set no offside rule'
+	self description: 'Set no offside rule'
 ]
 
 { #category : 'accessing' }

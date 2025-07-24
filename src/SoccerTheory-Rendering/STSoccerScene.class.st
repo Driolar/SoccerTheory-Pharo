@@ -140,10 +140,12 @@ STSoccerScene >> initializeForApplicationWithGameCommander: aGameCommander graph
 	graphicFactory := aGraphicFactory.
 	borderWidth := 30.
 	transformer := STCoordinatesTransformer
-		               newForApplicationWithWorldExtent: aGameCommander pitch extent.
+		               newForApplicationWithWorldExtent:
+		               aGameCommander pitch extent.
 	playField := BlElement new extent: self playFieldExtent.
 	self initializeShapes.
-	self registerAtAnnouncer
+	self registerAtAnnouncer.
+	gameCommander notifyCovering
 ]
 
 { #category : 'initialization' }
@@ -157,7 +159,8 @@ STSoccerScene >> initializeForSampleWithGameCommander: aGameCommander graphicFac
 		               aGameCommander pitch extent.
 	playField := BlElement new extent: self playFieldExtent.
 	self initializeShapes.
-	self registerAtAnnouncer
+	self registerAtAnnouncer.
+	gameCommander notifyCovering
 ]
 
 { #category : 'initialization' }

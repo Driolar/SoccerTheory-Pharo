@@ -11,6 +11,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'naming' }
+STModernSoccerStrategy class >> offsideRuleName [
+
+	^ 'modern offside rule'
+]
+
 { #category : 'flagging' }
 STModernSoccerStrategy >> flagCoveredPlayers [
 	"With the modern offside rule, there is no defender in the defence zone. The modern offside rule is strategically insuficient. Man coverage must always be applied."

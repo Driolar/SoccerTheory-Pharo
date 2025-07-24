@@ -21,9 +21,7 @@ STModernStrategyCommand >> execute [
 STModernStrategyCommand >> initialize [
 
 	super initialize.
-	self
-		name: 'modern offside rule';
-		description: 'Set the modern offside rule'
+	self description: 'Set the modern offside rule'
 ]
 
 { #category : 'accessing' }

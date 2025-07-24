@@ -148,7 +148,9 @@ STSoccerFrame >> sortedDefendingPlayers [
 ]
 
 { #category : 'accessing' }
-STSoccerFrame >> strategy [ 
+STSoccerFrame >> strategy [
+	"Answer the STCommonSoccerStrategy"
+
 	^ strategy
 ]
 

@@ -142,10 +142,7 @@ STSoccerDocumentReader >> initializeWith: aXMLDOMParser [
 
 	self initialize.
 	domParser := aXMLDOMParser.
-	domParser
-		resolvesExternalEntities: true;
-		usesNamespaces: true;
-		isValidating: true
+	domParser optimizeForLargeDocuments 
 ]
 
 { #category : 'api' }

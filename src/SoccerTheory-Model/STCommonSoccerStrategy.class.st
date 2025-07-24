@@ -32,6 +32,12 @@ STCommonSoccerStrategy class >> newWithFrame: aPlay [
 	^self new initializeWithFrame: aPlay
 ]
 
+{ #category : 'naming' }
+STCommonSoccerStrategy class >> offsideRuleName [
+
+	self subclassResponsibility
+]
+
 { #category : 'private' }
 STCommonSoccerStrategy >> announcer [
 	"Answer the announcer singleton."
@@ -122,6 +128,12 @@ STCommonSoccerStrategy >> isOffsidePlayer: aSTPlayer offsideX: xCoordinate [
 	"Answer true if aSTPlayer is offside considering offside level at xCoordinate."
 
 	self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
+STCommonSoccerStrategy >> offsideRuleName [
+
+	^ self class offsideRuleName
 ]
 
 { #category : 'private' }

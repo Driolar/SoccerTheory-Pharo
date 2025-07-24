@@ -22,6 +22,13 @@ STSoccerStrategyCommand >> gameCommander [
 	^ self context gameCommander
 ]
 
+{ #category : 'initialization' }
+STSoccerStrategyCommand >> initialize [
+
+	super initialize.
+	self name: self strategyClass offsideRuleName
+]
+
 { #category : 'accessing' }
 STSoccerStrategyCommand >> strategyClass [
 	"Answer my strategy class."

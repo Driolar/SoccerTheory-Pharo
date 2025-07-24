@@ -11,6 +11,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'naming' }
+STAncientSoccerStrategy class >> offsideRuleName [
+
+	^ 'ancient offside rule'
+]
+
 { #category : 'flagging' }
 STAncientSoccerStrategy >> flagCoveredPlayers [
 	"With the ancient offside rule, the defence zone is always determined by the ball position.

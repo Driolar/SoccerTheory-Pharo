@@ -293,6 +293,7 @@ STFrameEditor >> openingButton [
 STFrameEditor >> openingFilePresenter [
 
 	^ (StOpenFilePresenter on: StFileSystemModel new)
+		  openFolder: FileLocator documents;
 		  extensions: #( 'socxml' );
 		  okAction: [ :selectedFileReference |
 			  self loadFile: selectedFileReference ];

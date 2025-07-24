@@ -61,6 +61,13 @@ STGameCommander >> defendingTeam [
 	^ frame defendingTeam 
 ]
 
+{ #category : 'private' }
+STGameCommander >> entryPointForPlayerOfTeam: aSTTeam [
+	"Answer the pitch point where a new player of aTeam is initially located."
+
+	^ frame pitch middle x @ frame pitch extent y / 2
+]
+
 { #category : 'initialization' }
 STGameCommander >> initializeWithFrame: aSTSoccerFrame [
 	"Initialize with the given STSoccerFrame."
@@ -81,6 +88,12 @@ STGameCommander >> movePlayer: aSTPlayer toPosition: aPoint [
 	"Move the given model player to the given world point."
 
 	actionManager movePlayer: aSTPlayer toPosition: aPoint
+]
+
+{ #category : 'actions api' }
+STGameCommander >> notifyCovering [
+
+	actionManager notifyCovering
 ]
 
 { #category : 'accessing' }

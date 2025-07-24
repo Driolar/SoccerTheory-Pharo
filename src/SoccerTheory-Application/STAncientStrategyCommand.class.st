@@ -21,9 +21,7 @@ STAncientStrategyCommand >> execute [
 STAncientStrategyCommand >> initialize [
 
 	super initialize.
-	self
-		name: 'ancient offside rule';
-		description: 'Set the ancient offside rule'
+	self description: 'Set the ancient offside rule'
 ]
 
 { #category : 'accessing' }
