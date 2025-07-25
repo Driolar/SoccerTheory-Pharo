@@ -104,6 +104,37 @@ STFrameEditor >> ballPossessionControlsLayout [
 ]
 
 { #category : 'presenters' }
+STFrameEditor >> buttonForLoadingExamples [
+	"Answer the SpButtonPresenter with menu items for loading soccer scene examples."
+
+	| menu |
+	menu := SpMenuPresenter new
+		        addItem: [ :item |
+				        item
+					        name: 'Fixture 1';
+					        action: [ self loadFixture1 ] ];
+		        addItem: [ :item |
+				        item
+					        name: 'Fixture 2';
+					        action: [ self loadFixture2 ] ];
+		        addItem: [ :item |
+				        item
+					        name: 'Fixture 3';
+					        action: [ self loadFixture3 ] ];
+		        addItem: [ :item |
+				        item
+					        name: 'Fixture 4 (modern offside)';
+					        action: [ self loadFixture4WithModernOffsideRule ] ];
+		        yourself.
+
+	^ self newButton
+		  label: 'Examples';
+		  iconName: #arrowDown;
+		  action: [ menu openWithSpecAt: self currentHand position ];
+		  yourself
+]
+
+{ #category : 'presenters' }
 STFrameEditor >> controlsPresenter [
 	"Answer the SpPresenter with the controls row."
 
@@ -144,7 +175,7 @@ STFrameEditor >> frameControlsLayout [
 
 	^ SpBoxLayout newLeftToRight
 		  add: self openingButton expand: false;
-		  add: self menuButtonForLoadingExamples width: 100;
+		  add: self buttonForLoadingExamples expand: false;
 		  add: self resettingButton expand: false;
 		  yourself
 ]
@@ -284,7 +315,7 @@ STFrameEditor >> menuButtonForLoadingExamples [
 STFrameEditor >> openingButton [
 	"Answer the button for opening a SoccerML file."
 
-	^ SpButtonPresenter new
+	^ self newButton
 		  label: 'Open...';
 		  action: [ openFilePresenter openModal ]
 ]
@@ -346,7 +377,7 @@ STFrameEditor >> resetBoard [
 STFrameEditor >> resettingButton [
 	"Answer the button for resetting the board."
 
-	^ SpButtonPresenter new
+	^ self newButton
 		  label: 'Reset';
 		  action: [ self resetBoard ];
 		  yourself
