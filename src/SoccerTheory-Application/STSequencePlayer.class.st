@@ -1,10 +1,11 @@
 "
-I am the user interface for the Soccer Theory Board.
+I am the user interface for the Soccer Theory Player.
 
-I rely on STSoccerScene for rendering the soccer game view.
-I rely on STGameCommander for soccer model control.
+I rely on STSoccerDocumentReader for reading soccer game sequences from SoccerML files.
+I rely on STSoccerScene for displaying each frame.
 
-Start me doing this: STFrameEditor open.
+
+Start me doing this: STSequencePlayer open.
 "
 Class {
 	#name : 'STSequencePlayer',
@@ -16,7 +17,8 @@ Class {
 		'graphicFactory',
 		'openFilePresenter',
 		'offsideRuleLabel',
-		'reader'
+		'reader',
+		'frameIndexPresenter'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -49,8 +51,8 @@ STSequencePlayer >> controlsPresenter [
 	| presenter |
 	presenter := SpPresenter new.
 	presenter layout: (SpBoxLayout newLeftToRight
-			 beHomogeneous;
-			 add: self frameControlsLayout;
+			 add: self fileControlsLayout;
+			 add: self sequenceControlsLayout;
 			 add: self strategyControlsLayout;
 			 yourself).
 	^ presenter
@@ -68,6 +70,15 @@ STSequencePlayer >> defaultLayout [
 		  yourself
 ]
 
+{ #category : 'layout' }
+STSequencePlayer >> fileControlsLayout [
+	"Answer the layout for file controls."
+
+	^ SpBoxLayout newLeftToRight
+		  add: self openingButton expand: false;
+		  yourself
+]
+
 { #category : 'private' }
 STSequencePlayer >> formattedStringForWorldPosition: aPoint [
 	"Answer the formatted string for the given world position."
@@ -76,12 +87,15 @@ STSequencePlayer >> formattedStringForWorldPosition: aPoint [
 	  , (aPoint y printShowingDecimalPlaces: 1) , ')'
 ]
 
-{ #category : 'layout' }
-STSequencePlayer >> frameControlsLayout [
-	"Answer the layout for frame controls."
+{ #category : 'presenters' }
+STSequencePlayer >> frameIndexPresenter [
 
-	^ SpBoxLayout newLeftToRight
-		  add: self openingButton expand: false;
+	^ SpNumberInputFieldPresenter new
+		  number: 0;
+		  minimum: 0;
+		  maximum: 0;
+		  climbRate: 1;
+		  disable;
 		  yourself
 ]
 
@@ -111,9 +125,13 @@ STSequencePlayer >> loadFile: aFileReference [
 
 	reader := STSoccerDocumentReader onFileNamed: aFileReference fullName.
 	reader parse.
-	self
-		loadFrame: reader currentSoccerFrame
-		named: aFileReference basename
+
+	self updateFrameIndexPresenter.
+
+	self loadFrame: reader currentSoccerFrame.
+	statusbar pushMessage:
+		aFileReference basename , ' (' , reader frameNodes size asString
+		, ' frames) loaded.'
 ]
 
 { #category : 'loading' }
@@ -130,14 +148,6 @@ STSequencePlayer >> loadFrame: aFrame [
 
 	board space setExtent: scene totalExtent.
 	board space root addChild: scene
-]
-
-{ #category : 'loading' }
-STSequencePlayer >> loadFrame: aFrame named: aFrameName [
-	"Load the given STSoccerFrame on the scene and push a message on the status bar."
-
-	self loadFrame: aFrame.
-	statusbar pushMessage: aFrameName , ' loaded.'
 ]
 
 { #category : 'presenters' }
@@ -160,14 +170,41 @@ STSequencePlayer >> openingFilePresenter [
 		  yourself
 ]
 
+{ #category : 'presenters' }
+STSequencePlayer >> refreshButton [
+
+	^ SpToolbarButtonPresenter new
+		  icon: (self iconNamed: #refreshCircling);
+		  label: 'Refresh';
+		  help: '(Re)load the frame with the specified sequence number.';
+		  action: [ self refreshFrame ];
+		  yourself
+]
+
+{ #category : 'loading' }
+STSequencePlayer >> refreshFrame [
+	"Validate the displayed frame index and load the corresponding frame."
+
+	"Remedy wrong values entered by keyboard."
+
+	frameIndexPresenter number ifNil: [ frameIndexPresenter number: 0 ].
+	frameIndexPresenter number:
+		(frameIndexPresenter minimum max: frameIndexPresenter number).
+	frameIndexPresenter number:
+		(frameIndexPresenter maximum min: frameIndexPresenter number).
+
+
+	reader ifNil: [ ^ self ].
+	reader currentFrameIndex: frameIndexPresenter number.
+	self loadFrame: reader currentSoccerFrame
+]
+
 { #category : 'update' }
 STSequencePlayer >> resetBoard [
-	"Reset the board to the start frame."
+	"Reset the board to an empty frame."
 
-	self
-		loadFrame:
-		(STSoccerFrameBuilder startFrameWithPitch: STPitch newDefault)
-		named: 'Initial scene'
+	self loadFrame:
+		(STSoccerFrameBuilder emptyFrameWithPitch: STPitch newDefault)
 ]
 
 { #category : 'presenters' }
@@ -181,6 +218,25 @@ STSequencePlayer >> resettingButton [
 ]
 
 { #category : 'layout' }
+STSequencePlayer >> sequenceControlsLayout [
+	"Answer the layout for sequence controls."
+
+	^ SpBoxLayout newLeftToRight
+		  hAlignCenter;
+		  vAlignCenter;
+		  add: (SpLabelPresenter new
+				   label: 'frame #';
+				   yourself)
+		  expand: false;
+		  add: (frameIndexPresenter := self frameIndexPresenter) width: 100;
+		  add: (SpToolbarPresenter new
+				   beIcons;
+				   add: self refreshButton;
+				   yourself);
+		  yourself
+]
+
+{ #category : 'layout' }
 STSequencePlayer >> strategyControlsLayout [
 	"Answer the layout for strategy controls."
 
@@ -188,6 +244,17 @@ STSequencePlayer >> strategyControlsLayout [
 
 	^ SpBoxLayout newLeftToRight
 		  hAlignEnd;
+		  vAlignCenter;
 		  add: offsideRuleLabel expand: false;
 		  yourself
+]
+
+{ #category : 'update' }
+STSequencePlayer >> updateFrameIndexPresenter [
+
+	frameIndexPresenter
+		enable;
+		number: 1;
+		minimum: 1;
+		maximum: reader frameNodes size
 ]

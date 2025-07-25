@@ -96,6 +96,12 @@ STSoccerDocumentReader >> currentBallPosition [
 	  @ (ballElement contentStringAt: 'Y') asNumber
 ]
 
+{ #category : 'api' }
+STSoccerDocumentReader >> currentFrameIndex: anInteger [
+
+	currentFrameIndex := anInteger
+]
+
 { #category : 'private - traversing' }
 STSoccerDocumentReader >> currentFrameNode [
 	"Answer the current soc:Frame node."
