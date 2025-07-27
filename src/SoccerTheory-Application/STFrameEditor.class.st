@@ -175,6 +175,7 @@ STFrameEditor >> frameControlsLayout [
 
 	^ SpBoxLayout newLeftToRight
 		  add: self openingButton expand: false;
+        "add: self menuButtonForLoadingExamples width: 100;"
 		  add: self buttonForLoadingExamples expand: false;
 		  add: self resettingButton expand: false;
 		  yourself
@@ -263,6 +264,7 @@ STFrameEditor >> loadFrame: aFrame [
 	self updateDropListForOffsideRule.
 	self updateRadioButtonsForBallPossession.
 
+	board space root removeChildren.
 	board space setExtent: scene totalExtent.
 	board space root addChild: scene.
 

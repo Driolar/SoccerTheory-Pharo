@@ -152,6 +152,12 @@ STSoccerDocumentReader >> initializeWith: aXMLDOMParser [
 ]
 
 { #category : 'api' }
+STSoccerDocumentReader >> numberOfFrames [
+
+	^ self frameNodes size
+]
+
+{ #category : 'api' }
 STSoccerDocumentReader >> parse [
 	"Parse my document."
 
@@ -163,7 +169,7 @@ STSoccerDocumentReader >> parseFirstFrame [
 	"Parse the first frame of my document."
 
 	domParser parseDocumentUntil: [
-		self document notNil and: [ self frameNodes size > 1 ] ]
+		self document notNil and: [ self numberOfFrames > 1 ] ]
 ]
 
 { #category : 'private - traversing' }

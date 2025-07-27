@@ -225,7 +225,7 @@ STSoccerMLTest >> testFrameNodes [
 
 	| reader |
 	reader := STSoccerDocumentReader parse: self soccerMLFixture2.
-	self assert: reader frameNodes size equals: 1
+	self assert: reader numberOfFrames equals: 1
 ]
 
 { #category : 'tests' }
