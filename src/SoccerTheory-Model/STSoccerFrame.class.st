@@ -13,7 +13,8 @@ Class {
 		'pitch',
 		'teamLeft',
 		'strategy',
-		'teamRight'
+		'teamRight',
+		'officialTime'
 	],
 	#category : 'SoccerTheory-Model-Operate',
 	#package : 'SoccerTheory-Model',
@@ -76,6 +77,18 @@ STSoccerFrame >> notifyCovering [
 	"I tell the strategy to update covering"
 
 	strategy updateCovering
+]
+
+{ #category : 'accessing' }
+STSoccerFrame >> officialTime [
+
+	^ officialTime
+]
+
+{ #category : 'accessing' }
+STSoccerFrame >> officialTime: anObject [
+
+	officialTime := anObject
 ]
 
 { #category : 'accessing' }

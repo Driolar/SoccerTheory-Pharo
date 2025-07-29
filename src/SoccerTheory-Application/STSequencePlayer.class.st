@@ -12,14 +12,19 @@ Class {
 	#superclass : 'SpPresenter',
 	#instVars : [
 		'board',
-		'controls',
 		'statusbar',
-		'graphicFactory',
 		'openFilePresenter',
 		'offsideRuleLabel',
 		'reader',
 		'frameIndexPresenter',
-		'playTaskAction'
+		'playTaskAction',
+		'playButton',
+		'stopButton',
+		'restartButton',
+		'openingButton',
+		'refreshButton',
+		'lastStartingFrameIndex',
+		'officialTimeLabel'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -64,7 +69,7 @@ STSequencePlayer >> defaultLayout [
 	"Answer the composed layout."
 
 	^ SpBoxLayout newTopToBottom
-		  add: controls expand: false;
+		  add: self controlsPresenter expand: false;
 		  add: board;
 		  add: self legendPresenter expand: false;
 		  add: statusbar expand: false;
@@ -76,7 +81,7 @@ STSequencePlayer >> fileControlsLayout [
 	"Answer the layout for file controls."
 
 	^ SpBoxLayout newLeftToRight
-		  add: self openingButton expand: false;
+		  add: openingButton expand: false;
 		  yourself
 ]
 
@@ -102,7 +107,7 @@ STSequencePlayer >> frameIndexLayout [
 		  add: (frameIndexPresenter := self frameIndexPresenter) width: 100;
 		  add: (SpToolbarPresenter new
 				   beIcons;
-				   add: self refreshButton;
+				   add: refreshButton;
 				   yourself);
 		  yourself
 ]
@@ -126,11 +131,37 @@ STSequencePlayer >> framePlayerLayout [
 	^ SpBoxLayout newLeftToRight
 		  add: (SpToolbarPresenter new
 				   beIcons;
-				   add: self playButton;
-				   add: self pauseButton;
-				   add: self restartButton;
+				   add: playButton;
+				   add: stopButton;
+				   add: restartButton;
 				   yourself);
 		  yourself
+]
+
+{ #category : 'loading' }
+STSequencePlayer >> gotoRestart [
+
+	(lastStartingFrameIndex isNil or: [ self isPlaying ]) ifTrue: [
+		^ self ].
+
+	frameIndexPresenter number: lastStartingFrameIndex.
+	self refreshFrame
+]
+
+{ #category : 'private' }
+STSequencePlayer >> graphicFactory [
+
+	^ STGraphicFactory new
+]
+
+{ #category : 'initialization' }
+STSequencePlayer >> initializeButtons [
+
+	playButton := self playButton.
+	stopButton := self stopButton.
+	restartButton := self restartButton.
+	openingButton := self openingButton.
+	refreshButton := self refreshButton
 ]
 
 { #category : 'initialization' }
@@ -138,19 +169,26 @@ STSequencePlayer >> initializePresenters [
 	"Initialize the main presenters."
 
 	super initializePresenters.
-	graphicFactory := STGraphicFactory new.
-	controls := self controlsPresenter.
+	self initializeButtons. 
 	board := SpBlSpaceInMorphPresenter new.
 	statusbar := self newStatusBar.
 	openFilePresenter := self openingFilePresenter.
+	offsideRuleLabel := self newLabel.
+	officialTimeLabel := self newLabel.
 	self resetBoard
+]
+
+{ #category : 'private' }
+STSequencePlayer >> isPlaying [
+
+	^ playTaskAction notNil
 ]
 
 { #category : 'presenters' }
 STSequencePlayer >> legendPresenter [
 	"Answer the SpPresenter containing the legend."
 
-	^ STLegendPresenter newWithGraphicFactory: graphicFactory
+	^ STLegendPresenter newWithGraphicFactory: self graphicFactory
 ]
 
 { #category : 'loading' }
@@ -161,6 +199,8 @@ STSequencePlayer >> loadFile: aFileReference [
 	reader parse.
 
 	self updateFrameIndexPresenter.
+	self updateButtons.
+	lastStartingFrameIndex := nil.
 
 	self loadFrame: reader currentSoccerFrame.
 	statusbar pushMessage:
@@ -176,9 +216,11 @@ STSequencePlayer >> loadFrame: aFrame [
 	scene := STSoccerScene
 		         newApplicationSceneWithGameCommander:
 		         (STGameCommander newWithFrame: aFrame)
-		         graphicFactory: graphicFactory.
+		         graphicFactory: self graphicFactory.
 
 	offsideRuleLabel label: aFrame strategy offsideRuleName.
+	aFrame officialTime ifNotNil: [ :officialTime |
+		officialTimeLabel label: officialTime ].
 
 	board space root removeChildren.
 	board space setExtent: scene totalExtent.
@@ -192,7 +234,7 @@ STSequencePlayer >> officialTimeLayout [
 	^ SpBoxLayout newLeftToRight
 		  vAlignCenter;
 		  add: 'official time: ' expand: false;
-		  add: 'xyz' expand: false;
+		  add: officialTimeLabel width: 100;
 		  yourself
 ]
 
@@ -202,7 +244,9 @@ STSequencePlayer >> openingButton [
 
 	^ SpButtonPresenter new
 		  label: 'Open...';
-		  action: [ openFilePresenter openModal ]
+		  help: 'Open a SoccerML file.';
+		  action: [ openFilePresenter openModal ];
+		  yourself
 ]
 
 { #category : 'presenters' }
@@ -217,19 +261,6 @@ STSequencePlayer >> openingFilePresenter [
 ]
 
 { #category : 'presenters' }
-STSequencePlayer >> pauseButton [
-
-	^ SpToolbarButtonPresenter new
-		  icon: (self iconNamed: #pauseDark);
-		  label: 'Pause';
-		  help: 'Pause the sequence playing.';
-		  action: [
-				  playTaskAction stop.
-				  self refreshFrame ];
-		  yourself
-]
-
-{ #category : 'presenters' }
 STSequencePlayer >> playButton [
 
 	^ SpToolbarButtonPresenter new
@@ -237,13 +268,17 @@ STSequencePlayer >> playButton [
 		  label: 'Play';
 		  help: 'Play the frames starting with the specified frame number.';
 		  action: [ self playSequence ];
+		  disable;
 		  yourself
 ]
 
 { #category : 'loading' }
 STSequencePlayer >> playSequence [
 
-	reader ifNil: [ ^ self ].
+	(reader isNil or: [ self isPlaying ]) ifTrue: [ ^ self ].
+	frameIndexPresenter number = reader numberOfFrames ifTrue: [ ^ self ].
+
+	lastStartingFrameIndex := frameIndexPresenter number.
 
 	playTaskAction := BlRepeatedTaskAction new
 		                  action: [
@@ -253,7 +288,7 @@ STSequencePlayer >> playSequence [
 					                  ifTrue: [
 						                  frameIndexPresenter number:
 								                  frameIndexPresenter number + 1 ]
-					                  ifFalse: [ playTaskAction stop ] ];
+					                  ifFalse: [ self stopSequence ] ];
 		                  delay: (Duration milliSeconds: 100). "RoboCup standard"
 	board space enqueueTask: playTaskAction
 ]
@@ -266,6 +301,7 @@ STSequencePlayer >> refreshButton [
 		  label: 'Refresh';
 		  help: '(Re)load the frame with the specified sequence number.';
 		  action: [ self refreshFrame ];
+		  disable;
 		  yourself
 ]
 
@@ -284,10 +320,11 @@ STSequencePlayer >> refreshFrame [
 
 	reader ifNil: [ ^ self ].
 	reader currentFrameIndex: frameIndexPresenter number.
-	self loadFrame: reader currentSoccerFrame
+	self loadFrame: reader currentSoccerFrame.
+	self updateButtons
 ]
 
-{ #category : 'update' }
+{ #category : 'private' }
 STSequencePlayer >> resetBoard [
 	"Reset the board to an empty frame."
 
@@ -296,23 +333,14 @@ STSequencePlayer >> resetBoard [
 ]
 
 { #category : 'presenters' }
-STSequencePlayer >> resettingButton [
-	"Answer the button for resetting the board."
-
-	^ SpButtonPresenter new
-		  label: 'Reset';
-		  action: [ self resetBoard ];
-		  yourself
-]
-
-{ #category : 'presenters' }
 STSequencePlayer >> restartButton [
 
 	^ SpToolbarButtonPresenter new
-		  icon: (self iconNamed: #restart);
+		  icon: (self iconNamed: #back);
 		  label: 'Restart';
-		  help: 'Restart from the last starting frame.';
-		  action: [ self playSequence ];
+		  help: 'Go to the last starting frame.';
+		  action: [ self gotoRestart ];
+		  disable;
 		  yourself
 ]
 
@@ -329,11 +357,30 @@ STSequencePlayer >> sequenceControlsLayout [
 		  yourself
 ]
 
+{ #category : 'presenters' }
+STSequencePlayer >> stopButton [
+
+	^ SpToolbarButtonPresenter new
+		  icon: (self iconNamed: #stop);
+		  label: 'Stop';
+		  help: 'Stop the sequence playing.';
+		  action: [ self stopSequence ];
+		  disable;
+		  yourself
+]
+
+{ #category : 'loading' }
+STSequencePlayer >> stopSequence [
+
+	self isPlaying ifFalse: [ ^ self ].
+	playTaskAction stop.
+	playTaskAction := nil.
+	self refreshFrame
+]
+
 { #category : 'layout' }
 STSequencePlayer >> strategyControlsLayout [
 	"Answer the layout for strategy controls."
-
-	offsideRuleLabel := self newLabel.
 
 	^ SpBoxLayout newLeftToRight
 		  hAlignEnd;
@@ -342,7 +389,20 @@ STSequencePlayer >> strategyControlsLayout [
 		  yourself
 ]
 
-{ #category : 'update' }
+{ #category : 'private' }
+STSequencePlayer >> updateButtons [
+	"Enable/Disable relevant playing buttons."
+
+	openingButton enabled: self isPlaying not.
+	refreshButton enabled: self isPlaying not.
+	playButton enabled: (self isPlaying not and: [
+			 frameIndexPresenter number < reader numberOfFrames ]).
+	restartButton enabled:
+		(lastStartingFrameIndex notNil and: [ self isPlaying not ]).
+	stopButton enabled: self isPlaying
+]
+
+{ #category : 'private' }
 STSequencePlayer >> updateFrameIndexPresenter [
 
 	frameIndexPresenter

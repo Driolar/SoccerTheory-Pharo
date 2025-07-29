@@ -13,7 +13,6 @@ Class {
 		'gameCommander',
 		'scene',
 		'board',
-		'controls',
 		'statusbar',
 		'dropListForOffsideRule',
 		'graphicFactory',
@@ -71,30 +70,6 @@ STFrameEditor >> announcer [
 { #category : 'layout' }
 STFrameEditor >> ballPossessionControlsLayout [
 	"Answer the layout for ball possession controls."
-
-	leftTeamPossessionButton := self newRadioButton
-		                            label: 'Ball team left';
-		                            whenActivatedDo: [
-			                            gameCommander changeBallOwnerToTeam:
-					                            gameCommander teamLeft ];
-		                            yourself.
-
-	rightTeamPossessionButton := self newRadioButton
-		                             label: 'Ball team right';
-		                             whenActivatedDo: [
-			                             gameCommander changeBallOwnerToTeam:
-					                             gameCommander teamRight ];
-		                             yourself.
-
-	neutralPossessionButton := self newRadioButton
-		                           label: 'Ball neutral';
-		                           whenActivatedDo: [
-			                           gameCommander changeBallOwnerToTeam: nil ];
-		                           yourself.
-
-	leftTeamPossessionButton associatedRadioButtons: {
-			neutralPossessionButton.
-			rightTeamPossessionButton }.
 
 	^ SpBoxLayout newLeftToRight
 		  add: leftTeamPossessionButton;
@@ -154,7 +129,7 @@ STFrameEditor >> defaultLayout [
 	"Answer the composed layout."
 
 	^ SpBoxLayout newTopToBottom
-		  add: controls expand: false;
+		  add: self controlsPresenter expand: false;
 		  add: board;
 		  add: self legendPresenter expand: false;
 		  add: statusbar expand: false;
@@ -189,15 +164,62 @@ STFrameEditor >> gameCommander [
 ]
 
 { #category : 'initialization' }
+STFrameEditor >> initializeBallPossessionButtons [
+
+	leftTeamPossessionButton := self newRadioButton
+		                            label: 'Ball team left';
+		                            whenActivatedDo: [
+			                            gameCommander changeBallOwnerToTeam:
+					                            gameCommander teamLeft ];
+		                            yourself.
+
+	rightTeamPossessionButton := self newRadioButton
+		                             label: 'Ball team right';
+		                             whenActivatedDo: [
+			                             gameCommander changeBallOwnerToTeam:
+					                             gameCommander teamRight ];
+		                             yourself.
+
+	neutralPossessionButton := self newRadioButton
+		                           label: 'Ball neutral';
+		                           whenActivatedDo: [
+			                           gameCommander changeBallOwnerToTeam: nil ];
+		                           yourself.
+
+	leftTeamPossessionButton associatedRadioButtons: {
+			neutralPossessionButton.
+			rightTeamPossessionButton }
+]
+
+{ #category : 'initialization' }
+STFrameEditor >> initializeDropListForOffsideRule [
+
+	dropListForOffsideRule := SpDropListPresenter new.
+	dropListForOffsideRule items: (OrderedCollection new
+			 add: (STNoOffsideStrategyCommand forContext: self);
+			 add: (STAncientStrategyCommand forContext: self);
+			 add: (STClassicStrategyCommand forContext: self);
+			 add: (STModernStrategyCommand forContext: self);
+			 yourself).
+	dropListForOffsideRule display: [ :command | command name ].
+	dropListForOffsideRule whenSelectedItemChangedDo: [ :command |
+			command execute.
+			statusbar pushMessage: 'Offside set to ' , command name , '.' ]
+]
+
+{ #category : 'initialization' }
 STFrameEditor >> initializePresenters [
 	"Initialize the main presenters."
 
 	super initializePresenters.
 	graphicFactory := STGraphicFactory new.
-	controls := self controlsPresenter.
 	board := SpBlSpaceInMorphPresenter new.
 	statusbar := self newStatusBar.
 	openFilePresenter := self openingFilePresenter.
+	leftTeamAddPlayerButton := self newButton.
+	rightTeamAddPlayerButton := self newButton.
+	self initializeBallPossessionButtons.
+	self initializeDropListForOffsideRule.
 	self resetBoard
 ]
 
@@ -319,6 +341,7 @@ STFrameEditor >> openingButton [
 
 	^ self newButton
 		  label: 'Open...';
+		  help: 'Open a SoccerML file.';
 		  action: [ openFilePresenter openModal ]
 ]
 
@@ -390,27 +413,15 @@ STFrameEditor >> shapeControlsLayout [
 	"Answer the layout for shape (ball, players) controls."
 
 	^ SpBoxLayout newLeftToRight
-		  add: (leftTeamAddPlayerButton := self newButton);
+		  add: leftTeamAddPlayerButton;
 		  add: self ballPossessionControlsLayout;
-		  add: (rightTeamAddPlayerButton := self newButton);
+		  add: rightTeamAddPlayerButton;
 		  yourself
 ]
 
 { #category : 'layout' }
 STFrameEditor >> strategyControlsLayout [
 	"Answer the layout for strategy controls."
-
-	dropListForOffsideRule := SpDropListPresenter new.
-	dropListForOffsideRule items: (OrderedCollection new
-			 add: (STNoOffsideStrategyCommand forContext: self);
-			 add: (STAncientStrategyCommand forContext: self);
-			 add: (STClassicStrategyCommand forContext: self);
-			 add: (STModernStrategyCommand forContext: self);
-			 yourself).
-	dropListForOffsideRule display: [ :command | command name ].
-	dropListForOffsideRule whenSelectedItemChangedDo: [ :command |
-		command execute.
-		statusbar pushMessage: 'Offside set to ' , command name , '.' ].
 
 	^ SpBoxLayout newLeftToRight
 		  hAlignEnd;

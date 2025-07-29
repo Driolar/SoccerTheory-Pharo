@@ -117,6 +117,7 @@ STSoccerDocumentReader >> currentSoccerFrame [
 	self setBallPossession.
 	self setStrategy.
 	self addPlayers.
+	self setOfficialTime. 
 
 	^ frameBuilder builtFrame
 ]
@@ -195,6 +196,13 @@ STSoccerDocumentReader >> setBallPossession [
 		frameBuilder setBallPosessionLeft ].
 	(ballElement contentStringAt: 'PossessingTeam') = 'r' ifTrue: [
 		frameBuilder setBallPosessionRight ]
+]
+
+{ #category : 'private - building' }
+STSoccerDocumentReader >> setOfficialTime [
+
+	frameBuilder officialTime:
+		(self currentFrameNode attributeAt: 'time')
 ]
 
 { #category : 'private - building' }

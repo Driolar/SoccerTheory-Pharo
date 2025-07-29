@@ -332,6 +332,13 @@ STSoccerFrameBuilder >> initializeWithTeamLeft: nameOfTeamLeft teamRight: nameOf
 ]
 
 { #category : 'creation' }
+STSoccerFrameBuilder >> officialTime: aString [
+	"Set the official frame time (e.g. from RoboCup)"
+
+	frame officialTime: aString
+]
+
+{ #category : 'creation' }
 STSoccerFrameBuilder >> setAncientSoccerStrategy [
 	actionManager setAncientSoccerStrategy
 ]
