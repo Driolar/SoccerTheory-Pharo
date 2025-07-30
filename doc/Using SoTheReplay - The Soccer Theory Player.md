@@ -1,7 +1,7 @@
 # Using SoTheReplay - The Soccer Theory Player
 ## Getting Started
 SoTheReplay, The Soccer Theory Player, is a Pharo application to visually experiment with the Soccer Theory by replaying sequences of soccer scene frames on a two-dimensional play field.
-It belongs to the [Soccer Theory Suite](https://github.com/Driolar/SoccerTheory-Pharo?tab=readme-ov-file#readme).
+SoTheReplay belongs to the [Soccer Theory Suite](https://github.com/Driolar/SoccerTheory-Pharo?tab=readme-ov-file#readme).
 After opening the SoTheReplay application, we see the main window consisting of the following parts from top to bottom:
 * the window title
 * the controls
