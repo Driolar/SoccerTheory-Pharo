@@ -1,6 +1,6 @@
 # Using SoThePlayer - The Soccer Theory Player
 ## Getting Started
-SoThePlayer, The Soccer Theory Player, is a Pharo application to visually experiment with the Soccer Theory.
+SoThePlayer, The Soccer Theory Player, is a Pharo application to visually experiment with the Soccer Theory by replaying a sequence of soccer scene frames on a two-dimensional play field.
 It belongs to the [Soccer Theory Suite](https://github.com/Driolar/SoccerTheory-Pharo#).
 After opening the SoThePlayer application, we see the main window consisting of the following parts from top to bottom:
 * the window title
