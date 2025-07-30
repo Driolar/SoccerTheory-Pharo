@@ -1,7 +1,7 @@
 # Using SoThePlayer - The Soccer Theory Player
 ## Getting Started
 SoThePlayer, The Soccer Theory Player, is a Pharo application to visually experiment with the Soccer Theory by replaying sequences of soccer scene frames on a two-dimensional play field.
-It belongs to the [Soccer Theory Suite](https://github.com/Driolar/SoccerTheory-Pharo#).
+It belongs to the [Soccer Theory Suite](https://github.com/Driolar/SoccerTheory-Pharo?tab=readme-ov-file#readme).
 After opening the SoThePlayer application, we see the main window consisting of the following parts from top to bottom:
 * the window title
 * the controls
@@ -29,4 +29,4 @@ This field is automatically updated/incremented while a sequence is being replay
 You can *(re)load* the frame with the current frame index by clicking at the refresh button <img width="27" height="23" alt="Bild_2025-07-30_154456374" src="https://github.com/user-attachments/assets/bfafe850-bf61-4763-80e9-66ae3152009f" />.
 With the back button <img width="26" height="20" alt="Bild_2025-07-30_154705846" src="https://github.com/user-attachments/assets/9dbbbe7b-f920-43ac-8d88-c7918cb37699" />, you can set the current starting frame to the last replaying's starting frame.
 
-On the current static frame, you can move every player and the ball like you can do in [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/e97f52ab73f5d9a97cd7b8f8790c83e774be939e/doc/Using%20SoTheboard%20-%20The%20Soccer%20Theory%20Board.md). 
+On the current static frame, you can move every player and the ball like you can do in [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md). 
