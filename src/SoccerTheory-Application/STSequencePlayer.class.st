@@ -34,7 +34,7 @@ Class {
 { #category : 'TOREMOVE' }
 STSequencePlayer class >> aboutText [
 
-	^ 'SoThePlayer, The Soccer Theory Player, is a software application to visualize the Theory of Soccer.'
+	^ 'SoTheReplay, The Soccer Theory Player, is a software application to replay sequences of soccer scene frames on a two-dimensional play field. SoTheReplay belongs to the Soccer Theory software suite dedicated to visualize the Theory of Soccer.'
 ]
 
 { #category : 'instance creation' }
@@ -43,7 +43,7 @@ STSequencePlayer class >> open [
 
 	<script>
 	self new asWindow
-		title: 'SoThePlayer – The Soccer Theory Player';
+		title: 'SoTheReplay – The Soccer Theory Player';
 		aboutText: self aboutText;
 		initialExtent: 1180 @ 884;
 		beNotResizable; 

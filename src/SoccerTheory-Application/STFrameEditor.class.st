@@ -31,7 +31,7 @@ Class {
 { #category : 'TOREMOVE' }
 STFrameEditor class >> aboutText [
 
-	^ 'SoTheBoard, The Soccer Theory Board, is a software application to visualize the Theory of Soccer.'
+	^ 'SoTheBoard, The Soccer Theory Board, is a software application to edit a single soccer scene (frame) on a two-dimensional play field. SoTheBoard belongs to the Soccer Theory software suite dedicated to visualize the Theory of Soccer.'
 ]
 
 { #category : 'instance creation' }
