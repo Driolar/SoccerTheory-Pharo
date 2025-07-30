@@ -14,7 +14,7 @@ The play field has a fixed size of 1110 x 720 pixel without the border.
 
 ## Loading a frame sequence
 The button "Open..." opens a modal window to select a *SoccerML* file with extension .socxml for loading without validation.
-You can download some [SoccerML frame sequence examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml/frame_sequence). 
+You previously may have downloaded some [SoccerML frame sequence examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml/frame_sequence). 
 After loading, the first frame is rendered and the file name and the total number of frames is indicated on the status bar.
 
 ## Replaying a sequence of frames
