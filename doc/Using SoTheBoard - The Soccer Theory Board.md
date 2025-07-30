@@ -1,7 +1,7 @@
 # Using SoTheBoard - The Soccer Theory Board
 ## Getting Started
 **SoTheBoard**, The Soccer Theory Board, is a Pharo application to visually experiment with the Soccer Theory by editing single soccer scenes (frames) on a two-dimensional play field.
-SoTheBoard belongs to the [Soccer Theory Suite](https://github.com/Driolar/SoccerTheory-Pharo#).
+SoTheBoard belongs to the [Soccer Theory Suite](https://github.com/Driolar/SoccerTheory-Pharo?tab=readme-ov-file#readme).
 After opening the SoTheBoard application, we see the main window consisting of the following parts from top to bottom:
 * the window title
 * the controls
