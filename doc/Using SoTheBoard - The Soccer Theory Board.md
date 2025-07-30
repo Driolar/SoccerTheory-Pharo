@@ -31,7 +31,7 @@ We can arrange a soccer scene in many ways.
   The button "Open..." opens a modal window to select a *SoccerML* file with extension .socxml for loading under validation.
   You previously may have downloaded some [SoccerML file examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml). 
   If the file contains more than one frame, only the first frame will be displayed.
-  To view all the frames, please use the [SoThePlayer](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoThePlayer%20-%20The%20Soccer%20Theory%20Player.md) application.
+  To view all the frames, please use the [SoTheReplay](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheReplay%20-%20The%20Soccer%20Theory%20Player.md) application.
   
   Furthermore, the button "Examples" offers some trivial test scenes built-in for straightforward load.
   ### Resetting the scene
