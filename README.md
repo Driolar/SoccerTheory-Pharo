@@ -21,7 +21,8 @@ You can replace master by v1.1 to load the latest released version.
 Do *STFrameEditor open* to launch the starting window:<img width="1172" height="880" alt="Bild_2025-07-21_142319669" src="https://github.com/user-attachments/assets/87bf847c-3f98-46d1-adab-47703e85e119" />
 
 ## Start SoTheReplay
-Do *STSequencePlayer open* to launch the starting window:<img width="1171" height="882" alt="Bild_2025-07-30_144839748" src="https://github.com/user-attachments/assets/0fda3668-28b0-4fd0-acac-7e7307e771ba" />
+Do *STSequencePlayer open* to launch the starting window:<img width="1173" height="881" alt="Bild_2025-07-30_183217818" src="https://github.com/user-attachments/assets/21ec212b-2ddd-4fbb-8342-f69c0cc94014" />
+
 
 
 
