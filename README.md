@@ -1,4 +1,4 @@
-# SoccerTheory-Pharo
+# The Soccer Theory Suite
 The **Soccer Theory Suite** is a software application suite to visualize the [Theory of Soccer](https://en.wikiversity.org/wiki/The_Theory_of_Soccer).
 It is written in Pharo and is inspired by a [former master thesis implemented in Java](https://github.com/Driolar/SoccerTheory-Java).
 There is some [user documentation](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/doc) written for you.
