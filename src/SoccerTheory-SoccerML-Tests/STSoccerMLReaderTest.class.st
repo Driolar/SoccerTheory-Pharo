@@ -1,12 +1,12 @@
 Class {
-	#name : 'STSoccerMLTest',
+	#name : 'STSoccerMLReaderTest',
 	#superclass : 'TestCase',
 	#category : 'SoccerTheory-SoccerML-Tests',
 	#package : 'SoccerTheory-SoccerML-Tests'
 }
 
 { #category : 'fixtures' }
-STSoccerMLTest >> soccerMLFixture2 [
+STSoccerMLReaderTest >> soccerMLFixture2 [
 	"Answer the SoccerML for fixture 2 as a String."
 
 	^ '<?xml version="1.0" encoding="UTF-8"?>
@@ -67,7 +67,7 @@ STSoccerMLTest >> soccerMLFixture2 [
 ]
 
 { #category : 'fixtures' }
-STSoccerMLTest >> soccerMLFixture2Broken [
+STSoccerMLReaderTest >> soccerMLFixture2Broken [
 	"Answer the SoccerML for fixture 2 as a String but broken."
 
 	^ '<?xml version="1.0" encoding="UTF-8"?>
@@ -128,7 +128,7 @@ STSoccerMLTest >> soccerMLFixture2Broken [
 ]
 
 { #category : 'fixtures' }
-STSoccerMLTest >> soccerMLFixture2Invalid [
+STSoccerMLReaderTest >> soccerMLFixture2Invalid [
 	"Answer a well formed but invalid SoccerML for fixture 2 as a String."
 
 	^ '<?xml version="1.0" encoding="UTF-8"?>
@@ -189,7 +189,7 @@ STSoccerMLTest >> soccerMLFixture2Invalid [
 ]
 
 { #category : 'tests' }
-STSoccerMLTest >> testBadFormed [
+STSoccerMLReaderTest >> testBadFormed [
 
 	self
 		should: [ STSoccerDocumentReader parse: self soccerMLFixture2Broken ]
@@ -197,7 +197,7 @@ STSoccerMLTest >> testBadFormed [
 ]
 
 { #category : 'tests' }
-STSoccerMLTest >> testFrameCreation [
+STSoccerMLReaderTest >> testFrameCreation [
 
 	| reader createdFrame |
 	reader := STSoccerDocumentReader parse: self soccerMLFixture2.
@@ -221,7 +221,7 @@ STSoccerMLTest >> testFrameCreation [
 ]
 
 { #category : 'tests' }
-STSoccerMLTest >> testFrameNodes [
+STSoccerMLReaderTest >> testFrameNodes [
 
 	| reader |
 	reader := STSoccerDocumentReader parse: self soccerMLFixture2.
@@ -229,7 +229,7 @@ STSoccerMLTest >> testFrameNodes [
 ]
 
 { #category : 'tests' }
-STSoccerMLTest >> testInvalid [
+STSoccerMLReaderTest >> testInvalid [
 
 	self
 		should: [
@@ -238,7 +238,7 @@ STSoccerMLTest >> testInvalid [
 ]
 
 { #category : 'tests' }
-STSoccerMLTest >> testTeamNames [
+STSoccerMLReaderTest >> testTeamNames [
 
 	| reader |
 	reader := STSoccerDocumentReader parse: self soccerMLFixture2.
@@ -247,7 +247,7 @@ STSoccerMLTest >> testTeamNames [
 ]
 
 { #category : 'tests' }
-STSoccerMLTest >> testWellFormed [
+STSoccerMLReaderTest >> testWellFormed [
 
 	self
 		shouldnt: [ STSoccerDocumentReader parse: self soccerMLFixture2 ]

@@ -51,3 +51,10 @@ STAncientSoccerStrategy >> offsideX [
 		  ifNil: [ nil ]
 		  ifNotNil: [ frame ball position x ]
 ]
+
+{ #category : 'accessing' }
+STAncientSoccerStrategy >> xmlText [
+	"Answer the String for my xml tag."
+
+	^ '1863'
+]

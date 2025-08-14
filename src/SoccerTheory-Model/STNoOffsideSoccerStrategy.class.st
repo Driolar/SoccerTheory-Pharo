@@ -42,3 +42,10 @@ STNoOffsideSoccerStrategy >> offsideX [
 
 	^ nil
 ]
+
+{ #category : 'accessing' }
+STNoOffsideSoccerStrategy >> xmlText [
+	"Answer the String for my xml tag."
+
+	^ 'none'
+]

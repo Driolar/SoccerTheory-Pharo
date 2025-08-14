@@ -149,13 +149,23 @@ STSoccerDocumentReader >> initializeWith: aXMLDOMParser [
 
 	self initialize.
 	domParser := aXMLDOMParser.
-	domParser optimizeForLargeDocuments 
+	domParser
+		resolvesExternalEntities: true;
+		usesNamespaces: true;
+		isValidating: true
 ]
 
 { #category : 'api' }
 STSoccerDocumentReader >> numberOfFrames [
 
 	^ self frameNodes size
+]
+
+{ #category : 'initialization' }
+STSoccerDocumentReader >> optimizeForLargeDocuments [
+	"Disable usesNamespaces, isValidating and the document security read limit."
+
+	domParser optimizeForLargeDocuments
 ]
 
 { #category : 'api' }

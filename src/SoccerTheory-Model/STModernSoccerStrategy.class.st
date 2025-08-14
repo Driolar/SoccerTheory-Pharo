@@ -40,3 +40,10 @@ STModernSoccerStrategy >> offsideX [
 		  ifNotNil: [
 		  self offsideXAccordingToDefender: frame secondDefenderFromTheBack ]
 ]
+
+{ #category : 'accessing' }
+STModernSoccerStrategy >> xmlText [
+	"Answer the String for my xml tag."
+
+	^ '1925'
+]

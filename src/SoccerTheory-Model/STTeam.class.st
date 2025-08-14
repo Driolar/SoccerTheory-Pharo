@@ -134,3 +134,11 @@ STTeam >> teamName [
 
 	^teamName 
 ]
+
+{ #category : 'accessing' }
+STTeam >> xmlSideCode [
+
+	^ self isTeamLeft
+		  ifTrue: [ 'l' ]
+		  ifFalse: [ 'r' ]
+]

@@ -25,9 +25,9 @@ STPitch class >> extent: aPoint goalWidth: goalWidth [
 
 { #category : 'instance creation' }
 STPitch class >> newDefault [
-	"Answer a new STPitch with the standard soccer dimensions."
+	"Answer a new STPitch with the standard soccer dimensions in meters."
 
-	^ self extent: 165 @ 68 goalWidth: 7.32
+	^ self extent: 105 @ 68 goalWidth: 7.32
 ]
 
 { #category : 'accessing' }

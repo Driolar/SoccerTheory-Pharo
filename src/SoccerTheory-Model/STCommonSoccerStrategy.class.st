@@ -190,3 +190,10 @@ STCommonSoccerStrategy >> updateCovering [
 	self announcer announce:
 		(STOffsideLineChangedAnnouncement newWithOffsideX: self offsideX)
 ]
+
+{ #category : 'accessing' }
+STCommonSoccerStrategy >> xmlText [
+	"Answer the String for my xml tag."
+
+	self subclassResponsibility
+]

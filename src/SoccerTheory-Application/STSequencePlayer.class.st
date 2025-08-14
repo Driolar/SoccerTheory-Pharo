@@ -196,6 +196,7 @@ STSequencePlayer >> loadFile: aFileReference [
 	"Extract the first STSoccerFrame from the given SoccerML file, display it and push a message on the status bar."
 
 	reader := STSoccerDocumentReader onFileNamed: aFileReference fullName.
+	reader optimizeForLargeDocuments. 
 	reader parse.
 
 	self updateFrameIndexPresenter.
