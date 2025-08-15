@@ -9,7 +9,6 @@ Class {
 	#name : 'STGameCommander',
 	#superclass : 'Object',
 	#instVars : [
-		'frame',
 		'actionManager'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
@@ -32,7 +31,7 @@ STGameCommander >> addNewPlayerToTeam: aSTTeam [
 	player := STPlayer
 		          newWithPosition: (self entryPointForPlayerOfTeam: aSTTeam)
 		          team: aSTTeam
-		          frame: frame
+		          frame: self frame
 		          number: aSTTeam nextFreeJerseyNumber.
 
 	actionManager addPlayer: player toTeam: aSTTeam.
@@ -44,7 +43,7 @@ STGameCommander >> addNewPlayerToTeam: aSTTeam [
 STGameCommander >> ball [
 	"Answer the STBall currently in play."
 
-	^ frame ball
+	^ self frame ball
 ]
 
 { #category : 'actions api' }
@@ -58,21 +57,26 @@ STGameCommander >> changeBallOwnerToTeam: aSTTeam [
 STGameCommander >> defendingTeam [ 
 	"Answer the STTeam currently defending."
 
-	^ frame defendingTeam 
+	^ self frame defendingTeam 
 ]
 
 { #category : 'private' }
 STGameCommander >> entryPointForPlayerOfTeam: aSTTeam [
 	"Answer the pitch point where a new player of aTeam is initially located."
 
-	^ frame pitch middle x @ frame pitch extent y / 2
+	^ self frame pitch middle x @ self frame pitch extent y / 2
+]
+
+{ #category : 'accessing' }
+STGameCommander >> frame [
+
+	^ actionManager frame
 ]
 
 { #category : 'initialization' }
 STGameCommander >> initializeWithFrame: aSTSoccerFrame [
 	"Initialize with the given STSoccerFrame."
 
-	frame := aSTSoccerFrame.
 	actionManager := STActionManager newWithFrame: aSTSoccerFrame
 ]
 
@@ -100,14 +104,14 @@ STGameCommander >> notifyCovering [
 STGameCommander >> owningTeam [ 
 	"Answer the STTeam currently owning the ball."
 
-	^ frame owningTeam 
+	^ self frame owningTeam 
 ]
 
 { #category : 'accessing' }
 STGameCommander >> pitch [
 	"Answer the STPitch where game takes place."
 
-	^ frame pitch
+	^ self frame pitch
 ]
 
 { #category : 'actions api' }
@@ -138,19 +142,19 @@ STGameCommander >> setNoOffsideSoccerStrategy [
 STGameCommander >> strategy [
 	"Answer the current STCommonSoccerStrategy."
 
-	^ frame strategy
+	^ self frame strategy
 ]
 
 { #category : 'accessing' }
 STGameCommander >> teamLeft [ 
 	"Answer the STTeam playing from left to right."
 
-	^ frame teamLeft 
+	^ self frame teamLeft 
 ]
 
 { #category : 'accessing' }
 STGameCommander >> teamRight [
 	"Answer the STTeam playing from right to left."
 
-	^ frame teamRight
+	^ self frame teamRight
 ]

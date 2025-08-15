@@ -59,6 +59,11 @@ STActionManager >> changeBallOwnerToTeam: aSTTeam [
 	self announceBallPossessionChanged
 ]
 
+{ #category : 'accessing' }
+STActionManager >> frame [
+	^ frame
+]
+
 { #category : 'initialization' }
 STActionManager >> initializeWithFrame: aSTSoccerFrame [
 

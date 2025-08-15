@@ -21,7 +21,8 @@ Class {
 		'neutralPossessionButton',
 		'leftTeamAddPlayerButton',
 		'rightTeamAddPlayerButton',
-		'openFilePresenter'
+		'openFilePresenter',
+		'saveFilePresenter'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -149,10 +150,16 @@ STFrameEditor >> frameControlsLayout [
 	"Answer the layout for frame controls."
 
 	^ SpBoxLayout newLeftToRight
-		  add: self openingButton expand: false;
-        "add: self menuButtonForLoadingExamples width: 100;"
-		  add: self buttonForLoadingExamples expand: false;
-		  add: self resettingButton expand: false;
+		  hAlignStart;
+		  add: (SpToolbarPresenter new
+				   beIcons;
+				   add: self toolbarButtonToOpen;
+				   add: self toolbarButtonToSave;
+				   add: self toolbarButtonToReset;
+				   yourself);
+		  "add: self menuButtonForLoadingExamples width: 100;"add:
+		  self buttonForLoadingExamples
+		  expand: false;
 		  yourself
 ]
 
@@ -216,6 +223,7 @@ STFrameEditor >> initializePresenters [
 	board := SpBlSpaceInMorphPresenter new.
 	statusbar := self newStatusBar.
 	openFilePresenter := self openingFilePresenter.
+	saveFilePresenter := self savingFilePresenter.
 	leftTeamAddPlayerButton := self newButton.
 	rightTeamAddPlayerButton := self newButton.
 	self initializeBallPossessionButtons.
@@ -336,16 +344,6 @@ STFrameEditor >> menuButtonForLoadingExamples [
 ]
 
 { #category : 'presenters' }
-STFrameEditor >> openingButton [
-	"Answer the button for opening a SoccerML file."
-
-	^ self newButton
-		  label: 'Open...';
-		  help: 'Open a SoccerML file.';
-		  action: [ openFilePresenter openModal ]
-]
-
-{ #category : 'presenters' }
 STFrameEditor >> openingFilePresenter [
 
 	^ (StOpenFilePresenter on: StFileSystemModel new)
@@ -398,13 +396,24 @@ STFrameEditor >> resetBoard [
 		named: 'Initial scene'
 ]
 
-{ #category : 'presenters' }
-STFrameEditor >> resettingButton [
-	"Answer the button for resetting the board."
+{ #category : 'private' }
+STFrameEditor >> saveFile: aFileReference [
+	"Write the STSoccerFrame to SoccerML and save the document under the given file reference. Push a message on the status bar."
 
-	^ self newButton
-		  label: 'Reset';
-		  action: [ self resetBoard ];
+	| writer |
+	writer := STSoccerDocumentWriter on: gameCommander frame.
+	aFileReference writeStreamDo: [ :stream |
+		stream nextPutAll: writer writeWholeDocument ]
+]
+
+{ #category : 'presenters' }
+STFrameEditor >> savingFilePresenter [
+
+	^ (StSaveFilePresenter on: StFileSystemModel new)
+		  openFolder: FileLocator documents;
+		  extensions: #( 'socxml' );
+		  okAction: [ :selectedFileReference |
+			  self saveFile: selectedFileReference ];
 		  yourself
 ]
 
@@ -427,6 +436,41 @@ STFrameEditor >> strategyControlsLayout [
 		  hAlignEnd;
 		  add: dropListForOffsideRule expand: false;
 		  yourself
+]
+
+{ #category : 'presenters' }
+STFrameEditor >> toolbarButtonToOpen [
+	"Answer the toolbar button for opening a SoccerML file."
+
+	^ self newToolbarButton
+		  icon: (self iconNamed: #open);
+		  label: 'Open...';
+		  help: 'Open a SoccerML file.';
+		  action: [ openFilePresenter openModal ]
+]
+
+{ #category : 'presenters' }
+STFrameEditor >> toolbarButtonToReset [
+	"Answer the toolbar button for resetting the board."
+
+	^ self newToolbarButton
+		  label: 'Reset';
+		  icon: (self iconNamed: #delete);
+		  help:
+			  'Clear irrevocably the scene and initialize it with just two goalkeepers and the ball in the middle.';
+		  action: [ self resetBoard ];
+		  yourself
+]
+
+{ #category : 'presenters' }
+STFrameEditor >> toolbarButtonToSave [
+	"Answer the toolbar button for saving a SoccerML file."
+
+	^ self newToolbarButton
+		  icon: (self iconNamed: #save);
+		  label: 'Save...';
+		  help: 'Save the current frame to a SoccerML file.';
+		  action: [ saveFilePresenter openModal ]
 ]
 
 { #category : 'update' }
