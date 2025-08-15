@@ -403,7 +403,8 @@ STFrameEditor >> saveFile: aFileReference [
 	| writer |
 	writer := STSoccerDocumentWriter on: gameCommander frame.
 	aFileReference writeStreamDo: [ :stream |
-		stream nextPutAll: writer writeWholeDocument ]
+		stream nextPutAll: writer writeWholeDocument ].
+	statusbar pushMessage: aFileReference basename , ' saved.'
 ]
 
 { #category : 'presenters' }

@@ -22,9 +22,11 @@ Class {
 		'stopButton',
 		'restartButton',
 		'openingButton',
+		'savingButton',
 		'refreshButton',
 		'lastStartingFrameIndex',
-		'officialTimeLabel'
+		'officialTimeLabel',
+		'saveFilePresenter'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -81,7 +83,11 @@ STSequencePlayer >> fileControlsLayout [
 	"Answer the layout for file controls."
 
 	^ SpBoxLayout newLeftToRight
-		  add: openingButton expand: false;
+		  add: (SpToolbarPresenter new
+				   beIcons;
+				   add: openingButton;
+				   add: savingButton;
+				   yourself);
 		  yourself
 ]
 
@@ -160,7 +166,8 @@ STSequencePlayer >> initializeButtons [
 	playButton := self playButton.
 	stopButton := self stopButton.
 	restartButton := self restartButton.
-	openingButton := self openingButton.
+	openingButton := self toolbarButtonToOpen.
+	savingButton := self toolbarButtonToSave. 
 	refreshButton := self refreshButton
 ]
 
@@ -169,10 +176,11 @@ STSequencePlayer >> initializePresenters [
 	"Initialize the main presenters."
 
 	super initializePresenters.
-	self initializeButtons. 
+	self initializeButtons.
 	board := SpBlSpaceInMorphPresenter new.
 	statusbar := self newStatusBar.
 	openFilePresenter := self openingFilePresenter.
+	saveFilePresenter := self savingFilePresenter.
 	offsideRuleLabel := self newLabel.
 	officialTimeLabel := self newLabel.
 	self resetBoard
@@ -236,17 +244,6 @@ STSequencePlayer >> officialTimeLayout [
 		  vAlignCenter;
 		  add: 'official time: ' expand: false;
 		  add: officialTimeLabel width: 100;
-		  yourself
-]
-
-{ #category : 'presenters' }
-STSequencePlayer >> openingButton [
-	"Answer the button for opening a SoccerML file."
-
-	^ SpButtonPresenter new
-		  label: 'Open...';
-		  help: 'Open a SoccerML file.';
-		  action: [ openFilePresenter openModal ];
 		  yourself
 ]
 
@@ -345,6 +342,28 @@ STSequencePlayer >> restartButton [
 		  yourself
 ]
 
+{ #category : 'private' }
+STSequencePlayer >> saveFile: aFileReference [
+	"Write the STSoccerFrame to SoccerML and save the document under the given file reference. Push a message on the status bar."
+
+	| writer |
+	writer := STSoccerDocumentWriter on: reader currentSoccerFrame.
+	aFileReference writeStreamDo: [ :stream |
+		stream nextPutAll: writer writeWholeDocument ].
+	statusbar pushMessage: aFileReference basename , ' saved.'
+]
+
+{ #category : 'presenters' }
+STSequencePlayer >> savingFilePresenter [
+
+	^ (StSaveFilePresenter on: StFileSystemModel new)
+		  openFolder: FileLocator documents;
+		  extensions: #( 'socxml' );
+		  okAction: [ :selectedFileReference |
+			  self saveFile: selectedFileReference ];
+		  yourself
+]
+
 { #category : 'layout' }
 STSequencePlayer >> sequenceControlsLayout [
 	"Answer the layout for sequence controls."
@@ -390,11 +409,39 @@ STSequencePlayer >> strategyControlsLayout [
 		  yourself
 ]
 
+{ #category : 'presenters' }
+STSequencePlayer >> toolbarButtonToOpen [
+	"Answer the toolbar button for opening a SoccerML file."
+
+	^ self newToolbarButton
+		  icon: (self iconNamed: #open);
+		  label: 'Open...';
+		  help: 'Open a SoccerML file.';
+		  action: [ openFilePresenter openModal ];
+		  yourself
+]
+
+{ #category : 'presenters' }
+STSequencePlayer >> toolbarButtonToSave [
+	"Answer the toolbar button to export a SoccerML file."
+
+	^ self newToolbarButton
+		  icon: (self iconNamed: #save);
+		  label: 'Save...';
+		  help: 'Save current frame as a SoccerML file.';
+		  action: [ "Guard until Spec issue #1560 is solved."
+				  (reader isNil or: [ self isPlaying ]) ifFalse: [
+						  saveFilePresenter openModal ] ];
+		  disable;
+		  yourself
+]
+
 { #category : 'private' }
 STSequencePlayer >> updateButtons [
 	"Enable/Disable relevant playing buttons."
 
 	openingButton enabled: self isPlaying not.
+	savingButton enabled: (reader notNil and: [ self isPlaying not ]).
 	refreshButton enabled: self isPlaying not.
 	playButton enabled: (self isPlaying not and: [
 			 frameIndexPresenter number < reader numberOfFrames ]).
