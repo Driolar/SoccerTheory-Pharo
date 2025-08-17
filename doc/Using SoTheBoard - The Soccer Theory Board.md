@@ -28,14 +28,15 @@ In the case of players, the jersey number is shown additionally.
 
 We can arrange a soccer scene in many ways.
   ### Loading a scene
-  The button "Open..." opens a modal window to select a *SoccerML* file with extension .socxml for loading under validation.
+  The *open button* opens a modal window to select a [SoccerML](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/SoccerML%20-%20A%20XML%20Markup%20Language.md) file with extension .socxml for loading under validation.
   You previously may have downloaded some [SoccerML file examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml). 
   If the file contains more than one frame, only the first frame will be displayed.
   To view all the frames, please use the [SoTheReplay](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheReplay%20-%20The%20Soccer%20Theory%20Player.md) application.
-  
   Furthermore, the button "Examples" offers some trivial test scenes built-in for straightforward load.
+  ### Saving a scene
+  The *save button* opens a modal window to export the current displayed scene into a SoccerML file.
   ### Resetting the scene
-  Pushing the reset button erases the current scene and restablishes the initial scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
+  Pushing the *delete button* erases the current scene and restablishes the initial scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
   ### Choosing an offside rule
   You can choose the offside rule you might experiment with (ancient, classic, modern or no offside rule) from a drop down list.
   ### Moving a player or the ball
