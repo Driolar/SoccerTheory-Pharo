@@ -1,4 +1,4 @@
-# SoccerML - A XML Markup Language
+# SoccerML - A XML Markup Language for Soccer Theory.
 SoccerML is a XML markup language to provide tracking and event soccer data for investigating the [Soccer Theory](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/A%20bit%20of%20Soccer%20Theory.md). 
 By convention, a SoccerML file should have the extension *.socxml*. 
 Basically, the data consists of header information and a sequence of frames. 
