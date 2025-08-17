@@ -28,7 +28,7 @@ In the case of players, the jersey number is shown additionally.
 
 We can arrange a soccer scene in many ways.
   ### Loading a scene
-  The *open button* opens a modal window to select a [SoccerML](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/SoccerML%20-%20A%20XML%20Markup%20Language.md) file with extension .socxml for loading under validation.
+  The *open button* opens a modal window to select a [SoccerML](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/SoccerML%20-%20A%20XML%20Markup%20Language%20for%20Soccer%20Theory.md) file with extension .socxml for loading under validation.
   You previously may have downloaded some [SoccerML file examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml). 
   If the file contains more than one frame, only the first frame will be displayed.
   To view all the frames, please use the [SoTheReplay](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheReplay%20-%20The%20Soccer%20Theory%20Player.md) application.
