@@ -36,7 +36,7 @@ We can arrange a soccer scene in many ways.
   ### Saving a scene
   The *save button* opens a modal window to export the current displayed scene into a SoccerML file.
   ### Resetting the scene
-  Pushing the *delete button* erases the current scene and restablishes the initial scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
+  Pushing the *delete button* irrevocably erases the current scene and restablishes the initial scene: two goalkeepers in front of their respective goal and the neutral ball placed at the center spot.
   ### Choosing an offside rule
   You can choose the offside rule you might experiment with (ancient, classic, modern or no offside rule) from a drop down list.
   ### Moving a player or the ball
