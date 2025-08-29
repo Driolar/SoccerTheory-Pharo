@@ -36,10 +36,10 @@ STSoccerDocumentReader class >> parse: aStringOrStream [
 ]
 
 { #category : 'instance creation' }
-STSoccerDocumentReader class >> parseFileNamed: aFileNameString [
+STSoccerDocumentReader class >> parseFileNamed: aFileName [
 	"Answer a new instance with parsed SoccerML."
 
-	^ (self onFileNamed: aFileNameString) parse
+	^ (self onFileNamed: aFileName) parse
 ]
 
 { #category : 'private - building' }

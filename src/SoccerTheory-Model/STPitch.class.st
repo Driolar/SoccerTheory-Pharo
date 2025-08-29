@@ -16,6 +16,20 @@ Class {
 	#tag : 'Game'
 }
 
+{ #category : 'private' }
+STPitch class >> defaultGoalWidth [
+	"Answer the default goal width in meters."
+
+	^ 7.32
+]
+
+{ #category : 'instance creation' }
+STPitch class >> extent: aPoint [
+"Answer a new STPitch with the given extent (length@width) and the default goalWidth, all in meters."
+
+	^ self new initializeWithExtent: aPoint goalWidth: self defaultGoalWidth
+]
+
 { #category : 'instance creation' }
 STPitch class >> extent: aPoint goalWidth: goalWidth [
 "Answer a new STPitch with the given extent (length@width) and goalWidth, all in meters."
@@ -27,13 +41,13 @@ STPitch class >> extent: aPoint goalWidth: goalWidth [
 STPitch class >> newDefault [
 	"Answer a new STPitch with the standard soccer dimensions in meters."
 
-	^ self extent: 105 @ 68 goalWidth: 7.32
+	^ self extent: 105 @ 68 
 ]
 
 { #category : 'accessing' }
 STPitch >> extent [
 
-	^ Point x: length y: width
+	^ length @ width
 ]
 
 { #category : 'accessing' }
