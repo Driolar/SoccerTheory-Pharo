@@ -13,7 +13,7 @@ The main window with size 1180 x 884 pixel is not resizable.
 The play field has a fixed size of 1110 x 720 pixel without the border.
 
 ## Loading a frame sequence
-The *open button* opens a modal window to select a [SoccerML](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/SoccerML%20-%20A%20XML%20Markup%20Language.md) file with extension .socxml for loading without validation.
+The *open button* opens a modal window to select a [SoccerML](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/SoccerML%20-%20A%20XML%20Markup%20Language%20for%20Soccer%20Theory.md) file with extension *.socxml* for loading without validation.
 You previously may have downloaded some [SoccerML frame sequence examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml/frame_sequence). 
 After loading, the first frame is rendered and the file name and the total number of frames is indicated on the status bar.
 
