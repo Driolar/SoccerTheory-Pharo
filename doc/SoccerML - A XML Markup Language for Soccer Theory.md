@@ -5,7 +5,7 @@ Basically, the data consists of header information and a sequence of frames.
 The format is defined by the document type definition file [soccerML.dtd](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/socxml/soccerML.dtd).
 ## Converting from other formats
 ### RoboCup
-There is a [RoboCup Tool](https://github.com/rcsoccersim/rcsslogplayer/tree/master/tool) that converts RoboCup log files from the 2D Simulation League to XML files defined by a [XSD file](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg-0.1.xsd).
+There is a [RoboCup Tool](https://github.com/rcsoccersim/rcsslogplayer/tree/master/tool) that converts RoboCup log files from the 2D Simulation League to XML files defined by this [XSD file](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg-0.1.xsd).
 In order to further transform such XML files into SoccerML, we pipeline two transformation sheets [rcg2soc_1of2.xsl](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg2soc_1of2.xsl) and [rcg2soc_2of2.xsl](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg2soc_2of2.xsl).
 This procedure was succesfully employed in a [master thesis](https://github.com/Driolar/SoccerTheory-Java) about the Soccer Theory.
 
