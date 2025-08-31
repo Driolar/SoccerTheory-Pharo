@@ -17,19 +17,20 @@ The *open button* opens a modal window to select a [SoccerML](https://github.com
 You previously may have downloaded some [SoccerML frame sequence examples](https://github.com/Driolar/SoccerTheory-Pharo/tree/master/socxml/frame_sequence). 
 After loading, the first frame is rendered and the file name and the total number of frames is indicated on the status bar.
 
-### Saving a frame
-The *save button* opens a modal window to export the current displayed frame into a SoccerML file.
-
 ## Replaying a sequence of frames
 You can *start* replaying the sequence by clicking at the play button <img width="19" height="18" alt="Bild_2025-07-30_152441958" src="https://github.com/user-attachments/assets/907120db-cec2-485b-ba42-9db17b81041c" />.
 You can *stop* replaying the sequence by clicking at the stop button <img width="23" height="21" alt="Bild_2025-07-30_152604398" src="https://github.com/user-attachments/assets/fd8ea49c-510f-448c-bbae-a019432c7407" />.
 
 ## The current frame
 The frames are always numbered from 1 to the total number of loaded frames.
-You can set the current starting frame index in the number input field labeled *frame#*.
+You can *set* the current starting frame index in the number input field labeled *frame#*.
 This field is automatically updated/incremented while a sequence is being replayed.
 
 You can *(re)load* the frame with the current frame index by clicking at the refresh button <img width="27" height="23" alt="Bild_2025-07-30_154456374" src="https://github.com/user-attachments/assets/bfafe850-bf61-4763-80e9-66ae3152009f" />.
-With the back button <img width="26" height="20" alt="Bild_2025-07-30_154705846" src="https://github.com/user-attachments/assets/9dbbbe7b-f920-43ac-8d88-c7918cb37699" />, you can set the current starting frame to the last replaying's starting frame.
+With the back button <img width="26" height="20" alt="Bild_2025-07-30_154705846" src="https://github.com/user-attachments/assets/9dbbbe7b-f920-43ac-8d88-c7918cb37699" />, you can *set* the current starting frame to the last replaying's starting frame.
 
-On the current static frame, you can move every player and the ball like you can do in [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md). 
+On the current static frame, you can *move* every player and the ball like you can do in [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md). 
+
+### Saving the current frame
+The *save button* opens a modal window to export the current displayed frame into a SoccerML file.
+
