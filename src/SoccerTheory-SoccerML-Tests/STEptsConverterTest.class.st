@@ -271,10 +271,25 @@ STEptsConverterTest >> setUp [
 ]
 
 { #category : 'tests' }
+STEptsConverterTest >> testBallCoordinatesSeparator [
+
+	eptsConverter splitNextRawLine.
+	self assert: eptsConverter ballCoordinatesSeparator equals: ','
+]
+
+{ #category : 'tests' }
 STEptsConverterTest >> testBallIndex [
 
 	eptsConverter splitNextRawLine.
-	self assert: eptsConverter ballIndex equals: 3
+	self assert: eptsConverter ballFormatIndex equals: 3
+]
+
+{ #category : 'tests' }
+STEptsConverterTest >> testBallPosition [
+
+	eptsConverter splitNextRawLine.
+	self assert: eptsConverter ballPosition x =~ -26.56.
+	self assert: eptsConverter ballPosition y =~ 3.67
 ]
 
 { #category : 'tests' }
@@ -294,16 +309,36 @@ STEptsConverterTest >> testFrameCountIndex [
 ]
 
 { #category : 'tests' }
+STEptsConverterTest >> testPlayerChannelNodes [
+
+	self assert: eptsConverter playerChannelNodesForX size equals: 3.
+	self assert: eptsConverter playerChannelNodesForY size equals: 3
+]
+
+{ #category : 'tests' }
 STEptsConverterTest >> testPlayerNodes [
 
 	self assert: eptsConverter playerNodes size equals: 3
 ]
 
 { #category : 'tests' }
+STEptsConverterTest >> testPlayerPositions [
+
+	eptsConverter splitNextRawLine.
+	self assert: eptsConverter playerPositions size equals: 3.
+	self assert: (eptsConverter playerPositions at: '1') x =~ -7.69.
+	self assert: (eptsConverter playerPositions at: '1') y =~ -20.13.
+	self assert: (eptsConverter playerPositions at: '2') x =~ -4.61.
+	self assert: (eptsConverter playerPositions at: '2') y =~ -6.15.
+	self assert: (eptsConverter playerPositions at: '3') x =~ -26.38.
+	self assert: (eptsConverter playerPositions at: '3') y =~ 34.78
+]
+
+{ #category : 'tests' }
 STEptsConverterTest >> testPlayersIndex [
 
 	eptsConverter splitNextRawLine.
-	self assert: eptsConverter playersIndex equals: 2
+	self assert: eptsConverter playersFormatIndex equals: 2
 ]
 
 { #category : 'tests' }
@@ -320,4 +355,11 @@ STEptsConverterTest >> testSplitting [
 STEptsConverterTest >> testTeamNodes [
 
 	self assert: eptsConverter teamNodes size equals: 2
+]
+
+{ #category : 'tests' }
+STEptsConverterTest >> testUnits [
+
+	self assert: eptsConverter xUnit equals: 'cm'.
+	self assert: eptsConverter yUnit equals: 'cm'
 ]
