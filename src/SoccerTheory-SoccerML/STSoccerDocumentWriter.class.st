@@ -107,7 +107,7 @@ STSoccerDocumentWriter >> writeHeader [
 { #category : 'writing' }
 STSoccerDocumentWriter >> writeOffside [
 
-	xmlWriter tag: 'soc:Offside' with: 'none'
+	xmlWriter tag: 'soc:Offside' with: frame strategy xmlText
 ]
 
 { #category : 'writing' }
