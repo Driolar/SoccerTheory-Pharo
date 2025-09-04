@@ -401,7 +401,7 @@ STFrameEditor >> saveFile: aFileReference [
 	"Write the STSoccerFrame to SoccerML and save the document under the given file reference. Push a message on the status bar."
 
 	| writer |
-	writer := STSoccerDocumentWriter on: gameCommander frame.
+	writer := STSoccerFrameDocumentWriter on: gameCommander frame.
 	aFileReference writeStreamDo: [ :stream |
 		stream nextPutAll: writer writeWholeDocument ].
 	statusbar pushMessage: aFileReference basename , ' saved.'

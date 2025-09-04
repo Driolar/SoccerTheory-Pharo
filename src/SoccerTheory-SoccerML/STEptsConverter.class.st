@@ -16,18 +16,28 @@ Class {
 		'rawDataStream',
 		'formatXmlDocument',
 		'formatSpecificationNode',
-		'splittedRawLine'
+		'splittedRawLine',
+		'socMLWriter'
 	],
 	#category : 'SoccerTheory-SoccerML-Base',
 	#package : 'SoccerTheory-SoccerML',
 	#tag : 'Base'
 }
 
-{ #category : 'formatting' }
+{ #category : 'instance creation' }
 STEptsConverter class >> format: aStringOrStream rawData: aReadStream [
-	"Answer a new instance of STEptsConverter for the format in xml aStringOrStream and the raw data stream aReadStream."
+	"Answer a new instance of STEptsConverter for the format defined in aStringOrStream (xml) and the raw data stream aReadStream."
 
 	^ self new initializeWithFormat: aStringOrStream rawData: aReadStream
+]
+
+{ #category : 'instance creation' }
+STEptsConverter class >> formatFileNamed: formatFileName rawDataFileNamed: rawDataFileName [
+	"Answer a new instance of STEptsConverter for the existing format and raw data files."
+
+	^ self
+		  format: formatFileName asFileReference readStream
+		  rawData: rawDataFileName asFileReference readStream
 ]
 
 { #category : 'private' }
@@ -79,6 +89,15 @@ STEptsConverter >> detectFormatSpecificationFor: rawLine [
 ]
 
 { #category : 'private' }
+STEptsConverter >> fillWriter [
+	"Fill the writer with all frames."
+
+	self reset.
+	[ rawDataStream atEnd ] whileFalse: [
+		socMLWriter addFrame: self nextFrame ]
+]
+
+{ #category : 'private' }
 STEptsConverter >> formatSpecificationNodes [
 	"Answer the data format specification nodes collection."
 
@@ -99,6 +118,12 @@ STEptsConverter >> frameCountIndexOf: formatNode [
 	^ 0
 ]
 
+{ #category : 'accessing' }
+STEptsConverter >> framesPerSecond [
+
+	^ (formatXmlDocument findElementNamed: 'FrameRate') contentString
+]
+
 { #category : 'private' }
 STEptsConverter >> inMeters: rawXCoordinate unit: unit [
 	"Answer the raw coordinate converted from unit (cm or normalized) to meters."
@@ -113,7 +138,8 @@ STEptsConverter >> initializeWithFormat: aStringOrStream rawData: aReadStream [
 	"Initialize formatInXml and rawDataStream"
 
 	formatXmlDocument := XMLDOMParser parse: aStringOrStream.
-	rawDataStream := aReadStream
+	rawDataStream := aReadStream.
+	self reset.
 ]
 
 { #category : 'private' }
@@ -126,6 +152,49 @@ STEptsConverter >> isInFrameCountRange: formatDataSpecification frameCount: aNum
 	endFrame := (formatDataSpecification attributeAt: 'endFrame')
 		            asNumber.
 	^ aNumber between: startFrame and: endFrame
+]
+
+{ #category : 'private' }
+STEptsConverter >> newFrameBuilder [
+	"Answer a new STSoccerFrameBuilder for the current raw line."
+
+	"TODO: Manage left/right teams. Local=left or right? Changing fields at half time --> new Sequence element."
+
+	^ (STSoccerFrameBuilder
+		   newWithTeamLeft: 'Local Team'
+		   teamRight: 'Visiting Team'
+		   pitch: self pitch
+		   ball: (STBall newWithPosition: self ballPosition))
+		  setModernSoccerStrategy;
+		  framesPerSecond: self framesPerSecond;
+		  yourself
+]
+
+{ #category : 'private' }
+STEptsConverter >> nextFrame [
+	"Answer the next STSoccerFrame from the next raw line. Answer nil if there are no more lines."
+
+	| frameBuilder |
+	rawDataStream atEnd ifTrue: [ ^ nil ].
+
+	self splitNextRawLine.
+	frameBuilder := self newFrameBuilder.
+	self playerNodes do: [ :playerNode |
+			| playerId shirtNumber teamId |
+			playerId := playerNode attributeAt: 'id'.
+			teamId := playerNode attributeAt: 'teamId'.
+			shirtNumber := playerNode contentStringAt: 'ShirtNumber'.
+			self teamLeftId = teamId ifTrue: [
+					frameBuilder
+						createPlayerInTeamLeftAtPosition:
+						(self playerPositions at: playerId)
+						number: shirtNumber ].
+			self teamRightId = teamId ifTrue: [
+					frameBuilder
+						createPlayerInTeamRightAtPosition:
+						(self playerPositions at: playerId)
+						number: shirtNumber ] ].
+	^ frameBuilder builtFrame
 ]
 
 { #category : 'private' }
@@ -268,6 +337,14 @@ STEptsConverter >> playersFormatIndex [
 	^ 0
 ]
 
+{ #category : 'initialization' }
+STEptsConverter >> reset [
+	"Reset rawDataStream and socMLWriter."
+
+	rawDataStream position: 0.
+	socMLWriter := STSoccerMLWriter onFirstFrame: self nextFrame
+]
+
 { #category : 'private' }
 STEptsConverter >> splitNextRawLine [
 	"Split the next raw line into frame count, players and ball."
@@ -280,10 +357,24 @@ STEptsConverter >> splitNextRawLine [
 ]
 
 { #category : 'private' }
+STEptsConverter >> teamLeftId [
+	"Answer the id of team left."
+
+	^ self teamNodes first attributeAt: 'id'
+]
+
+{ #category : 'private' }
 STEptsConverter >> teamNodes [
 	"Answer the team nodes collection."
 
 	^ formatXmlDocument allElementsNamed: 'Team'
+]
+
+{ #category : 'private' }
+STEptsConverter >> teamRightId [
+	"Answer the id of team right."
+
+	^ self teamNodes last attributeAt: 'id'
 ]
 
 { #category : 'private' }
@@ -295,6 +386,22 @@ STEptsConverter >> unitForAxis: axis [
 		            findElementNamed: 'Channel'
 		            with: [ :element | (element attributeAt: 'id') = axis ].
 	^ xChannel contentStringAt: 'Unit'
+]
+
+{ #category : 'api' }
+STEptsConverter >> writeWholeDocument [
+	"Answer the whole document after having built it entirely."
+
+	self fillWriter.
+	^ socMLWriter writeWholeDocument
+]
+
+{ #category : 'api' }
+STEptsConverter >> writeWholeDocumentToFileNamed: fileName [
+	"Write and save the document to a new file named fileName."
+
+	self fillWriter.
+	socMLWriter writeWholeDocumentToFileNamed: fileName
 ]
 
 { #category : 'private' }

@@ -313,6 +313,13 @@ STSoccerFrameBuilder >> createPlayerInTeamRightAtPosition: aPoint number: aSmall
 		number: aSmallInteger
 ]
 
+{ #category : 'creation' }
+STSoccerFrameBuilder >> framesPerSecond: aString [
+	"Set the frame rate."
+
+	frame framesPerSecond: aString
+]
+
 { #category : 'initialization' }
 STSoccerFrameBuilder >> initializeWithPitch: aSTPitch [
 

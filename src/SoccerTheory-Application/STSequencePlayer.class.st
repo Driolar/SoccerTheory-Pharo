@@ -26,7 +26,8 @@ Class {
 		'refreshButton',
 		'lastStartingFrameIndex',
 		'officialTimeLabel',
-		'saveFilePresenter'
+		'saveFilePresenter',
+		'framesPerSecond'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -145,6 +146,15 @@ STSequencePlayer >> framePlayerLayout [
 ]
 
 { #category : 'loading' }
+STSequencePlayer >> frameRate [
+	"Answer the frame rate in milliseconds."
+
+	^ Duration milliSeconds: (framesPerSecond
+			   ifNotNil: [ 1000 / framesPerSecond asNumber ]
+			   ifNil: [ 100 "RoboCup standard" ])
+]
+
+{ #category : 'loading' }
 STSequencePlayer >> gotoRestart [
 
 	(lastStartingFrameIndex isNil or: [ self isPlaying ]) ifTrue: [
@@ -230,6 +240,7 @@ STSequencePlayer >> loadFrame: aFrame [
 	offsideRuleLabel label: aFrame strategy offsideRuleName.
 	aFrame officialTime ifNotNil: [ :officialTime |
 		officialTimeLabel label: officialTime ].
+	framesPerSecond := aFrame framesPerSecond.
 
 	board space root removeChildren.
 	board space setExtent: scene totalExtent.
@@ -287,7 +298,7 @@ STSequencePlayer >> playSequence [
 						                  frameIndexPresenter number:
 								                  frameIndexPresenter number + 1 ]
 					                  ifFalse: [ self stopSequence ] ];
-		                  delay: (Duration milliSeconds: 100). "RoboCup standard"
+		                  delay: self frameRate.
 	board space enqueueTask: playTaskAction
 ]
 
@@ -347,7 +358,7 @@ STSequencePlayer >> saveFile: aFileReference [
 	"Write the STSoccerFrame to SoccerML and save the document under the given file reference. Push a message on the status bar."
 
 	| writer |
-	writer := STSoccerDocumentWriter on: reader currentSoccerFrame.
+	writer := STSoccerFrameDocumentWriter on: reader currentSoccerFrame.
 	aFileReference writeStreamDo: [ :stream |
 		stream nextPutAll: writer writeWholeDocument ].
 	statusbar pushMessage: aFileReference basename , ' saved.'

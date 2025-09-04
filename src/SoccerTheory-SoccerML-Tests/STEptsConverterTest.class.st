@@ -273,21 +273,18 @@ STEptsConverterTest >> setUp [
 { #category : 'tests' }
 STEptsConverterTest >> testBallCoordinatesSeparator [
 
-	eptsConverter splitNextRawLine.
 	self assert: eptsConverter ballCoordinatesSeparator equals: ','
 ]
 
 { #category : 'tests' }
 STEptsConverterTest >> testBallIndex [
 
-	eptsConverter splitNextRawLine.
 	self assert: eptsConverter ballFormatIndex equals: 3
 ]
 
 { #category : 'tests' }
 STEptsConverterTest >> testBallPosition [
 
-	eptsConverter splitNextRawLine.
 	self assert: eptsConverter ballPosition x =~ -26.56.
 	self assert: eptsConverter ballPosition y =~ 3.67
 ]
@@ -301,7 +298,6 @@ STEptsConverterTest >> testFormatSpecificationNodes [
 { #category : 'tests' }
 STEptsConverterTest >> testFrameCountIndex [
 
-	eptsConverter splitNextRawLine.
 	self
 		assert: (eptsConverter frameCountIndexOf:
 				 self fifaExampleFormatSpecificationNode)
@@ -309,10 +305,26 @@ STEptsConverterTest >> testFrameCountIndex [
 ]
 
 { #category : 'tests' }
+STEptsConverterTest >> testFramesPerSecond [
+
+	self assert: eptsConverter framesPerSecond equals: '25'
+]
+
+{ #category : 'tests' }
 STEptsConverterTest >> testPlayerChannelNodes [
 
 	self assert: eptsConverter playerChannelNodesForX size equals: 3.
 	self assert: eptsConverter playerChannelNodesForY size equals: 3
+]
+
+{ #category : 'tests' }
+STEptsConverterTest >> testPlayerNode [
+
+	| playerNode |
+	playerNode := eptsConverter playerNodes last.
+	self assert: (playerNode attributeAt: 'id') equals: '3'.
+	self assert: (playerNode attributeAt: 'teamId') equals: '1'.
+	self assert: (playerNode contentStringAt: 'ShirtNumber') equals: '7'
 ]
 
 { #category : 'tests' }
@@ -324,7 +336,6 @@ STEptsConverterTest >> testPlayerNodes [
 { #category : 'tests' }
 STEptsConverterTest >> testPlayerPositions [
 
-	eptsConverter splitNextRawLine.
 	self assert: eptsConverter playerPositions size equals: 3.
 	self assert: (eptsConverter playerPositions at: '1') x =~ -7.69.
 	self assert: (eptsConverter playerPositions at: '1') y =~ -20.13.
@@ -337,7 +348,6 @@ STEptsConverterTest >> testPlayerPositions [
 { #category : 'tests' }
 STEptsConverterTest >> testPlayersIndex [
 
-	eptsConverter splitNextRawLine.
 	self assert: eptsConverter playersFormatIndex equals: 2
 ]
 
@@ -362,4 +372,13 @@ STEptsConverterTest >> testUnits [
 
 	self assert: eptsConverter xUnit equals: 'cm'.
 	self assert: eptsConverter yUnit equals: 'cm'
+]
+
+{ #category : 'tests' }
+STEptsConverterTest >> testValidDocument [
+
+	self
+		shouldnt: [
+		STSoccerDocumentReader parse: eptsConverter writeWholeDocument ]
+		raise: XMLValidationException
 ]

@@ -14,7 +14,8 @@ Class {
 		'teamLeft',
 		'strategy',
 		'teamRight',
-		'officialTime'
+		'officialTime',
+		'framesPerSecond'
 	],
 	#category : 'SoccerTheory-Model-Operate',
 	#package : 'SoccerTheory-Model',
@@ -50,6 +51,18 @@ STSoccerFrame >> defendingTeam [
 	
 (self owningTeam == teamLeft) ifTrue:[
 	^teamRight] ifFalse: [ ^teamLeft]
+]
+
+{ #category : 'accessing' }
+STSoccerFrame >> framesPerSecond [
+
+	^ framesPerSecond
+]
+
+{ #category : 'accessing' }
+STSoccerFrame >> framesPerSecond: aString [
+
+	framesPerSecond := aString
 ]
 
 { #category : 'initialization' }

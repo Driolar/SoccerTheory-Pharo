@@ -25,7 +25,13 @@ STSoccerDocumentReader class >> on: aStringOrStream [
 STSoccerDocumentReader class >> onFileNamed: aFileName [
 	"Answer a new instance to read the SoccerML file named aFileName."
 
-	^ self new initializeWith: (XMLDOMParser onFileNamed: aFileName)
+	| domParser |
+	domParser := XMLDOMParser onFileNamed: aFileName.
+
+	"Undo the setting in #onFileNamed: for not searching soccerML.dtd at aFileName\soccerML.dtd."
+	domParser documentURI: ''.
+
+	^ self new initializeWith: domParser
 ]
 
 { #category : 'instance creation' }

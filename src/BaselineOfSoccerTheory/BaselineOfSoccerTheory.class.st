@@ -48,10 +48,11 @@ BaselineOfSoccerTheory >> dtdForSoccerML [
 
 	^ '<!ELEMENT DRIOLAR (soc:Header, soc:Sequence)>
 <!ATTLIST DRIOLAR xmlns:soc CDATA #REQUIRED >
-<!ELEMENT soc:Header (soc:Source, soc:Rules, soc:Pitch)>
+<!ELEMENT soc:Header (soc:Source, soc:Rules, soc:Pitch), soc:FramesPerSecond?>
 <!ELEMENT soc:Sequence (soc:PlayIncidence?, (soc:Team, soc:Team)?, soc:Frame+)+>
 <!ELEMENT soc:Source (#PCDATA)>
 <!ELEMENT soc:Rules (soc:Offside)>
+<!ELEMENT soc:FramesPerSecond (#PCDATA)>
 <!ELEMENT soc:Offside (#PCDATA)> <!-- Valid values: 1863, 1866, 1925, none -->
 <!ELEMENT soc:Pitch (soc:Length, soc:Width, soc:GoalWidth)>
 <!ATTLIST soc:Pitch unit (meter) "meter">
