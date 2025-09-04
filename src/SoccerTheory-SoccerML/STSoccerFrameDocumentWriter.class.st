@@ -18,6 +18,12 @@ STSoccerFrameDocumentWriter class >> on: aSTSoccerFrame [
 	^ self new initializeWith: aSTSoccerFrame 
 ]
 
+{ #category : 'initialization' }
+STSoccerFrameDocumentWriter >> initializeWith: aSTSoccerFrame [
+
+	socMLWriter := STSoccerMLWriter onFirstFrame: aSTSoccerFrame
+]
+
 { #category : 'api' }
 STSoccerFrameDocumentWriter >> writeWholeDocument [
 	"Answer the whole document after having built it entirely."
