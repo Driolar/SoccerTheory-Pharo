@@ -1,7 +1,7 @@
 # SoccerML - A XML Markup Language for Soccer Theory
 SoccerML is a XML markup language to provide tracking and event soccer data for investigating the [Soccer Theory](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/A%20bit%20of%20Soccer%20Theory.md). 
 By convention, a SoccerML file should have the extension *.socxml*. 
-Basically, the data consists of header information and a sequence of frames. 
+Basically, the data consists of header information and one or more sequences of frames. 
 The format is defined by the document type definition file [soccerML.dtd](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/socxml/soccerML.dtd).
 ## Converting from other formats
 ### RoboCup
@@ -11,7 +11,38 @@ This procedure was succesfully employed in a [master thesis](https://github.com/
 
 However, the indicated RoboCup Tool is in the meantime deprecated.
 Most recent efforts are dedicated to [convert RoboCup logs into CSV](https://github.com/hidehisaakiyama/RoboCup2D-data). 
-### Metrica Sports
-A conversion from [Metrica Sports](https://github.com/metrica-sports/sample-data) to SoccerML is planned to be written in Pharo.
+### FIFA's EPTS
+The *Fédération Internationale de Football Association* (FIFA) develops a global standard for tracking and event soccer data named [EPTS](https://inside.fifa.com/innovation/standards/epts/research-development-epts-standard-data-format) (Electronic Performance and Tracking Systems). A data set for a match consists of three files: 
+- the rawdata file in text format
+- the metadata file in xml format
+- the events file in json format. 
+
+The Soccer Theory Suite provides the class `STEptsConverter` for converting EPTS into SoccerML. 
+Currently, the events file from where ball possession information might be inferred is not considered.
+#### Example using `STEptsConverter`
+There is an example of a real soccer match provided by Metrica Sports as [Sample Game 3](https://github.com/metrica-sports/sample-data/tree/master/data/Sample_Game_3).
+To use `STEptsConverter` with this match example, download the files [Sample_Game_3_metadata.xml](https://github.com/metrica-sports/sample-data/blob/master/data/Sample_Game_3/Sample_Game_3_metadata.xml) and [Sample_Game_3_tracking.txt](https://github.com/metrica-sports/sample-data/blob/master/data/Sample_Game_3/Sample_Game_3_tracking.txt).
+
+You might want to partition the big raw data file. For example, to save 100 frames beginning at frame count 700, do this:
+```
+| converter |
+converter := STEptsConverter
+	             metadataFileNamed:
+	             'C:\temp\Sample_Game_3_metadata.xml'
+	             rawDataFileNamed:
+	             'C:\temp\Sample_Game_3_tracking.txt'.
+converter copyRawDataStartingAtFrameCount: 700 numberOfFrames: 100 asFileNamed: 'c:\temp\100startingAt700.txt'
+```
+
+Subsequently, you can convert the copied EPTS raw data portion to SoccerML doing this:
+```
+| converter |
+converter := STEptsConverter
+	             metadataFileNamed:
+	             'C:\temp\Sample_Game_3_metadata.xml'
+	             rawDataFileNamed:
+	             'C:\temp\100startingAt700.txt'.
+converter writeWholeDocumentToFileNamed: 'c:\temp\100startingAt700.socxml'.
+```
 ### Skillcorner
-A conversion from [Skillcorner](https://github.com/SkillCorner/opendata) to SoccerML is planned to be written in Pharo.
+A conversion from [Skillcorner](https://github.com/SkillCorner/opendata) to SoccerML is planned to be provided by the Soccer Theory Suite.
