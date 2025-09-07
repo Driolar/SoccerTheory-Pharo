@@ -100,6 +100,15 @@ STSequencePlayer >> formattedStringForWorldPosition: aPoint [
 	  , (aPoint y printShowingDecimalPlaces: 1) , ')'
 ]
 
+{ #category : 'loading' }
+STSequencePlayer >> frameDuration [
+	"Answer the frame Duration according to the frame rate."
+
+	^ Duration milliSeconds: (framesPerSecond
+			   ifNotNil: [ 1000 / framesPerSecond asNumber ]
+			   ifNil: [ 100 "RoboCup standard" ])
+]
+
 { #category : 'layout' }
 STSequencePlayer >> frameIndexLayout [
 	"Answer the layout for frame index controls."
@@ -143,15 +152,6 @@ STSequencePlayer >> framePlayerLayout [
 				   add: restartButton;
 				   yourself);
 		  yourself
-]
-
-{ #category : 'loading' }
-STSequencePlayer >> frameRate [
-	"Answer the frame rate in milliseconds."
-
-	^ Duration milliSeconds: (framesPerSecond
-			   ifNotNil: [ 1000 / framesPerSecond asNumber ]
-			   ifNil: [ 100 "RoboCup standard" ])
 ]
 
 { #category : 'loading' }
@@ -298,7 +298,7 @@ STSequencePlayer >> playSequence [
 						                  frameIndexPresenter number:
 								                  frameIndexPresenter number + 1 ]
 					                  ifFalse: [ self stopSequence ] ];
-		                  delay: self frameRate.
+		                  delay: self frameDuration.
 	board space enqueueTask: playTaskAction
 ]
 

@@ -1,5 +1,8 @@
+"
+I test the STEptsConverter with a very simple EPTS sample provided [here](https://github.com/george-wood/epts/tree/master/inst/extdata).
+"
 Class {
-	#name : 'STEptsConverterTest',
+	#name : 'STEptsFifaExampleTest',
 	#superclass : 'TestCase',
 	#instVars : [
 		'eptsConverter'
@@ -9,26 +12,16 @@ Class {
 }
 
 { #category : 'fixtures' }
-STEptsConverterTest >> fifaExampleFormatSpecificationNode [
-	"Answer the data format specification nodes collection."
+STEptsFifaExampleTest >> fifaExampleFormatSpecificationNode [
+	"Answer the (only) data format specification node."
 
-	^ ((XMLDOMParser parse: self fifaExampleXml) allElementsNamed:
+	^ ((XMLDOMParser parse: self metadata) allElementsNamed:
 		   'DataFormatSpecification') first
 ]
 
 { #category : 'fixtures' }
-STEptsConverterTest >> fifaExampleRawData [
-		"Answer a ReadStream containing a minimal raw data example provided by FIFA and available [here](https://github.com/george-wood/epts/tree/master/inst/extdata).
-		Georg Wood warns [here](https://github.com/george-wood/epts/tree/master) as follows: 'The example data provided by FIFA is misspecified: the raw data includes frames that are not defined in the data format specification.'
-		We have must indeed change the frame counts to respect the bounds delimited in the data format."
-
-	^ ReadStream on: '100:-769,-2013,-500,100,9.63,9.80,4,5,177,182;-461,-615,-120,99,900,9.10,4,5,170,179;-2638,3478,120,110,1.15,5.20,3,4,170,175;:-2656,367,100:
-101:-218,1193,2000,100,1.23,3.10,3,3,170,170;1188,1930,1000,100,3.25,3.70,3,3,177,179;-235,-1522,-100,100,2.72,3.20,3,3,180,182;:-521,816,11:'
-]
-
-{ #category : 'fixtures' }
-STEptsConverterTest >> fifaExampleXml [
-	"Answer a format example provided by FIFA and available [here](https://github.com/george-wood/epts/tree/master/inst/extdata)."
+STEptsFifaExampleTest >> metadata [
+	"Answer a metadata example provided by FIFA and available [here](https://github.com/george-wood/epts/tree/master/inst/extdata)."
 
 	^'<?xml version="1.1" encoding="UTF-8"?>
 <tns:FIFADataTransferFormatEPTS
@@ -260,43 +253,66 @@ STEptsConverterTest >> fifaExampleXml [
 </tns:FIFADataTransferFormatEPTS>'
 ]
 
+{ #category : 'fixtures' }
+STEptsFifaExampleTest >> rawData [
+	"Answer a ReadStream containing a minimal raw data example provided by FIFA and available [here](https://github.com/george-wood/epts/tree/master/inst/extdata).
+		Georg Wood warns [here](https://github.com/george-wood/epts/tree/master) as follows: 'The example data provided by FIFA is misspecified: the raw data includes frames that are not defined in the data format specification.'
+		We have must indeed change the frame counts to respect the bounds delimited in the data format."
+
+	^ ReadStream on:
+		  '100:-769,-2013,-500,100,9.63,9.80,4,5,177,182;-461,-615,-120,99,900,9.10,4,5,170,179;-2638,3478,120,110,1.15,5.20,3,4,170,175;:-2656,367,100:
+101:-218,1193,2000,100,1.23,3.10,3,3,170,170;1188,1930,1000,100,3.25,3.70,3,3,177,179;-235,-1522,-100,100,2.72,3.20,3,3,180,182;:-521,816,11:'
+]
+
 { #category : 'running' }
-STEptsConverterTest >> setUp [
+STEptsFifaExampleTest >> setUp [
 
 	super setUp.
 
 	eptsConverter := STEptsConverter
-		                 format: self fifaExampleXml
-		                 rawData: self fifaExampleRawData
+		                 metadata: self metadata
+		                 rawData: self rawData
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testBallCoordinatesSeparator [
+STEptsFifaExampleTest >> testBallCoordinatesSeparator [
 
 	self assert: eptsConverter ballCoordinatesSeparator equals: ','
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testBallIndex [
+STEptsFifaExampleTest >> testBallIndex [
 
 	self assert: eptsConverter ballFormatIndex equals: 3
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testBallPosition [
+STEptsFifaExampleTest >> testBallPosition [
 
 	self assert: eptsConverter ballPosition x =~ -26.56.
 	self assert: eptsConverter ballPosition y =~ 3.67
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testFormatSpecificationNodes [
+STEptsFifaExampleTest >> testFirstHalfInterval [
+
+	self assert: eptsConverter firstHalfInterval equals: nil
+]
+
+{ #category : 'tests' }
+STEptsFifaExampleTest >> testFormatSpecificationNodes [
 
 	self assert: eptsConverter formatSpecificationNodes size equals: 1
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testFrameCountIndex [
+STEptsFifaExampleTest >> testFrameCount [
+
+	self assert: eptsConverter frameCount equals: '100'
+]
+
+{ #category : 'tests' }
+STEptsFifaExampleTest >> testFrameCountIndex [
 
 	self
 		assert: (eptsConverter frameCountIndexOf:
@@ -305,20 +321,26 @@ STEptsConverterTest >> testFrameCountIndex [
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testFramesPerSecond [
+STEptsFifaExampleTest >> testFramesPerSecond [
 
 	self assert: eptsConverter framesPerSecond equals: '25'
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testPlayerChannelNodes [
+STEptsFifaExampleTest >> testHalfTime [
+
+	self deny: eptsConverter hasHalfTime
+]
+
+{ #category : 'tests' }
+STEptsFifaExampleTest >> testPlayerChannelNodes [
 
 	self assert: eptsConverter playerChannelNodesForX size equals: 3.
 	self assert: eptsConverter playerChannelNodesForY size equals: 3
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testPlayerNode [
+STEptsFifaExampleTest >> testPlayerNode [
 
 	| playerNode |
 	playerNode := eptsConverter playerNodes last.
@@ -328,13 +350,13 @@ STEptsConverterTest >> testPlayerNode [
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testPlayerNodes [
+STEptsFifaExampleTest >> testPlayerNodes [
 
 	self assert: eptsConverter playerNodes size equals: 3
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testPlayerPositions [
+STEptsFifaExampleTest >> testPlayerPositions [
 
 	self assert: eptsConverter playerPositions size equals: 3.
 	self assert: (eptsConverter playerPositions at: '1') x =~ -7.69.
@@ -346,36 +368,49 @@ STEptsConverterTest >> testPlayerPositions [
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testPlayersIndex [
+STEptsFifaExampleTest >> testPlayersIndex [
 
 	self assert: eptsConverter playersFormatIndex equals: 2
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testSplitting [
+STEptsFifaExampleTest >> testSplitting [
 
 	| sublines |
 	
-	sublines := self fifaExampleRawData nextLine substrings: ':'.
+	sublines := self rawData nextLine substrings: ':'.
 	self assert: sublines size equals: 3.
 	self assert: sublines first equals: '100' 
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testTeamNodes [
+STEptsFifaExampleTest >> testTeamNodes [
 
 	self assert: eptsConverter teamNodes size equals: 2
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testUnits [
+STEptsFifaExampleTest >> testTeamSide [
+
+	self
+		assert:
+		(eptsConverter teamLeftNodeAtFirstHalfTime attributeAt: 'id')
+		equals: '1'.
+	self
+		assert:
+		(eptsConverter teamRightNodeAtFirstHalfTime attributeAt: 'id')
+		equals: '2'
+]
+
+{ #category : 'tests' }
+STEptsFifaExampleTest >> testUnits [
 
 	self assert: eptsConverter xUnit equals: 'cm'.
 	self assert: eptsConverter yUnit equals: 'cm'
 ]
 
 { #category : 'tests' }
-STEptsConverterTest >> testValidDocument [
+STEptsFifaExampleTest >> testValidDocument [
 
 	self
 		shouldnt: [
