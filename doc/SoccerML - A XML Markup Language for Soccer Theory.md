@@ -3,6 +3,8 @@ SoccerML is a XML markup language to provide tracking and event soccer data for 
 By convention, a SoccerML file should have the extension *.socxml*. 
 Basically, the data consists of header information and one or more frame sequences. 
 The format is defined by the document type definition file [soccerML.dtd](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/socxml/soccerML.dtd).
+
+The applications [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md) and [SoTheReplay](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheReplay%20-%20The%20Soccer%20Theory%20Player.md) can read and write SoccerML.
 ## Converting from other formats
 ### RoboCup
 There is a [RoboCup Tool](https://github.com/rcsoccersim/rcsslogplayer/tree/master/tool) that converts RoboCup log files from the 2D Simulation League to XML files defined by this [XSD file](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg-0.1.xsd).
