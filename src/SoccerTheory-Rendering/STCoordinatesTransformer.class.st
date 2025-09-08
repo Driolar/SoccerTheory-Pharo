@@ -82,7 +82,7 @@ STCoordinatesTransformer >> toWorld: devicePoint [
 	| transformedPoint |
 	transformedPoint := self scaleDevicePoint:
 		                    (self translateDevicePoint: devicePoint).
-	^ Point x: transformedPoint x y: transformedPoint y negated
+	^ transformedPoint x @ transformedPoint y negated
 ]
 
 { #category : 'api - transformation' }

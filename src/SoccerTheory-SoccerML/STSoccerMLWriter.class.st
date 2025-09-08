@@ -8,10 +8,9 @@ Class {
 		'sourceName',
 		'pitch',
 		'strategy',
-		'teamLeft',
-		'teamRight',
-		'frames',
-		'framesPerSecond'
+		'framesPerSecond',
+		'sequences',
+		'runningFrameIndex'
 	],
 	#category : 'SoccerTheory-SoccerML-Base',
 	#package : 'SoccerTheory-SoccerML',
@@ -26,16 +25,17 @@ STSoccerMLWriter class >> onFirstFrame: aSTSoccerFrame [
 
 { #category : 'api' }
 STSoccerMLWriter >> addFrame: aSTSoccerFrame [
-	"Add the next frame."
+	"Add the next frame to the current sequence."
 
-	frames add: aSTSoccerFrame
+	sequences last add: aSTSoccerFrame
 ]
 
 { #category : 'initialization' }
 STSoccerMLWriter >> initialize [
 
 	super initialize.
-	frames := OrderedCollection new.
+	sequences := OrderedCollection new.
+	self startNewSequence.
 	sourceName := 'Soccer Theory Suite'.
 	self enablePrettyPrinting.
 ]
@@ -46,8 +46,6 @@ STSoccerMLWriter >> initializeWithFrame: aSTSoccerFrame [
 
 	pitch := aSTSoccerFrame pitch.
 	strategy := aSTSoccerFrame strategy.
-	teamLeft := aSTSoccerFrame teamLeft.
-	teamRight := aSTSoccerFrame teamRight.
 	framesPerSecond := aSTSoccerFrame framesPerSecond.
 	self addFrame: aSTSoccerFrame
 ]
@@ -56,6 +54,13 @@ STSoccerMLWriter >> initializeWithFrame: aSTSoccerFrame [
 STSoccerMLWriter >> sourceName: aString [
 
 	sourceName := aString
+]
+
+{ #category : 'api' }
+STSoccerMLWriter >> startNewSequence [ 
+	"Start a new sequence"
+
+	sequences add: OrderedCollection new
 ]
 
 { #category : 'writing' }
@@ -91,13 +96,14 @@ STSoccerMLWriter >> writeDoctypeDeclaration [
 ]
 
 { #category : 'writing' }
-STSoccerMLWriter >> writeFrame: aSTSoccerFrame index: anInteger [
+STSoccerMLWriter >> writeFrame: aSTSoccerFrame [
 
 	| frameTag |
+	runningFrameIndex := runningFrameIndex + 1.
 	frameTag := self tag: 'soc:Frame'.
 	frameTag
 		attributeAt: 'time'
-		put: (aSTSoccerFrame officialTime ifNil: [ anInteger asString ]).
+		put: (aSTSoccerFrame officialTime ifNil: [ runningFrameIndex asString ]).
 	frameTag with: [
 			self writeBall: aSTSoccerFrame ball.
 			self writePlayersFromFrame: aSTSoccerFrame ]
@@ -195,7 +201,7 @@ STSoccerMLWriter >> writeRoot [
 	rootTag xmlnsAt: 'soc' put: 'http://driolar.org/SoccerML'.
 	rootTag with: [
 			self writeHeader.
-			self writeSequence ]
+			self writeSequences ]
 ]
 
 { #category : 'writing' }
@@ -205,14 +211,21 @@ STSoccerMLWriter >> writeRules [
 ]
 
 { #category : 'writing' }
-STSoccerMLWriter >> writeSequence [
+STSoccerMLWriter >> writeSequence: sequenceFrames [
 	"Write the sequence with all the frames."
 
 	self tag: 'soc:Sequence' with: [
-			self writeTeamLeft.
-			self writeTeamRight.
-			frames doWithIndex: [ :frame :index |
-				self writeFrame: frame index: index ] ]
+			self writeTeamLeft: sequenceFrames first teamLeft.
+			self writeTeamRight: sequenceFrames first teamRight.
+			sequenceFrames do: [ :frame | self writeFrame: frame ] ]
+]
+
+{ #category : 'writing' }
+STSoccerMLWriter >> writeSequences [
+	"Write successively all the sequences."
+
+	runningFrameIndex := 0.
+	sequences do: [ :sequenceFrames | self writeSequence: sequenceFrames ]
 ]
 
 { #category : 'writing' }
@@ -222,17 +235,11 @@ STSoccerMLWriter >> writeSource [
 ]
 
 { #category : 'writing' }
-STSoccerMLWriter >> writeTeamLeft [
+STSoccerMLWriter >> writeTeamLeft: aSTTeam [
 
 	(self tag: 'soc:Team')
 		attributeAt: 'side' put: 'l';
-		with: [ self writeTeamLeftName ]
-]
-
-{ #category : 'writing' }
-STSoccerMLWriter >> writeTeamLeftName [
-
-	self writeTeamNameOf: teamLeft
+		with: [ self writeTeamNameOf: aSTTeam ]
 ]
 
 { #category : 'writing' }
@@ -250,17 +257,11 @@ STSoccerMLWriter >> writeTeamPossessingBall: aSTBall [
 ]
 
 { #category : 'writing' }
-STSoccerMLWriter >> writeTeamRight [
+STSoccerMLWriter >> writeTeamRight: aSTTeam [
 
 	(self tag: 'soc:Team')
 		attributeAt: 'side' put: 'r';
-		with: [ self writeTeamRightName ]
-]
-
-{ #category : 'writing' }
-STSoccerMLWriter >> writeTeamRightName [
-
-	self writeTeamNameOf: teamRight
+		with: [ self writeTeamNameOf: aSTTeam ]
 ]
 
 { #category : 'api' }

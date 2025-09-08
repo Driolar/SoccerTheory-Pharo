@@ -17,6 +17,14 @@ STEptsMetricaSportsTest >> converterBallPositionNaN [
 ]
 
 { #category : 'fixtures' }
+STEptsMetricaSportsTest >> converterBothHalfs [
+
+	^ STEptsConverter
+		  metadata: self metadata
+		  rawData: self rawDataBothHalfs
+]
+
+{ #category : 'fixtures' }
 STEptsMetricaSportsTest >> converterFirstHalfOnly [
 
 	^ STEptsConverter
@@ -2068,6 +2076,15 @@ STEptsMetricaSportsTest >> rawDataBallPositionNaN [
 ]
 
 { #category : 'fixtures' }
+STEptsMetricaSportsTest >> rawDataBothHalfs [
+	"Answer two raw data line. The first one lays in the first half time, the second line in the second half time."
+
+	^ ReadStream on:
+		  '69594:0.91621,0.45134;0.59729,0.17348;0.59402,0.35186;0.63851,0.44569;0.61340,0.62173;0.47299,0.22617;0.52458,0.34893;0.38366,0.32014;0.54694,0.45796;0.47045,0.57210;0.37811,0.46578;0.01375,0.45608;0.41762,0.60481;0.35645,0.49120;0.37886,0.32960;0.44901,0.20669;0.59212,0.56773;0.46026,0.41460;0.50289,0.36627;0.56766,0.12680;0.61039,0.45367;0.59369,0.33916:0.43627,0.28154
+70090:0.10142,0.50439;0.31804,0.74094;0.27443,0.55970;0.28633,0.42213;0.37798,0.19631;0.47771,0.76920;0.40177,0.52198;0.49770,0.33651;0.39308,0.47642;0.49127,0.21835;0.50003,0.63567;0.94800,0.52756;0.67018,0.31744;0.72405,0.29091;0.70238,0.58488;0.67784,0.88108;0.60370,0.33709;0.58602,0.52256;0.63228,0.69651;0.51187,0.71408;0.50961,0.32979;0.49897,0.49952:0.49897,0.49952'
+]
+
+{ #category : 'fixtures' }
 STEptsMetricaSportsTest >> rawDataFirstHalfOnly [
 	"Answer a raw data line laying, accoridng to the frame count, in the first half time."
 
@@ -2090,6 +2107,22 @@ STEptsMetricaSportsTest >> testBallPositionNaN [
 ]
 
 { #category : 'tests' }
+STEptsMetricaSportsTest >> testBothHalfs [
+
+	| converter firstCount secondCount |
+	converter := self converterBothHalfs.
+	self assert: converter isFirstHalf.
+	firstCount := converter frameCount.
+	converter splitNextRawLine.
+	secondCount := converter frameCount.
+	self assert: converter isSecondHalf.
+	self deny:
+		(converter
+			 belongToSameSequenceFrame: firstCount
+			 andFrame: secondCount)
+]
+
+{ #category : 'tests' }
 STEptsMetricaSportsTest >> testFirstHalfInterval [
 
 	self
@@ -2097,7 +2130,10 @@ STEptsMetricaSportsTest >> testFirstHalfInterval [
 		equals: 1.
 	self
 		assert: self converterFirstHalfOnly firstHalfInterval last
-		equals: 69661
+		equals: 69661.
+	self
+		assert: (self converterFirstHalfOnly teamLeftNode attributeAt: 'id')
+		equals: 'FIFATMB'
 ]
 
 { #category : 'tests' }
@@ -2114,7 +2150,10 @@ STEptsMetricaSportsTest >> testSecondHalfInterval [
 		equals: 69662.
 	self
 		assert: self converterSecondHalfOnly secondHalfInterval last
-		equals: 143761
+		equals: 143761.
+	self
+		assert: (self converterFirstHalfOnly teamLeftNode attributeAt: 'id')
+		equals: 'FIFATMB'
 ]
 
 { #category : 'tests' }
@@ -2129,6 +2168,16 @@ STEptsMetricaSportsTest >> testTeamSide [
 		assert: (self converterFirstHalfOnly teamRightNodeAtFirstHalfTime
 				 attributeAt: 'id')
 		equals: 'FIFATMA'
+]
+
+{ #category : 'tests' }
+STEptsMetricaSportsTest >> testTwoSequences [
+
+	self
+		shouldnt: [
+				STSoccerDocumentReader parse:
+					self converterBothHalfs writeWholeDocument ]
+		raise: XMLValidationException
 ]
 
 { #category : 'tests' }

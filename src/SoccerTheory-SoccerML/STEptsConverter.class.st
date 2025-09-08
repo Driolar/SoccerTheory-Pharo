@@ -17,7 +17,8 @@ Class {
 		'formatXmlDocument',
 		'formatSpecificationNode',
 		'splittedRawLine',
-		'socMLWriter'
+		'socMLWriter',
+		'lastValidFrameCount'
 	],
 	#category : 'SoccerTheory-SoccerML-Base',
 	#package : 'SoccerTheory-SoccerML',
@@ -86,6 +87,33 @@ STEptsConverter >> ballPosition [
 	^ (self xInMeters: x) @ (self yInMeters: y)
 ]
 
+{ #category : 'private - rawdata' }
+STEptsConverter >> belongToSameSequenceFrame: oneFrameCount andFrame: otherFrameCount [
+	"Answer true if both frames belong to the same sequence."
+
+	| bothFrameCounts |
+	self hasHalfTime ifFalse: [ ^ true ].
+	bothFrameCounts := OrderedCollection
+		                   with: oneFrameCount
+		                   with: otherFrameCount.
+	^ (bothFrameCounts allSatisfy: [ :count |
+		   self firstHalfInterval rangeIncludes: count asInteger ]) or: [
+			  bothFrameCounts allSatisfy: [ :count |
+				  self secondHalfInterval rangeIncludes: count asInteger ] ]
+]
+
+{ #category : 'private - rawdata' }
+STEptsConverter >> checkNewSequence [
+	"Start a new sequence if necessary."
+
+	lastValidFrameCount ifNotNil: [ :previousFrameCount |
+			(self
+				 belongToSameSequenceFrame: previousFrameCount
+				 andFrame: self frameCount) ifFalse: [
+				socMLWriter startNewSequence ] ].
+	lastValidFrameCount := self frameCount
+]
+
 { #category : 'api' }
 STEptsConverter >> copyRawDataStartingAtFrameCount: startFrameCount numberOfFrames: numberOfFrames asFileNamed: fileName [
 	"Save the given number of consecutive frame lines starting at startFrameCount in a new file named fileName."
@@ -129,7 +157,7 @@ STEptsConverter >> fillWriter [
 	"Fill the writer with all frames."
 
 	| validFrame |
-	self reset.
+	self resetWriting.
 	validFrame := self nextFrame.
 	[ validFrame notNil ] whileTrue: [
 			socMLWriter addFrame: validFrame.
@@ -202,7 +230,7 @@ STEptsConverter >> initializeWithMetadata: aStringOrStream rawData: aReadStream 
 
 	formatXmlDocument := XMLDOMParser parse: aStringOrStream.
 	rawDataStream := aReadStream.
-	self reset.
+	self resetWriting
 ]
 
 { #category : 'private - rawdata' }
@@ -263,6 +291,8 @@ STEptsConverter >> nextFrame [
 
 	| frameBuilder |
 	self advanceToNextValidRawLine ifNil: [ ^ nil ].
+
+	self checkNewSequence.
 
 	frameBuilder := self newFrameBuilder.
 	self playerNodes do: [ :playerNode |
@@ -461,11 +491,12 @@ STEptsConverter >> providerParameterValueAt: parameterName inElement: topElement
 ]
 
 { #category : 'initialization' }
-STEptsConverter >> reset [
+STEptsConverter >> resetWriting [
 	"Reset rawDataStream and socMLWriter."
 
 	rawDataStream position: 0.
 	socMLWriter := nil.
+	lastValidFrameCount := nil.
 	self nextFrame ifNotNil: [ :firstFrame |
 			socMLWriter := STSoccerMLWriter onFirstFrame: firstFrame.
 			socMLWriter sourceName: 'EPTS converter' ]
