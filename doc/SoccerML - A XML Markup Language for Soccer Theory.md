@@ -26,7 +26,7 @@ Currently, the events file from where ball possession information might be infer
 
 Note that the raw data might contain frames with missing ball position (NaN). Such frames are skipped by `STEptsConverter`.
 #### Example using `STEptsConverter`
-There is an example of a real soccer match provided by Metrica Sports as [Sample Game 3](https://github.com/metrica-sports/sample-data/tree/master/data/Sample_Game_3).
+There is A EPTS example of a real soccer match provided by Metrica Sports as [Sample Game 3](https://github.com/metrica-sports/sample-data/tree/master/data/Sample_Game_3).
 To use `STEptsConverter` with this match example, download the files [Sample_Game_3_metadata.xml](https://github.com/metrica-sports/sample-data/blob/master/data/Sample_Game_3/Sample_Game_3_metadata.xml) and [Sample_Game_3_tracking.txt](https://github.com/metrica-sports/sample-data/blob/master/data/Sample_Game_3/Sample_Game_3_tracking.txt).
 
 You might want to partition the big raw data file. For example, to save 100 frames beginning at frame count 700, do this:
