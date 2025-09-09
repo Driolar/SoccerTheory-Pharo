@@ -14,7 +14,7 @@ This procedure was succesfully employed in a [master thesis](https://github.com/
 However, the indicated RoboCup Tool is in the meantime deprecated.
 Most recent efforts are dedicated to [convert RoboCup logs into CSV](https://github.com/hidehisaakiyama/RoboCup2D-data). 
 ### FIFA's EPTS
-The *Fédération Internationale de Football Association* (FIFA) develops a global standard for tracking and event soccer data named [EPTS](https://inside.fifa.com/innovation/standards/epts/research-development-epts-standard-data-format) (Electronic Performance and Tracking Systems). A EPTS data set for a match consists of three files: 
+The *Fédération Internationale de Football Association* (FIFA) develops a global standard for tracking and event soccer data named [EPTS](https://inside.fifa.com/innovation/standards/epts/research-development-epts-standard-data-format) (Electronic Performance and Tracking Systems). An EPTS data set for a match consists of three files: 
 - the rawdata file in text format
 - the metadata file in xml format
 - the events file in json format. 
