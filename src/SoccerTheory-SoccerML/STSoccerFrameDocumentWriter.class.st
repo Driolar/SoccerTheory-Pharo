@@ -21,7 +21,11 @@ STSoccerFrameDocumentWriter class >> on: aSTSoccerFrame [
 { #category : 'initialization' }
 STSoccerFrameDocumentWriter >> initializeWith: aSTSoccerFrame [
 
-	socMLWriter := STSoccerMLWriter onFirstFrame: aSTSoccerFrame
+	socMLWriter := (STSoccerMLWriter
+		                pitch: aSTSoccerFrame pitch
+		                offsideCode: aSTSoccerFrame strategy xmlText)
+		               addFrame: aSTSoccerFrame;
+		               yourself
 ]
 
 { #category : 'api' }

@@ -14,11 +14,11 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'rawDataStream',
-		'formatXmlDocument',
 		'formatSpecificationNode',
 		'splittedRawLine',
 		'socMLWriter',
-		'lastValidFrameCount'
+		'lastValidFrameCount',
+		'metadata'
 	],
 	#category : 'SoccerTheory-SoccerML-Base',
 	#package : 'SoccerTheory-SoccerML',
@@ -41,7 +41,7 @@ STEptsConverter class >> metadataFileNamed: metadataFileName rawDataFileNamed: r
 		  rawData: rawDataFileName asFileReference readStream
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> advanceToNextValidRawLine [
 	"Advance to the next valid raw line. Skip lines with invalid ball data. Answer nil if the end is reached."
 
@@ -52,7 +52,7 @@ STEptsConverter >> advanceToNextValidRawLine [
 	self ballPosition ifNil: [ ^ nil ]
 ]
 
-{ #category : 'private - metadata' }
+{ #category : 'private' }
 STEptsConverter >> ballCoordinatesSeparator [
 	"Answer the String that separates the ball coordinates in the raw line."
 
@@ -60,7 +60,7 @@ STEptsConverter >> ballCoordinatesSeparator [
 		  attributeAt: 'separator'
 ]
 
-{ #category : 'private - metadata' }
+{ #category : 'private' }
 STEptsConverter >> ballFormatIndex [
 	"Answer the ball's index derived from the formatNode."
 
@@ -74,7 +74,7 @@ STEptsConverter >> ballFormatIndex [
 	^ 0
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> ballPosition [
 	"Answer the Point where the ball is located in meters. Answer nil if the ball data is missing."
 
@@ -87,22 +87,22 @@ STEptsConverter >> ballPosition [
 	^ (self xInMeters: x) @ (self yInMeters: y)
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> belongToSameSequenceFrame: oneFrameCount andFrame: otherFrameCount [
 	"Answer true if both frames belong to the same sequence."
 
 	| bothFrameCounts |
-	self hasHalfTime ifFalse: [ ^ true ].
+	metadata hasHalfTime ifFalse: [ ^ true ].
 	bothFrameCounts := OrderedCollection
 		                   with: oneFrameCount
 		                   with: otherFrameCount.
 	^ (bothFrameCounts allSatisfy: [ :count |
-		   self firstHalfInterval rangeIncludes: count asInteger ]) or: [
+		   metadata firstHalfInterval rangeIncludes: count asInteger ]) or: [
 			  bothFrameCounts allSatisfy: [ :count |
-				  self secondHalfInterval rangeIncludes: count asInteger ] ]
+				  metadata secondHalfInterval rangeIncludes: count asInteger ] ]
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> checkNewSequence [
 	"Start a new sequence if necessary."
 
@@ -137,22 +137,7 @@ STEptsConverter >> copyRawDataStartingAtFrameCount: startFrameCount numberOfFram
 	writeStream close
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> detectFormatSpecificationFor: rawLine [
-	"Detect the right data format specification node for the given ByteString (rawLine) depending on the frame count bounds."
-
-	^ self formatSpecificationNodes detect: [ :formatNode |
-			  | topSeparator rawSublines frameCountString |
-			  topSeparator := formatNode attributeAt: 'separator'.
-			  rawSublines := rawLine substrings: topSeparator.
-			  frameCountString := rawSublines at:
-				                      (self frameCountIndexOf: formatNode).
-			  self
-				  isInFrameCountRange: formatNode
-				  frameCount: frameCountString asNumber ]
-]
-
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> fillWriter [
 	"Fill the writer with all frames."
 
@@ -164,128 +149,62 @@ STEptsConverter >> fillWriter [
 			validFrame := self nextFrame ]
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> firstHalfInterval [
-	"Answer the frame count interval for the game's first half. Answer nil if not available."
-
-	| startValue endValue |
-	startValue := self providerParameterValueAt: 'first_half_start'.
-	endValue := self providerParameterValueAt: 'first_half_end'.
-	(startValue isNil or: [ endValue isNil ]) ifTrue: [ ^ nil ].
-	^ Interval from: startValue asInteger to: endValue asInteger
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> formatSpecificationNodes [
-	"Answer the data format specification nodes collection."
-
-	^ formatXmlDocument allElementsNamed: 'DataFormatSpecification'
-]
-
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> frameCount [
 	"Answer the frame count in the current raw line."
 
 	^ splittedRawLine at: self frameCountIndex
 ]
 
-{ #category : 'private - metadata' }
+{ #category : 'private' }
 STEptsConverter >> frameCountIndex [
 	"Answer the frame count index for the current format specification node."
 
-	^ self frameCountIndexOf: formatSpecificationNode
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> frameCountIndexOf: formatNode [
-	"Answer the frame count's index derived from the formatNode."
-
-	| index |
-	index := 1.
-	formatNode elementsDo: [ :element |
-			(element name = 'StringRegister' and: [
-				 (element attributeAt: 'name') = 'frameCount' ])
-				ifTrue: [ ^ index ]
-				ifFalse: [ index := index + 1 ] ].
-	^ 0
-]
-
-{ #category : 'accessing' }
-STEptsConverter >> framesPerSecond [
-
-	^ (formatXmlDocument findElementNamed: 'FrameRate') contentString
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> hasHalfTime [
-	"Answer true if there is a half time, otherwise false."
-
-	^ self firstHalfInterval notNil and: [
-		  self secondHalfInterval notNil ]
+	^ metadata frameCountIndexOf: formatSpecificationNode
 ]
 
 { #category : 'initialization' }
 STEptsConverter >> initializeWithMetadata: aStringOrStream rawData: aReadStream [
 	"Initialize formatInXml and rawDataStream"
 
-	formatXmlDocument := XMLDOMParser parse: aStringOrStream.
+	metadata := STEptsMetadata on: aStringOrStream.
 	rawDataStream := aReadStream.
 	self resetWriting
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> isFirstHalf [
 	"Answer true if the frame belongs to the games first half, otherwise false."
 
-	^ self firstHalfInterval rangeIncludes: self frameCount asInteger
+	^ metadata firstHalfInterval rangeIncludes: self frameCount asInteger
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> isGoalkeeper: playerElement [
-	"Answer true if the player element represents a goalkeeper, else false."
-
-	^ (self
-		   providerParameterValueAt: 'position_type'
-		   inElement: playerElement) = 'Goalkeeper'
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> isInFrameCountRange: formatDataSpecification frameCount: aNumber [
-	"Answer true if the anInteger is in the frame count range specified by the formataDataSpecification."
-
-	| startFrame endFrame |
-	startFrame := (formatDataSpecification attributeAt: 'startFrame')
-		              asNumber.
-	endFrame := (formatDataSpecification attributeAt: 'endFrame')
-		            asNumber.
-	^ aNumber between: startFrame and: endFrame
-]
-
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> isSecondHalf [
 	"Answer true if the frame belongs to the games second half, otherwise false."
 
-	^ self secondHalfInterval rangeIncludes: self frameCount asInteger
+	^ metadata secondHalfInterval rangeIncludes:
+		  self frameCount asInteger
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> newFrameBuilder [
 	"Answer a new STSoccerFrameBuilder for the current raw line."
 
 	"TODO: Changing fields at half time --> new Sequence element."
 
 	^ (STSoccerFrameBuilder
-		   newWithTeamLeft: (self teamNameOf: self teamLeftNode)
-		   teamRight: (self teamNameOf: self teamRightNode)
-		   pitch: self pitch
+		   newWithTeamLeft: self teamLeftName
+		   teamRight: self teamRightName
+		   pitch: metadata pitch
 		   ball: (STBall newWithPosition: self ballPosition))
 		  setModernSoccerStrategy;
 		  officialTime: self frameCount;
-		  framesPerSecond: self framesPerSecond;
+		  framesPerSecond: metadata framesPerSecond;
 		  yourself
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> nextFrame [
 	"Answer the next STSoccerFrame from the next raw line. Answer nil if there are no more lines."
 
@@ -295,16 +214,16 @@ STEptsConverter >> nextFrame [
 	self checkNewSequence.
 
 	frameBuilder := self newFrameBuilder.
-	self playerNodes do: [ :playerNode |
+	metadata playerNodes do: [ :playerNode |
 			| playerId shirtNumber teamId isGoalkeeper |
 			playerId := playerNode attributeAt: 'id'.
 			teamId := playerNode attributeAt: 'teamId'.
 			shirtNumber := playerNode contentStringAt: 'ShirtNumber'.
-			isGoalkeeper := self isGoalkeeper: playerNode.
+			isGoalkeeper := metadata isGoalkeeper: playerNode.
 			(self playerPositions includesKey: playerId) ifTrue: [
 					| playerPosition |
 					playerPosition := self playerPositions at: playerId.
-					teamId = (self teamIdOf: self teamLeftNode) ifTrue: [
+					teamId = self teamLeftId ifTrue: [
 							isGoalkeeper
 								ifTrue: [
 										frameBuilder
@@ -314,7 +233,7 @@ STEptsConverter >> nextFrame [
 										frameBuilder
 											createPlayerInTeamLeftAtPosition: playerPosition
 											number: shirtNumber ] ].
-					teamId = (self teamIdOf: self teamRightNode) ifTrue: [
+					teamId = self teamRightId ifTrue: [
 							isGoalkeeper
 								ifTrue: [
 										frameBuilder
@@ -327,78 +246,7 @@ STEptsConverter >> nextFrame [
 	^ frameBuilder builtFrame
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> pitch [
-	"Answer the pitch specified in the format file or the default pitch if not specified."
-
-	| fieldSizeNode |
-	fieldSizeNode := formatXmlDocument elementAt: 'FieldSize'.
-
-	^ fieldSizeNode ifNil: [ STPitch newDefault ] ifNotNil: [
-			  | width height |
-			  width := fieldSizeNode elementAt: 'Width'.
-			  height := fieldSizeNode elementAt: 'Height'.
-			  STPitch extent: width asNumber @ height asNumber ]
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> playerChannelNodesForChannelId: channelId [
-	"Answer a Collection of PlayerChannel elements with the given channelId."
-
-	^ (formatXmlDocument findElementNamed: 'PlayerChannels')
-		  descendantElementsSelect: [ :playerChannel |
-			  (playerChannel attributeAt: 'channelId') = channelId ]
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> playerChannelNodesForX [
-	"Answer a Collection of PlayerChannel elements with channelId='x'"
-
-	^ self playerChannelNodesForChannelId: 'x'
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> playerChannelNodesForY [
-	"Answer a Collection of PlayerChannel elements with channelId='y'"
-
-	^ self playerChannelNodesForChannelId: 'y'
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> playerIdsForChannelNodes: chanelNode [
-	"Answer a Dictionary with channel id as key and player id as value."
-
-	^ chanelNode
-		  inject: Dictionary new
-		  into: [ :dictionary :channelNode |
-				  dictionary
-					  at: (channelNode attributeAt: 'id')
-					  put: (channelNode attributeAt: 'playerId');
-					  yourself ]
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> playerIdsForXChannels [
-	"Answer a Dictionary with x channel id as key and player id as value."
-
-	^ self playerIdsForChannelNodes: self playerChannelNodesForX
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> playerIdsForYChannels [
-	"Answer a Dictionary with y channel id as key and player id as value."
-
-	^ self playerIdsForChannelNodes: self playerChannelNodesForY
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> playerNodes [
-	"Answer the player nodes collection."
-
-	^ formatXmlDocument allElementsNamed: 'Player'
-]
-
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> playerPositionAssociationIn: playerChannelReferencesNode values: rawValuesChunk [
 	"Answer an Association with the player id as key and the player's position Point as value."
 
@@ -411,12 +259,12 @@ STEptsConverter >> playerPositionAssociationIn: playerChannelReferencesNode valu
 	indexX := nil.
 	indexY := nil.
 	playerChannelReferencesNode elementsDo: [ :playerChannelRef |
-			self playerIdsForXChannels
+			metadata playerIdsForXChannels
 				at: (playerChannelRef attributeAt: 'playerChannelId')
 				ifPresent: [ :value |
 						playerId := value.
 						indexX := index ].
-			self playerIdsForYChannels
+			metadata playerIdsForYChannels
 				at: (playerChannelRef attributeAt: 'playerChannelId')
 				ifPresent: [ :value |
 						playerId := value.
@@ -430,7 +278,7 @@ STEptsConverter >> playerPositionAssociationIn: playerChannelReferencesNode valu
 		  yourself
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> playerPositions [
 	"Answer a Dictionary with the player id as key and the player's position Point as value."
 
@@ -453,7 +301,7 @@ STEptsConverter >> playerPositions [
 					  yourself ]
 ]
 
-{ #category : 'private - metadata' }
+{ #category : 'private' }
 STEptsConverter >> playersFormatIndex [
 	"Answer the players's index derived from the formatNode."
 
@@ -467,29 +315,6 @@ STEptsConverter >> playersFormatIndex [
 	^ 0
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> providerParameterValueAt: parameterName [
-	"Answer the provider parameter value for the parameterName. Answer nil if not exisiting."
-
-	^ self
-		  providerParameterValueAt: parameterName
-		  inElement: formatXmlDocument
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> providerParameterValueAt: parameterName inElement: topElement [
-	"Answer the provider parameter value for the parameterName under topElement. Answer nil if not exisiting."
-
-	| parameterElement |
-	parameterElement := topElement
-		                    findElementNamed: 'ProviderParameter'
-		                    with: [ :element |
-		                    (element contentStringAt: 'Name')
-		                    = parameterName ].
-	^ parameterElement ifNotNil: [
-		  parameterElement contentStringAt: 'Value' ]
-]
-
 { #category : 'initialization' }
 STEptsConverter >> resetWriting [
 	"Reset rawDataStream and socMLWriter."
@@ -497,115 +322,77 @@ STEptsConverter >> resetWriting [
 	rawDataStream position: 0.
 	socMLWriter := nil.
 	lastValidFrameCount := nil.
-	self nextFrame ifNotNil: [ :firstFrame |
-			socMLWriter := STSoccerMLWriter onFirstFrame: firstFrame.
-			socMLWriter sourceName: 'EPTS converter' ]
+	socMLWriter := STSoccerMLWriter
+		               pitch: metadata pitch
+		               offsideCode: '1925'
+		               framesPerSecond: metadata framesPerSecond.
+	socMLWriter sourceName: 'EPTS converter'
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> secondHalfInterval [
-	"Answer the frame count interval for the game's second half. Answer nil if not available."
-
-	| startValue endValue |
-	startValue := self providerParameterValueAt: 'second_half_start'.
-	endValue := self providerParameterValueAt: 'second_half_end'.
-	(startValue isNil or: [ endValue isNil ]) ifTrue: [ ^ nil ].
-	^ Interval from: startValue asInteger to: endValue asInteger
-]
-
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> splitNextRawLine [
 	"Split the next raw line into frame count, players and ball."
 
 	| currentRawLine topSeparator |
 	currentRawLine := rawDataStream nextLine.
-	formatSpecificationNode := self detectFormatSpecificationFor: currentRawLine.
+	formatSpecificationNode := metadata detectFormatSpecificationFor:
+		                           currentRawLine.
 	topSeparator := formatSpecificationNode attributeAt: 'separator'.
 	splittedRawLine := currentRawLine substrings: topSeparator
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> teamIdOf: teamElement [
-	"Answer the id of the given team element."
+{ #category : 'accessing' }
+STEptsConverter >> teamLeftId [
+	"Answer the id of team left."
 
-	^ teamElement attributeAt: 'id'
+	^ metadata teamIdOf: self teamLeftNode
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'accessing' }
+STEptsConverter >> teamLeftName [
+	"Answer the name of team left."
+
+	^ metadata teamNameOf: self teamLeftNode
+]
+
+{ #category : 'private' }
 STEptsConverter >> teamLeftNode [
 	"Answer the team now playing from left to right."
 
-	self hasHalfTime ifFalse: [ ^ self teamLeftNodeAtFirstHalfTime ].
-	self isFirstHalf ifTrue: [ ^ self teamLeftNodeAtFirstHalfTime ].
-	self isSecondHalf ifTrue: [ ^ self teamRightNodeAtFirstHalfTime ]
+	metadata hasHalfTime ifFalse: [
+		^ metadata teamLeftNodeAtFirstHalfTime ].
+	self isFirstHalf ifTrue: [ ^ metadata teamLeftNodeAtFirstHalfTime ].
+	self isSecondHalf ifTrue: [ ^ metadata teamRightNodeAtFirstHalfTime ]
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> teamLeftNodeAtFirstHalfTime [
-	"Answer the team node for the team playing from left to right at the first half time or ever if no half time."
+{ #category : 'accessing' }
+STEptsConverter >> teamRightId [
+	"Answer the id of team right."
 
-	^ self teamNodes
-		  detect: [ :teamNode |
-				  (teamNode
-					   findElementNamed: 'ProviderParameter'
-					   with: [ :parameter |
-					   (parameter contentStringAt: 'Value') = 'left_to_right' ])
-					  isNotNil ]
-		  ifNone: [ self teamNodes first "guess" ]
+	^ metadata teamIdOf: self teamRightNode
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> teamNameOf: teamElement [
-	"Answer the team name of the given team element."
+{ #category : 'accessing' }
+STEptsConverter >> teamRightName [
+	"Answer the name of team right."
 
-	^ teamElement contentStringAt: 'Name'
+	^ metadata teamNameOf: self teamRightNode
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> teamNodes [
-	"Answer the team nodes collection."
-
-	^ formatXmlDocument allElementsNamed: 'Team'
-]
-
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> teamRightNode [
 	"Answer the team now playing from right to left."
 
-	self hasHalfTime ifFalse: [ ^ self teamRightNodeAtFirstHalfTime ].
-	self isFirstHalf ifTrue: [ ^ self teamRightNodeAtFirstHalfTime ].
-	self isSecondHalf ifTrue: [ ^ self teamLeftNodeAtFirstHalfTime ]
+	metadata hasHalfTime ifFalse: [
+		^ metadata teamRightNodeAtFirstHalfTime ].
+	self isFirstHalf ifTrue: [ ^ metadata teamRightNodeAtFirstHalfTime ].
+	self isSecondHalf ifTrue: [ ^ metadata teamLeftNodeAtFirstHalfTime ]
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> teamRightNodeAtFirstHalfTime [
-	"Answer the team node for the team playing from right to left at the first half time or ever if no half time."
-
-	^ self teamNodes
-		  detect: [ :teamNode |
-				  (teamNode
-					   findElementNamed: 'ProviderParameter'
-					   with: [ :parameter |
-					   (parameter contentStringAt: 'Value') = 'right_to_left' ])
-					  isNotNil ]
-		  ifNone: [ self teamNodes last "guess" ]
-]
-
-{ #category : 'private - metadata' }
+{ #category : 'private' }
 STEptsConverter >> topSeparator [
 
 	^ formatSpecificationNode attributeAt: 'separator'
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> unitForAxis: axis [
-	"Answer the unit for the given axis 'x', 'y' or 'z'."
-
-	| xChannel |
-	xChannel := formatXmlDocument
-		            findElementNamed: 'Channel'
-		            with: [ :element | (element attributeAt: 'id') = axis ].
-	^ xChannel contentStringAt: 'Unit'
 ]
 
 { #category : 'api' }
@@ -625,36 +412,22 @@ STEptsConverter >> writeWholeDocumentToFileNamed: fileName [
 		writer writeWholeDocumentToFileNamed: fileName ]
 ]
 
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> xInMeters: rawXCoordinate [
 	"Answer the raw x-coordinate converted from unit to meters."
 
-	self xUnit = 'cm' ifTrue: [ ^ rawXCoordinate / 100 ].
-	self xUnit = 'normalized' ifTrue: [
-		^ (rawXCoordinate - 0.5) * self pitch extent x ].
+	metadata xUnit = 'cm' ifTrue: [ ^ rawXCoordinate / 100 ].
+	metadata xUnit = 'normalized' ifTrue: [
+		^ (rawXCoordinate - 0.5) * metadata pitch extent x ].
 	^ rawXCoordinate
 ]
 
-{ #category : 'private - metadata' }
-STEptsConverter >> xUnit [
-	"Answer the unit for x coordinates."
-
-	^ self unitForAxis: 'x'
-]
-
-{ #category : 'private - rawdata' }
+{ #category : 'private' }
 STEptsConverter >> yInMeters: rawYCoordinate [
 	"Answer the raw y-coordinate converted from unit to meters."
 
-	self yUnit = 'cm' ifTrue: [ ^ rawYCoordinate / 100 ].
-	self yUnit = 'normalized' ifTrue: [
-		^ (rawYCoordinate - 0.5) * self pitch extent y ].
+	metadata yUnit = 'cm' ifTrue: [ ^ rawYCoordinate / 100 ].
+	metadata yUnit = 'normalized' ifTrue: [
+		^ (rawYCoordinate - 0.5) * metadata pitch extent y ].
 	^ rawYCoordinate
-]
-
-{ #category : 'private - metadata' }
-STEptsConverter >> yUnit [
-	"Answer the unit for y coordinates."
-
-	^ self unitForAxis: 'y'
 ]

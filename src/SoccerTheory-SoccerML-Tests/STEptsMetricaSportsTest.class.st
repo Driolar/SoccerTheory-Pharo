@@ -4,6 +4,9 @@ I test the STEptsConverter with a EPTS example provided by Metrica Sports [here]
 Class {
 	#name : 'STEptsMetricaSportsTest',
 	#superclass : 'TestCase',
+	#instVars : [
+		'metadata'
+	],
 	#category : 'SoccerTheory-SoccerML-Tests',
 	#package : 'SoccerTheory-SoccerML-Tests'
 }
@@ -11,9 +14,11 @@ Class {
 { #category : 'fixtures' }
 STEptsMetricaSportsTest >> converterBallPositionNaN [
 
-	^ STEptsConverter
-		  metadata: self metadata
-		  rawData: self rawDataBallPositionNaN
+	^ (STEptsConverter
+		   metadata: self metadata
+		   rawData: self rawDataBallPositionNaN)
+		  splitNextRawLine;
+		  yourself
 ]
 
 { #category : 'fixtures' }
@@ -27,17 +32,21 @@ STEptsMetricaSportsTest >> converterBothHalfs [
 { #category : 'fixtures' }
 STEptsMetricaSportsTest >> converterFirstHalfOnly [
 
-	^ STEptsConverter
-		  metadata: self metadata
-		  rawData: self rawDataFirstHalfOnly
+	^ (STEptsConverter
+		   metadata: self metadata
+		   rawData: self rawDataFirstHalfOnly)
+		  splitNextRawLine;
+		  yourself
 ]
 
 { #category : 'fixtures' }
 STEptsMetricaSportsTest >> converterSecondHalfOnly [
 
-	^ STEptsConverter
-		  metadata: self metadata
-		  rawData: self rawDataSecondHalfOnly
+	^ (STEptsConverter
+		   metadata: self metadata
+		   rawData: self rawDataSecondHalfOnly)
+		  splitNextRawLine;
+		  yourself
 ]
 
 { #category : 'fixtures' }
@@ -2100,6 +2109,13 @@ STEptsMetricaSportsTest >> rawDataSecondHalfOnly [
 		  '117813:0.23531,0.38562;0.52268,0.86297;0.37511,0.48893;0.41524,0.14394;0.55050,0.02051;0.61543,0.27386;0.52062,0.51019;0.50786,0.18468;0.72782,0.20299;0.73922,0.57154;0.75828,0.42558;0.94908,0.47259;0.68040,0.12162;0.73350,0.34028;0.74469,0.46204;0.74721,0.59473;0.55219,0.22057;0.61252,0.25350;0.60606,0.37118;0.59206,0.59362;0.49672,0.39734;0.72963,0.20438:0.54402,0.12328'
 ]
 
+{ #category : 'running' }
+STEptsMetricaSportsTest >> setUp [
+
+	super setUp.
+	metadata := STEptsMetadata on: self metadata
+]
+
 { #category : 'tests' }
 STEptsMetricaSportsTest >> testBallPositionNaN [
 
@@ -2111,6 +2127,7 @@ STEptsMetricaSportsTest >> testBothHalfs [
 
 	| converter firstCount secondCount |
 	converter := self converterBothHalfs.
+	converter splitNextRawLine.
 	self assert: converter isFirstHalf.
 	firstCount := converter frameCount.
 	converter splitNextRawLine.
@@ -2125,12 +2142,8 @@ STEptsMetricaSportsTest >> testBothHalfs [
 { #category : 'tests' }
 STEptsMetricaSportsTest >> testFirstHalfInterval [
 
-	self
-		assert: self converterFirstHalfOnly firstHalfInterval first
-		equals: 1.
-	self
-		assert: self converterFirstHalfOnly firstHalfInterval last
-		equals: 69661.
+	self assert: metadata firstHalfInterval first equals: 1.
+	self assert: metadata firstHalfInterval last equals: 69661.
 	self
 		assert: (self converterFirstHalfOnly teamLeftNode attributeAt: 'id')
 		equals: 'FIFATMB'
@@ -2139,18 +2152,14 @@ STEptsMetricaSportsTest >> testFirstHalfInterval [
 { #category : 'tests' }
 STEptsMetricaSportsTest >> testHalfTime [
 
-	self assert: self converterFirstHalfOnly hasHalfTime
+	self assert: metadata hasHalfTime
 ]
 
 { #category : 'tests' }
 STEptsMetricaSportsTest >> testSecondHalfInterval [
 
-	self
-		assert: self converterSecondHalfOnly secondHalfInterval first
-		equals: 69662.
-	self
-		assert: self converterSecondHalfOnly secondHalfInterval last
-		equals: 143761.
+	self assert: metadata secondHalfInterval first equals: 69662.
+	self assert: metadata secondHalfInterval last equals: 143761.
 	self
 		assert: (self converterFirstHalfOnly teamLeftNode attributeAt: 'id')
 		equals: 'FIFATMB'
@@ -2160,13 +2169,10 @@ STEptsMetricaSportsTest >> testSecondHalfInterval [
 STEptsMetricaSportsTest >> testTeamSide [
 
 	self
-		assert:
-			(self converterFirstHalfOnly teamLeftNodeAtFirstHalfTime
-				 attributeAt: 'id')
+		assert: (metadata teamLeftNodeAtFirstHalfTime attributeAt: 'id')
 		equals: 'FIFATMB'.
 	self
-		assert: (self converterFirstHalfOnly teamRightNodeAtFirstHalfTime
-				 attributeAt: 'id')
+		assert: (metadata teamRightNodeAtFirstHalfTime attributeAt: 'id')
 		equals: 'FIFATMA'
 ]
 
@@ -2183,6 +2189,6 @@ STEptsMetricaSportsTest >> testTwoSequences [
 { #category : 'tests' }
 STEptsMetricaSportsTest >> testUnits [
 
-	self assert: self converterFirstHalfOnly xUnit equals: 'normalized'.
-	self assert: self converterFirstHalfOnly yUnit equals: 'normalized'
+	self assert: metadata xUnit equals: 'normalized'.
+	self assert: metadata yUnit equals: 'normalized'
 ]

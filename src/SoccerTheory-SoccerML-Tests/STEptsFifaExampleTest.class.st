@@ -5,7 +5,8 @@ Class {
 	#name : 'STEptsFifaExampleTest',
 	#superclass : 'TestCase',
 	#instVars : [
-		'eptsConverter'
+		'eptsConverter',
+		'metadata'
 	],
 	#category : 'SoccerTheory-SoccerML-Tests',
 	#package : 'SoccerTheory-SoccerML-Tests'
@@ -15,12 +16,12 @@ Class {
 STEptsFifaExampleTest >> fifaExampleFormatSpecificationNode [
 	"Answer the (only) data format specification node."
 
-	^ ((XMLDOMParser parse: self metadata) allElementsNamed:
+	^ ((XMLDOMParser parse: self metadataString) allElementsNamed:
 		   'DataFormatSpecification') first
 ]
 
 { #category : 'fixtures' }
-STEptsFifaExampleTest >> metadata [
+STEptsFifaExampleTest >> metadataString [
 	"Answer a metadata example provided by FIFA and available [here](https://github.com/george-wood/epts/tree/master/inst/extdata)."
 
 	^'<?xml version="1.1" encoding="UTF-8"?>
@@ -270,8 +271,10 @@ STEptsFifaExampleTest >> setUp [
 	super setUp.
 
 	eptsConverter := STEptsConverter
-		                 metadata: self metadata
-		                 rawData: self rawData
+		                 metadata: self metadataString
+		                 rawData: self rawData.
+	eptsConverter splitNextRawLine.
+	metadata := STEptsMetadata on: self metadataString
 ]
 
 { #category : 'tests' }
@@ -296,13 +299,13 @@ STEptsFifaExampleTest >> testBallPosition [
 { #category : 'tests' }
 STEptsFifaExampleTest >> testFirstHalfInterval [
 
-	self assert: eptsConverter firstHalfInterval equals: nil
+	self assert: metadata firstHalfInterval equals: nil
 ]
 
 { #category : 'tests' }
 STEptsFifaExampleTest >> testFormatSpecificationNodes [
 
-	self assert: eptsConverter formatSpecificationNodes size equals: 1
+	self assert: metadata formatSpecificationNodes size equals: 1
 ]
 
 { #category : 'tests' }
@@ -315,7 +318,7 @@ STEptsFifaExampleTest >> testFrameCount [
 STEptsFifaExampleTest >> testFrameCountIndex [
 
 	self
-		assert: (eptsConverter frameCountIndexOf:
+		assert: (metadata frameCountIndexOf:
 				 self fifaExampleFormatSpecificationNode)
 		equals: 1
 ]
@@ -323,27 +326,27 @@ STEptsFifaExampleTest >> testFrameCountIndex [
 { #category : 'tests' }
 STEptsFifaExampleTest >> testFramesPerSecond [
 
-	self assert: eptsConverter framesPerSecond equals: '25'
+	self assert: metadata framesPerSecond equals: '25'
 ]
 
 { #category : 'tests' }
 STEptsFifaExampleTest >> testHalfTime [
 
-	self deny: eptsConverter hasHalfTime
+	self deny: metadata hasHalfTime
 ]
 
 { #category : 'tests' }
 STEptsFifaExampleTest >> testPlayerChannelNodes [
 
-	self assert: eptsConverter playerChannelNodesForX size equals: 3.
-	self assert: eptsConverter playerChannelNodesForY size equals: 3
+	self assert: metadata playerChannelNodesForX size equals: 3.
+	self assert: metadata playerChannelNodesForY size equals: 3
 ]
 
 { #category : 'tests' }
 STEptsFifaExampleTest >> testPlayerNode [
 
 	| playerNode |
-	playerNode := eptsConverter playerNodes last.
+	playerNode := metadata playerNodes last.
 	self assert: (playerNode attributeAt: 'id') equals: '3'.
 	self assert: (playerNode attributeAt: 'teamId') equals: '1'.
 	self assert: (playerNode contentStringAt: 'ShirtNumber') equals: '7'
@@ -352,7 +355,7 @@ STEptsFifaExampleTest >> testPlayerNode [
 { #category : 'tests' }
 STEptsFifaExampleTest >> testPlayerNodes [
 
-	self assert: eptsConverter playerNodes size equals: 3
+	self assert: metadata playerNodes size equals: 3
 ]
 
 { #category : 'tests' }
@@ -386,27 +389,25 @@ STEptsFifaExampleTest >> testSplitting [
 { #category : 'tests' }
 STEptsFifaExampleTest >> testTeamNodes [
 
-	self assert: eptsConverter teamNodes size equals: 2
+	self assert: metadata teamNodes size equals: 2
 ]
 
 { #category : 'tests' }
 STEptsFifaExampleTest >> testTeamSide [
 
 	self
-		assert:
-		(eptsConverter teamLeftNodeAtFirstHalfTime attributeAt: 'id')
+		assert: (metadata teamLeftNodeAtFirstHalfTime attributeAt: 'id')
 		equals: '1'.
 	self
-		assert:
-		(eptsConverter teamRightNodeAtFirstHalfTime attributeAt: 'id')
+		assert: (metadata teamRightNodeAtFirstHalfTime attributeAt: 'id')
 		equals: '2'
 ]
 
 { #category : 'tests' }
 STEptsFifaExampleTest >> testUnits [
 
-	self assert: eptsConverter xUnit equals: 'cm'.
-	self assert: eptsConverter yUnit equals: 'cm'
+	self assert: metadata xUnit equals: 'cm'.
+	self assert: metadata yUnit equals: 'cm'
 ]
 
 { #category : 'tests' }

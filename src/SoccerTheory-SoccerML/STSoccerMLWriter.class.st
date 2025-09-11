@@ -7,10 +7,10 @@ Class {
 	#instVars : [
 		'sourceName',
 		'pitch',
-		'strategy',
 		'framesPerSecond',
 		'sequences',
-		'runningFrameIndex'
+		'runningFrameIndex',
+		'offsideRuleCode'
 	],
 	#category : 'SoccerTheory-SoccerML-Base',
 	#package : 'SoccerTheory-SoccerML',
@@ -18,9 +18,21 @@ Class {
 }
 
 { #category : 'instance creation' }
-STSoccerMLWriter class >> onFirstFrame: aSTSoccerFrame [
+STSoccerMLWriter class >> pitch: aSTPitch offsideCode: offsideCode [
 
-	^ self new initializeWithFrame: aSTSoccerFrame
+	^ self
+		  pitch: aSTPitch
+		  offsideCode: offsideCode
+		  framesPerSecond: nil
+]
+
+{ #category : 'instance creation' }
+STSoccerMLWriter class >> pitch: aSTPitch offsideCode: offsideCode framesPerSecond: aString [
+
+	^ self new
+		  initializeWithPitch: aSTPitch
+		  offsideCode: offsideCode
+		  framesPerSecond: aString
 ]
 
 { #category : 'api' }
@@ -41,13 +53,11 @@ STSoccerMLWriter >> initialize [
 ]
 
 { #category : 'initialization' }
-STSoccerMLWriter >> initializeWithFrame: aSTSoccerFrame [
-	"Set the header data."
+STSoccerMLWriter >> initializeWithPitch: aSTPitch offsideCode: offsideCode framesPerSecond: aString [
 
-	pitch := aSTSoccerFrame pitch.
-	strategy := aSTSoccerFrame strategy.
-	framesPerSecond := aSTSoccerFrame framesPerSecond.
-	self addFrame: aSTSoccerFrame
+	pitch := aSTPitch.
+	offsideRuleCode := offsideCode.
+	framesPerSecond := aString
 ]
 
 { #category : 'api' }
@@ -137,7 +147,7 @@ STSoccerMLWriter >> writeHeader [
 { #category : 'writing' }
 STSoccerMLWriter >> writeOffside [
 
-	self tag: 'soc:Offside' with: strategy xmlText
+	self tag: 'soc:Offside' with: offsideRuleCode 
 ]
 
 { #category : 'writing' }
