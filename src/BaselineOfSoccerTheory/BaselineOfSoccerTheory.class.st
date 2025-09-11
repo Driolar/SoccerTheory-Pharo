@@ -54,7 +54,7 @@ BaselineOfSoccerTheory >> dtdForSoccerML [
 
 	^ '<!ELEMENT DRIOLAR (soc:Header, soc:Sequence+)>
 <!ATTLIST DRIOLAR xmlns:soc CDATA #REQUIRED >
-<!ELEMENT soc:Header (soc:Source, soc:Rules, soc:Pitch), soc:FramesPerSecond?>
+<!ELEMENT soc:Header (soc:Source, soc:Rules, soc:Pitch, soc:FramesPerSecond?)>
 <!ELEMENT soc:Sequence (soc:PlayIncidence?, (soc:Team, soc:Team)?, soc:Frame+)>
 <!ELEMENT soc:Source (#PCDATA)>
 <!ELEMENT soc:Rules (soc:Offside)>
