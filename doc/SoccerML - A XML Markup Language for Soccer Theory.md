@@ -1,8 +1,10 @@
 # SoccerML - A XML Markup Language for Soccer Theory
 SoccerML is a XML markup language to provide tracking and event soccer data for investigating the [Soccer Theory](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/A%20bit%20of%20Soccer%20Theory.md). 
 By convention, a SoccerML file should have the extension *.socxml*. 
-Basically, the data consists of header information and one or more sequences of frames. 
+Basically, the data consists of header information and one or more frame sequences. 
 The format is defined by the document type definition file [soccerML.dtd](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/socxml/soccerML.dtd).
+
+The applications [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md) and [SoTheReplay](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheReplay%20-%20The%20Soccer%20Theory%20Player.md) can read and write SoccerML.
 ## Converting from other formats
 ### RoboCup
 There is a [RoboCup Tool](https://github.com/rcsoccersim/rcsslogplayer/tree/master/tool) that converts RoboCup log files from the 2D Simulation League to XML files defined by this [XSD file](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg-0.1.xsd).
@@ -12,7 +14,7 @@ This procedure was succesfully employed in a [master thesis](https://github.com/
 However, the indicated RoboCup Tool is in the meantime deprecated.
 Most recent efforts are dedicated to [convert RoboCup logs into CSV](https://github.com/hidehisaakiyama/RoboCup2D-data). 
 ### FIFA's EPTS
-The *Fédération Internationale de Football Association* (FIFA) develops a global standard for tracking and event soccer data named [EPTS](https://inside.fifa.com/innovation/standards/epts/research-development-epts-standard-data-format) (Electronic Performance and Tracking Systems). A EPTS data set for a match consists of three files: 
+The *Fédération Internationale de Football Association* (FIFA) develops a global standard for tracking and event soccer data named [EPTS](https://inside.fifa.com/innovation/standards/epts/research-development-epts-standard-data-format) (Electronic Performance and Tracking Systems). An EPTS data set for a match consists of three files: 
 - the rawdata file in text format
 - the metadata file in xml format
 - the events file in json format. 
@@ -24,7 +26,7 @@ Currently, the events file from where ball possession information might be infer
 
 Note that the raw data might contain frames with missing ball position (NaN). Such frames are skipped by `STEptsConverter`.
 #### Example using `STEptsConverter`
-There is an example of a real soccer match provided by Metrica Sports as [Sample Game 3](https://github.com/metrica-sports/sample-data/tree/master/data/Sample_Game_3).
+There is A EPTS example of a real soccer match provided by Metrica Sports as [Sample Game 3](https://github.com/metrica-sports/sample-data/tree/master/data/Sample_Game_3).
 To use `STEptsConverter` with this match example, download the files [Sample_Game_3_metadata.xml](https://github.com/metrica-sports/sample-data/blob/master/data/Sample_Game_3/Sample_Game_3_metadata.xml) and [Sample_Game_3_tracking.txt](https://github.com/metrica-sports/sample-data/blob/master/data/Sample_Game_3/Sample_Game_3_tracking.txt).
 
 You might want to partition the big raw data file. For example, to save 100 frames beginning at frame count 700, do this:
