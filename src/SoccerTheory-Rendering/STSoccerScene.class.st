@@ -132,6 +132,100 @@ STSoccerScene >> defendingTeam [
 	^ gameCommander defendingTeam 
 ]
 
+{ #category : 'paint' }
+STSoccerScene >> deviceGoalDepth [
+	"Answer the goal depth in pixels."
+
+	^ borderWidth / 2
+]
+
+{ #category : 'paint' }
+STSoccerScene >> deviceGoalWidth [
+	"Answer the goal width in pixels."
+
+	^ (transformer scaleWorldPoint: 0 @ self pitch goalWidth) y
+]
+
+{ #category : 'paint' }
+STSoccerScene >> goalLeftElement [
+	"Answer the BlElement representing the left goal."
+
+	| goalPosition hoverOverEventHandler hoverOutEventHandler hoverText |
+	goalPosition := self deviceGoalDepth negated
+	                @
+	                (self playFieldExtent y / 2
+	                 - (self deviceGoalWidth / 2)).
+
+	hoverText := self hoverTextElementWith: self teamLeft teamName.
+	hoverText position: 0 @ 0.
+
+	hoverOverEventHandler := BlEventHandler
+		                         on: BlMouseOverEvent
+		                         do: [ :anEvent |
+		                         anEvent currentTarget
+			                         addChild: hoverText
+			                         as: #goalLeft ].
+
+	hoverOutEventHandler := BlEventHandler
+		                        on: BlMouseOutEvent
+		                        do: [ :anEvent |
+		                        anEvent currentTarget removeChildWithId:
+			                        #goalLeft ].
+
+	^ BlElement new
+		  extent: self deviceGoalDepth @ self deviceGoalWidth;
+		  position: goalPosition;
+		  background: self teamLeft jerseyGradient;
+		  addEventHandler: hoverOverEventHandler;
+		  addEventHandler: hoverOutEventHandler;
+		  clipChildren: false;
+		  yourself
+]
+
+{ #category : 'paint' }
+STSoccerScene >> goalRightElement [
+	"Answer the BlElement representing the right goal."
+
+	| goalPosition hoverOverEventHandler hoverOutEventHandler hoverText |
+	goalPosition := self playFieldExtent x
+	                @
+	                (self playFieldExtent y / 2
+	                 - (self deviceGoalWidth / 2)).
+
+	hoverText := self hoverTextElementWith: self teamRight teamName.
+	hoverText position: (self teamRight teamName size * 5) negated @ 0.
+
+	hoverOverEventHandler := BlEventHandler
+		                         on: BlMouseOverEvent
+		                         do: [ :anEvent |
+		                         anEvent currentTarget
+			                         addChild: hoverText
+			                         as: #goalRight ].
+
+	hoverOutEventHandler := BlEventHandler
+		                        on: BlMouseOutEvent
+		                        do: [ :anEvent |
+		                        anEvent currentTarget removeChildWithId:
+			                        #goalRight ].
+
+	^ BlElement new
+		  extent: self deviceGoalDepth @ self deviceGoalWidth;
+		  position: goalPosition;
+		  background: self teamRight jerseyGradient;
+		  addEventHandler: hoverOverEventHandler;
+		  addEventHandler: hoverOutEventHandler;
+		  clipChildren: false;
+		  yourself
+]
+
+{ #category : 'paint' }
+STSoccerScene >> hoverTextElementWith: aString [
+
+	^ ((BlRopedText string: aString) fontSize: 11) asElement
+		  background: Color white;
+		  padding: (BlInsets all: 2)
+]
+
 { #category : 'initialization' }
 STSoccerScene >> initializeForApplicationWithGameCommander: aGameCommander graphicFactory: aGraphicFactory [
 	"Initialize for application purpose with the given STSoccerFrame and STGraphicFactory."
@@ -191,28 +285,9 @@ STSoccerScene >> offsideLineColor [
 STSoccerScene >> paintGoals [
 	"Paint the left and the right goal on the pitch's border."
 
-	| goalWidth goalDepth goalLeft goalRight goalPosition |
-	goalWidth := (transformer scaleWorldPoint: 0 @ self pitch goalWidth)
-		             y.
-	goalDepth := borderWidth / 2.
-
-	goalPosition := goalDepth negated
-	                @ (self playFieldExtent y / 2 - (goalWidth / 2)).
-	goalLeft := BlElement new
-		            extent: goalDepth @ goalWidth;
-		            position: goalPosition;
-		            background: self teamLeft jerseyGradient;
-		            yourself.
-
-	goalPosition := self playFieldExtent x @ goalPosition y.
-	goalRight := BlElement new
-		             extent: goalDepth @ goalWidth;
-		             position: goalPosition;
-		             background: self teamRight jerseyGradient;
-		             yourself.
-
-	playField addChild: goalLeft.
-	playField addChild: goalRight
+	playField
+		addChild: self goalLeftElement;
+		addChild: self goalRightElement
 ]
 
 { #category : 'paint' }

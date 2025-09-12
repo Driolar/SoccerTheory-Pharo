@@ -115,15 +115,14 @@ STMovableShape >> hideShadow [
 
 { #category : 'private' }
 STMovableShape >> hoverTextElement [
-	"Answer the player's hover text"
+	"Answer the BlElement for the player's hover text."
 
 	| hoverText |
 	hoverText := ((BlRopedText string: self hoverTextString) fontSize: 11)
 		             asElement
 		             background: Color white;
 		             padding: (BlInsets all: 2).
-	hoverText position:
-		(Point x: self hoverTextPositionX y: self hoverTextPositionY).
+	hoverText position: self hoverTextPositionX @ self hoverTextPositionY.
 	^ hoverText
 ]
 

@@ -122,7 +122,10 @@ STEptsConverter >> copyRawDataStartingAtFrameCount: startFrameCount numberOfFram
 	writeStream := fileName asFileReference writeStream.
 	lineCounter := 0.
 	rawDataStream position: 0.
-	frameCountMatcher := startFrameCount asString , self topSeparator.
+	frameCountMatcher := startFrameCount asString
+	                     ,
+	                     (metadata topSeparatorForFrameCount:
+		                      startFrameCount).
 	rawDataStream match: (startFrameCount > 1
 			 ifTrue: [ String lf , frameCountMatcher ]
 			 ifFalse: [ frameCountMatcher ]).
@@ -331,14 +334,15 @@ STEptsConverter >> resetWriting [
 
 { #category : 'private' }
 STEptsConverter >> splitNextRawLine [
-	"Split the next raw line into frame count, players and ball."
+	"Split the next raw line into frame count, players and ball. Answer current raw line (unsplitted) as byproduct."
 
 	| currentRawLine topSeparator |
 	currentRawLine := rawDataStream nextLine.
 	formatSpecificationNode := metadata detectFormatSpecificationFor:
 		                           currentRawLine.
 	topSeparator := formatSpecificationNode attributeAt: 'separator'.
-	splittedRawLine := currentRawLine substrings: topSeparator
+	splittedRawLine := currentRawLine substrings: topSeparator.
+	^ currentRawLine
 ]
 
 { #category : 'accessing' }

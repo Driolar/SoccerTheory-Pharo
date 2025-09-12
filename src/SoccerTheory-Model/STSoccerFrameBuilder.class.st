@@ -377,3 +377,31 @@ STSoccerFrameBuilder >> setNoOffsideSoccerStrategy [
 
 	actionManager setNoOffsideSoccerStrategy
 ]
+
+{ #category : 'creation' }
+STSoccerFrameBuilder >> teamLeftColorGradientHigh: aString [
+	"Set the high color gradient for team left."
+
+	frame teamLeft gradientColorHigh: aString
+]
+
+{ #category : 'creation' }
+STSoccerFrameBuilder >> teamLeftColorGradientLow: aString [
+	"Set the low color gradient for team left."
+
+	frame teamLeft gradientColorLow: aString
+]
+
+{ #category : 'creation' }
+STSoccerFrameBuilder >> teamRightColorGradientHigh: aString [
+	"Set the high color gradient for team right."
+
+	frame teamRight gradientColorHigh: aString
+]
+
+{ #category : 'creation' }
+STSoccerFrameBuilder >> teamRightColorGradientLow: aString [
+	"Set the low color gradient for team right."
+
+	frame teamRight gradientColorLow: aString
+]

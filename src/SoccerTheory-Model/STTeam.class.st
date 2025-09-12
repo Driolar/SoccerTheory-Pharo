@@ -48,10 +48,24 @@ STTeam >> gradientColorHigh [
 ]
 
 { #category : 'accessing' }
+STTeam >> gradientColorHigh: aString [
+	"Set the hexadecimal string for the high gradient color."
+
+	gradientColorHigh := aString
+]
+
+{ #category : 'accessing' }
 STTeam >> gradientColorLow [
 	"Answer the hexadecimal string for the low gradient color."
 
 	^ gradientColorLow
+]
+
+{ #category : 'accessing' }
+STTeam >> gradientColorLow: aString [
+	"Set the hexadecimal string for the low gradient color."
+
+	gradientColorLow := aString
 ]
 
 { #category : 'initialization' }

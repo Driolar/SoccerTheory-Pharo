@@ -262,6 +262,19 @@ STEptsMetadata >> teamRightNodeAtFirstHalfTime [
 		  ifNone: [ self teamNodes last "guess" ]
 ]
 
+{ #category : 'api' }
+STEptsMetadata >> topSeparatorForFrameCount: aNumber [
+	"Answer the top separator for the given frame count."
+
+	| formatSpecificationNode |
+	formatSpecificationNode := self formatSpecificationNodes detect: [
+		                           :specNode |
+		                           self
+			                           isInFrameCountRange: specNode
+			                           frameCount: aNumber ].
+	^ formatSpecificationNode attributeAt: 'separator'
+]
+
 { #category : 'private' }
 STEptsMetadata >> unitForAxis: axis [
 	"Answer the unit for the given axis 'x', 'y' or 'z'."

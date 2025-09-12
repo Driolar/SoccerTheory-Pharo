@@ -7,7 +7,9 @@ Class {
 	#instVars : [
 		'domParser',
 		'frameBuilder',
-		'currentFrameIndex'
+		'currentFrameIndex',
+		'teamColorGradientsHigh',
+		'teamColorGradientsLow'
 	],
 	#category : 'SoccerTheory-SoccerML-Base',
 	#package : 'SoccerTheory-SoccerML',
@@ -85,11 +87,38 @@ STSoccerDocumentReader >> addPlayers [
 STSoccerDocumentReader >> createCurrentFrameBuilder [
 	"Answer a new STSoccerFrameBuilder to begin the current frame element translation."
 
-	^ STSoccerFrameBuilder
-		  newWithTeamLeft: self teamLeftName
-		  teamRight: self teamRightName
-		  pitch: self pitch
-		  ball: (STBall newWithPosition: self currentBallPosition)
+	| builder |
+	builder := STSoccerFrameBuilder
+		           newWithTeamLeft: self teamLeftName
+		           teamRight: self teamRightName
+		           pitch: self pitch
+		           ball: (STBall newWithPosition: self currentBallPosition).
+
+	"In case of switching fields at half time."
+	teamColorGradientsLow
+		at: self teamLeftName
+		ifPresent: [ :gradient | builder teamLeftColorGradientLow: gradient ]
+		ifAbsentPut: [ builder builtFrame teamLeft gradientColorLow ].
+
+	teamColorGradientsLow
+		at: self teamRightName
+		ifPresent: [ :gradient |
+		builder teamRightColorGradientLow: gradient ]
+		ifAbsentPut: [ builder builtFrame teamRight gradientColorLow ].
+
+	teamColorGradientsHigh
+		at: self teamLeftName
+		ifPresent: [ :gradient |
+		builder teamLeftColorGradientHigh: gradient ]
+		ifAbsentPut: [ builder builtFrame teamLeft gradientColorHigh ].
+
+	teamColorGradientsHigh
+		at: self teamRightName
+		ifPresent: [ :gradient |
+		builder teamRightColorGradientHigh: gradient ]
+		ifAbsentPut: [ builder builtFrame teamRight gradientColorHigh ].
+
+	^ builder
 ]
 
 { #category : 'private - traversing' }
@@ -146,7 +175,9 @@ STSoccerDocumentReader >> frameNodes [
 STSoccerDocumentReader >> initialize [
 
 	super initialize.
-	currentFrameIndex := 1
+	currentFrameIndex := 1.
+	teamColorGradientsLow := Dictionary new.
+	teamColorGradientsHigh := Dictionary new
 ]
 
 { #category : 'initialization' }
@@ -245,7 +276,7 @@ STSoccerDocumentReader >> teamLeftName [
 STSoccerDocumentReader >> teamNameAtSide: side [
 	"Answer the name of the team at the given side 'l' or 'r'."
 
-	^ (self document
+	^ (self currentFrameNode parent
 		   findElementNamed: 'TeamName'
 		   with: [ :each | (each parent attributeAt: 'side') = side ])
 		  contentString
