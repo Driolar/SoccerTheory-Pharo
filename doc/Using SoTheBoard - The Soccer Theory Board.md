@@ -18,6 +18,7 @@ The *play field* is intentionally unadorned.
 Neither the center circle nor the penalty boxes are relevant for the Soccer Theory.
 The field boundaries, the halfway line and the goals are required.
 Each goal is painted with the color of the team defending it.
+When moving the mouse onto one of the goals, the name of the team defending it is displayed.
 The represented goal width is proportional to the goal width defined in the world model.
 
 Each *player* is represented by a square colored with the corresponding team color.
