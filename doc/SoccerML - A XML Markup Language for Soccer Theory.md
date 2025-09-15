@@ -5,6 +5,8 @@ Basically, the data consists of header information and one or more frame sequenc
 The format is defined by the document type definition file [soccerML.dtd](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/socxml/soccerML.dtd).
 
 The applications [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md) and [SoTheReplay](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheReplay%20-%20The%20Soccer%20Theory%20Player.md) can read and write SoccerML.
+
+There are tools to convert RoboCup, SkillCorner and EPTS tracking data into SoccerML as follows.
 ## Converting from other formats
 ### RoboCup
 There is a [RoboCup Tool](https://github.com/rcsoccersim/rcsslogplayer/tree/master/tool) that converts RoboCup log files from the 2D Simulation League to XML files defined by this [XSD file](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg-0.1.xsd).
@@ -13,6 +15,13 @@ This procedure was succesfully employed in a [master thesis](https://github.com/
 
 However, the indicated RoboCup Tool is in the meantime deprecated.
 Most recent efforts are dedicated to [convert RoboCup logs into CSV](https://github.com/hidehisaakiyama/RoboCup2D-data). 
+
+### SkillCorner
+The Soccer Theory Suite provides the class `STSkillCornerConverter` for converting SkillCorner open data into SoccerML. There are 9 real matches provided by SkillCorner [here](https://github.com/SkillCorner/opendata).
+
+#### Example using `STSkillCornerConverter`
+TODO
+
 ### FIFA's EPTS
 The *Fédération Internationale de Football Association* (FIFA) develops a global standard for tracking and event soccer data named [EPTS](https://inside.fifa.com/innovation/standards/epts/research-development-epts-standard-data-format) (Electronic Performance and Tracking Systems). An EPTS data set for a match consists of three files: 
 - the rawdata file in text format
@@ -50,7 +59,4 @@ converter := STEptsConverter
 	             'C:\temp\100startingAt700.txt'.
 converter writeWholeDocumentToFileNamed: 'c:\temp\100startingAt700.socxml'.
 ```
-To obtain an example with both half times, copy for instance 650 frames starting at frame count 69542.  
-
-### Skillcorner
-A conversion from [Skillcorner](https://github.com/SkillCorner/opendata) to SoccerML is planned to be provided by the Soccer Theory Suite.
+To obtain an example with both half times, copy for instance 650 frames starting at frame count 69542. 
