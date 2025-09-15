@@ -16,16 +16,10 @@ BaselineOfSoccerTheory >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [
-			spec
-				baseline: 'Bloc'
-				with: [
-				spec repository: 'github://pharo-graphics/Bloc:master/src' ].
-			
-			spec
-				baseline: 'XMLParser'
-				with: [
-  				spec repository: 'github://pharo-contributions/XML-XMLParser/src' ].
-				
+			self blocOn: spec.
+			self xmlParserOn: spec.
+			self neoJsonOn: spec.
+
 			spec
 				package: 'SoccerTheory-Model';
 				package: 'SoccerTheory-Rendering'
@@ -46,6 +40,14 @@ BaselineOfSoccerTheory >> baseline: spec [
 							preLoadDoIt: #saveDtdForSoccerML ];
 				package: 'SoccerTheory-SoccerML-Tests'
 				with: [ spec requires: #( 'SoccerTheory-SoccerML' ) ] ]
+]
+
+{ #category : 'baselines' }
+BaselineOfSoccerTheory >> blocOn: spec [
+
+	spec
+		baseline: 'Bloc'
+		with: [ spec repository: 'github://pharo-graphics/Bloc:master/src' ]
 ]
 
 { #category : 'loading' }
@@ -86,10 +88,27 @@ isCatching (true | false) "false">
 <!ELEMENT soc:PossessingTeam (#PCDATA)> <!-- Valid values: l, r -->'
 ]
 
+{ #category : 'baselines' }
+BaselineOfSoccerTheory >> neoJsonOn: spec [
+
+	spec
+		baseline: 'NeoJSON'
+		with: [ spec repository: 'github://svenvc/NeoJSON/repository' ]
+]
+
 { #category : 'loading' }
 BaselineOfSoccerTheory >> saveDtdForSoccerML [
 	"Save soccerML.dtd for being resolved as external entity by XML parser."
 
 	FileSystem disk workingDirectory / 'soccerML.dtd' writeStreamDo: [
 		:stream | stream nextPutAll: self dtdForSoccerML ]
+]
+
+{ #category : 'baselines' }
+BaselineOfSoccerTheory >> xmlParserOn: spec [
+
+	spec
+		baseline: 'XMLParser'
+		with: [
+		spec repository: 'github://pharo-contributions/XML-XMLParser/src' ]
 ]

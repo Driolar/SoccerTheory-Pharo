@@ -7,9 +7,9 @@ Class {
 	#instVars : [
 		'xmlDocument'
 	],
-	#category : 'SoccerTheory-SoccerML-Base',
+	#category : 'SoccerTheory-SoccerML-EPTS',
 	#package : 'SoccerTheory-SoccerML',
-	#tag : 'Base'
+	#tag : 'EPTS'
 }
 
 { #category : 'instance creation' }

@@ -20,9 +20,9 @@ Class {
 		'lastValidFrameCount',
 		'metadata'
 	],
-	#category : 'SoccerTheory-SoccerML-Base',
+	#category : 'SoccerTheory-SoccerML-EPTS',
 	#package : 'SoccerTheory-SoccerML',
-	#tag : 'Base'
+	#tag : 'EPTS'
 }
 
 { #category : 'instance creation' }
@@ -327,7 +327,6 @@ STEptsConverter >> resetWriting [
 	lastValidFrameCount := nil.
 	socMLWriter := STSoccerMLWriter
 		               pitch: metadata pitch
-		               offsideCode: '1925'
 		               framesPerSecond: metadata framesPerSecond.
 	socMLWriter sourceName: 'EPTS converter'
 ]

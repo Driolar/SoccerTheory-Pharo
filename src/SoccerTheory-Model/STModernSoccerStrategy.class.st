@@ -17,6 +17,13 @@ STModernSoccerStrategy class >> offsideRuleName [
 	^ 'modern offside rule'
 ]
 
+{ #category : 'accessing' }
+STModernSoccerStrategy class >> xmlText [
+	"Answer the String for my xml tag."
+
+	^ '1925'
+]
+
 { #category : 'flagging' }
 STModernSoccerStrategy >> flagCoveredPlayers [
 	"With the modern offside rule, there is no defender in the defence zone. The modern offside rule is strategically insuficient. Man coverage must always be applied."
@@ -43,7 +50,5 @@ STModernSoccerStrategy >> offsideX [
 
 { #category : 'accessing' }
 STModernSoccerStrategy >> xmlText [
-	"Answer the String for my xml tag."
-
-	^ '1925'
+	^ self class xmlText
 ]

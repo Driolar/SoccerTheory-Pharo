@@ -18,6 +18,15 @@ Class {
 }
 
 { #category : 'instance creation' }
+STSoccerMLWriter class >> pitch: aSTPitch framesPerSecond: aString [
+
+	^ self new
+		  initializeWithPitch: aSTPitch
+		  offsideCode: STModernSoccerStrategy xmlText
+		  framesPerSecond: aString
+]
+
+{ #category : 'instance creation' }
 STSoccerMLWriter class >> pitch: aSTPitch offsideCode: offsideCode [
 
 	^ self
