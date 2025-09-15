@@ -6,7 +6,7 @@ The format is defined by the document type definition file [soccerML.dtd](https:
 
 The applications [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md) and [SoTheReplay](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheReplay%20-%20The%20Soccer%20Theory%20Player.md) can read and write SoccerML.
 
-There are tools to convert RoboCup, SkillCorner and EPTS tracking data into SoccerML as follows.
+There are ways to convert RoboCup, SkillCorner and EPTS tracking data into SoccerML as follows.
 ## Converting from other formats
 ### RoboCup
 There is a [RoboCup Tool](https://github.com/rcsoccersim/rcsslogplayer/tree/master/tool) that converts RoboCup log files from the 2D Simulation League to XML files defined by this [XSD file](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/rcg2xml/rcg-0.1.xsd).
@@ -17,10 +17,26 @@ However, the indicated RoboCup Tool is in the meantime deprecated.
 Most recent efforts are dedicated to [convert RoboCup logs into CSV](https://github.com/hidehisaakiyama/RoboCup2D-data). 
 
 ### SkillCorner
-The Soccer Theory Suite provides the class `STSkillCornerConverter` for converting SkillCorner open data into SoccerML. There are 9 real matches provided by SkillCorner [here](https://github.com/SkillCorner/opendata).
+The Soccer Theory Suite provides the class `STSkillCornerConverter` for converting SkillCorner open data into SoccerML. There are 9 real matches provided by SkillCorner [here](https://github.com/SkillCorner/opendata). Each match data is stored in two JSON files:
+- match_data.json
+- structured_data.json
+
+The latter contains the tracking information including ball possession.
+
+`STSkillCornerConverter` takes care of field switching at half time. For each half time, a separate sequence of frames is created.
 
 #### Example using `STSkillCornerConverter`
-TODO
+After having downloaded the SkillCorner data, you may split the tracking data (structured_data.json) as desired with an appropiate tool, for instance [JSON Splitter online](https://www.merge-json-files.com/json-file-splitter). Finally do this:
+
+```
+| converter |
+converter := STSkillCornerConverter
+	             matchDataFileNamed: 'C:\temp\SkillCorner\2068\match_data.json'
+	             structuredDataFileNamed:
+	             'C:\temp\SkillCorner\2068\structured_data.json_chunk_1.json'.
+
+converter writeWholeDocumentToFileNamed: 'C:\temp\SkillCorner\2068\structured_data.json_chunk_1.socxml'
+```
 
 ### FIFA's EPTS
 The *Fédération Internationale de Football Association* (FIFA) develops a global standard for tracking and event soccer data named [EPTS](https://inside.fifa.com/innovation/standards/epts/research-development-epts-standard-data-format) (Electronic Performance and Tracking Systems). An EPTS data set for a match consists of three files: 
