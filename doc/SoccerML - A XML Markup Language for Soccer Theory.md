@@ -17,7 +17,7 @@ However, the indicated RoboCup Tool is in the meantime deprecated.
 Most recent efforts are dedicated to [convert RoboCup logs into CSV](https://github.com/hidehisaakiyama/RoboCup2D-data). 
 
 ### SkillCorner
-The Soccer Theory Suite provides the class `STSkillCornerConverter` for converting SkillCorner open data into SoccerML. There are 9 real matches provided by SkillCorner [here](https://github.com/SkillCorner/opendata). Each match data is stored in two JSON files:
+The Soccer Theory Suite provides the class `STSkillCornerConverter` for converting SkillCorner data into SoccerML. There are 9 real matches provided by SkillCorner [here](https://github.com/SkillCorner/opendata). Each match data is stored in two JSON files:
 - match_data.json
 - structured_data.json
 
