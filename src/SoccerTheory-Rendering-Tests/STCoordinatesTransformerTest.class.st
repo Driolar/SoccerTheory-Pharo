@@ -11,35 +11,24 @@ Class {
 
 { #category : 'private' }
 STCoordinatesTransformerTest >> deviceBottomLeft [
-	"comment stating purpose of instance-side method"
 
-	"scope: class-variables  &  instance-variables"
-
-	^ Point x: 0 y: self deviceExtent y
+	^ 0 @ self deviceExtent y
 ]
 
 { #category : 'private' }
 STCoordinatesTransformerTest >> deviceBottomRight [
-	"comment stating purpose of instance-side method"
 
-	"scope: class-variables  &  instance-variables"
-
-	^ self deviceExtent 
+	^ self deviceExtent
 ]
 
 { #category : 'private' }
-STCoordinatesTransformerTest >> deviceExtent [ 
-	"comment stating purpose of instance-side method"
-	"scope: class-variables  &  instance-variables"
+STCoordinatesTransformerTest >> deviceExtent [
 
-	 ^transformer deviceExtent 
+	^ transformer deviceExtent
 ]
 
 { #category : 'private' }
 STCoordinatesTransformerTest >> deviceMiddle [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
 
 	^ self deviceExtent / 2
 ]
@@ -55,11 +44,8 @@ STCoordinatesTransformerTest >> deviceTopLeft [
 
 { #category : 'private' }
 STCoordinatesTransformerTest >> deviceTopRight [
-	"comment stating purpose of instance-side method"
 
-	"scope: class-variables  &  instance-variables"
-
-	^ Point x: self deviceExtent x y: 0
+	^ self deviceExtent x @ 0
 ]
 
 { #category : 'running' }
@@ -71,8 +57,10 @@ STCoordinatesTransformerTest >> setUp [
 	| pitch |
 	super setUp.
 	pitch := STPitch newDefault.
-	transformer := STCoordinatesTransformer newForSampleWithWorldExtent:
-		               pitch extent
+	transformer := (STCoordinatesTransformer
+		                newForSampleWithWorldExtent: pitch extent)
+		               setDeviceToBloc;
+		               yourself
 ]
 
 { #category : 'tests' }
@@ -229,11 +217,8 @@ STCoordinatesTransformerTest >> worldExtent [
 
 { #category : 'private' }
 STCoordinatesTransformerTest >> worldMiddle [
-	"comment stating purpose of instance-side method"
 
-	"scope: class-variables  &  instance-variables"
-
-	^ Point x: 0 y: 0
+	^ 0 @ 0
 ]
 
 { #category : 'private' }

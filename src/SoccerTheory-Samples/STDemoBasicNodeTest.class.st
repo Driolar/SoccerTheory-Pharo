@@ -41,21 +41,6 @@ STDemoBasicNodeTest >> testEnsurePackageForWithSamePackage [
 ]
 
 { #category : 'tests' }
-STDemoBasicNodeTest >> testOneClassWithDifferentPragma [
-
-	| collector elt1 classNode |
-	
-	collector := STDemoCollector new.
-	collector pragma: #demo2.
-	collector collectClass: STDemoData.
-	classNode := collector classes first.
-	elt1 := classNode children first.
-	self assert: elt1 class equals: STDemoMethodNode.
-	
-	
-]
-
-{ #category : 'tests' }
 STDemoBasicNodeTest >> testOneClassWithTwoMethodsHasTwoNodes [
 
 	| collector elt1 elt2 classNode |

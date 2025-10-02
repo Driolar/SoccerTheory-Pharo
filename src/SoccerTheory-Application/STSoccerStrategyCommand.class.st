@@ -1,5 +1,5 @@
 "
-I am the convenience superclass for all the commands of the Soccer Theory application.
+I am the convenience superclass for the strategy commands of the Soccer Theory application.
 "
 Class {
 	#name : 'STSoccerStrategyCommand',

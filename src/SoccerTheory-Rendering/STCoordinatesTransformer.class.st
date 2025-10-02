@@ -1,11 +1,19 @@
 "
 I care for the world to device and viceversa coordinate transformations.
 
-It is assumed that
-- the world origin is the center
-- the device origin is top left.
+It is assumed that the world coordinates are the classical:
+- Origin is the center.
+- First quadrant (top right) coordinates x and y are non-negative.
 
-It is also assumed that extents are even.
+By default, device coordinates are like in Roassal:
+- Origin is the center.
+- Y-axis is negative in the upper half and positive in the lower half.
+
+The device coordinates can be set to Bloc mode with ```#setDeviceToBloc```:
+- Origin is top left.
+- x and y coordinates are non-negative.
+
+It is assumed that extents are even to minimize unprecision.
 
 
 "
@@ -14,7 +22,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'deviceExtent',
-		'worldExtent'
+		'worldExtent',
+		'isDeviceOriginTopLeft'
 	],
 	#category : 'SoccerTheory-Rendering-Basic',
 	#package : 'SoccerTheory-Rendering',
@@ -25,9 +34,7 @@ Class {
 STCoordinatesTransformer class >> newForApplicationWithWorldExtent: aPoint [
 	"Answer a new transformer for application purpose."
 
-	^ self new
-		  initializeWithWorldExtent: aPoint
-		  deviceExtent: (Point x: 1110 y: 720)
+	^ self new initializeWithWorldExtent: aPoint deviceExtent: 1110 @ 720
 ]
 
 { #category : 'instance creation' }
@@ -36,7 +43,13 @@ STCoordinatesTransformer class >> newForSampleWithWorldExtent: aPoint [
 
 	^ self new
 		  initializeWithWorldExtent: aPoint
-		  deviceExtent: (Point x: 556 y: 360) 
+		  deviceExtent: self sampleDeviceExtent
+]
+
+{ #category : 'accessing' }
+STCoordinatesTransformer class >> sampleDeviceExtent [
+
+	^ 556 @ 360
 ]
 
 { #category : 'accessing' }
@@ -44,6 +57,13 @@ STCoordinatesTransformer >> deviceExtent [
 	"Answer the device extent Point."
 
 	^ deviceExtent
+]
+
+{ #category : 'initialization' }
+STCoordinatesTransformer >> initialize [
+
+	super initialize.
+	isDeviceOriginTopLeft := false
 ]
 
 { #category : 'initialization' }
@@ -69,20 +89,30 @@ STCoordinatesTransformer >> scaleWorldPoint: aPoint [
 ]
 
 { #category : 'api - transformation' }
+STCoordinatesTransformer >> setDeviceToBloc [
+
+	isDeviceOriginTopLeft := true
+]
+
+{ #category : 'api - transformation' }
 STCoordinatesTransformer >> toDevice: worldPoint [
 	"Transform world Point to device Point."
 
-	^ (self scaleWorldPoint: (self translateWorldPoint: worldPoint)) rounded
+	^ (self scaleWorldPoint: (isDeviceOriginTopLeft
+			    ifTrue: [ self translateWorldPoint: worldPoint ]
+			    ifFalse: [ worldPoint x @ worldPoint y negated ])) rounded
 ]
 
 { #category : 'api - transformation' }
 STCoordinatesTransformer >> toWorld: devicePoint [
 	"Transform device Point to world Point."
 
-	| transformedPoint |
-	transformedPoint := self scaleDevicePoint:
-		                    (self translateDevicePoint: devicePoint).
-	^ transformedPoint x @ transformedPoint y negated
+	| worldPoint |
+	worldPoint := self scaleDevicePoint: (isDeviceOriginTopLeft
+			                     ifTrue: [
+			                     self translateDevicePoint: devicePoint ]
+			                     ifFalse: [ devicePoint ]).
+	^ worldPoint x @ worldPoint y negated
 ]
 
 { #category : 'api - transformation' }
@@ -98,9 +128,8 @@ STCoordinatesTransformer >> translateWorldPoint: aPoint [
 
 	| halfWorldExtent |
 	halfWorldExtent := worldExtent / 2.
-	^ Point
-		  x: aPoint x + halfWorldExtent x
-		  y: (aPoint y - halfWorldExtent y) negated 
+	^ aPoint x + halfWorldExtent x
+	  @ (aPoint y - halfWorldExtent y) negated
 ]
 
 { #category : 'accessing' }

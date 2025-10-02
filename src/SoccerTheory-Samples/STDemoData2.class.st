@@ -9,7 +9,7 @@ Class {
 { #category : 'instance creation' }
 STDemoData2 >> newSampleSceneWithFrame: aFrame [
 
-	^ STSoccerScene newSampleSceneWithGameCommander:
+	^ STSoccerSceneBlocSample newWithGameCommander:
 		  (STGameCommander newWithFrame: aFrame)
 ]
 
@@ -20,7 +20,8 @@ STDemoData2 >> showFixture1 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture1Frame
+	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture1Frame)
+		  surface
 ]
 
 { #category : 'showing scenes' }
@@ -30,7 +31,8 @@ STDemoData2 >> showFixture2 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture2Frame
+	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture2Frame)
+		  surface
 ]
 
 { #category : 'showing scenes' }
@@ -40,7 +42,8 @@ STDemoData2 >> showFixture3 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture3Frame
+	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture3Frame)
+		  surface
 ]
 
 { #category : 'showing scenes' }
@@ -50,5 +53,6 @@ STDemoData2 >> showFixture4 [
 	"scope: class-variables  &  instance-variables"
 
 	<demo>
-	^ self newSampleSceneWithFrame: STSoccerFrameBuilder fixture4Frame
+	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture4Frame)
+		  surface
 ]

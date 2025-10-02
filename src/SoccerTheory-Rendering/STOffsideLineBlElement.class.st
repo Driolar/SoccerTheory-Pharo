@@ -10,22 +10,22 @@ I am a boundary of the defence zone, a rectangle that can be entered by the atta
 The defence zone boundaries are: both pitch side lines, the defending team's goal line and me (the offside line).
 "
 Class {
-	#name : 'STOffsideLineShape',
-	#superclass : 'STStrategicLineShape',
-	#category : 'SoccerTheory-Rendering-Basic',
+	#name : 'STOffsideLineBlElement',
+	#superclass : 'STStrategicLineBlElement',
+	#category : 'SoccerTheory-Rendering-Bloc',
 	#package : 'SoccerTheory-Rendering',
-	#tag : 'Basic'
+	#tag : 'Bloc'
 }
 
 { #category : 'private' }
-STOffsideLineShape >> newBottomEndPoint [
+STOffsideLineBlElement >> newBottomEndPoint [
 	"Answer the BlElement that decorates the top segment end."
 
 	^self newEndPointCirclePrototype 
 ]
 
 { #category : 'private' }
-STOffsideLineShape >> newTopEndPoint [
+STOffsideLineBlElement >> newTopEndPoint [
 	"Answer the BlElement that decorates the top segment end."
 
 	^self newEndPointCirclePrototype 

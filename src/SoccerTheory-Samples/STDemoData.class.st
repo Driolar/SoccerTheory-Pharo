@@ -12,7 +12,7 @@ STDemoData >> defaultOutfieldPlayer [
 	| soccerFrame player |
 	soccerFrame := self newEmptyFrame.
 	player := STPlayer
-		          newWithPosition: (Point x: 0 negated y: 0)
+		          newWithPosition: 0 @ 0
 		          team: soccerFrame teamLeft
 		          frame: soccerFrame
 		          number: 2.
@@ -31,7 +31,7 @@ STDemoData >> newEmptyFrame [
 { #category : 'private' }
 STDemoData >> newSampleSceneWithFrame: aFrame [
 
-	^ STSoccerScene newSampleSceneWithGameCommander:
+	^ STSoccerSceneBlocSample newWithGameCommander:
 		  (STGameCommander newWithFrame: aFrame)
 ]
 
@@ -48,7 +48,7 @@ STDemoData >> newStartFrame [
 STDemoData >> showAttackLine [
 
 	<demo>
-	^ STAttackLineShape
+	^ STAttackLineBlElement
 		  newWithSegmentLength: 100
 		  strategicX: 5
 		  color: Color black
@@ -58,25 +58,28 @@ STDemoData >> showAttackLine [
 STDemoData >> showBall [
 
 	<demo>
-	^ STBallShape
+	^ STBallBlElement
 		  newForBall: self newEmptyFrame ball
 		  graphicFactory: STGraphicFactory new
+		  playFieldExtent: STCoordinatesTransformer sampleDeviceExtent
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showBallWithShadow [
 
 	<demo>
-	^ (STBallShape
-		  newForBall: self newEmptyFrame ball
-		  graphicFactory: STGraphicFactory new) showShadow 
+	^ (STBallBlElement
+		   newForBall: self newEmptyFrame ball
+		   graphicFactory: STGraphicFactory new
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showShadow
 ]
 
 { #category : 'show icons' }
 STDemoData >> showDefenceLine [
 
 	<demo>
-	^ STOffsideLineShape
+	^ STOffsideLineBlElement
 	newWithSegmentLength: 100
 	strategicX: 5
 	color: Color black
@@ -86,7 +89,7 @@ STDemoData >> showDefenceLine [
 STDemoData >> showEmptyPitch [
 
 	<demo>
-	^ self newSampleSceneWithFrame: self newEmptyFrame
+	^ (self newSampleSceneWithFrame: self newEmptyFrame) surface
 ]
 
 { #category : 'showing shapes' }
@@ -96,9 +99,11 @@ STDemoData >> showGoalkeeperOffside [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: player
-		   graphicFactory: self symbolFactory) showOffside
+		   graphicFactory: self symbolFactory
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showOffside
 ]
 
 { #category : 'showing shapes' }
@@ -108,9 +113,11 @@ STDemoData >> showGoalkeeperOffside2 [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: player
-		   graphicFactory: self symbolFactory2) showOffside
+		   graphicFactory: self symbolFactory2
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showOffside
 ]
 
 { #category : 'showing shapes' }
@@ -120,9 +127,11 @@ STDemoData >> showGoalkeeperUncovered [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: player
-		   graphicFactory: self symbolFactory) showUncovered
+		   graphicFactory: self symbolFactory
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showUncovered
 ]
 
 { #category : 'showing shapes' }
@@ -132,9 +141,11 @@ STDemoData >> showGoalkeeperUncovered2 [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: player
-		   graphicFactory: self symbolFactory2) showUncovered
+		   graphicFactory: self symbolFactory2
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showUncovered
 ]
 
 { #category : 'show icons' }
@@ -148,36 +159,44 @@ STDemoData >> showIconForBall [
 STDemoData >> showOutfieldPlayerOffside [
 
 	<demo>
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory) showOffside
+		   graphicFactory: self symbolFactory
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showOffside
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showOutfieldPlayerOffside2 [
 
 	<demo>
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory2) showOffside
+		   graphicFactory: self symbolFactory2
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showOffside
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showOutfieldPlayerUncovered [
 
 	<demo>
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory) showUncovered
+		   graphicFactory: self symbolFactory
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showUncovered
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showOutfieldPlayerUncovered2 [
 
 	<demo>
-	^ (STPlayerShape
+	^ (STPlayerBlElement
 		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory2) showUncovered
+		   graphicFactory: self symbolFactory2
+		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
+		  showUncovered
 ]
 
 { #category : 'showing scenes' }
@@ -194,7 +213,7 @@ STDemoData >> showPitchWithPlayerAtBottomLeft [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene
+	^ soccerScene surface
 ]
 
 { #category : 'showing scenes' }
@@ -212,7 +231,7 @@ STDemoData >> showPitchWithPlayerAtBottomRight [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene
+	^ soccerScene surface
 ]
 
 { #category : 'showing scenes' }
@@ -230,7 +249,7 @@ STDemoData >> showPitchWithPlayerAtTopLeft [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene
+	^ soccerScene surface
 ]
 
 { #category : 'showing scenes' }
@@ -247,7 +266,7 @@ STDemoData >> showPitchWithPlayerAtTopRight [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene
+	^ soccerScene surface
 ]
 
 { #category : 'showing scenes' }
@@ -264,14 +283,14 @@ STDemoData >> showPitchWithPlayerInMiddle [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene
+	^ soccerScene surface
 ]
 
 { #category : 'showing scenes' }
 STDemoData >> showStartPitch [
 
 	<demo>
-	^ self newSampleSceneWithFrame: self newStartFrame
+	^ (self newSampleSceneWithFrame: self newStartFrame) surface
 ]
 
 { #category : 'show icons' }

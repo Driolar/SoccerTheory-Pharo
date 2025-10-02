@@ -6,9 +6,9 @@ Only the samples demonstration uses me.
 Class {
 	#name : 'STGraphicFactory2',
 	#superclass : 'STGraphicFactory',
-	#category : 'SoccerTheory-Rendering-Basic',
-	#package : 'SoccerTheory-Rendering',
-	#tag : 'Basic'
+	#category : 'SoccerTheory-Samples-Bloc',
+	#package : 'SoccerTheory-Samples',
+	#tag : 'Bloc'
 }
 
 { #category : 'accessing' }

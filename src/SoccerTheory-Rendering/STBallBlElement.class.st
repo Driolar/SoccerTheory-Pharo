@@ -1,49 +1,49 @@
 "
 I am a visual soccer ball whose model is STBall.
 
-I visualize the owning team.
+I visualize which one is the owning team.
 
-I am also pullable.
+Also I am pullable.
 "
 Class {
-	#name : 'STBallShape',
-	#superclass : 'STMovableShape',
+	#name : 'STBallBlElement',
+	#superclass : 'STMovableBlElement',
 	#instVars : [
 		'ball'
 	],
-	#category : 'SoccerTheory-Rendering-Basic',
+	#category : 'SoccerTheory-Rendering-Bloc',
 	#package : 'SoccerTheory-Rendering',
-	#tag : 'Basic'
+	#tag : 'Bloc'
 }
 
 { #category : 'instance creation' }
-STBallShape class >> newForBall: aBall graphicFactory: aGraphicFactory [
-	"Initialize with a STBall and a STGraphicFactory"
+STBallBlElement class >> newForBall: aSTBall graphicFactory: aGraphicFactory playFieldExtent: aPoint [
+	"Initialize with a STBall, a STGraphicFactory and the play field extent."
 
-	^ self new initializeForBall: aBall graphicFactory: aGraphicFactory
+	^ self new initializeForBall: aSTBall graphicFactory: aGraphicFactory playFieldExtent: aPoint
 ]
 
 { #category : 'accessing' }
-STBallShape >> ball [
+STBallBlElement >> ball [
 
 	^ ball 
 ]
 
 { #category : 'private' }
-STBallShape >> ballForm [ 
+STBallBlElement >> ballForm [ 
 	"Answer my ball form."
 
 	^ graphicFactory ballForm 
 ]
 
 { #category : 'private' }
-STBallShape >> hideShadow [
+STBallBlElement >> hideShadow [
 
 	self border: BlBorder empty 
 ]
 
 { #category : 'private' }
-STBallShape >> hoverTextString [
+STBallBlElement >> hoverTextString [
 	"Answer the string for the hover text element."
 
 	^ '(' , (ball position x printShowingDecimalPlaces: 1) , '@'
@@ -51,14 +51,15 @@ STBallShape >> hoverTextString [
 ]
 
 { #category : 'initialization' }
-STBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory [
+STBallBlElement >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory playFieldExtent: aPoint [
 	"Initialize the shape instance for a given STBall."
 
 	| ballIcon ballIconElement |
 	ball := aSTBall.
 	graphicFactory := aSTGraphicFactory.
-	self initializeEventHandling. 
-	
+	playFieldExtent := aPoint.
+	self initializeEventHandling.
+
 	squareExtent := 10 @ 10.
 	self extent: squareExtent.
 	self updateColor.
@@ -70,14 +71,14 @@ STBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory [
 ]
 
 { #category : 'accessing' }
-STBallShape >> name [
+STBallBlElement >> name [
 	"Answer my name string."
 
 	^ 'Ball'
 ]
 
 { #category : 'private' }
-STBallShape >> newMovedAnnouncementWithTarget: aPoint [
+STBallBlElement >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
 	"Don't rely on self centerPosition here but use aPoint. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
@@ -86,7 +87,7 @@ STBallShape >> newMovedAnnouncementWithTarget: aPoint [
 ]
 
 { #category : 'initialization' }
-STBallShape >> registerAtAnnouncer [
+STBallBlElement >> registerAtAnnouncer [
 	"Register to the announcements I am interested in."
 
 	self announcer
@@ -96,7 +97,7 @@ STBallShape >> registerAtAnnouncer [
 ]
 
 { #category : 'private' }
-STBallShape >> showShadow [
+STBallBlElement >> showShadow [
 
 	self
 		border: (BlBorder paint: Color black width: 1);
@@ -104,7 +105,7 @@ STBallShape >> showShadow [
 ]
 
 { #category : 'private' }
-STBallShape >> updateColor [
+STBallBlElement >> updateColor [
 	"Update my color depending on the ball owning team."
 
 	ball owningTeam

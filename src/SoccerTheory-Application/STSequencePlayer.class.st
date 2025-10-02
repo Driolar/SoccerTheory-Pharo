@@ -2,7 +2,7 @@
 I am the user interface for the Soccer Theory Player.
 
 I rely on STSoccerDocumentReader for reading soccer game sequences from SoccerML files.
-I rely on STSoccerScene for displaying each frame.
+I rely on STSoccerSceneBlElement for displaying each frame.
 
 
 Start me doing this: STSequencePlayer open.
@@ -164,12 +164,6 @@ STSequencePlayer >> gotoRestart [
 	self refreshFrame
 ]
 
-{ #category : 'private' }
-STSequencePlayer >> graphicFactory [
-
-	^ STGraphicFactory new
-]
-
 { #category : 'initialization' }
 STSequencePlayer >> initializeButtons [
 
@@ -206,7 +200,7 @@ STSequencePlayer >> isPlaying [
 STSequencePlayer >> legendPresenter [
 	"Answer the SpPresenter containing the legend."
 
-	^ STLegendPresenter newWithGraphicFactory: self graphicFactory
+	^ STLegendPresenter newWithGraphicFactory: STGraphicFactory new
 ]
 
 { #category : 'loading' }
@@ -232,10 +226,9 @@ STSequencePlayer >> loadFrame: aFrame [
 	"Load the given STSoccerFrame on the scene."
 
 	| scene |
-	scene := STSoccerScene
-		         newApplicationSceneWithGameCommander:
-		         (STGameCommander newWithFrame: aFrame)
-		         graphicFactory: self graphicFactory.
+	scene := STSoccerSceneBloc
+		         newWithGameCommander:
+		         (STGameCommander newWithFrame: aFrame).
 
 	offsideRuleLabel label: aFrame strategy offsideRuleName.
 	aFrame officialTime ifNotNil: [ :officialTime |
@@ -244,7 +237,7 @@ STSequencePlayer >> loadFrame: aFrame [
 
 	board space root removeChildren.
 	board space setExtent: scene totalExtent.
-	board space root addChild: scene
+	board space root addChild: scene surface
 ]
 
 { #category : 'layout' }
