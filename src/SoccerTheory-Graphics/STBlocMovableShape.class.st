@@ -2,20 +2,20 @@
 I am the abstract class for movable shapes.
 "
 Class {
-	#name : 'STMovableBlElement',
+	#name : 'STBlocMovableShape',
 	#superclass : 'BlElement',
 	#instVars : [
 		'squareExtent',
 		'graphicFactory',
 		'playFieldExtent'
 	],
-	#category : 'SoccerTheory-Rendering-Bloc',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Bloc',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Bloc'
 }
 
 { #category : 'initialization' }
-STMovableBlElement >> addEventHandlers [
+STBlocMovableShape >> addEventHandlers [
 	"Add my event handlers."
 
 	self addMouseEventHandlers.
@@ -23,7 +23,7 @@ STMovableBlElement >> addEventHandlers [
 ]
 
 { #category : 'initialization' }
-STMovableBlElement >> addKeyEventHandlers [
+STBlocMovableShape >> addKeyEventHandlers [
 	"Add my key event handlers."
 
 	self addEventHandler: (BlEventHandler
@@ -34,7 +34,7 @@ STMovableBlElement >> addKeyEventHandlers [
 ]
 
 { #category : 'initialization' }
-STMovableBlElement >> addMouseEventHandlers [
+STBlocMovableShape >> addMouseEventHandlers [
 	"Add my mouse event handlers."
 
 	self addEventHandler: BlPullHandler new.
@@ -73,20 +73,20 @@ STMovableBlElement >> addMouseEventHandlers [
 ]
 
 { #category : 'private' }
-STMovableBlElement >> announcer [
+STBlocMovableShape >> announcer [
 	"Answer the announcer to send and receive announcements."
 
 	^ self ball announcer
 ]
 
 { #category : 'accessing' }
-STMovableBlElement >> ball [
+STBlocMovableShape >> ball [
 
 	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
-STMovableBlElement >> centerPosition [
+STBlocMovableShape >> centerPosition [
 	"Answer the very center Point of the shape."
 
 	"This doesn't always work: self position: aPosition - (self extent / 2). 
@@ -97,7 +97,7 @@ STMovableBlElement >> centerPosition [
 ]
 
 { #category : 'accessing' }
-STMovableBlElement >> centerPosition: aPosition [
+STBlocMovableShape >> centerPosition: aPosition [
 	"Set the device origin top left based on the center position."
 
 	"This doesn't always work: self position: aPosition - (self extent / 2). 
@@ -108,14 +108,14 @@ STMovableBlElement >> centerPosition: aPosition [
 ]
 
 { #category : 'private' }
-STMovableBlElement >> hideShadow [
+STBlocMovableShape >> hideShadow [
 	"Show my shadow (when being deselected)."
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'private' }
-STMovableBlElement >> hoverTextElement [
+STBlocMovableShape >> hoverTextElement [
 	"Answer the BlElement for the player's hover text."
 
 	| hoverText |
@@ -128,14 +128,14 @@ STMovableBlElement >> hoverTextElement [
 ]
 
 { #category : 'private' }
-STMovableBlElement >> hoverTextPositionX [
+STBlocMovableShape >> hoverTextPositionX [
 	"Answer the x coordinate of the hover text."
 
 	^ squareExtent x
 ]
 
 { #category : 'private' }
-STMovableBlElement >> hoverTextPositionY [
+STBlocMovableShape >> hoverTextPositionY [
 	"Answer the y coordinate of the hover text."
 
 	| parentExtent |
@@ -146,28 +146,28 @@ STMovableBlElement >> hoverTextPositionY [
 ]
 
 { #category : 'private' }
-STMovableBlElement >> hoverTextString [
+STBlocMovableShape >> hoverTextString [
 	"Answer the string for the hover text element."
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'initialization' }
-STMovableBlElement >> initialize [
+STBlocMovableShape >> initialize [
 
 	super initialize.
 	self clipChildren: false "for hover text"
 ]
 
 { #category : 'initialization' }
-STMovableBlElement >> initializeEventHandling [
+STBlocMovableShape >> initializeEventHandling [
 
 	self addEventHandlers.
 	self registerAtAnnouncer
 ]
 
 { #category : 'private' }
-STMovableBlElement >> limitPosition [
+STBlocMovableShape >> limitPosition [
 	"Limit the current center position to the play field's extent if necessary. Answer the limited center position."
 
 	| limitedPosition |
@@ -181,42 +181,42 @@ STMovableBlElement >> limitPosition [
 ]
 
 { #category : 'accessing' }
-STMovableBlElement >> name [
+STBlocMovableShape >> name [
 	"Answer my name string."
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'private' }
-STMovableBlElement >> newMovedAnnouncementWithTarget: aPoint [
+STBlocMovableShape >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'private' }
-STMovableBlElement >> playFieldExtent [
+STBlocMovableShape >> playFieldExtent [
 	"Answer the play field's extent"
 
 	^ playFieldExtent
 ]
 
 { #category : 'initialization' }
-STMovableBlElement >> registerAtAnnouncer [
+STBlocMovableShape >> registerAtAnnouncer [
 	"Register to the announcements I am interested in."
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'private' }
-STMovableBlElement >> showShadow [
+STBlocMovableShape >> showShadow [
 	"Show my shadow (when being selected)."
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'private' }
-STMovableBlElement >> stepTheArrowWay: aKeyboardKey [
+STBlocMovableShape >> stepTheArrowWay: aKeyboardKey [
 	"Move me one step following the given keyboard key if it is an arrow key."
 
 	| offset offsetPoint newCenterPosition |
@@ -243,7 +243,7 @@ STMovableBlElement >> stepTheArrowWay: aKeyboardKey [
 ]
 
 { #category : 'private' }
-STMovableBlElement >> switchFocus [
+STBlocMovableShape >> switchFocus [
 	"Switch my focus including announcement and shadow distinction."
 
 	self hasFocus

@@ -2,9 +2,9 @@
 Please describe the package using the class comment of the included manifest class. The manifest class also includes other additional metadata for the package. These meta data are used by other tools such as the SmalllintManifestChecker and the critics Browser
 "
 Class {
-	#name : 'ManifestSoccerTheoryRenderingTests',
+	#name : 'ManifestSoccerTheoryGraphicsTests',
 	#superclass : 'PackageManifest',
-	#category : 'SoccerTheory-Rendering-Tests-Manifest',
-	#package : 'SoccerTheory-Rendering-Tests',
+	#category : 'SoccerTheory-Graphics-Tests-Manifest',
+	#package : 'SoccerTheory-Graphics-Tests',
 	#tag : 'Manifest'
 }

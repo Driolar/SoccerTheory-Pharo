@@ -11,18 +11,18 @@ I visualize
 Also I am pullable.
 "
 Class {
-	#name : 'STPlayerBlElement',
-	#superclass : 'STMovableBlElement',
+	#name : 'STBlocPlayerShape',
+	#superclass : 'STBlocMovableShape',
 	#instVars : [
 		'player'
 	],
-	#category : 'SoccerTheory-Rendering-Bloc',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Bloc',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Bloc'
 }
 
 { #category : 'instance creation' }
-STPlayerBlElement class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory playFieldExtent: aPoint [
+STBlocPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory playFieldExtent: aPoint [
 	"Answer a new player shape for the given STPlayer, STGraphicFactory and play field extent."
 
 	^ self new
@@ -32,13 +32,13 @@ STPlayerBlElement class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactor
 ]
 
 { #category : 'accessing' }
-STPlayerBlElement >> ball [
+STBlocPlayerShape >> ball [
 
 	^ player ball
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> formattedPlayerPositionString [
+STBlocPlayerShape >> formattedPlayerPositionString [
 	"Answer the formatted string representing the model player's position."
 
 	^ '(' , (player position x printShowingDecimalPlaces: 1) , '@'
@@ -46,42 +46,42 @@ STPlayerBlElement >> formattedPlayerPositionString [
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> goalkeeperElement [
+STBlocPlayerShape >> goalkeeperElement [
 	"Answer the goalkeeper BlElement."
 
 	^ graphicFactory goalkeeperElement
 ]
 
 { #category : 'showing' }
-STPlayerBlElement >> hideOffside [
+STBlocPlayerShape >> hideOffside [
 	"Remove the offside tag if present."
 
 	self removeChildWithId: #offside
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> hideShadow [
+STBlocPlayerShape >> hideShadow [
 	"Show my shadow (when being deselected)."
 
 	self effect: nil
 ]
 
 { #category : 'showing' }
-STPlayerBlElement >> hideUncovered [
+STBlocPlayerShape >> hideUncovered [
 		"Remove the uncovered tag if present."
 
 	self removeChildWithId: #uncovered
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> hoverTextString [
+STBlocPlayerShape >> hoverTextString [
 	"Answer the string for the hover text element."
 
 	^ '#',self jerseyString , ' ' , self formattedPlayerPositionString
 ]
 
 { #category : 'initialization' }
-STPlayerBlElement >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactory playFieldExtent: aPoint [
+STBlocPlayerShape >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactory playFieldExtent: aPoint [
 	"Initialize the shape instance for a given STPlayer and a graphic factory."
 
 	player := aSTPlayer.
@@ -99,42 +99,42 @@ STPlayerBlElement >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFa
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> isOffside [
+STBlocPlayerShape >> isOffside [
 	"Answer whether player is in offside or not."
 
 	^ player isOffside isNotNil and: [ player isOffside ]
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> jerseyGradient [
+STBlocPlayerShape >> jerseyGradient [
 	"Answer the gradient for the field player's jersey."
 
 	^ self team jerseyGradient 
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> jerseyNumber [ 
+STBlocPlayerShape >> jerseyNumber [ 
 	"Answer the players jersey number"
 
 	^player jerseyNumber
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> jerseyString [ 
+STBlocPlayerShape >> jerseyString [ 
 	"Answer the players jersey number asString"
 
 	^player jerseyNumber asString 
 ]
 
 { #category : 'accessing' }
-STPlayerBlElement >> name [
+STBlocPlayerShape >> name [
 	"Answer my name string."
 
 	^ 'Player ' , self jerseyString , ' of ' , player teamName
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> newMovedAnnouncementWithTarget: aPoint [
+STBlocPlayerShape >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
 	"Don't rely on self centerPosition here but use aPoint. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
@@ -145,7 +145,7 @@ STPlayerBlElement >> newMovedAnnouncementWithTarget: aPoint [
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> offsideElement [
+STBlocPlayerShape >> offsideElement [
 	"Answer the offside BlElement."
 
 	^ self team isTeamLeft
@@ -158,7 +158,7 @@ STPlayerBlElement >> offsideElement [
 ]
 
 { #category : 'initialization' }
-STPlayerBlElement >> registerAtAnnouncer [
+STBlocPlayerShape >> registerAtAnnouncer [
 	"Register to the announcements I am interested in."
 
 	self announcer
@@ -172,7 +172,7 @@ STPlayerBlElement >> registerAtAnnouncer [
 ]
 
 { #category : 'showing' }
-STPlayerBlElement >> showOffside [
+STBlocPlayerShape >> showOffside [
 	"Tag me being offside."
 
 	self
@@ -181,14 +181,14 @@ STPlayerBlElement >> showOffside [
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> showShadow [
+STBlocPlayerShape >> showShadow [
 	"Show my shadow (when being selected)."
 
 	self effect: (BlSimpleShadowEffect color: Color black offset: 2 @ 2)
 ]
 
 { #category : 'showing' }
-STPlayerBlElement >> showUncovered [
+STBlocPlayerShape >> showUncovered [
 	"Tag me being uncovered."
 
 	self
@@ -197,21 +197,21 @@ STPlayerBlElement >> showUncovered [
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> team [
+STBlocPlayerShape >> team [
 	"Answer my STTeam."
 
 	^ player team
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> uncoveredElement [
+STBlocPlayerShape >> uncoveredElement [
 	"Answer the uncovered BlElement."
 
 	^ graphicFactory uncoveredElement
 ]
 
 { #category : 'showing' }
-STPlayerBlElement >> updateOffside [
+STBlocPlayerShape >> updateOffside [
 	"Show or remove the offside flag reflecting the model."
 
 	self isOffside
@@ -222,7 +222,7 @@ STPlayerBlElement >> updateOffside [
 ]
 
 { #category : 'showing' }
-STPlayerBlElement >> updateUncovered [
+STBlocPlayerShape >> updateUncovered [
 	"Show or remove the uncovered flag reflecting the model."
 
 	self isOffside

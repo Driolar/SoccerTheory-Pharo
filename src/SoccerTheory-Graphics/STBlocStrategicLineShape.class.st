@@ -6,18 +6,18 @@ The style of the line and the form of my vertices depends on my subclass.
 I am slided by the logic of the concrete soccer strategy along the x-axis, parallel to the goal lines.
 "
 Class {
-	#name : 'STStrategicLineBlElement',
+	#name : 'STBlocStrategicLineShape',
 	#superclass : 'BlElement',
 	#instVars : [
 		'segmentLength'
 	],
-	#category : 'SoccerTheory-Rendering-Bloc',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Bloc',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Bloc'
 }
 
 { #category : 'instance creation' }
-STStrategicLineBlElement class >> newWithSegmentLength: length strategicX: xCoordinate color: aColor [
+STBlocStrategicLineShape class >> newWithSegmentLength: length strategicX: xCoordinate color: aColor [
 	"Answer a new vertical strategic line of given length, initial sliding xCoordinate and color aColor."
 
 	^ self new
@@ -27,7 +27,7 @@ STStrategicLineBlElement class >> newWithSegmentLength: length strategicX: xCoor
 ]
 
 { #category : 'private' }
-STStrategicLineBlElement >> addEndPoints [
+STBlocStrategicLineShape >> addEndPoints [
 	"Add my end point shapes."
 
 	| topEndPoint bottomEndPoint |
@@ -45,14 +45,14 @@ STStrategicLineBlElement >> addEndPoints [
 ]
 
 { #category : 'private' }
-STStrategicLineBlElement >> borderBuilder [
+STBlocStrategicLineShape >> borderBuilder [
 	"Answer my border builder."
 
 	^BlBorderBuilder new 
 ]
 
 { #category : 'accessing' }
-STStrategicLineBlElement >> color: aColor [
+STBlocStrategicLineShape >> color: aColor [
 
 	self border: (self borderBuilder
 			 paint: aColor;
@@ -62,13 +62,13 @@ STStrategicLineBlElement >> color: aColor [
 ]
 
 { #category : 'private' }
-STStrategicLineBlElement >> endPointSize [
+STBlocStrategicLineShape >> endPointSize [
 
 	^ 12
 ]
 
 { #category : 'initialization' }
-STStrategicLineBlElement >> initializeWithSegmentLength: length strategicX: xCoordinate color: aColor [
+STBlocStrategicLineShape >> initializeWithSegmentLength: length strategicX: xCoordinate color: aColor [
 
 	segmentLength := length.
 	self geometry: (BlLineGeometry from: 0 @ 0 to: 0 @ segmentLength).
@@ -77,14 +77,14 @@ STStrategicLineBlElement >> initializeWithSegmentLength: length strategicX: xCoo
 ]
 
 { #category : 'private' }
-STStrategicLineBlElement >> newBottomEndPoint [
+STBlocStrategicLineShape >> newBottomEndPoint [
 	"Answer the BlElement that decorates the top segment end."
 
 	self subclassResponsibility 
 ]
 
 { #category : 'private' }
-STStrategicLineBlElement >> newEndPointCirclePrototype [
+STBlocStrategicLineShape >> newEndPointCirclePrototype [
 	"Answer a circle prototype for building the top or the bottom end point."
 
 	^ BlElement new
@@ -94,7 +94,7 @@ STStrategicLineBlElement >> newEndPointCirclePrototype [
 ]
 
 { #category : 'private' }
-STStrategicLineBlElement >> newEndPointTrianglePrototype [
+STBlocStrategicLineShape >> newEndPointTrianglePrototype [
 	"Answer a triangle prototype for building the top or the bottom end point."
 
 	^ BlElement new
@@ -104,14 +104,14 @@ STStrategicLineBlElement >> newEndPointTrianglePrototype [
 ]
 
 { #category : 'private' }
-STStrategicLineBlElement >> newTopEndPoint [
+STBlocStrategicLineShape >> newTopEndPoint [
 	"Answer the BlElement that decorates the top segment end."
 
 	self subclassResponsibility 
 ]
 
 { #category : 'accessing' }
-STStrategicLineBlElement >> strategicXValue: xDeviceCoordinate color: aColor [
+STBlocStrategicLineShape >> strategicXValue: xDeviceCoordinate color: aColor [
 	"Set my current (sliding) device x-coordinate and my color."
 
 	self position: xDeviceCoordinate @ 0.

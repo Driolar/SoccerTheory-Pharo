@@ -19,8 +19,8 @@ Class {
 		'centerPoint',
 		'player'
 	],
-	#category : 'SoccerTheory-Rendering-Roassal',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Roassal',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Roassal'
 }
 

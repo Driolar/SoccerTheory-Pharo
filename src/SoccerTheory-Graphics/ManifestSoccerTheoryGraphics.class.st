@@ -8,9 +8,9 @@ The concrete representations can vary by means of my possible graphic factories.
 Furthermore, I also handle the coordinate transformations between world and device.
 "
 Class {
-	#name : 'ManifestSoccerTheoryRendering',
+	#name : 'ManifestSoccerTheoryGraphics',
 	#superclass : 'PackageManifest',
-	#category : 'SoccerTheory-Rendering-Manifest',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Manifest',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Manifest'
 }

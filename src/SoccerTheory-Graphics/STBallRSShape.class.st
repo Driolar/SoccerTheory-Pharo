@@ -8,8 +8,8 @@ Also I am draggable.
 Class {
 	#name : 'STBallRSShape',
 	#superclass : 'RSCircle',
-	#category : 'SoccerTheory-Rendering-Roassal',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Roassal',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Roassal'
 }
 

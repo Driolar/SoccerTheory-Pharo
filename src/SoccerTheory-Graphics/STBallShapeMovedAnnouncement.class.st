@@ -7,8 +7,8 @@ Class {
 	#instVars : [
 		'targetDevicePoint'
 	],
-	#category : 'SoccerTheory-Rendering-Announcement',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Announcement',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Announcement'
 }
 

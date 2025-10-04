@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'transformer'
 	],
-	#category : 'SoccerTheory-Rendering-Tests-Tests',
-	#package : 'SoccerTheory-Rendering-Tests',
+	#category : 'SoccerTheory-Graphics-Tests-Tests',
+	#package : 'SoccerTheory-Graphics-Tests',
 	#tag : 'Tests'
 }
 
@@ -31,15 +31,6 @@ STCoordinatesTransformerTest >> deviceExtent [
 STCoordinatesTransformerTest >> deviceMiddle [
 
 	^ self deviceExtent / 2
-]
-
-{ #category : 'private' }
-STCoordinatesTransformerTest >> deviceTopLeft [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
-
-	^ Point x: 0 y: 0
 ]
 
 { #category : 'private' }
@@ -199,15 +190,6 @@ STCoordinatesTransformerTest >> worldBottomLeft [
 ]
 
 { #category : 'private' }
-STCoordinatesTransformerTest >> worldBottomRight [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
-
-	^ Point x: self worldExtent x / 2 y: (self worldExtent y / 2) negated
-]
-
-{ #category : 'private' }
 STCoordinatesTransformerTest >> worldExtent [ 
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"
@@ -219,15 +201,6 @@ STCoordinatesTransformerTest >> worldExtent [
 STCoordinatesTransformerTest >> worldMiddle [
 
 	^ 0 @ 0
-]
-
-{ #category : 'private' }
-STCoordinatesTransformerTest >> worldTopLeft [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
-
-	^ Point x: (self worldExtent x / 2) negated y: self worldExtent y / 2
 ]
 
 { #category : 'private' }

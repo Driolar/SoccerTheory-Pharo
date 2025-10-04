@@ -12,18 +12,18 @@ My both segment end points are decorated by a triagle each.
 The triangle point to the attack direction.
 "
 Class {
-	#name : 'STAttackLineBlElement',
-	#superclass : 'STStrategicLineBlElement',
+	#name : 'STBlocAttackLineShape',
+	#superclass : 'STBlocStrategicLineShape',
 	#instVars : [
 		'attackingTeam'
 	],
-	#category : 'SoccerTheory-Rendering-Bloc',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Bloc',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Bloc'
 }
 
 { #category : 'initialization' }
-STAttackLineBlElement class >> newWithSegmentLength: length strategicX: xCoordinate attackingTeam: aSTTeam [
+STBlocAttackLineShape class >> newWithSegmentLength: length strategicX: xCoordinate attackingTeam: aSTTeam [
 
 	^ self new
 		  initializeWithSegmentLength: length
@@ -32,21 +32,21 @@ STAttackLineBlElement class >> newWithSegmentLength: length strategicX: xCoordin
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> borderBuilder [
+STBlocAttackLineShape >> borderBuilder [
 	"Answer my border builder."
 
 	^ super borderBuilder dashed
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> bottomEndPointTriangle [
+STBlocAttackLineShape >> bottomEndPointTriangle [
 	"Answer the bottom end point triangle."
 
 	^ self childWithId: #bottomEndPoint
 ]
 
 { #category : 'accessing' }
-STAttackLineBlElement >> changeAppearanceForAttackingTeam: aSTTeam [
+STBlocAttackLineShape >> changeAppearanceForAttackingTeam: aSTTeam [
 	"Take the appearance (color and orientation of the end point triangles) for aSTTeam."
 
 	attackingTeam := aSTTeam.
@@ -55,7 +55,7 @@ STAttackLineBlElement >> changeAppearanceForAttackingTeam: aSTTeam [
 ]
 
 { #category : 'initialization' }
-STAttackLineBlElement >> initializeWithSegmentLength: length strategicX: xCoordinate attackingTeam: aSTTeam [
+STBlocAttackLineShape >> initializeWithSegmentLength: length strategicX: xCoordinate attackingTeam: aSTTeam [
 
 	attackingTeam := aSTTeam.
 	self
@@ -66,7 +66,7 @@ STAttackLineBlElement >> initializeWithSegmentLength: length strategicX: xCoordi
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> newBottomEndPoint [
+STBlocAttackLineShape >> newBottomEndPoint [
 	"Answer a new BlElement to decorate the segment's bottom end."
 
 	| endPoint |
@@ -76,7 +76,7 @@ STAttackLineBlElement >> newBottomEndPoint [
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> newTopEndPoint [
+STBlocAttackLineShape >> newTopEndPoint [
 	"Answer a new BlElement to decorate the segment's top end."
 
 	| endPoint |
@@ -86,7 +86,7 @@ STAttackLineBlElement >> newTopEndPoint [
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> orientateEndPointTriangles [
+STBlocAttackLineShape >> orientateEndPointTriangles [
 	"Orientate my end point triangles to the attack direction."
 
 	attackingTeam
@@ -98,7 +98,7 @@ STAttackLineBlElement >> orientateEndPointTriangles [
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> orientateEndPointTrianglesLeft [
+STBlocAttackLineShape >> orientateEndPointTrianglesLeft [
 	"Orientate my end point triangles to the left."
 
 	self topEndPointTriangle geometry beLeft.
@@ -109,7 +109,7 @@ STAttackLineBlElement >> orientateEndPointTrianglesLeft [
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> orientateEndPointTrianglesRight [
+STBlocAttackLineShape >> orientateEndPointTrianglesRight [
 	"Orientate my end point triangles to the right."
 
 	self topEndPointTriangle geometry beRight.
@@ -120,7 +120,7 @@ STAttackLineBlElement >> orientateEndPointTrianglesRight [
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> orientateEndPointTrianglesVertical [
+STBlocAttackLineShape >> orientateEndPointTrianglesVertical [
 	"Orientate my end point triangles vertical."
 
 	self topEndPointTriangle geometry beTop.
@@ -133,7 +133,7 @@ STAttackLineBlElement >> orientateEndPointTrianglesVertical [
 ]
 
 { #category : 'accessing' }
-STAttackLineBlElement >> strategicXValue: xDeviceCoordinate attackingTeam: aSTTeam [
+STBlocAttackLineShape >> strategicXValue: xDeviceCoordinate attackingTeam: aSTTeam [
 	"Set my current (sliding) device x-coordinate and the attacking team."
 
 	attackingTeam := aSTTeam.
@@ -141,7 +141,7 @@ STAttackLineBlElement >> strategicXValue: xDeviceCoordinate attackingTeam: aSTTe
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> teamColor [
+STBlocAttackLineShape >> teamColor [
 	"Answer the line color to represent the attacking team."
 
 	^ attackingTeam
@@ -150,7 +150,7 @@ STAttackLineBlElement >> teamColor [
 ]
 
 { #category : 'private' }
-STAttackLineBlElement >> topEndPointTriangle [
+STBlocAttackLineShape >> topEndPointTriangle [
 	"Answer the top end point triangle."
 
 	^ self childWithId: #topEndPoint

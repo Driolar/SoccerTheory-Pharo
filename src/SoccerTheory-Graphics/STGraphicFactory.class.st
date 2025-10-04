@@ -6,8 +6,8 @@ I deliver soccer game relevant graphic elements.
 Class {
 	#name : 'STGraphicFactory',
 	#superclass : 'Object',
-	#category : 'SoccerTheory-Rendering-Basic',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Basic',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Basic'
 }
 

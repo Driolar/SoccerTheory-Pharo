@@ -25,8 +25,8 @@ Class {
 		'worldExtent',
 		'isDeviceOriginTopLeft'
 	],
-	#category : 'SoccerTheory-Rendering-Basic',
-	#package : 'SoccerTheory-Rendering',
+	#category : 'SoccerTheory-Graphics-Basic',
+	#package : 'SoccerTheory-Graphics',
 	#tag : 'Basic'
 }
 
