@@ -31,7 +31,7 @@ STDemoData >> newEmptyFrame [
 { #category : 'private' }
 STDemoData >> newSampleSceneWithFrame: aFrame [
 
-	^ STSoccerSceneBlocSample newWithGameCommander:
+	^ STBlocSoccerSceneSampleBuilder newWithGameCommander:
 		  (STGameCommander newWithFrame: aFrame)
 ]
 
@@ -48,7 +48,7 @@ STDemoData >> newStartFrame [
 STDemoData >> showAttackLine [
 
 	<demo>
-	^ STAttackLineBlElement
+	^ STBlocAttackLineShape
 		  newWithSegmentLength: 100
 		  strategicX: 5
 		  color: Color black
@@ -58,7 +58,7 @@ STDemoData >> showAttackLine [
 STDemoData >> showBall [
 
 	<demo>
-	^ STBallBlElement
+	^ STBlocBallShape
 		  newForBall: self newEmptyFrame ball
 		  graphicFactory: STGraphicFactory new
 		  playFieldExtent: STCoordinatesTransformer sampleDeviceExtent
@@ -68,7 +68,7 @@ STDemoData >> showBall [
 STDemoData >> showBallWithShadow [
 
 	<demo>
-	^ (STBallBlElement
+	^ (STBlocBallShape
 		   newForBall: self newEmptyFrame ball
 		   graphicFactory: STGraphicFactory new
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -79,7 +79,7 @@ STDemoData >> showBallWithShadow [
 STDemoData >> showDefenceLine [
 
 	<demo>
-	^ STOffsideLineBlElement
+	^ STBlocOffsideLineShape
 	newWithSegmentLength: 100
 	strategicX: 5
 	color: Color black
@@ -99,7 +99,7 @@ STDemoData >> showGoalkeeperOffside [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -113,7 +113,7 @@ STDemoData >> showGoalkeeperOffside2 [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory2
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -127,7 +127,7 @@ STDemoData >> showGoalkeeperUncovered [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -141,7 +141,7 @@ STDemoData >> showGoalkeeperUncovered2 [
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory2
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -159,7 +159,7 @@ STDemoData >> showIconForBall [
 STDemoData >> showOutfieldPlayerOffside [
 
 	<demo>
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -170,7 +170,7 @@ STDemoData >> showOutfieldPlayerOffside [
 STDemoData >> showOutfieldPlayerOffside2 [
 
 	<demo>
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory2
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -181,7 +181,7 @@ STDemoData >> showOutfieldPlayerOffside2 [
 STDemoData >> showOutfieldPlayerUncovered [
 
 	<demo>
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
@@ -192,7 +192,7 @@ STDemoData >> showOutfieldPlayerUncovered [
 STDemoData >> showOutfieldPlayerUncovered2 [
 
 	<demo>
-	^ (STPlayerBlElement
+	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory2
 		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)

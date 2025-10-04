@@ -4,21 +4,21 @@ I render a soccer pitch just for demo/test purposes.
 Currently using me: STDemoData and STDemoData2.
 "
 Class {
-	#name : 'STSoccerSceneBlocSample',
-	#superclass : 'STSoccerSceneBloc',
+	#name : 'STBlocSoccerSceneSampleBuilder',
+	#superclass : 'STBlocSoccerSceneBuilder',
 	#category : 'SoccerTheory-Samples-Bloc',
 	#package : 'SoccerTheory-Samples',
 	#tag : 'Bloc'
 }
 
 { #category : 'accessing' }
-STSoccerSceneBlocSample >> borderWidth [
+STBlocSoccerSceneSampleBuilder >> borderWidth [
 
 	^ 10
 ]
 
 { #category : 'initialization' }
-STSoccerSceneBlocSample >> initializeTransformerWithWorldExtent: aPoint [
+STBlocSoccerSceneSampleBuilder >> initializeTransformerWithWorldExtent: aPoint [
 
 	transformer := (STCoordinatesTransformer
 		                newForSampleWithWorldExtent: aPoint)

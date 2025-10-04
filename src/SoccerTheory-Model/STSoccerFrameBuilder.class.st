@@ -246,11 +246,11 @@ STSoccerFrameBuilder class >> startFrameWithPitch: aPitch [
 	extent := aPitch extent.
 	builder
 		createGoalkeeperInTeamLeftAtPosition:
-		(Point x: middle x - extent x / 2 y: aPitch middle y)
+		middle x - extent x / 2 @ aPitch middle y
 		number: 1.
 	builder
 		createGoalkeeperInTeamRightAtPosition:
-		(Point x: middle x + extent x / 2 y: aPitch middle y)
+		middle x + extent x / 2 @ aPitch middle y
 		number: 1.
 	^ builder builtFrame
 ]

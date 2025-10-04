@@ -309,6 +309,13 @@ STSoccerBoardPresenter >> savingFilePresenter [
 		  yourself
 ]
 
+{ #category : 'private' }
+STSoccerBoardPresenter >> sceneBuilderClass [
+	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."
+
+	self subclassResponsibility
+]
+
 { #category : 'layout' }
 STSoccerBoardPresenter >> shapeControlsLayout [
 	"Answer the layout for shape (ball, players) controls."

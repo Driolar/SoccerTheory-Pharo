@@ -1,13 +1,19 @@
 "
 I am the user interface for the Soccer Theory Board.
 
-I rely on STSoccerSceneBlElement for rendering the soccer game view.
+I rely on STSoccerSceneBuilder for rendering the soccer game view.
 
-Start me doing this: STFrameEditor open.
+Start me doing either: 
+- STFrameEditor openBloc (Bloc version)
+- STFrameEditor openRoassal (Roassal version)
+- STFrameEditor open (default ist Bloc version)
 "
 Class {
 	#name : 'STFrameEditor',
 	#superclass : 'STSoccerBoardPresenter',
+	#instVars : [
+		'sceneBuilderClass'
+	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
 	#tag : 'Presenter'
@@ -20,16 +26,56 @@ STFrameEditor class >> aboutText [
 ]
 
 { #category : 'instance creation' }
+STFrameEditor class >> newWithBloc [
+
+	^ (self basicNew sceneBuilderClass: STBlocSoccerSceneBuilder)
+		  initialize;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+STFrameEditor class >> newWithRoassal [
+
+	^ (self basicNew sceneBuilderClass: STRoassalSoccerSceneBuilder)
+		  initialize;
+		  yourself
+]
+
+{ #category : 'instance creation' }
 STFrameEditor class >> open [
 	"Open the Soccer Theory Board."
 
 	<script>
-	self new asWindow
-		title: 'SoTheBoard – The Soccer Theory Board';
-		aboutText: self aboutText;
-		initialExtent: 1180 @ 884;
-		beNotResizable; 
+	self openBloc
+]
+
+{ #category : 'instance creation' }
+STFrameEditor class >> openBloc [
+	"Open the Soccer Theory Board with Bloc graphics."
+
+	<script>
+	self newWithBloc asWindow
+		beNotResizable;
 		open
+]
+
+{ #category : 'instance creation' }
+STFrameEditor class >> openRoassal [
+	"Open the Soccer Theory Board with Roassal graphics."
+
+	<script>
+	self newWithRoassal asWindow open
+]
+
+{ #category : 'showing' }
+STFrameEditor >> asWindow [
+	"Answer a new instance of mine as window."
+
+	^ super asWindow
+		  title: 'SoTheBoard – The Soccer Theory Board';
+		  aboutText: self aboutText;
+		  initialExtent: 1180 @ 884;
+		  yourself
 ]
 
 { #category : 'presenters' }
@@ -148,17 +194,29 @@ STFrameEditor >> menuButtonForLoadingExamples [
 
 { #category : 'initialization' }
 STFrameEditor >> newBoard [
-	"Answer my instance to render the board on."
+	"Answer my presenter to render the board on."
 
-	^ SpBlSpaceInMorphPresenter new
+	^ self instantiate: self sceneBuilderClass viewPresenterClass
 ]
 
 { #category : 'loading' }
 STFrameEditor >> refreshBoard [
 	"Refresh scene depending on scene and board classes."
 
-	scene := STSoccerSceneBloc newWithGameCommander: gameCommander.
-	board space root removeChildren.
-	board space setExtent: scene totalExtent.
-	board space root addChild: scene surface
+	scene := self sceneBuilderClass newWithGameCommander: gameCommander.
+	scene refreshViewOnPresenter: board
+]
+
+{ #category : 'private' }
+STFrameEditor >> sceneBuilderClass [
+	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."
+
+	^ sceneBuilderClass
+]
+
+{ #category : 'private' }
+STFrameEditor >> sceneBuilderClass: aSTSoccerSceneBuilder [
+	"Set the subclass of STSoccerSceneBuilder for rendering the soccer scene."
+
+	sceneBuilderClass := aSTSoccerSceneBuilder
 ]

@@ -57,6 +57,13 @@ STGeometryVisualizer >> newBoard [
 STGeometryVisualizer >> refreshBoard [
 	"Refresh scene depending on scene and board classes."
 
-	scene := STSoccerSceneRoassal newWithGameCommander: gameCommander.
+	scene := STRoassalSoccerSceneBuilder newWithGameCommander: gameCommander.
 	board script: [ :canvas | scene refreshCanvas: canvas ]
+]
+
+{ #category : 'private' }
+STGeometryVisualizer >> sceneBuilderClass [
+	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."
+
+	^ STRoassalSoccerSceneBuilder
 ]

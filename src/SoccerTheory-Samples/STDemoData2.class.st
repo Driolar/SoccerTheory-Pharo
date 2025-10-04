@@ -9,7 +9,7 @@ Class {
 { #category : 'instance creation' }
 STDemoData2 >> newSampleSceneWithFrame: aFrame [
 
-	^ STSoccerSceneBlocSample newWithGameCommander:
+	^ STBlocSoccerSceneSampleBuilder newWithGameCommander:
 		  (STGameCommander newWithFrame: aFrame)
 ]
 

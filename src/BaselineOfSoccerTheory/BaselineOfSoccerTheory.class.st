@@ -22,18 +22,18 @@ BaselineOfSoccerTheory >> baseline: spec [
 
 			spec
 				package: 'SoccerTheory-Model';
-				package: 'SoccerTheory-Rendering'
+				package: 'SoccerTheory-Graphics'
 				with: [ spec requires: #( 'SoccerTheory-Model'
 						   'Bloc' ) ];
 				package: 'SoccerTheory-Application' with: [
 					spec requires:
-							#( 'SoccerTheory-Rendering' 'SoccerTheory-SoccerML' ) ];
+							#( 'SoccerTheory-Graphics' 'SoccerTheory-SoccerML' ) ];
 				package: 'SoccerTheory-Samples'
-				with: [ spec requires: #( 'SoccerTheory-Rendering' ) ];
+				with: [ spec requires: #( 'SoccerTheory-Graphics' ) ];
 				package: 'SoccerTheory-Model-Tests'
 				with: [ spec requires: #( 'SoccerTheory-Model' ) ];
-				package: 'SoccerTheory-Rendering-Tests'
-				with: [ spec requires: #( 'SoccerTheory-Rendering' ) ];
+				package: 'SoccerTheory-Graphics-Tests'
+				with: [ spec requires: #( 'SoccerTheory-Graphics' ) ];
 				package: 'SoccerTheory-SoccerML' with: [
 						spec
 							requires: #( 'SoccerTheory-Model' );

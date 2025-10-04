@@ -19,7 +19,7 @@ STLegendPresenter class >> newWithGraphicFactory: aGraphicFactory [
 STLegendPresenter >> attackLineFormForLegend [
 	"Answer a sample attack line for legend as Form."
 
-^ self legendFormForStrategicLineClass: STAttackLineBlElement
+^ self legendFormForStrategicLineClass: STBlocAttackLineShape
 ]
 
 { #category : 'presenters' }
@@ -79,5 +79,5 @@ STLegendPresenter >> legendFormForStrategicLineClass: aClass [
 STLegendPresenter >> offsideLineFormForLegend [
 	"Answer a sample offside line for legend as Form."
 
-	^ self legendFormForStrategicLineClass: STOffsideLineBlElement
+	^ self legendFormForStrategicLineClass: STBlocOffsideLineShape
 ]

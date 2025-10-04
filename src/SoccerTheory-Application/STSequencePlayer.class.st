@@ -226,8 +226,7 @@ STSequencePlayer >> loadFrame: aFrame [
 	"Load the given STSoccerFrame on the scene."
 
 	| scene |
-	scene := STSoccerSceneBloc
-		         newWithGameCommander:
+	scene := self sceneBuilderClass newWithGameCommander:
 		         (STGameCommander newWithFrame: aFrame).
 
 	offsideRuleLabel label: aFrame strategy offsideRuleName.
@@ -366,6 +365,12 @@ STSequencePlayer >> savingFilePresenter [
 		  okAction: [ :selectedFileReference |
 			  self saveFile: selectedFileReference ];
 		  yourself
+]
+
+{ #category : 'private' }
+STSequencePlayer >> sceneBuilderClass [
+
+	^ STBlocSoccerSceneBuilder
 ]
 
 { #category : 'layout' }
