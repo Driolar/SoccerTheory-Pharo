@@ -1,6 +1,5 @@
 "
 I am the abstract builder of two-dimensional soccer scenes.
-Besides building the scene, I am able to render it on the corresponding SpPresenter. 
 
 Current concrete builders: STBlocSoccerSceneBuilder (Bloc) and STRoassalSoccerSceneBuilder (Roassal).
 "
@@ -11,9 +10,9 @@ Class {
 		'transformer',
 		'gameCommander'
 	],
-	#category : 'SoccerTheory-Application-Builder',
-	#package : 'SoccerTheory-Application',
-	#tag : 'Builder'
+	#category : 'SoccerTheory-Graphics-Basic',
+	#package : 'SoccerTheory-Graphics',
+	#tag : 'Basic'
 }
 
 { #category : 'instance creation' }
@@ -133,12 +132,6 @@ STSoccerSceneBuilder >> playFieldExtent [
 	"Answer the pitch's device extent."
 
 	^ transformer deviceExtent
-]
-
-{ #category : 'api' }
-STSoccerSceneBuilder >> refreshViewOnPresenter: aSpPresenter [
-
-	self subclassResponsibility
 ]
 
 { #category : 'private' }

@@ -309,8 +309,8 @@ STSoccerBoardPresenter >> savingFilePresenter [
 		  yourself
 ]
 
-{ #category : 'private' }
-STSoccerBoardPresenter >> sceneBuilderClass [
+{ #category : 'loading' }
+STSoccerBoardPresenter >> scenePlug [
 	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."
 
 	self subclassResponsibility

@@ -12,9 +12,9 @@ Class {
 		'surface',
 		'playField'
 	],
-	#category : 'SoccerTheory-Application-Builder',
-	#package : 'SoccerTheory-Application',
-	#tag : 'Builder'
+	#category : 'SoccerTheory-Graphics-Bloc',
+	#package : 'SoccerTheory-Graphics',
+	#tag : 'Bloc'
 }
 
 { #category : 'viewing' }

@@ -6,9 +6,9 @@ Currently using me: STGeometryVisualizer.
 Class {
 	#name : 'STRoassalSoccerSceneBuilder',
 	#superclass : 'STSoccerSceneBuilder',
-	#category : 'SoccerTheory-Application-Builder',
-	#package : 'SoccerTheory-Application',
-	#tag : 'Builder'
+	#category : 'SoccerTheory-Graphics-Roassal',
+	#package : 'SoccerTheory-Graphics',
+	#tag : 'Roassal'
 }
 
 { #category : 'viewing' }
@@ -39,7 +39,7 @@ STRoassalSoccerSceneBuilder >> newShapeOnPlayer: aSTPlayer [
 		  centerPoint: (transformer toDevice: aSTPlayer position)
 ]
 
-{ #category : 'private' }
+{ #category : 'api' }
 STRoassalSoccerSceneBuilder >> refreshCanvas: aRSCanvas [
 	"Repopulate the play field with the current shapes."
 
@@ -62,10 +62,4 @@ STRoassalSoccerSceneBuilder >> refreshCanvas: aRSCanvas [
 	aRSCanvas addAll: (self teamRight players collect: [ :player |
 			 self newShapeOnPlayer: player ]).
 	aRSCanvas add: (self newShapeOnBall: self ball)
-]
-
-{ #category : 'api' }
-STRoassalSoccerSceneBuilder >> refreshViewOnPresenter: aSpRoassalPresenter [
-
-	aSpRoassalPresenter script: [ :canvas | self refreshCanvas: canvas ]
 ]

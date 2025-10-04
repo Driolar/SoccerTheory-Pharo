@@ -12,7 +12,7 @@ Class {
 	#name : 'STFrameEditor',
 	#superclass : 'STSoccerBoardPresenter',
 	#instVars : [
-		'sceneBuilderClass'
+		'scenePlug'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -28,7 +28,7 @@ STFrameEditor class >> aboutText [
 { #category : 'instance creation' }
 STFrameEditor class >> newWithBloc [
 
-	^ (self basicNew sceneBuilderClass: STBlocSoccerSceneBuilder)
+	^ (self basicNew scenePlug: STSoccerScenePlug newBloc)
 		  initialize;
 		  yourself
 ]
@@ -36,7 +36,7 @@ STFrameEditor class >> newWithBloc [
 { #category : 'instance creation' }
 STFrameEditor class >> newWithRoassal [
 
-	^ (self basicNew sceneBuilderClass: STRoassalSoccerSceneBuilder)
+	^ (self basicNew scenePlug: STSoccerScenePlug newRoassal)
 		  initialize;
 		  yourself
 ]
@@ -196,27 +196,27 @@ STFrameEditor >> menuButtonForLoadingExamples [
 STFrameEditor >> newBoard [
 	"Answer my presenter to render the board on."
 
-	^ self instantiate: self sceneBuilderClass viewPresenterClass
+	^ self instantiate: self scenePlug viewPresenterClass
 ]
 
 { #category : 'loading' }
 STFrameEditor >> refreshBoard [
 	"Refresh scene depending on scene and board classes."
 
-	scene := self sceneBuilderClass newWithGameCommander: gameCommander.
-	scene refreshViewOnPresenter: board
+	scene := self scenePlug newSceneWithGameCommander: gameCommander.
+	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
 ]
 
-{ #category : 'private' }
-STFrameEditor >> sceneBuilderClass [
+{ #category : 'loading' }
+STFrameEditor >> scenePlug [
 	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."
 
-	^ sceneBuilderClass
+	^ scenePlug
 ]
 
-{ #category : 'private' }
-STFrameEditor >> sceneBuilderClass: aSTSoccerSceneBuilder [
+{ #category : 'loading' }
+STFrameEditor >> scenePlug: aSTSoccerSceneBuilder [
 	"Set the subclass of STSoccerSceneBuilder for rendering the soccer scene."
 
-	sceneBuilderClass := aSTSoccerSceneBuilder
+	scenePlug := aSTSoccerSceneBuilder
 ]

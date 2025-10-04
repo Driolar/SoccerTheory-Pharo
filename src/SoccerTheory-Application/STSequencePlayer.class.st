@@ -181,7 +181,7 @@ STSequencePlayer >> initializePresenters [
 
 	super initializePresenters.
 	self initializeButtons.
-	board := SpBlSpaceInMorphPresenter new.
+	board := self newBoard.
 	statusbar := self newStatusBar.
 	openFilePresenter := self openingFilePresenter.
 	saveFilePresenter := self savingFilePresenter.
@@ -226,7 +226,7 @@ STSequencePlayer >> loadFrame: aFrame [
 	"Load the given STSoccerFrame on the scene."
 
 	| scene |
-	scene := self sceneBuilderClass newWithGameCommander:
+	scene := self scenePlug newSceneWithGameCommander:
 		         (STGameCommander newWithFrame: aFrame).
 
 	offsideRuleLabel label: aFrame strategy offsideRuleName.
@@ -234,9 +234,14 @@ STSequencePlayer >> loadFrame: aFrame [
 		officialTimeLabel label: officialTime ].
 	framesPerSecond := aFrame framesPerSecond.
 
-	board space root removeChildren.
-	board space setExtent: scene totalExtent.
-	board space root addChild: scene surface
+	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
+]
+
+{ #category : 'initialization' }
+STSequencePlayer >> newBoard [
+	"Answer my presenter to render the board on."
+
+	^ self instantiate: self scenePlug viewPresenterClass
 ]
 
 { #category : 'layout' }
@@ -368,9 +373,9 @@ STSequencePlayer >> savingFilePresenter [
 ]
 
 { #category : 'private' }
-STSequencePlayer >> sceneBuilderClass [
+STSequencePlayer >> scenePlug [
 
-	^ STBlocSoccerSceneBuilder
+	^ STSoccerScenePlug newBloc
 ]
 
 { #category : 'layout' }

@@ -48,22 +48,22 @@ STGeometryVisualizer >> frameControlsLayout [
 
 { #category : 'initialization' }
 STGeometryVisualizer >> newBoard [
-	"Answer my instance to render the board on."
+	"Answer my presenter to render the board on."
 
-	^ self newRoassal
+	^ self instantiate: self scenePlug viewPresenterClass
 ]
 
 { #category : 'loading' }
 STGeometryVisualizer >> refreshBoard [
 	"Refresh scene depending on scene and board classes."
 
-	scene := STRoassalSoccerSceneBuilder newWithGameCommander: gameCommander.
-	board script: [ :canvas | scene refreshCanvas: canvas ]
+	scene := self scenePlug newSceneWithGameCommander: gameCommander.
+	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
 ]
 
-{ #category : 'private' }
-STGeometryVisualizer >> sceneBuilderClass [
-	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."
+{ #category : 'loading' }
+STGeometryVisualizer >> scenePlug [
+	"Answer the plug for connecting with the soccer scene."
 
-	^ STRoassalSoccerSceneBuilder
+	^ STSoccerScenePlug newRoassal 
 ]
