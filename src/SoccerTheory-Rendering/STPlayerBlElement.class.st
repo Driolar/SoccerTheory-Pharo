@@ -109,7 +109,7 @@ STPlayerBlElement >> isOffside [
 STPlayerBlElement >> jerseyGradient [
 	"Answer the gradient for the field player's jersey."
 
-	^ player team jerseyGradient 
+	^ self team jerseyGradient 
 ]
 
 { #category : 'private' }
@@ -145,10 +145,16 @@ STPlayerBlElement >> newMovedAnnouncementWithTarget: aPoint [
 ]
 
 { #category : 'private' }
-STPlayerBlElement >> offsideElement [ 
+STPlayerBlElement >> offsideElement [
 	"Answer the offside BlElement."
 
-	^graphicFactory offsideElement 
+	^ self team isTeamLeft
+		  ifTrue: [ graphicFactory offsideElement ]
+		  ifFalse: [
+				  graphicFactory offsideElement transform
+					  flipY;
+					  apply;
+					  target ]
 ]
 
 { #category : 'initialization' }
@@ -188,6 +194,13 @@ STPlayerBlElement >> showUncovered [
 	self
 		childWithId: #uncovered
 		ifNone: [ self addChild: self uncoveredElement as: #uncovered ]
+]
+
+{ #category : 'private' }
+STPlayerBlElement >> team [
+	"Answer my STTeam."
+
+	^ player team
 ]
 
 { #category : 'private' }

@@ -37,6 +37,7 @@ STSoccerSceneRoassal >> refreshCanvas: aRSCanvas [
 	"Repopulate the play field with the current shapes."
 
 	| playField |
+	aRSCanvas @ RSCanvasController.
 
 	aRSCanvas extent: self totalExtent.
 	aRSCanvas color: (Color fromHexString: '66CC66'). "Moderate lime green border"

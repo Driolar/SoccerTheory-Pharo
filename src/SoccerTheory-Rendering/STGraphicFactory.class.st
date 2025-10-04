@@ -224,6 +224,50 @@ STGraphicFactory >> plusSignForm [
 ]
 
 { #category : 'accessing' }
+STGraphicFactory >> svgEyeWithColor: color [
+	"Answer a scalable eye as RSComposite.
+	SVG file taken from Wikimedia at https://commons.wikimedia.org/w/index.php?title=File:Codex_icon_eye_color-error.svg&oldid=1080535227.
+	Converted to plain paths with Inkscape."
+
+	^ RSComposite new
+		  shapes: (Array
+				   with: (RSSVGPath new
+						    color: color ;
+						    svgPath:
+							    'M10 14.5a4.5 4.5 0 1 1 4.5-4.5 4.5 4.5 0 0 1-4.5 4.5M10 3C3 3 0 10 0 10s3 7 10 7 10-7 10-7-3-7-10-7')
+				   with: (RSSVGPath new
+						    color: color;
+						    svgPath:
+							    'M 12.5,10 A 2.5,2.5 0 0 1 10,12.5 2.5,2.5 0 0 1 7.5,10 2.5,2.5 0 0 1 10,7.5 2.5,2.5 0 0 1 12.5,10 Z'));
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> svgFlagWavingToLeftWithColor: color [
+	"Answer a scalable flag as RSSVGPath.
+	SVG file taken from https://svgicons.com/icon/12075/flag-fill with MIT license.
+	Mirrored with Inkscape for waving in left direction."
+
+	^ RSSVGPath new
+		  color: color;
+		  svgPath:
+			  'm 3.9595297,1.5196793 a -0.5,0.5 0 0 0 -0.222,0.415 v 7.5 a -0.5,0.5 0 0 0 0.314,0.464 l 0.186,-0.464 -0.186,0.464 0.003,0.001 0.006,0.003 0.023,0.009 a -12,12 0 0 0 0.397,0.1499997 c 0.264,0.095 0.631,0.223 1.047,0.35 0.816,0.252 1.879,0.523 2.71,0.523 0.847,0 1.548,-0.28 2.1580003,-0.525 l 0.028,-0.01 c 0.634,-0.255 1.174,-0.4649997 1.814,-0.4649997 0.7,0 1.638,0.2299997 2.437,0.4769997 a -20,20 0 0 1 1.063,0.365 v 6.158 a -0.5,0.5 0 0 0 1,0 V 1.9346793 a -0.5,0.5 0 0 0 -1,0 v 0.282 c -0.226,-0.079 -0.496,-0.17 -0.79,-0.26 -0.816,-0.25 -1.88,-0.522 -2.71,-0.522 -0.84,0 -1.524,0.277 -2.121,0.519 l -0.043,0.018 c -0.6220003,0.251 -1.1640003,0.463 -1.8360003,0.463 -0.7,0 -1.638,-0.23 -2.437,-0.477 a -20,20 0 0 1 -1.349,-0.476 l -0.019,-0.007 -0.004,-0.002 h -0.001';
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> svgFlagWavingToRightWithColor: color [
+	"Answer a scalable flag as RSSVGPath.
+	SVG file taken from https://svgicons.com/icon/12075/flag-fill with MIT license."
+
+	^ RSSVGPath new
+		  color: color;
+		  svgPath:
+			  'M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464l-.003.001l-.006.003l-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35c-.816.252-1.879.523-2.71.523c-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007l.004-.002h.001';
+		  yourself
+]
+
+{ #category : 'accessing' }
 STGraphicFactory >> uncoveredElement [
 	"Answer the BlElement tagging a player as being uncovered."
 
