@@ -34,6 +34,15 @@ STCoordinatesTransformerTest >> deviceMiddle [
 ]
 
 { #category : 'private' }
+STCoordinatesTransformerTest >> deviceTopLeft [
+	"comment stating purpose of instance-side method"
+
+	"scope: class-variables  &  instance-variables"
+
+	^ 0 @ 0
+]
+
+{ #category : 'private' }
 STCoordinatesTransformerTest >> deviceTopRight [
 
 	^ self deviceExtent x @ 0
@@ -190,6 +199,15 @@ STCoordinatesTransformerTest >> worldBottomLeft [
 ]
 
 { #category : 'private' }
+STCoordinatesTransformerTest >> worldBottomRight [
+	"comment stating purpose of instance-side method"
+
+	"scope: class-variables  &  instance-variables"
+
+	^ self worldExtent x / 2 @ (self worldExtent y / 2) negated
+]
+
+{ #category : 'private' }
 STCoordinatesTransformerTest >> worldExtent [ 
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"
@@ -201,6 +219,15 @@ STCoordinatesTransformerTest >> worldExtent [
 STCoordinatesTransformerTest >> worldMiddle [
 
 	^ 0 @ 0
+]
+
+{ #category : 'private' }
+STCoordinatesTransformerTest >> worldTopLeft [
+	"comment stating purpose of instance-side method"
+
+	"scope: class-variables  &  instance-variables"
+
+	^ (self worldExtent x / 2) negated @ (self worldExtent y / 2)
 ]
 
 { #category : 'private' }
