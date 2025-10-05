@@ -44,6 +44,12 @@ STDemoData >> newStartFrame [
 	^ STSoccerFrameBuilder startFrameWithPitch: STPitch newDefault
 ]
 
+{ #category : 'private' }
+STDemoData >> sampleDeviceExtent [
+
+	^ STBlocSoccerSceneSampleBuilder sampleDeviceExtent
+]
+
 { #category : 'show icons' }
 STDemoData >> showAttackLine [
 
@@ -61,7 +67,7 @@ STDemoData >> showBall [
 	^ STBlocBallShape
 		  newForBall: self newEmptyFrame ball
 		  graphicFactory: STGraphicFactory new
-		  playFieldExtent: STCoordinatesTransformer sampleDeviceExtent
+		  playFieldExtent: self sampleDeviceExtent
 ]
 
 { #category : 'showing shapes' }
@@ -71,8 +77,7 @@ STDemoData >> showBallWithShadow [
 	^ (STBlocBallShape
 		   newForBall: self newEmptyFrame ball
 		   graphicFactory: STGraphicFactory new
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showShadow
+		   playFieldExtent: self sampleDeviceExtent) showShadow
 ]
 
 { #category : 'show icons' }
@@ -102,8 +107,7 @@ STDemoData >> showGoalkeeperOffside [
 	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showOffside
+		   playFieldExtent: self sampleDeviceExtent) showOffside
 ]
 
 { #category : 'showing shapes' }
@@ -116,8 +120,7 @@ STDemoData >> showGoalkeeperOffside2 [
 	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory2
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showOffside
+		   playFieldExtent: self sampleDeviceExtent) showOffside
 ]
 
 { #category : 'showing shapes' }
@@ -130,8 +133,7 @@ STDemoData >> showGoalkeeperUncovered [
 	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showUncovered
+		   playFieldExtent: self sampleDeviceExtent) showUncovered
 ]
 
 { #category : 'showing shapes' }
@@ -144,8 +146,7 @@ STDemoData >> showGoalkeeperUncovered2 [
 	^ (STBlocPlayerShape
 		   newWithPlayer: player
 		   graphicFactory: self symbolFactory2
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showUncovered
+		   playFieldExtent: self sampleDeviceExtent) showUncovered
 ]
 
 { #category : 'show icons' }
@@ -162,8 +163,7 @@ STDemoData >> showOutfieldPlayerOffside [
 	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showOffside
+		   playFieldExtent: self sampleDeviceExtent) showOffside
 ]
 
 { #category : 'showing shapes' }
@@ -173,8 +173,7 @@ STDemoData >> showOutfieldPlayerOffside2 [
 	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory2
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showOffside
+		   playFieldExtent: self sampleDeviceExtent) showOffside
 ]
 
 { #category : 'showing shapes' }
@@ -184,8 +183,7 @@ STDemoData >> showOutfieldPlayerUncovered [
 	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showUncovered
+		   playFieldExtent: self sampleDeviceExtent) showUncovered
 ]
 
 { #category : 'showing shapes' }
@@ -195,8 +193,7 @@ STDemoData >> showOutfieldPlayerUncovered2 [
 	^ (STBlocPlayerShape
 		   newWithPlayer: self defaultOutfieldPlayer
 		   graphicFactory: self symbolFactory2
-		   playFieldExtent: STCoordinatesTransformer sampleDeviceExtent)
-		  showUncovered
+		   playFieldExtent: self sampleDeviceExtent) showUncovered
 ]
 
 { #category : 'showing scenes' }

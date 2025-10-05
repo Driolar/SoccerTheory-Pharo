@@ -222,9 +222,9 @@ STSoccerBoardPresenter >> loadFrame: aFrame named: aFrameName [
 
 { #category : 'initialization' }
 STSoccerBoardPresenter >> newBoard [
-	"Answer my instance to render the board on."
+	"Answer my presenter to render the board on."
 
-	self subclassResponsibility 
+	^ self instantiate: self scenePlug viewPresenterClass
 ]
 
 { #category : 'presenters' }
@@ -240,9 +240,10 @@ STSoccerBoardPresenter >> openingFilePresenter [
 
 { #category : 'loading' }
 STSoccerBoardPresenter >> refreshBoard [
-	"Refresh scene depending on scene and board class."
+	"Refresh scene depending on scene and board classes."
 
-	self subclassResponsibility
+	scene := self scenePlug newSceneWithGameCommander: gameCommander.
+	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
 ]
 
 { #category : 'initialization' }

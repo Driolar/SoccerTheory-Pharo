@@ -40,7 +40,7 @@ STRoassalSoccerSceneBuilder >> newShapeOnPlayer: aSTPlayer [
 ]
 
 { #category : 'api' }
-STRoassalSoccerSceneBuilder >> refreshCanvas: aRSCanvas [
+STRoassalSoccerSceneBuilder >> refreshView: aRSCanvas [
 	"Repopulate the play field with the current shapes."
 
 	| playField |

@@ -269,11 +269,11 @@ STBlocSoccerSceneBuilder >> paintPitch [
 ]
 
 { #category : 'api' }
-STBlocSoccerSceneBuilder >> refreshViewOnPresenter: aSpBlSpaceInMorphPresenter [
+STBlocSoccerSceneBuilder >> refreshView: aBlSpace [
 
-	aSpBlSpaceInMorphPresenter space root removeChildren.
-	aSpBlSpaceInMorphPresenter space setExtent: self totalExtent.
-	aSpBlSpaceInMorphPresenter space root addChild: self surface
+	aBlSpace root removeChildren.
+	aBlSpace setExtent: self totalExtent.
+	aBlSpace root addChild: self surface
 ]
 
 { #category : 'initialization' }

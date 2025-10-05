@@ -58,7 +58,7 @@ STCoordinatesTransformerTest >> setUp [
 	super setUp.
 	pitch := STPitch newDefault.
 	transformer := (STCoordinatesTransformer
-		                newForSampleWithWorldExtent: pitch extent)
+		                newWithWorldExtent: pitch extent)
 		               setDeviceToBloc;
 		               yourself
 ]

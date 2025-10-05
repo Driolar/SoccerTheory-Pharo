@@ -46,21 +46,6 @@ STGeometryVisualizer >> frameControlsLayout [
 		  yourself
 ]
 
-{ #category : 'initialization' }
-STGeometryVisualizer >> newBoard [
-	"Answer my presenter to render the board on."
-
-	^ self instantiate: self scenePlug viewPresenterClass
-]
-
-{ #category : 'loading' }
-STGeometryVisualizer >> refreshBoard [
-	"Refresh scene depending on scene and board classes."
-
-	scene := self scenePlug newSceneWithGameCommander: gameCommander.
-	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
-]
-
 { #category : 'loading' }
 STGeometryVisualizer >> scenePlug [
 	"Answer the plug for connecting with the soccer scene."

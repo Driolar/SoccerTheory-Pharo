@@ -31,25 +31,19 @@ Class {
 }
 
 { #category : 'instance creation' }
-STCoordinatesTransformer class >> newForApplicationWithWorldExtent: aPoint [
+STCoordinatesTransformer class >> newWithWorldExtent: aPoint [
 	"Answer a new transformer for application purpose."
 
 	^ self new initializeWithWorldExtent: aPoint deviceExtent: 1110 @ 720
 ]
 
 { #category : 'instance creation' }
-STCoordinatesTransformer class >> newForSampleWithWorldExtent: aPoint [
-	"Answer a new transformer for demo purpose."
+STCoordinatesTransformer class >> newWithWorldExtent: worldExtent deviceExtent: deviceExtent [
+	"Answer a new transformer for application purpose."
 
 	^ self new
-		  initializeWithWorldExtent: aPoint
-		  deviceExtent: self sampleDeviceExtent
-]
-
-{ #category : 'accessing' }
-STCoordinatesTransformer class >> sampleDeviceExtent [
-
-	^ 556 @ 360
+		  initializeWithWorldExtent: worldExtent
+		  deviceExtent: deviceExtent
 ]
 
 { #category : 'accessing' }

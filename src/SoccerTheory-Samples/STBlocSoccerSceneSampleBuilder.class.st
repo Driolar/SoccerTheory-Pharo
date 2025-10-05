@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : 'accessing' }
+STBlocSoccerSceneSampleBuilder class >> sampleDeviceExtent [
+
+	^ 556 @ 360
+]
+
+{ #category : 'accessing' }
 STBlocSoccerSceneSampleBuilder >> borderWidth [
 
 	^ 10
@@ -21,7 +27,8 @@ STBlocSoccerSceneSampleBuilder >> borderWidth [
 STBlocSoccerSceneSampleBuilder >> initializeTransformerWithWorldExtent: aPoint [
 
 	transformer := (STCoordinatesTransformer
-		                newForSampleWithWorldExtent: aPoint)
+		                newWithWorldExtent: aPoint
+		                deviceExtent: self class sampleDeviceExtent)
 		               setDeviceToBloc;
 		               yourself
 ]

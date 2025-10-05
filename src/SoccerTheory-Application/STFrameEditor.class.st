@@ -192,21 +192,6 @@ STFrameEditor >> menuButtonForLoadingExamples [
 	^ menuButton
 ]
 
-{ #category : 'initialization' }
-STFrameEditor >> newBoard [
-	"Answer my presenter to render the board on."
-
-	^ self instantiate: self scenePlug viewPresenterClass
-]
-
-{ #category : 'loading' }
-STFrameEditor >> refreshBoard [
-	"Refresh scene depending on scene and board classes."
-
-	scene := self scenePlug newSceneWithGameCommander: gameCommander.
-	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
-]
-
 { #category : 'loading' }
 STFrameEditor >> scenePlug [
 	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."

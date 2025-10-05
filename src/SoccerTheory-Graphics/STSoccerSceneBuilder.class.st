@@ -94,7 +94,7 @@ STSoccerSceneBuilder >> deviceGoalWidth [
 STSoccerSceneBuilder >> initializeTransformerWithWorldExtent: aPoint [
 
 	transformer := STCoordinatesTransformer
-		               newForApplicationWithWorldExtent: aPoint
+		               newWithWorldExtent: aPoint
 ]
 
 { #category : 'initialization' }
@@ -132,6 +132,13 @@ STSoccerSceneBuilder >> playFieldExtent [
 	"Answer the pitch's device extent."
 
 	^ transformer deviceExtent
+]
+
+{ #category : 'api' }
+STSoccerSceneBuilder >> refreshView: canvasOrSpace [
+	"Repopulate the play field with the current shapes."
+
+	self subclassResponsibility
 ]
 
 { #category : 'private' }

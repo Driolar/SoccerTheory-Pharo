@@ -33,11 +33,8 @@ STSoccerScenePlug >> initializeBloc [
 	sceneBuilderClass := STBlocSoccerSceneBuilder.
 	viewPresenterClass := SpBlSpaceInMorphPresenter.
 	refreshBlock := [ :spaceInMorphPresenter :blocSoccerSceneBuilder |
-		                spaceInMorphPresenter space root removeChildren.
-		                spaceInMorphPresenter space setExtent:
-			                blocSoccerSceneBuilder totalExtent.
-		                spaceInMorphPresenter space root addChild:
-			                blocSoccerSceneBuilder surface ]
+	                blocSoccerSceneBuilder refreshView:
+		                spaceInMorphPresenter space ]
 ]
 
 { #category : 'initialization' }
@@ -47,7 +44,7 @@ STSoccerScenePlug >> initializeRoassal [
 	viewPresenterClass := SpRoassalPresenter.
 	refreshBlock := [ :roassalPresenter :roassalSoccerSceneBuilder |
 		                roassalPresenter script: [ :canvas |
-			                roassalSoccerSceneBuilder refreshCanvas: canvas ] ]
+			                roassalSoccerSceneBuilder refreshView: canvas ] ]
 ]
 
 { #category : 'instance creation' }
