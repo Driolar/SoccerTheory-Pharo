@@ -17,13 +17,15 @@ However, the indicated RoboCup Tool is in the meantime deprecated.
 Most recent efforts are dedicated to [convert RoboCup logs into CSV](https://github.com/hidehisaakiyama/RoboCup2D-data). 
 
 ### SkillCorner
-The Soccer Theory Suite provides the class `STSkillCornerConverter` for converting SkillCorner data into SoccerML. There are 9 real matches provided by SkillCorner [here](https://github.com/SkillCorner/opendata). Each match data is stored in two JSON files:
+The Soccer Theory Suite provides the class `STSkillCornerConverter` for converting SkillCorner data into SoccerML. The current version of `STSkillCornerConverter` suits for the 9 real matches provided by SkillCorner [here](https://github.com/SkillCorner/opendata/tree/1b99d401ddc82e366c5c20d6860878668fd5858f). Each match data is stored in two JSON files:
 - match_data.json
 - structured_data.json
 
 The latter contains the tracking information including ball possession.
 
 `STSkillCornerConverter` takes care of field switching at half time. For each half time, a separate sequence of frames is created.
+
+Note that, in the meantime, Skillcorner has provided new matches [here](https://github.com/SkillCorner/opendata).
 
 #### Example using `STSkillCornerConverter`
 After having downloaded the SkillCorner data, you may split the tracking data (structured_data.json) as desired with an appropiate tool, for instance [JSON Splitter online](https://www.merge-json-files.com/json-file-splitter). Finally do this:
