@@ -35,20 +35,14 @@ STActionManager >> addPlayer: aSTPlayer toTeam: aSTTeam [
 STActionManager >> announceBallPossessionChanged [
 	"Announce that the ball possession has changed."
 
-	self announcer announce: STBallPossessionChangedAnnouncement new
+	self gameAnnouncer announce: STBallPossessionChangedAnnouncement new
 ]
 
 { #category : 'notification' }
 STActionManager >> announceStrategyChanged [
 	"Announce that the soccer strategy has been changed."
 
-	self announcer announce: STSoccerStrategyChangedAnnouncement new
-]
-
-{ #category : 'notification' }
-STActionManager >> announcer [
-
-	^ frame announcer
+	self gameAnnouncer announce: STSoccerStrategyChangedAnnouncement new
 ]
 
 { #category : 'actions api' }
@@ -62,6 +56,12 @@ STActionManager >> changeBallOwnerToTeam: aSTTeam [
 { #category : 'accessing' }
 STActionManager >> frame [
 	^ frame
+]
+
+{ #category : 'notification' }
+STActionManager >> gameAnnouncer [ 
+
+	^ frame gameAnnouncer
 ]
 
 { #category : 'initialization' }
@@ -94,12 +94,12 @@ STActionManager >> notifyCovering [
 { #category : 'notification' }
 STActionManager >> registerAtAnnouncer [
 
-	self announcer
+	self gameAnnouncer
 		when: STSoccerStrategyChangedAnnouncement
 		do: [ :ann | self notifyCovering ]
 		for: self.
 
-	self announcer
+	self gameAnnouncer
 		when: STBallPossessionChangedAnnouncement
 		do: [ :ann | self notifyCovering ]
 		for: self

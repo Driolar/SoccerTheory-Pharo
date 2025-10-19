@@ -71,6 +71,14 @@ STGraphicFactory >> ballForm [
 		  offset: 0 @ 0
 ]
 
+{ #category : 'private' }
+STGraphicFactory >> goalkeeperCircle [ 
+
+	^ RSCircle new
+		  radius: 9;
+		  yourself
+]
+
 { #category : 'accessing' }
 STGraphicFactory >> goalkeeperElement [
 	"Answer the BlElement representing the goalkeeper."
@@ -224,7 +232,37 @@ STGraphicFactory >> plusSignForm [
 ]
 
 { #category : 'accessing' }
-STGraphicFactory >> svgEyeWithColor: color [
+STGraphicFactory >> roassalAttackLine [
+	"Answer a RSArrowedLine to represent the attack line."
+
+	| attackLine |
+	attackLine := RSArrowedLine new.
+	^ attackLine
+		  markerStartEnd: attackLine defaultHead;
+		  dashed;
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalBall [
+	"Answer a soccer ball as RSComposite.
+	SVG file taken from https://svgicons.com/icon/30636/soccer-ball"
+
+	^ RSComposite new
+		  shapes: (Array
+				   with: (RSSVGPath new
+						    color: (Color fromHexString: 'e6e7e8');
+						    svgPath:
+							    'M57.55 14.458c9.692 14.11 6.112 33.406-7.999 43.09c-14.11 9.693-33.406 6.112-43.1-8c-9.694-14.11-6.111-33.406 8-43.1c14.11-9.691 33.406-6.109 43.09 8')
+				   with: (RSSVGPath new
+						    color: (Color fromHexString: '404041');
+						    svgPath:
+							    'm35.294 42.546l-12.836 1.429L14.8 33.576l5.182-11.83l12.838-1.432l7.657 10.404zM61.276 23.2a30.993 30.993 0 0 0-4.22-8.975a30.79 30.79 0 0 0-10.478-9.504L42.5 14.037l7.657 10.402l11.118-1.24M18.481 11.735l3.986-9.104A30.974 30.974 0 0 0 7.14 13.183l11.233-1.25c.038-.068.068-.133.108-.198m34.153 31.161l-5.18 11.831l2.012 2.732c.023-.02.053-.03.08-.05c5.699-3.912 9.646-9.406 11.723-15.478l-8.64.963M7.148 39.659l-5.107.57c1.666 6.327 5.278 11.81 10.122 15.863l2.641-6.03z'));
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalEyeWithColor: color [
 	"Answer a scalable eye as RSComposite.
 	SVG file taken from Wikimedia at https://commons.wikimedia.org/w/index.php?title=File:Codex_icon_eye_color-error.svg&oldid=1080535227.
 	Converted to plain paths with Inkscape."
@@ -243,7 +281,25 @@ STGraphicFactory >> svgEyeWithColor: color [
 ]
 
 { #category : 'accessing' }
-STGraphicFactory >> svgFlagWavingToLeftWithColor: color [
+STGraphicFactory >> roassalFieldPlayerWithCenter: centerPoint color: aColor [
+	"Answer a field player represented by a triangle."
+
+	| apex baseLeft baseRight trianglePoints |
+	apex := centerPoint x @ (centerPoint y - 9).
+	baseLeft := centerPoint x - 9 @ (centerPoint y + 9).
+	baseRight := centerPoint + 9.
+	trianglePoints := {
+		                  baseLeft.
+		                  apex.
+		                  baseRight }.
+	^ RSPolygon new
+		  points: trianglePoints;
+		  color: aColor;
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalFlagWavingToLeftWithColor: color [
 	"Answer a scalable flag as RSSVGPath.
 	SVG file taken from https://svgicons.com/icon/12075/flag-fill with MIT license.
 	Mirrored with Inkscape for waving in left direction."
@@ -256,7 +312,7 @@ STGraphicFactory >> svgFlagWavingToLeftWithColor: color [
 ]
 
 { #category : 'accessing' }
-STGraphicFactory >> svgFlagWavingToRightWithColor: color [
+STGraphicFactory >> roassalFlagWavingToRightWithColor: color [
 	"Answer a scalable flag as RSSVGPath.
 	SVG file taken from https://svgicons.com/icon/12075/flag-fill with MIT license."
 
@@ -265,6 +321,61 @@ STGraphicFactory >> svgFlagWavingToRightWithColor: color [
 		  svgPath:
 			  'M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464l-.003.001l-.006.003l-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35c-.816.252-1.879.523-2.71.523c-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007l.004-.002h.001';
 		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalLeftFieldPlayerWithCenter: centerPoint color: aColor [
+	"Answer a left field player represented by a triangle."
+
+	^ (self roassalFieldPlayerWithCenter: centerPoint color: aColor)
+		  rotateByDegrees: 90;
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalLeftGoalkeeperWithCenter: centerPoint color: aColor [
+	"Answer a left goalkeeper representation."
+
+	^ RSGroup new
+		  add:
+			  (self roassalLeftFieldPlayerWithCenter: centerPoint color: aColor);
+		  add: (self goalkeeperCircle
+				   center: centerPoint;
+				   color: aColor;
+				   yourself);
+		  asShape
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalOffsideLine [
+	"Answer a RSLine to represent the offside line."
+
+	^ RSLine new
+		  markerStartEnd: RSCircle new;
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalRightFieldPlayerWithCenter: centerPoint color: aColor [
+	"Answer a right field player represented by a triangle."
+
+	^ (self roassalFieldPlayerWithCenter: centerPoint color: aColor)
+		  rotateByDegrees: 90 negated;
+		  yourself
+]
+
+{ #category : 'accessing' }
+STGraphicFactory >> roassalRightGoalkeeperWithCenter: centerPoint color: aColor [
+	"Answer a right goalkeeper representation."
+
+	^ RSGroup new
+		  add:
+			  (self roassalRightFieldPlayerWithCenter: centerPoint color: aColor);
+		  add: (self goalkeeperCircle
+				   center: centerPoint;
+				   color: aColor;
+				   yourself);
+		  asShape
 ]
 
 { #category : 'accessing' }

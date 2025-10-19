@@ -8,6 +8,8 @@ Also I am pullable.
 Class {
 	#name : 'STBlocBallShape',
 	#superclass : 'STBlocMovableShape',
+	#traits : 'STTBallShape',
+	#classTraits : 'STTBallShape classTrait',
 	#instVars : [
 		'ball'
 	],
@@ -23,12 +25,6 @@ STBlocBallShape class >> newForBall: aSTBall graphicFactory: aGraphicFactory pla
 	^ self new initializeForBall: aSTBall graphicFactory: aGraphicFactory playFieldExtent: aPoint
 ]
 
-{ #category : 'accessing' }
-STBlocBallShape >> ball [
-
-	^ ball 
-]
-
 { #category : 'private' }
 STBlocBallShape >> ballForm [ 
 	"Answer my ball form."
@@ -42,14 +38,6 @@ STBlocBallShape >> hideShadow [
 	self border: BlBorder empty 
 ]
 
-{ #category : 'private' }
-STBlocBallShape >> hoverTextString [
-	"Answer the string for the hover text element."
-
-	^ '(' , (ball position x printShowingDecimalPlaces: 1) , '@'
-	  , (ball position y printShowingDecimalPlaces: 1) , ')'
-]
-
 { #category : 'initialization' }
 STBlocBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory playFieldExtent: aPoint [
 	"Initialize the shape instance for a given STBall."
@@ -57,24 +45,17 @@ STBlocBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory 
 	| ballIcon ballIconElement |
 	ball := aSTBall.
 	graphicFactory := aSTGraphicFactory.
-	playFieldExtent := aPoint.
+	self playFieldExtent: aPoint.
 	self initializeEventHandling.
 
 	squareExtent := 10 @ 10.
 	self extent: squareExtent.
-	self updateColor.
+	self updatePossession.
 	ballIcon := self ballForm.
 	ballIcon := ballIcon magnifyBy: 0.5.
 	ballIconElement := ballIcon asElement.
 	ballIconElement position: 1 @ 1.
 	self addChild: ballIconElement
-]
-
-{ #category : 'accessing' }
-STBlocBallShape >> name [
-	"Answer my name string."
-
-	^ 'Ball'
 ]
 
 { #category : 'private' }
@@ -86,16 +67,6 @@ STBlocBallShape >> newMovedAnnouncementWithTarget: aPoint [
 	^ STBallShapeMovedAnnouncement newWithTargetPosition: aPoint
 ]
 
-{ #category : 'initialization' }
-STBlocBallShape >> registerAtAnnouncer [
-	"Register to the announcements I am interested in."
-
-	self announcer
-		when: STBallPossessionChangedAnnouncement
-		do: [ :ann | self updateColor ]
-		for: self
-]
-
 { #category : 'private' }
 STBlocBallShape >> showShadow [
 
@@ -105,7 +76,7 @@ STBlocBallShape >> showShadow [
 ]
 
 { #category : 'private' }
-STBlocBallShape >> updateColor [
+STBlocBallShape >> updatePossession [
 	"Update my color depending on the ball owning team."
 
 	ball owningTeam

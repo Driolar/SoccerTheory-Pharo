@@ -38,13 +38,6 @@ STCommonSoccerStrategy class >> offsideRuleName [
 	self subclassResponsibility
 ]
 
-{ #category : 'private' }
-STCommonSoccerStrategy >> announcer [
-	"Answer the announcer singleton."
-
-	^ frame announcer
-]
-
 { #category : 'accessing' }
 STCommonSoccerStrategy >> attackingTeam [
 
@@ -102,6 +95,13 @@ STCommonSoccerStrategy >> flagOffsidePlayers [
 					(self isOffsidePlayer: player offsideX: offsideX) ] ]
 		ifNil: [
 			self attackingTeam players do: [ :player | player isOffside: false ] ]
+]
+
+{ #category : 'private' }
+STCommonSoccerStrategy >> gameAnnouncer [
+	"Answer the announcer singleton."
+
+	^ frame gameAnnouncer
 ]
 
 { #category : 'initialization' }
@@ -181,14 +181,15 @@ STCommonSoccerStrategy >> updateCovering [
 	"Respect the sequence: First flag offside, then flag covering."
 	"Covering flags depend on offside flags."
 	self attackingTeam ifNotNil: [
-		self flagOffsidePlayers.
-		self flagCoveredPlayers ].
+			self flagOffsidePlayers.
+			self flagCoveredPlayers ].
 
 	"Maybe to do: If performance suffers, optimize by firing the announcements only if something really changed."
-	self announcer announce: STOffsideSwitchedAnnouncement new.
-	self announcer announce: STUncoveredSwitchedAnnouncement new.
-	self announcer announce:
-		(STOffsideLineChangedAnnouncement newWithOffsideX: self offsideX)
+	self gameAnnouncer
+		announce: STOffsideSwitchedAnnouncement new;
+		announce: STUncoveredSwitchedAnnouncement new;
+		announce:
+			(STOffsideLineChangedAnnouncement newWithOffsideX: self offsideX)
 ]
 
 { #category : 'accessing' }

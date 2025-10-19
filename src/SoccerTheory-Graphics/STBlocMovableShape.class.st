@@ -1,13 +1,14 @@
 "
-I am the abstract class for movable shapes.
+I am the abstract class for movable soccer shapes based on Bloc.
 "
 Class {
 	#name : 'STBlocMovableShape',
 	#superclass : 'BlElement',
+	#traits : 'STTMovableShape',
+	#classTraits : 'STTMovableShape classTrait',
 	#instVars : [
 		'squareExtent',
-		'graphicFactory',
-		'playFieldExtent'
+		'graphicFactory'
 	],
 	#category : 'SoccerTheory-Graphics-Bloc',
 	#package : 'SoccerTheory-Graphics',
@@ -60,7 +61,7 @@ STBlocMovableShape >> addMouseEventHandlers [
 			 on: BlDragEndEvent
 			 do: [ :anEvent |
 				 anEvent currentTarget removeChildWithId: #hovertext.
-				 self announcer announce:
+				 self gameAnnouncer announce:
 					 (self newMovedAnnouncementWithTarget: self limitPosition) ]).
 
 	self addEventHandler: (BlEventHandler
@@ -70,19 +71,6 @@ STBlocMovableShape >> addMouseEventHandlers [
 	self addEventHandler: (BlEventHandler
 			 on: BlFocusOutEvent
 			 do: [ :anEvent | self hideShadow ])
-]
-
-{ #category : 'private' }
-STBlocMovableShape >> announcer [
-	"Answer the announcer to send and receive announcements."
-
-	^ self ball announcer
-]
-
-{ #category : 'accessing' }
-STBlocMovableShape >> ball [
-
-	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
@@ -104,7 +92,8 @@ STBlocMovableShape >> centerPosition: aPosition [
 	Sometimes self extent returns here 0@0 instead of 18@18.
 	For this reason, the variable squareExtent is introduced."
 
-	self position: aPosition - (squareExtent / 2)
+	self position: aPosition - (squareExtent / 2).
+	self notifyPositionChanged
 ]
 
 { #category : 'private' }
@@ -159,53 +148,18 @@ STBlocMovableShape >> initialize [
 	self clipChildren: false "for hover text"
 ]
 
-{ #category : 'initialization' }
-STBlocMovableShape >> initializeEventHandling [
+{ #category : 'private' }
+STBlocMovableShape >> maximalPoint [
+	"Answer the maximal device coordinate."
 
-	self addEventHandlers.
-	self registerAtAnnouncer
+	^ self playFieldExtent
 ]
 
 { #category : 'private' }
-STBlocMovableShape >> limitPosition [
-	"Limit the current center position to the play field's extent if necessary. Answer the limited center position."
+STBlocMovableShape >> minimalPoint [
+	"Answer the maximal device coordinate."
 
-	| limitedPosition |
-	limitedPosition := self centerPosition
-		                   min: self playFieldExtent
-		                   max: 0 @ 0.
-	limitedPosition = self centerPosition ifFalse: [
-		self centerPosition: limitedPosition.
-		self notifyPositionChanged ].
-	^ limitedPosition
-]
-
-{ #category : 'accessing' }
-STBlocMovableShape >> name [
-	"Answer my name string."
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'private' }
-STBlocMovableShape >> newMovedAnnouncementWithTarget: aPoint [
-	"Answer the announcement that I have been moved to the given center position."
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'private' }
-STBlocMovableShape >> playFieldExtent [
-	"Answer the play field's extent"
-
-	^ playFieldExtent
-]
-
-{ #category : 'initialization' }
-STBlocMovableShape >> registerAtAnnouncer [
-	"Register to the announcements I am interested in."
-
-	^ self subclassResponsibility
+	^ 0 @ 0
 ]
 
 { #category : 'private' }
@@ -234,11 +188,10 @@ STBlocMovableShape >> stepTheArrowWay: aKeyboardKey [
 	offsetPoint ifNil: [ ^ self ].
 	newCenterPosition := self centerPosition + offsetPoint.
 	newCenterPosition := newCenterPosition
-		                     min: self playFieldExtent
-		                     max: 0 @ 0.
+		                     min: self maximalPoint
+		                     max: self minimalPoint.
 	self centerPosition: newCenterPosition.
-	self notifyPositionChanged.
-	self announcer announce:
+	self gameAnnouncer announce:
 		(self newMovedAnnouncementWithTarget: newCenterPosition)
 ]
 
@@ -253,6 +206,6 @@ STBlocMovableShape >> switchFocus [
 		ifFalse: [
 			self showShadow.
 			self requestFocus.
-			self announcer announce:
+			self gameAnnouncer announce:
 				(STMovableShapeSelectedAnnouncement newOn: self) ]
 ]

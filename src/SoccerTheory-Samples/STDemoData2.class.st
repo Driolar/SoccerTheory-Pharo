@@ -9,7 +9,7 @@ Class {
 { #category : 'instance creation' }
 STDemoData2 >> newSampleSceneWithFrame: aFrame [
 
-	^ STBlocSoccerSceneSampleBuilder newWithGameCommander:
+	^ STBlocSoccerSceneSample newWithGameCommander:
 		  (STGameCommander newWithFrame: aFrame)
 ]
 
@@ -21,7 +21,7 @@ STDemoData2 >> showFixture1 [
 
 	<demo>
 	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture1Frame)
-		  surface
+		  sceneView
 ]
 
 { #category : 'showing scenes' }
@@ -32,7 +32,7 @@ STDemoData2 >> showFixture2 [
 
 	<demo>
 	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture2Frame)
-		  surface
+		  sceneView
 ]
 
 { #category : 'showing scenes' }
@@ -43,7 +43,7 @@ STDemoData2 >> showFixture3 [
 
 	<demo>
 	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture3Frame)
-		  surface
+		  sceneView
 ]
 
 { #category : 'showing scenes' }
@@ -54,5 +54,5 @@ STDemoData2 >> showFixture4 [
 
 	<demo>
 	^ (self newSampleSceneWithFrame: STSoccerFrameBuilder fixture4Frame)
-		  surface
+		  sceneView
 ]

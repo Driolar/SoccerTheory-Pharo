@@ -13,9 +13,8 @@ Also I am pullable.
 Class {
 	#name : 'STBlocPlayerShape',
 	#superclass : 'STBlocMovableShape',
-	#instVars : [
-		'player'
-	],
+	#traits : 'STTPlayerShape',
+	#classTraits : 'STTPlayerShape classTrait',
 	#category : 'SoccerTheory-Graphics-Bloc',
 	#package : 'SoccerTheory-Graphics',
 	#tag : 'Bloc'
@@ -29,20 +28,6 @@ STBlocPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactor
 		  initializeForPlayer: aPlayer
 		  graphicFactory: aGraphicFactory
 		  playFieldExtent: aPoint
-]
-
-{ #category : 'accessing' }
-STBlocPlayerShape >> ball [
-
-	^ player ball
-]
-
-{ #category : 'private' }
-STBlocPlayerShape >> formattedPlayerPositionString [
-	"Answer the formatted string representing the model player's position."
-
-	^ '(' , (player position x printShowingDecimalPlaces: 1) , '@'
-	  , (player position y printShowingDecimalPlaces: 1) , ')'
 ]
 
 { #category : 'private' }
@@ -73,36 +58,22 @@ STBlocPlayerShape >> hideUncovered [
 	self removeChildWithId: #uncovered
 ]
 
-{ #category : 'private' }
-STBlocPlayerShape >> hoverTextString [
-	"Answer the string for the hover text element."
-
-	^ '#',self jerseyString , ' ' , self formattedPlayerPositionString
-]
-
 { #category : 'initialization' }
 STBlocPlayerShape >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactory playFieldExtent: aPoint [
 	"Initialize the shape instance for a given STPlayer and a graphic factory."
 
-	player := aSTPlayer.
+	self player: aSTPlayer.
 	graphicFactory := aSTGraphicFactory.
-	playFieldExtent := aPoint.
+	self playFieldExtent: aPoint.
 	self initializeEventHandling.
 
 	squareExtent := 18 @ 18.
 	self extent: squareExtent.
 	self background: self jerseyGradient.
-	player isGoalkeeper ifTrue: [
+	self player isGoalkeeper ifTrue: [
 		self addChild: (self goalkeeperElement position: 1 @ 1) ].
 	self updateOffside.
 	self updateUncovered
-]
-
-{ #category : 'private' }
-STBlocPlayerShape >> isOffside [
-	"Answer whether player is in offside or not."
-
-	^ player isOffside isNotNil and: [ player isOffside ]
 ]
 
 { #category : 'private' }
@@ -113,34 +84,13 @@ STBlocPlayerShape >> jerseyGradient [
 ]
 
 { #category : 'private' }
-STBlocPlayerShape >> jerseyNumber [ 
-	"Answer the players jersey number"
-
-	^player jerseyNumber
-]
-
-{ #category : 'private' }
-STBlocPlayerShape >> jerseyString [ 
-	"Answer the players jersey number asString"
-
-	^player jerseyNumber asString 
-]
-
-{ #category : 'accessing' }
-STBlocPlayerShape >> name [
-	"Answer my name string."
-
-	^ 'Player ' , self jerseyString , ' of ' , player teamName
-]
-
-{ #category : 'private' }
 STBlocPlayerShape >> newMovedAnnouncementWithTarget: aPoint [
 	"Answer the announcement that I have been moved to the given center position."
 
 	"Don't rely on self centerPosition here but use aPoint. Self centerposition may still answer the ancient position even after notifyPositionChanged. Timing problem?"
 
 	^ STPlayerShapeMovedAnnouncement
-		  newOnPlayer: player
+		  newOnPlayer: self player
 		  targetPosition: aPoint
 ]
 
@@ -155,20 +105,6 @@ STBlocPlayerShape >> offsideElement [
 					  flipY;
 					  apply;
 					  target ]
-]
-
-{ #category : 'initialization' }
-STBlocPlayerShape >> registerAtAnnouncer [
-	"Register to the announcements I am interested in."
-
-	self announcer
-		when: STOffsideSwitchedAnnouncement
-		do: [ :ann | self updateOffside ]
-		for: self.
-	self announcer
-		when: STUncoveredSwitchedAnnouncement
-		do: [ :ann | self updateUncovered ]
-		for: self
 ]
 
 { #category : 'showing' }
@@ -197,13 +133,6 @@ STBlocPlayerShape >> showUncovered [
 ]
 
 { #category : 'private' }
-STBlocPlayerShape >> team [
-	"Answer my STTeam."
-
-	^ player team
-]
-
-{ #category : 'private' }
 STBlocPlayerShape >> uncoveredElement [
 	"Answer the uncovered BlElement."
 
@@ -228,7 +157,7 @@ STBlocPlayerShape >> updateUncovered [
 	self isOffside
 		ifTrue: [ self hideUncovered ]
 		ifFalse: [
-			(player isCovered isNotNil and: [ player isCovered not ])
-				ifTrue: [ self showUncovered ]
-				ifFalse: [ self hideUncovered ] ]
+				self isUncovered
+					ifTrue: [ self showUncovered ]
+					ifFalse: [ self hideUncovered ] ]
 ]

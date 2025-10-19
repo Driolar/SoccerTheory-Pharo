@@ -1,14 +1,15 @@
 "
-I am the plug to connect a STSoccerSceneBuilder with the corresponding presenter.
-I care on rendering the scene in the corresponding SpPresenter.  
+I am the plug to connect a STSoccerScene (subclass) with the corresponding Spresenter (subclass).
+I care on rendering the scene in the corresponding presenter.
 "
 Class {
 	#name : 'STSoccerScenePlug',
 	#superclass : 'Object',
 	#instVars : [
 		'viewPresenterClass',
-		'sceneBuilderClass',
-		'refreshBlock'
+		'sceneClass',
+		'renderBlock',
+		'legendPresenterClass'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -30,34 +31,43 @@ STSoccerScenePlug class >> newRoassal [
 { #category : 'initialization' }
 STSoccerScenePlug >> initializeBloc [
 
-	sceneBuilderClass := STBlocSoccerSceneBuilder.
+	sceneClass := STBlocSoccerScene.
 	viewPresenterClass := SpBlSpaceInMorphPresenter.
-	refreshBlock := [ :spaceInMorphPresenter :blocSoccerSceneBuilder |
-	                blocSoccerSceneBuilder refreshView:
-		                spaceInMorphPresenter space ]
+	legendPresenterClass := STBlocLegendPresenter.
+	renderBlock := [ :spaceInMorphPresenter :blocSoccerScene |
+	               blocSoccerScene renderViewIn:
+		               spaceInMorphPresenter space ]
 ]
 
 { #category : 'initialization' }
 STSoccerScenePlug >> initializeRoassal [
 
-	sceneBuilderClass := STRoassalSoccerSceneBuilder.
+	sceneClass := STRoassalSoccerScene.
 	viewPresenterClass := SpRoassalPresenter.
-	refreshBlock := [ :roassalPresenter :roassalSoccerSceneBuilder |
-		                roassalPresenter script: [ :canvas |
-			                roassalSoccerSceneBuilder refreshView: canvas ] ]
+	legendPresenterClass := STRoassalLegendPresenter.
+	renderBlock := [ :roassalPresenter :roassalSoccerScene |
+		               roassalPresenter script: [ :canvas |
+			               roassalSoccerScene renderViewIn: canvas ].
+		               roassalSoccerScene startAnnouncements ]
+]
+
+{ #category : 'accessing' }
+STSoccerScenePlug >> legendPresenterClass [
+
+	^ legendPresenterClass
 ]
 
 { #category : 'instance creation' }
 STSoccerScenePlug >> newSceneWithGameCommander: aSTGameCommander [
 	"Answer a new STSoccerSceneBuilder subclass instance."
 
-	^ sceneBuilderClass newWithGameCommander: aSTGameCommander
+	^ sceneClass newWithGameCommander: aSTGameCommander
 ]
 
 { #category : 'api' }
-STSoccerScenePlug >> refreshViewOnPresenter: aSpPresenter sceneBuilder: sceneBuilder [
+STSoccerScenePlug >> refreshViewOnPresenter: aSpPresenter scene: scene [
 
-	refreshBlock value: aSpPresenter value: sceneBuilder
+	renderBlock value: aSpPresenter value: scene
 ]
 
 { #category : 'accessing' }

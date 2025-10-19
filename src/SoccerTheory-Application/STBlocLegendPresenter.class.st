@@ -1,8 +1,8 @@
 "
-I am the legend presenter for STFrameEditor and STSequencePlayer.
+I am the legend presenter for STFrameEditor (Bloc based) and STSequencePlayer.
 "
 Class {
-	#name : 'STLegendPresenter',
+	#name : 'STBlocLegendPresenter',
 	#superclass : 'SpPresenter',
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -10,20 +10,20 @@ Class {
 }
 
 { #category : 'instance creation' }
-STLegendPresenter class >> newWithGraphicFactory: aGraphicFactory [
+STBlocLegendPresenter class >> newWithGraphicFactory: aGraphicFactory [
 
 	^ self new initializeWith: aGraphicFactory
 ]
 
 { #category : 'private' }
-STLegendPresenter >> attackLineFormForLegend [
+STBlocLegendPresenter >> attackLineFormForLegend [
 	"Answer a sample attack line for legend as Form."
 
 ^ self legendFormForStrategicLineClass: STBlocAttackLineShape
 ]
 
 { #category : 'presenters' }
-STLegendPresenter >> initializeWith: aGraphicFactory [
+STBlocLegendPresenter >> initializeWith: aGraphicFactory [
 
 	self layout: (SpBoxLayout newLeftToRight
 			 hAlignCenter;
@@ -54,7 +54,7 @@ STLegendPresenter >> initializeWith: aGraphicFactory [
 ]
 
 { #category : 'private' }
-STLegendPresenter >> legendFormForStrategicLineClass: aClass [
+STBlocLegendPresenter >> legendFormForStrategicLineClass: aClass [
 	"Answer a sample strategic line for the legend as Form."
 
 	| strategicLine |
@@ -76,7 +76,7 @@ STLegendPresenter >> legendFormForStrategicLineClass: aClass [
 ]
 
 { #category : 'private' }
-STLegendPresenter >> offsideLineFormForLegend [
+STBlocLegendPresenter >> offsideLineFormForLegend [
 	"Answer a sample offside line for legend as Form."
 
 	^ self legendFormForStrategicLineClass: STBlocOffsideLineShape

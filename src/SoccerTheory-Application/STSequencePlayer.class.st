@@ -200,7 +200,7 @@ STSequencePlayer >> isPlaying [
 STSequencePlayer >> legendPresenter [
 	"Answer the SpPresenter containing the legend."
 
-	^ STLegendPresenter newWithGraphicFactory: STGraphicFactory new
+	^ STBlocLegendPresenter newWithGraphicFactory: STGraphicFactory new
 ]
 
 { #category : 'loading' }
@@ -234,7 +234,7 @@ STSequencePlayer >> loadFrame: aFrame [
 		officialTimeLabel label: officialTime ].
 	framesPerSecond := aFrame framesPerSecond.
 
-	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
+	self scenePlug refreshViewOnPresenter: board scene: scene
 ]
 
 { #category : 'initialization' }

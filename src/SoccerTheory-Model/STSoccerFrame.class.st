@@ -34,13 +34,6 @@ STSoccerFrame class >> newWithTeamLeft: nameOfTeamLeft teamRight: nameOfTeamRigh
 ]
 
 { #category : 'accessing' }
-STSoccerFrame >> announcer [ 
-	"Answer the unique announcer (singleton)"
-
-	^self ball announcer 
-]
-
-{ #category : 'accessing' }
 STSoccerFrame >> ball [ 
 	^ ball
 ]
@@ -63,6 +56,13 @@ STSoccerFrame >> framesPerSecond [
 STSoccerFrame >> framesPerSecond: aString [
 
 	framesPerSecond := aString
+]
+
+{ #category : 'accessing' }
+STSoccerFrame >> gameAnnouncer [
+	"Answer the unique announcer (singleton)"
+
+	^ self ball gameAnnouncer
 ]
 
 { #category : 'initialization' }

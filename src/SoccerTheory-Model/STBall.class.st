@@ -11,7 +11,7 @@ Class {
 	#instVars : [
 		'position',
 		'owningTeam',
-		'announcer'
+		'gameAnnouncer'
 	],
 	#category : 'SoccerTheory-Model-Game',
 	#package : 'SoccerTheory-Model',
@@ -24,11 +24,11 @@ STBall class >> newWithPosition: aPoint [
 ]
 
 { #category : 'accessing' }
-STBall >> announcer [
+STBall >> gameAnnouncer [
 	"Answer the unique global announcer (singleton)."
 
-	announcer ifNil: [ announcer := Announcer new ].
-	^ announcer
+	gameAnnouncer ifNil: [ gameAnnouncer := Announcer new ].
+	^ gameAnnouncer
 ]
 
 { #category : 'initialization' }

@@ -31,7 +31,7 @@ STDemoData >> newEmptyFrame [
 { #category : 'private' }
 STDemoData >> newSampleSceneWithFrame: aFrame [
 
-	^ STBlocSoccerSceneSampleBuilder newWithGameCommander:
+	^ STBlocSoccerSceneSample newWithGameCommander:
 		  (STGameCommander newWithFrame: aFrame)
 ]
 
@@ -47,7 +47,7 @@ STDemoData >> newStartFrame [
 { #category : 'private' }
 STDemoData >> sampleDeviceExtent [
 
-	^ STBlocSoccerSceneSampleBuilder sampleDeviceExtent
+	^ STBlocSoccerSceneSample sampleDeviceExtent
 ]
 
 { #category : 'show icons' }
@@ -94,7 +94,7 @@ STDemoData >> showDefenceLine [
 STDemoData >> showEmptyPitch [
 
 	<demo>
-	^ (self newSampleSceneWithFrame: self newEmptyFrame) surface
+	^ (self newSampleSceneWithFrame: self newEmptyFrame) sceneView
 ]
 
 { #category : 'showing shapes' }
@@ -210,7 +210,7 @@ STDemoData >> showPitchWithPlayerAtBottomLeft [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene surface
+	^ soccerScene sceneView
 ]
 
 { #category : 'showing scenes' }
@@ -228,7 +228,7 @@ STDemoData >> showPitchWithPlayerAtBottomRight [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene surface
+	^ soccerScene sceneView
 ]
 
 { #category : 'showing scenes' }
@@ -246,7 +246,7 @@ STDemoData >> showPitchWithPlayerAtTopLeft [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene surface
+	^ soccerScene sceneView
 ]
 
 { #category : 'showing scenes' }
@@ -263,7 +263,7 @@ STDemoData >> showPitchWithPlayerAtTopRight [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene surface
+	^ soccerScene sceneView
 ]
 
 { #category : 'showing scenes' }
@@ -280,14 +280,14 @@ STDemoData >> showPitchWithPlayerInMiddle [
 		          frame: soccerFrame
 		          number: 2.
 	soccerScene addNewShapeOnPlayer: player.
-	^ soccerScene surface
+	^ soccerScene sceneView
 ]
 
 { #category : 'showing scenes' }
 STDemoData >> showStartPitch [
 
 	<demo>
-	^ (self newSampleSceneWithFrame: self newStartFrame) surface
+	^ (self newSampleSceneWithFrame: self newStartFrame) sceneView
 ]
 
 { #category : 'show icons' }

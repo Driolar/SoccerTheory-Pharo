@@ -29,12 +29,6 @@ Class {
 	#tag : 'Presenter'
 }
 
-{ #category : 'TOREMOVE' }
-STSoccerBoardPresenter class >> aboutText [
-
-	self subclassResponsibility 
-]
-
 { #category : 'instance creation' }
 STSoccerBoardPresenter class >> open [
 	"Open the Soccer Theory board application."
@@ -53,13 +47,6 @@ STSoccerBoardPresenter >> addNewPlayerToTeam: aSTTeam [
 		'new player #' , player jerseyNumber displayString , ' ('
 		, player teamName , ') added on '
 		, (self formattedStringForWorldPosition: player position)
-]
-
-{ #category : 'accessing' }
-STSoccerBoardPresenter >> announcer [
-	"Answer the announcer I use to subscribe for announcements."
-
-	^ scene announcer
 ]
 
 { #category : 'layout' }
@@ -113,6 +100,13 @@ STSoccerBoardPresenter >> frameControlsLayout [
 	"Answer the layout for frame controls."
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+STSoccerBoardPresenter >> gameAnnouncer [
+	"Answer the announcer I use to subscribe for announcements."
+
+	^ scene gameAnnouncer
 ]
 
 { #category : 'accessing' }
@@ -187,7 +181,8 @@ STSoccerBoardPresenter >> initializePresenters [
 STSoccerBoardPresenter >> legendPresenter [
 	"Answer the SpPresenter containing the legend."
 
-	^ STLegendPresenter newWithGraphicFactory: graphicFactory
+	^ self scenePlug legendPresenterClass newWithGraphicFactory:
+		  graphicFactory
 ]
 
 { #category : 'loading' }
@@ -242,36 +237,37 @@ STSoccerBoardPresenter >> openingFilePresenter [
 STSoccerBoardPresenter >> refreshBoard [
 	"Refresh scene depending on scene and board classes."
 
-	scene := self scenePlug newSceneWithGameCommander: gameCommander.
-	self scenePlug refreshViewOnPresenter: board sceneBuilder: scene
+	scene := self scenePlug
+		         newSceneWithGameCommander: gameCommander.
+	self scenePlug refreshViewOnPresenter: board scene: scene
 ]
 
 { #category : 'initialization' }
 STSoccerBoardPresenter >> registerAtAnnouncer [
 	"Register to the announcements I am interested in."
 
-	self announcer
+	self gameAnnouncer
 		when: STPlayerShapeMovedAnnouncement
 		do: [ :ann |
-			| player targetWorldPoint |
-			player := ann player.
-			targetWorldPoint := scene toWorld: ann targetDevicePoint.
-			statusbar pushMessage:
-				'Player #' , player jerseyNumber displayString , ' ('
-				, player teamName , ') moved to '
-				, (self formattedStringForWorldPosition: targetWorldPoint) ]
+				| player targetWorldPoint |
+				player := ann player.
+				targetWorldPoint := scene toWorld: ann targetDevicePoint.
+				statusbar pushMessage:
+					'Player #' , player jerseyNumber displayString , ' ('
+					, player teamName , ') moved to '
+					, (self formattedStringForWorldPosition: targetWorldPoint) ]
 		for: self.
 
-	self announcer
+	self gameAnnouncer
 		when: STBallShapeMovedAnnouncement
 		do: [ :ann |
-			| targetWorldPoint |
-			targetWorldPoint := scene toWorld: ann targetDevicePoint.
-			statusbar pushMessage: 'Ball moved to '
-				, (self formattedStringForWorldPosition: targetWorldPoint) ]
+				| targetWorldPoint |
+				targetWorldPoint := scene toWorld: ann targetDevicePoint.
+				statusbar pushMessage: 'Ball moved to '
+					, (self formattedStringForWorldPosition: targetWorldPoint) ]
 		for: self.
 
-	self announcer
+	self gameAnnouncer
 		when: STMovableShapeSelectedAnnouncement
 		do: [ :ann |
 		statusbar pushMessage: ann movableShape name , ' selected.' ]

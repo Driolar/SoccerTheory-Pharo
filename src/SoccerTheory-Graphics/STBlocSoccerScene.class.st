@@ -5,12 +5,12 @@ Currently using me: STFrameEditor and STSequencePlayer.
 
 "
 Class {
-	#name : 'STBlocSoccerSceneBuilder',
-	#superclass : 'STSoccerSceneBuilder',
+	#name : 'STBlocSoccerScene',
+	#superclass : 'STSoccerScene',
 	#instVars : [
 		'graphicFactory',
-		'surface',
-		'playField'
+		'playField',
+		'sceneView'
 	],
 	#category : 'SoccerTheory-Graphics-Bloc',
 	#package : 'SoccerTheory-Graphics',
@@ -18,31 +18,14 @@ Class {
 }
 
 { #category : 'viewing' }
-STBlocSoccerSceneBuilder class >> viewPresenterClass [
+STBlocSoccerScene class >> viewPresenterClass [
 	"Answer the SpPresenter class for presenting my views."
 
 	^ SpBlSpaceInMorphPresenter
 ]
 
 { #category : 'creation' }
-STBlocSoccerSceneBuilder >> addNewShapeOnPlayer: aPlayer [
-	"Add a new STPlayerBlElement on a STPlayer."
-
-	| playerShape centerPoint |
-	playerShape := STBlocPlayerShape
-		               newWithPlayer: aPlayer
-		               graphicFactory: graphicFactory
-		               playFieldExtent: self playFieldExtent.
-	centerPoint := transformer toDevice: aPlayer position.
-	playField
-		addChild: (playerShape
-				 centerPosition: centerPoint;
-				 yourself)
-		before: self ballShape "The ball must always be visible."
-]
-
-{ #category : 'creation' }
-STBlocSoccerSceneBuilder >> addNewShapesOnBall: aBall [
+STBlocSoccerScene >> addNewShapeOnBall: aBall [
 	"Add a new STBallShape on a STBall and also the corresponding attack line."
 
 	| centerPoint ballShape |
@@ -58,33 +41,39 @@ STBlocSoccerSceneBuilder >> addNewShapesOnBall: aBall [
 	self updateAttackLinePositionX: centerPoint x
 ]
 
-{ #category : 'creation' }
-STBlocSoccerSceneBuilder >> addShapes [
-	"Add all the shapes from the soccer frame."
+{ #category : 'api' }
+STBlocSoccerScene >> addNewShapeOnPlayer: aPlayer [
+	"Add a new STPlayerBlElement on a STPlayer."
 
-	self ball ifNotNil: [ :ball | self addNewShapesOnBall: ball ].
-	self teamLeft players do: [ :player |
-		self addNewShapeOnPlayer: player ].
-	self teamRight players do: [ :player |
-		self addNewShapeOnPlayer: player ]
+	| playerShape centerPoint |
+	playerShape := STBlocPlayerShape
+		               newWithPlayer: aPlayer
+		               graphicFactory: graphicFactory
+		               playFieldExtent: self playFieldExtent.
+	centerPoint := transformer toDevice: aPlayer position.
+	playField
+		addChild: (playerShape
+				 centerPosition: centerPoint;
+				 yourself)
+		before: self ballShape "The ball must always be visible."
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> attackLineElement [
+STBlocSoccerScene >> attackLineElement [
 	"Answer the attack line BlElement if present, otherwise nil."
 
 	^ playField childWithId: #attackLine ifNone: [ nil ]
 ]
 
 { #category : 'private' }
-STBlocSoccerSceneBuilder >> ballShape [
+STBlocSoccerScene >> ballShape [
 	"Answer the ball shape."
 
 	^ playField childWithId: #ballShape
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> goalLeftElement [
+STBlocSoccerScene >> goalLeftElement [
 	"Answer the BlElement representing the left goal."
 
 	| goalPosition hoverOverEventHandler hoverOutEventHandler hoverText |
@@ -120,7 +109,7 @@ STBlocSoccerSceneBuilder >> goalLeftElement [
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> goalRightElement [
+STBlocSoccerScene >> goalRightElement [
 	"Answer the BlElement representing the right goal."
 
 	| goalPosition hoverOverEventHandler hoverOutEventHandler hoverText |
@@ -156,7 +145,7 @@ STBlocSoccerSceneBuilder >> goalRightElement [
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> hoverTextElementWith: aString [
+STBlocSoccerScene >> hoverTextElementWith: aString [
 
 	^ ((BlRopedText string: aString) fontSize: 11) asElement
 		  background: Color white;
@@ -164,62 +153,29 @@ STBlocSoccerSceneBuilder >> hoverTextElementWith: aString [
 ]
 
 { #category : 'initialization' }
-STBlocSoccerSceneBuilder >> initialize [
+STBlocSoccerScene >> initialize [
 
 	super initialize.
 	graphicFactory := STGraphicFactory new.
-	surface := BlElement new
+	sceneView := BlElement new
 ]
 
 { #category : 'initialization' }
-STBlocSoccerSceneBuilder >> initializeAnnouncements [
-	"Initialize the announcements."
-
-	self registerAtAnnouncer.
-	self notifyCovering
-]
-
-{ #category : 'initialization' }
-STBlocSoccerSceneBuilder >> initializeGraphics [
-	"Initialize the graphical components."
-
-	playField := BlElement new extent: self playFieldExtent.
-	self initializeShapes.
-]
-
-{ #category : 'initialization' }
-STBlocSoccerSceneBuilder >> initializeShapes [
-	"Initialize all my shapes."
-
-	self paintPitch.
-	self paintGoals.
-	self addShapes
-]
-
-{ #category : 'initialization' }
-STBlocSoccerSceneBuilder >> initializeTransformerWithWorldExtent: aPoint [
+STBlocSoccerScene >> initializeTransformerWithWorldExtent: aPoint [
 
 	super initializeTransformerWithWorldExtent: aPoint.
 	transformer setDeviceToBloc
 ]
 
-{ #category : 'initialization' }
-STBlocSoccerSceneBuilder >> initializeWithGameCommander: aSTGameCommander [
-
-	super initializeWithGameCommander: aSTGameCommander.
-	self initializeGraphics.
-	self initializeAnnouncements
-]
-
 { #category : 'private' }
-STBlocSoccerSceneBuilder >> offsideLine [
+STBlocSoccerScene >> offsideLine [
 	"Answer the offside line if present, otherwise nil."
 
 	^ playField childWithId: #offsideLine ifNone: [ nil ]
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> paintGoals [
+STBlocSoccerScene >> paintGoals [
 	"Paint the left and the right goal on the pitch's border."
 
 	playField
@@ -228,20 +184,20 @@ STBlocSoccerSceneBuilder >> paintGoals [
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> paintGreen [
+STBlocSoccerScene >> paintGreen [
 	"Paint the green lawn."
 
-	surface extent: self playFieldExtent + self borderExtent.
-	surface background: (Color fromHexString: '66CC66'). "Moderate lime green border"
+	sceneView extent: self totalExtent.
+	sceneView background: self pitchSurroundingColor.
 
-	playField background: (Color fromHexString: '009666'). "dark cyan - lime green"
+	playField background: self pitchColor.
 	playField position: self borderExtent / 2.
 	playField clipChildren: false.
-	surface addChild: playField
+	sceneView addChild: playField
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> paintMiddleLine [
+STBlocSoccerScene >> paintMiddleLine [
 	"Paint the middle line of the soccer pitch."
 
 	| verticalMiddleLine horizontalMiddleLine middlePoint startPoint endPoint |
@@ -261,71 +217,61 @@ STBlocSoccerSceneBuilder >> paintMiddleLine [
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> paintPitch [
+STBlocSoccerScene >> paintPitch [
 	"Paint the pitch's green and middle line."
 
 	self paintGreen.
 	self paintMiddleLine
 ]
 
-{ #category : 'api' }
-STBlocSoccerSceneBuilder >> refreshView: aBlSpace [
+{ #category : 'creation' }
+STBlocSoccerScene >> renderMovableShapes [
+	"Add all the shapes from the soccer frame."
 
-	aBlSpace root removeChildren.
-	aBlSpace setExtent: self totalExtent.
-	aBlSpace root addChild: self surface
+	self ball ifNotNil: [ :ball | self addNewShapeOnBall: ball ].
+	self teamLeft players do: [ :player |
+		self addNewShapeOnPlayer: player ].
+	self teamRight players do: [ :player |
+		self addNewShapeOnPlayer: player ]
 ]
 
 { #category : 'initialization' }
-STBlocSoccerSceneBuilder >> registerAtAnnouncer [
-	"Register to the announcements I am interested in."
+STBlocSoccerScene >> renderShapes [
+	"Render all my shapes."
 
-	self announcer
-		when: STPlayerShapeMovedAnnouncement
-		do: [ :ann |
-				| player targetWorldPoint |
-				player := ann player.
-				targetWorldPoint := self toWorld: ann targetDevicePoint.
-				gameCommander movePlayer: player toPosition: targetWorldPoint ]
-		for: self.
+	playField := BlElement new extent: self playFieldExtent.
+	self paintPitch.
+	self paintGoals.
+	self renderMovableShapes
+]
 
-	self announcer
-		when: STBallShapeMovedAnnouncement
-		do: [ :ann |
-				| targetWorldPoint |
-				targetWorldPoint := self toWorld: ann targetDevicePoint.
-				gameCommander moveBallToPosition: targetWorldPoint.
+{ #category : 'api' }
+STBlocSoccerScene >> renderViewIn: aBlSpace [
+	"Repopulate the play field with the current shapes."
 
-				self updateAttackLinePositionX: ann targetDevicePoint x ]
-		for: self.
-
-	self announcer
-		when: STBallPossessionChangedAnnouncement
-		do: [ :ann | self updateAttackLineAppearance ]
-		for: self.
-
-	self announcer
-		when: STOffsideLineChangedAnnouncement
-		do: [ :ann | self updateOffsideLinePositionX: ann offsideX ]
-		for: self
+	aBlSpace root removeChildren.
+	aBlSpace setExtent: self totalExtent.
+	aBlSpace root addChild: self sceneView.
+	self renderShapes.
+	self startAnnouncements
 ]
 
 { #category : 'creation' }
-STBlocSoccerSceneBuilder >> surface [
-	"Answer the whole surface BlElement."
+STBlocSoccerScene >> sceneView [
+	"Answer the whole rendered view as BlElement."
 
-	^ surface
+	^ sceneView
 ]
 
-{ #category : 'private' }
-STBlocSoccerSceneBuilder >> updateAttackLineAppearance [
+{ #category : 'paint' }
+STBlocSoccerScene >> updateAttackLineAppearance [
 	"Update the attack line appearance depending on the attacking team."
 
 	self attackLineElement changeAppearanceForAttackingTeam: self attackingTeam
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> updateAttackLinePositionX: deviceX [
+STBlocSoccerScene >> updateAttackLinePositionX: deviceX [
 	"Lazy create and add the attack line shape and update its position."
 
 	playField
@@ -344,7 +290,7 @@ STBlocSoccerSceneBuilder >> updateAttackLinePositionX: deviceX [
 ]
 
 { #category : 'paint' }
-STBlocSoccerSceneBuilder >> updateOffsideLinePositionX: worldX [
+STBlocSoccerScene >> updateOffsideLinePositionX: worldX [
 	"Lazy create and add the offside line shape and update its position."
 
 	| deviceX |
