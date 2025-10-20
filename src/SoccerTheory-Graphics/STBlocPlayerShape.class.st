@@ -21,13 +21,13 @@ Class {
 }
 
 { #category : 'instance creation' }
-STBlocPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory playFieldExtent: aPoint [
-	"Answer a new player shape for the given STPlayer, STGraphicFactory and play field extent."
+STBlocPlayerShape class >> newWithPlayer: aPlayer graphicFactory: aGraphicFactory coordinatesTransformer: aSTCoordinatesTransformer [
+	"Initialize with a STPlayer, a STGraphicFactory and the coordinates transformer."
 
 	^ self new
 		  initializeForPlayer: aPlayer
 		  graphicFactory: aGraphicFactory
-		  playFieldExtent: aPoint
+		  coordinatesTransformer: aSTCoordinatesTransformer
 ]
 
 { #category : 'private' }
@@ -59,12 +59,12 @@ STBlocPlayerShape >> hideUncovered [
 ]
 
 { #category : 'initialization' }
-STBlocPlayerShape >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactory playFieldExtent: aPoint [
+STBlocPlayerShape >> initializeForPlayer: aSTPlayer graphicFactory: aSTGraphicFactory coordinatesTransformer: aSTCoordinatesTransformer [
 	"Initialize the shape instance for a given STPlayer and a graphic factory."
 
 	self player: aSTPlayer.
 	graphicFactory := aSTGraphicFactory.
-	self playFieldExtent: aPoint.
+	self transformer: aSTCoordinatesTransformer.
 	self initializeEventHandling.
 
 	squareExtent := 18 @ 18.

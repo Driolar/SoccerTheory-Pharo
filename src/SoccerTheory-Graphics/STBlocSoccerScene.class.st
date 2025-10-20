@@ -32,7 +32,7 @@ STBlocSoccerScene >> addNewShapeOnBall: aBall [
 	ballShape := STBlocBallShape
 		             newForBall: aBall
 		             graphicFactory: graphicFactory
-		             playFieldExtent: self playFieldExtent.
+		             coordinatesTransformer: transformer.
 	centerPoint := transformer toDevice: aBall position.
 	playField
 		addChild: (ballShape centerPosition: centerPoint)
@@ -49,7 +49,7 @@ STBlocSoccerScene >> addNewShapeOnPlayer: aPlayer [
 	playerShape := STBlocPlayerShape
 		               newWithPlayer: aPlayer
 		               graphicFactory: graphicFactory
-		               playFieldExtent: self playFieldExtent.
+		               coordinatesTransformer: transformer.
 	centerPoint := transformer toDevice: aPlayer position.
 	playField
 		addChild: (playerShape

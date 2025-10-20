@@ -21,11 +21,24 @@ STDemoData >> defaultOutfieldPlayer [
 
 { #category : 'showing scenes' }
 STDemoData >> newEmptyFrame [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
 
 	^ STSoccerFrameBuilder emptyFrameWithPitch: STPitch newDefault
+]
+
+{ #category : 'private' }
+STDemoData >> newPlayer: aPlayer graphicFactory: aGraphicFactory [
+
+	^ STBlocPlayerShape
+		  newWithPlayer: aPlayer
+		  graphicFactory: aGraphicFactory
+		  coordinatesTransformer:
+		  self newSampleSceneWithEmptyFrame transformer
+]
+
+{ #category : 'private' }
+STDemoData >> newSampleSceneWithEmptyFrame [
+
+	^ self newSampleSceneWithFrame: self newEmptyFrame
 ]
 
 { #category : 'private' }
@@ -37,9 +50,6 @@ STDemoData >> newSampleSceneWithFrame: aFrame [
 
 { #category : 'showing scenes' }
 STDemoData >> newStartFrame [
-	"comment stating purpose of instance-side method"
-
-	"scope: class-variables  &  instance-variables"
 
 	^ STSoccerFrameBuilder startFrameWithPitch: STPitch newDefault
 ]
@@ -64,20 +74,20 @@ STDemoData >> showAttackLine [
 STDemoData >> showBall [
 
 	<demo>
+	| scene |
+	scene := self newSampleSceneWithEmptyFrame.
+
 	^ STBlocBallShape
-		  newForBall: self newEmptyFrame ball
+		  newForBall: scene ball
 		  graphicFactory: STGraphicFactory new
-		  playFieldExtent: self sampleDeviceExtent
+		  coordinatesTransformer: scene transformer
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showBallWithShadow [
 
 	<demo>
-	^ (STBlocBallShape
-		   newForBall: self newEmptyFrame ball
-		   graphicFactory: STGraphicFactory new
-		   playFieldExtent: self sampleDeviceExtent) showShadow
+	^ self showBall showShadow
 ]
 
 { #category : 'show icons' }
@@ -94,59 +104,55 @@ STDemoData >> showDefenceLine [
 STDemoData >> showEmptyPitch [
 
 	<demo>
-	^ (self newSampleSceneWithFrame: self newEmptyFrame) sceneView
+	^ self newSampleSceneWithEmptyFrame sceneView
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showGoalkeeperOffside [
 
 	<demo>
-	| player |
-	player := self defaultOutfieldPlayer.
-	player makeGoalkeeper.
-	^ (STBlocPlayerShape
-		   newWithPlayer: player
-		   graphicFactory: self symbolFactory
-		   playFieldExtent: self sampleDeviceExtent) showOffside
+	^ self showGoalkeeperOffsideWithGraphicFactory: self symbolFactory
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showGoalkeeperOffside2 [
 
 	<demo>
+	^ self showGoalkeeperOffsideWithGraphicFactory: self symbolFactory2
+]
+
+{ #category : 'private' }
+STDemoData >> showGoalkeeperOffsideWithGraphicFactory: aSTGraphicFactory [
+
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STBlocPlayerShape
-		   newWithPlayer: player
-		   graphicFactory: self symbolFactory2
-		   playFieldExtent: self sampleDeviceExtent) showOffside
+	^ (self newPlayer: player graphicFactory: aSTGraphicFactory)
+		  showOffside
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showGoalkeeperUncovered [
 
 	<demo>
-	| player |
-	player := self defaultOutfieldPlayer.
-	player makeGoalkeeper.
-	^ (STBlocPlayerShape
-		   newWithPlayer: player
-		   graphicFactory: self symbolFactory
-		   playFieldExtent: self sampleDeviceExtent) showUncovered
+	^ self showGoalkeeperUncoveredWithGraphicFactory: self symbolFactory
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showGoalkeeperUncovered2 [
 
 	<demo>
+	^ self showGoalkeeperUncoveredWithGraphicFactory: self symbolFactory2
+]
+
+{ #category : 'private' }
+STDemoData >> showGoalkeeperUncoveredWithGraphicFactory: aSTGraphicFactory [
+
 	| player |
 	player := self defaultOutfieldPlayer.
 	player makeGoalkeeper.
-	^ (STBlocPlayerShape
-		   newWithPlayer: player
-		   graphicFactory: self symbolFactory2
-		   playFieldExtent: self sampleDeviceExtent) showUncovered
+	^ (self newPlayer: player graphicFactory: aSTGraphicFactory)
+		  showUncovered
 ]
 
 { #category : 'show icons' }
@@ -160,40 +166,36 @@ STDemoData >> showIconForBall [
 STDemoData >> showOutfieldPlayerOffside [
 
 	<demo>
-	^ (STBlocPlayerShape
-		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory
-		   playFieldExtent: self sampleDeviceExtent) showOffside
+	^ (self
+		   newPlayer: self defaultOutfieldPlayer
+		   graphicFactory: self symbolFactory) showOffside
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showOutfieldPlayerOffside2 [
 
 	<demo>
-	^ (STBlocPlayerShape
-		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory2
-		   playFieldExtent: self sampleDeviceExtent) showOffside
+	^ (self
+		   newPlayer: self defaultOutfieldPlayer
+		   graphicFactory: self symbolFactory2) showOffside
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showOutfieldPlayerUncovered [
 
 	<demo>
-	^ (STBlocPlayerShape
-		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory
-		   playFieldExtent: self sampleDeviceExtent) showUncovered
+	^ (self
+		   newPlayer: self defaultOutfieldPlayer
+		   graphicFactory: self symbolFactory) showUncovered
 ]
 
 { #category : 'showing shapes' }
 STDemoData >> showOutfieldPlayerUncovered2 [
 
 	<demo>
-	^ (STBlocPlayerShape
-		   newWithPlayer: self defaultOutfieldPlayer
-		   graphicFactory: self symbolFactory2
-		   playFieldExtent: self sampleDeviceExtent) showUncovered
+	^ (self
+		   newPlayer: self defaultOutfieldPlayer
+		   graphicFactory: self symbolFactory2) showUncovered
 ]
 
 { #category : 'showing scenes' }

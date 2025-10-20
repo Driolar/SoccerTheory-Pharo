@@ -68,6 +68,22 @@ STCoordinatesTransformer >> initializeWithWorldExtent: worldPoint deviceExtent: 
 	deviceExtent := devicePoint 
 ]
 
+{ #category : 'accessing' }
+STCoordinatesTransformer >> maximalDevicePoint [
+
+	^ isDeviceOriginTopLeft
+		  ifTrue: [ deviceExtent ]
+		  ifFalse: [ deviceExtent // 2 ]
+]
+
+{ #category : 'accessing' }
+STCoordinatesTransformer >> minimalDevicePoint [
+
+	^ isDeviceOriginTopLeft
+		  ifTrue: [ 0 @ 0 ]
+		  ifFalse: [ (deviceExtent // 2) negated ]
+]
+
 { #category : 'api - transformation' }
 STCoordinatesTransformer >> scaleDevicePoint: aPoint [
 	"Scale device Point to world Point."

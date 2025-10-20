@@ -11,7 +11,7 @@ Class {
 	#tag : 'Basic'
 }
 
-{ #category : 'forms' }
+{ #category : 'Form' }
 STGraphicFactory >> ballForm [
 	"Answer a ball Form."
 
@@ -71,22 +71,14 @@ STGraphicFactory >> ballForm [
 		  offset: 0 @ 0
 ]
 
-{ #category : 'private' }
-STGraphicFactory >> goalkeeperCircle [ 
-
-	^ RSCircle new
-		  radius: 9;
-		  yourself
-]
-
-{ #category : 'accessing' }
+{ #category : 'Bloc' }
 STGraphicFactory >> goalkeeperElement [
 	"Answer the BlElement representing the goalkeeper."
 
 	^ self goalkeeperForm asElement position: 1 asPoint 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Form' }
 STGraphicFactory >> goalkeeperForm [
 	"Answer the Form representing the goalkeeper."
 
@@ -149,14 +141,14 @@ STGraphicFactory >> goalkeeperForm [
 		  offset: 0 @ 0
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Bloc' }
 STGraphicFactory >> offsideElement [
 	"Answer the BlElement tagging a player as beeing in offside."
 
 	^self offsideForm asElement position: 1 asPoint 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Form' }
 STGraphicFactory >> offsideForm [
 	"Answer the Form tagging a player as being in offside."
 
@@ -167,14 +159,14 @@ STGraphicFactory >> offsideForm [
 	offset: (0@0))
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Bloc' }
 STGraphicFactory >> plusSignElement [
 	"Answer the BlElement tagging a player beeing added to a team."
 
 	^self plusSignForm asElement position: 1 asPoint 
 ]
 
-{ #category : 'forms' }
+{ #category : 'Form' }
 STGraphicFactory >> plusSignForm [
 	"Answer a plus sign Form."
 
@@ -231,7 +223,7 @@ STGraphicFactory >> plusSignForm [
 		  offset: 0 @ 0
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalAttackLine [
 	"Answer a RSArrowedLine to represent the attack line."
 
@@ -243,7 +235,7 @@ STGraphicFactory >> roassalAttackLine [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalBall [
 	"Answer a soccer ball as RSComposite.
 	SVG file taken from https://svgicons.com/icon/30636/soccer-ball"
@@ -261,7 +253,7 @@ STGraphicFactory >> roassalBall [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalEyeWithColor: color [
 	"Answer a scalable eye as RSComposite.
 	SVG file taken from Wikimedia at https://commons.wikimedia.org/w/index.php?title=File:Codex_icon_eye_color-error.svg&oldid=1080535227.
@@ -280,7 +272,7 @@ STGraphicFactory >> roassalEyeWithColor: color [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalFieldPlayerWithCenter: centerPoint color: aColor [
 	"Answer a field player represented by a triangle."
 
@@ -298,7 +290,7 @@ STGraphicFactory >> roassalFieldPlayerWithCenter: centerPoint color: aColor [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalFlagWavingToLeftWithColor: color [
 	"Answer a scalable flag as RSSVGPath.
 	SVG file taken from https://svgicons.com/icon/12075/flag-fill with MIT license.
@@ -311,7 +303,7 @@ STGraphicFactory >> roassalFlagWavingToLeftWithColor: color [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalFlagWavingToRightWithColor: color [
 	"Answer a scalable flag as RSSVGPath.
 	SVG file taken from https://svgicons.com/icon/12075/flag-fill with MIT license."
@@ -323,7 +315,15 @@ STGraphicFactory >> roassalFlagWavingToRightWithColor: color [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
+STGraphicFactory >> roassalGoalkeeperCircle [ 
+
+	^ RSCircle new
+		  radius: 9;
+		  yourself
+]
+
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalLeftFieldPlayerWithCenter: centerPoint color: aColor [
 	"Answer a left field player represented by a triangle."
 
@@ -332,21 +332,21 @@ STGraphicFactory >> roassalLeftFieldPlayerWithCenter: centerPoint color: aColor 
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalLeftGoalkeeperWithCenter: centerPoint color: aColor [
 	"Answer a left goalkeeper representation."
 
 	^ RSGroup new
 		  add:
 			  (self roassalLeftFieldPlayerWithCenter: centerPoint color: aColor);
-		  add: (self goalkeeperCircle
+		  add: (self roassalGoalkeeperCircle
 				   center: centerPoint;
 				   color: aColor;
 				   yourself);
 		  asShape
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalOffsideLine [
 	"Answer a RSLine to represent the offside line."
 
@@ -355,7 +355,7 @@ STGraphicFactory >> roassalOffsideLine [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalRightFieldPlayerWithCenter: centerPoint color: aColor [
 	"Answer a right field player represented by a triangle."
 
@@ -364,28 +364,28 @@ STGraphicFactory >> roassalRightFieldPlayerWithCenter: centerPoint color: aColor
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Roassal' }
 STGraphicFactory >> roassalRightGoalkeeperWithCenter: centerPoint color: aColor [
 	"Answer a right goalkeeper representation."
 
 	^ RSGroup new
 		  add:
 			  (self roassalRightFieldPlayerWithCenter: centerPoint color: aColor);
-		  add: (self goalkeeperCircle
+		  add: (self roassalGoalkeeperCircle
 				   center: centerPoint;
 				   color: aColor;
 				   yourself);
 		  asShape
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Bloc' }
 STGraphicFactory >> uncoveredElement [
 	"Answer the BlElement tagging a player as being uncovered."
 
 	^ self uncoveredForm asElement position: 1 asPoint
 ]
 
-{ #category : 'accessing' }
+{ #category : 'Form' }
 STGraphicFactory >> uncoveredForm [
 	"Answer the Form tagging a player as being uncovered."
 

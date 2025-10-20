@@ -40,3 +40,9 @@ STBlocSoccerSceneSample >> initializeWithGameCommander: aSTGameCommander [
 	self renderShapes.
 	self startAnnouncements
 ]
+
+{ #category : 'accessing' }
+STBlocSoccerSceneSample >> transformer [
+
+	^ transformer
+]

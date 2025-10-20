@@ -4,7 +4,7 @@ I support the behavior of the movable shapes common to the various specific grap
 Trait {
 	#name : 'STTMovableShape',
 	#instVars : [
-		'playFieldExtent'
+		'transformer'
 	],
 	#category : 'SoccerTheory-Graphics-Basic',
 	#package : 'SoccerTheory-Graphics',
@@ -70,13 +70,13 @@ STTMovableShape >> limitedPosition [
 { #category : 'accessing' }
 STTMovableShape >> maximalPoint [
 
-	self explicitRequirement
+	^ self transformer maximalDevicePoint
 ]
 
 { #category : 'accessing' }
 STTMovableShape >> minimalPoint [
 
-	self explicitRequirement
+	^ self transformer minimalDevicePoint
 ]
 
 { #category : 'accessing' }
@@ -93,20 +93,20 @@ STTMovableShape >> newMovedAnnouncementWithTarget: aPoint [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing' }
-STTMovableShape >> playFieldExtent [
-
-	^ playFieldExtent
-]
-
-{ #category : 'accessing' }
-STTMovableShape >> playFieldExtent: anObject [
-
-	playFieldExtent := anObject
-]
-
 { #category : 'initialization' }
 STTMovableShape >> registerAtAnnouncer [
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+STTMovableShape >> transformer [
+
+	^ transformer
+]
+
+{ #category : 'accessing' }
+STTMovableShape >> transformer: aSTCoordinatesTransformer [
+
+	transformer := aSTCoordinatesTransformer
 ]

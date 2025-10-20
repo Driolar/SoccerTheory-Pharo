@@ -9,7 +9,8 @@ Class {
 	#instVars : [
 		'offsideLine',
 		'canvas',
-		'attackLine'
+		'attackLine',
+		'ballShape'
 	],
 	#category : 'SoccerTheory-Graphics-Roassal',
 	#package : 'SoccerTheory-Graphics',
@@ -26,7 +27,7 @@ STRoassalSoccerScene class >> viewPresenterClass [
 { #category : 'api' }
 STRoassalSoccerScene >> addNewShapeOnPlayer: aPlayer [
 
-	canvas add: (self newShapeOnPlayer: aPlayer)
+	canvas addShape: (self newShapeOnPlayer: aPlayer) before: ballShape
 ]
 
 { #category : 'paint' }
@@ -90,7 +91,7 @@ STRoassalSoccerScene >> leftGoalLineMiddle [
 STRoassalSoccerScene >> maximalPoint [
 	"Answer the maximal device coordinates."
 
-	^ self playFieldExtent // 2
+	^ transformer maximalDevicePoint
 ]
 
 { #category : 'private' }
@@ -106,19 +107,19 @@ STRoassalSoccerScene >> middleLine [
 STRoassalSoccerScene >> minimalPoint [
 	"Answer the minimal device coordinates."
 
-	^ (self playFieldExtent // 2) negated
+	^ transformer minimalDevicePoint
 ]
 
 { #category : 'private' }
 STRoassalSoccerScene >> newShapeOnBall: aSTBall [
 	"Answer a new STBallRSShape on a STBall."
 
-	| centerPoint ballShape |
-	ballShape := STRoassalBallShape
-		             newForBall: aSTBall
-		             playFieldExtent: self playFieldExtent.
+	| centerPoint newBallShape |
+	newBallShape := STRoassalBallShape
+		                newForBall: aSTBall
+		                coordinatesTransformer: transformer.
 	centerPoint := transformer toDevice: aSTBall position.
-	^ ballShape
+	^ newBallShape
 		  position: centerPoint;
 		  yourself
 ]
@@ -130,14 +131,14 @@ STRoassalSoccerScene >> newShapeOnPlayer: aSTPlayer [
 	^ STRoassalPlayerShape
 		  newForPlayer: aSTPlayer
 		  centerPoint: (transformer toDevice: aSTPlayer position)
-		  playFieldExtent: self playFieldExtent
+		  coordinatesTransformer: transformer
 ]
 
 { #category : 'api' }
 STRoassalSoccerScene >> renderViewIn: aRSCanvas [
 	"Repopulate the play field with the current shapes."
 
-	| playField ballShape |
+	| playField |
 	canvas := aRSCanvas.
 	canvas extent: self totalExtent.
 	canvas color: self pitchSurroundingColor.
@@ -185,7 +186,7 @@ STRoassalSoccerScene >> updateAttackLinePositionX: deviceX [
 
 	attackLine ifNil: [
 			attackLine := STGraphicFactory new roassalAttackLine.
-			canvas add: attackLine ].
+			canvas addShape: attackLine before: ballShape ].
 
 	attackLine
 		startPoint: deviceX @ self minimalPoint y;
@@ -206,7 +207,7 @@ STRoassalSoccerScene >> updateOffsideLinePositionX: worldX [
 
 	offsideLine ifNil: [
 			offsideLine := STGraphicFactory new roassalOffsideLine.
-			canvas add: offsideLine ].
+			canvas addShape: offsideLine before: ballShape ].
 	offsideLine
 		startPoint: deviceX @ self minimalPoint y;
 		endPoint: deviceX @ self maximalPoint y;

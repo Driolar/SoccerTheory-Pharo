@@ -71,6 +71,7 @@ STRoassalMovableShape >> exceedsLimits: aPoint [
 
 { #category : 'private' }
 STRoassalMovableShape >> hoverTextString [
+
 	^ self subclassResponsibility
 ]
 
@@ -81,20 +82,6 @@ STRoassalMovableShape >> initialize [
 	shadowInteraction := RSShadowInteraction new
 		                     shadowColor: Color gray;
 		                     yourself
-]
-
-{ #category : 'private' }
-STRoassalMovableShape >> maximalPoint [
-"Answer the maximal device coordinates."
-	^ self playFieldExtent // 2
-
-]
-
-{ #category : 'private' }
-STRoassalMovableShape >> minimalPoint [
-	"Answer the minimal device coordinates."
-
-	^ (self playFieldExtent // 2) negated
 ]
 
 { #category : 'private' }

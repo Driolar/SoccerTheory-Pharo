@@ -19,10 +19,13 @@ Class {
 }
 
 { #category : 'instance creation' }
-STBlocBallShape class >> newForBall: aSTBall graphicFactory: aGraphicFactory playFieldExtent: aPoint [
-	"Initialize with a STBall, a STGraphicFactory and the play field extent."
+STBlocBallShape class >> newForBall: aSTBall graphicFactory: aGraphicFactory coordinatesTransformer: aSTCoordinatesTransformer [
+	"Initialize with a STBall, a STGraphicFactory and the coordinates transformer."
 
-	^ self new initializeForBall: aSTBall graphicFactory: aGraphicFactory playFieldExtent: aPoint
+	^ self new
+		  initializeForBall: aSTBall
+		  graphicFactory: aGraphicFactory
+		  coordinatesTransformer: aSTCoordinatesTransformer
 ]
 
 { #category : 'private' }
@@ -39,13 +42,13 @@ STBlocBallShape >> hideShadow [
 ]
 
 { #category : 'initialization' }
-STBlocBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory playFieldExtent: aPoint [
+STBlocBallShape >> initializeForBall: aSTBall graphicFactory: aSTGraphicFactory coordinatesTransformer: aSTCoordinatesTransformer [
 	"Initialize the shape instance for a given STBall."
 
 	| ballIcon ballIconElement |
 	ball := aSTBall.
 	graphicFactory := aSTGraphicFactory.
-	self playFieldExtent: aPoint.
+	self transformer: aSTCoordinatesTransformer.
 	self initializeEventHandling.
 
 	squareExtent := 10 @ 10.

@@ -16,9 +16,11 @@ Class {
 }
 
 { #category : 'instance creation' }
-STRoassalBallShape class >> newForBall: aSTBall playFieldExtent: aPoint [
+STRoassalBallShape class >> newForBall: aSTBall coordinatesTransformer: aSTCoordinatesTransformer [
 
-	^ self new initializeForBall: aSTBall playFieldExtent: aPoint
+	^ self new
+		  initializeForBall: aSTBall
+		  coordinatesTransformer: aSTCoordinatesTransformer
 ]
 
 { #category : 'private' }
@@ -31,10 +33,10 @@ STRoassalBallShape >> createBallShapes [
 ]
 
 { #category : 'initialization' }
-STRoassalBallShape >> initializeForBall: aSTBall playFieldExtent: aPoint [
+STRoassalBallShape >> initializeForBall: aSTBall coordinatesTransformer: aSTCoordinatesTransformer [
 
 	self ball: aSTBall.
-	self playFieldExtent: aPoint.
+	self transformer: aSTCoordinatesTransformer.
 	self initializeEventHandling.
 
 	self

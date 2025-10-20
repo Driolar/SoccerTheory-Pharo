@@ -149,20 +149,6 @@ STBlocMovableShape >> initialize [
 ]
 
 { #category : 'private' }
-STBlocMovableShape >> maximalPoint [
-	"Answer the maximal device coordinate."
-
-	^ self playFieldExtent
-]
-
-{ #category : 'private' }
-STBlocMovableShape >> minimalPoint [
-	"Answer the maximal device coordinate."
-
-	^ 0 @ 0
-]
-
-{ #category : 'private' }
 STBlocMovableShape >> showShadow [
 	"Show my shadow (when being selected)."
 

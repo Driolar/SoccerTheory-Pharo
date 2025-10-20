@@ -26,12 +26,12 @@ Class {
 }
 
 { #category : 'instance creation' }
-STRoassalPlayerShape class >> newForPlayer: aSTPlayer centerPoint: center playFieldExtent: extentPoint [
+STRoassalPlayerShape class >> newForPlayer: aSTPlayer centerPoint: center coordinatesTransformer: aSTCoordinatesTransformer [
 
 	^ self new
 		  initializeForPlayer: aSTPlayer
 		  centerPoint: center
-		  playFieldExtent: extentPoint
+		  coordinatesTransformer: aSTCoordinatesTransformer
 ]
 
 { #category : 'private' }
@@ -108,11 +108,11 @@ STRoassalPlayerShape >> distinctColor [
 ]
 
 { #category : 'initialization' }
-STRoassalPlayerShape >> initializeForPlayer: aSTPlayer centerPoint: center playFieldExtent: extentPoint [
+STRoassalPlayerShape >> initializeForPlayer: aSTPlayer centerPoint: center coordinatesTransformer: aSTCoordinatesTransformer [
 
 	self player: aSTPlayer.
 	centerPoint := center.
-	self playFieldExtent: extentPoint.
+	self transformer: aSTCoordinatesTransformer.
 	self initializeEventHandling.
 
 	self
