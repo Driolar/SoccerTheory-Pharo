@@ -63,3 +63,12 @@ STF4Test >> testCase13 [
 	actionManager setModernSoccerStrategy.
 	self deny: playerA3 isCovered
 ]
+
+{ #category : 'tests' }
+STF4Test >> testIndividualCoverage [
+
+	self
+		assert:
+		(STIndividualCoverage newWithFrame: actionManager frame) cover size
+		equals: 3
+]

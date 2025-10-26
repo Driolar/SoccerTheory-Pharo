@@ -54,12 +54,6 @@ STDemoData >> newStartFrame [
 	^ STSoccerFrameBuilder startFrameWithPitch: STPitch newDefault
 ]
 
-{ #category : 'private' }
-STDemoData >> sampleDeviceExtent [
-
-	^ STBlocSoccerSceneSample sampleDeviceExtent
-]
-
 { #category : 'show icons' }
 STDemoData >> showAttackLine [
 

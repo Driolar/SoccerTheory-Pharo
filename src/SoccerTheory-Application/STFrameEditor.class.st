@@ -113,17 +113,8 @@ STFrameEditor >> buttonForLoadingExamples [
 STFrameEditor >> frameControlsLayout [
 	"Answer the layout for frame controls."
 
-	^ SpBoxLayout newLeftToRight
-		  hAlignStart;
-		  add: (SpToolbarPresenter new
-				   beIcons;
-				   add: self toolbarButtonToOpen;
-				   add: self toolbarButtonToSave;
-				   add: self toolbarButtonToReset;
-				   yourself);
-		  "add: self menuButtonForLoadingExamples width: 100;"add:
-		  self buttonForLoadingExamples
-		  expand: false;
+	^ super frameControlsLayout
+		  add: self buttonForLoadingExamples expand: false;
 		  yourself
 ]
 

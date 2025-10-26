@@ -14,15 +14,12 @@ Class {
 		'scene',
 		'board',
 		'statusbar',
-		'dropListForOffsideRule',
 		'graphicFactory',
-		'rightTeamPossessionButton',
-		'leftTeamPossessionButton',
-		'neutralPossessionButton',
 		'leftTeamAddPlayerButton',
 		'rightTeamAddPlayerButton',
-		'openFilePresenter',
-		'saveFilePresenter'
+		'ballPossessionController',
+		'basicFrameController',
+		'strategyController'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -53,10 +50,25 @@ STSoccerBoardPresenter >> addNewPlayerToTeam: aSTTeam [
 STSoccerBoardPresenter >> ballPossessionControlsLayout [
 	"Answer the layout for ball possession controls."
 
+	^ ballPossessionController controlsLayout
+]
+
+{ #category : 'initialization' }
+STSoccerBoardPresenter >> connectPresenters [
+
+	super connectPresenters.
+	strategyController connectPresenters
+]
+
+{ #category : 'layout' }
+STSoccerBoardPresenter >> controlsLayout [
+	"Answer the layout for the common controls row."
+
 	^ SpBoxLayout newLeftToRight
-		  add: leftTeamPossessionButton;
-		  add: neutralPossessionButton;
-		  add: rightTeamPossessionButton;
+		  beHomogeneous;
+		  add: self frameControlsLayout;
+		  add: self shapeControlsLayout;
+		  add: self strategyControlsLayout;
 		  yourself
 ]
 
@@ -66,12 +78,7 @@ STSoccerBoardPresenter >> controlsPresenter [
 
 	| presenter |
 	presenter := SpPresenter new.
-	presenter layout: (SpBoxLayout newLeftToRight
-			 beHomogeneous;
-			 add: self frameControlsLayout;
-			 add: self shapeControlsLayout;
-			 add: self strategyControlsLayout;
-			 yourself).
+	presenter layout: self controlsLayout.
 	^ presenter
 ]
 
@@ -99,7 +106,7 @@ STSoccerBoardPresenter >> formattedStringForWorldPosition: aPoint [
 STSoccerBoardPresenter >> frameControlsLayout [
 	"Answer the layout for frame controls."
 
-	self subclassResponsibility
+	^ basicFrameController frameControlsLayout
 ]
 
 { #category : 'accessing' }
@@ -119,45 +126,15 @@ STSoccerBoardPresenter >> gameCommander [
 { #category : 'initialization' }
 STSoccerBoardPresenter >> initializeBallPossessionButtons [
 
-	leftTeamPossessionButton := self newRadioButton
-		                            label: 'Ball team left';
-		                            whenActivatedDo: [
-			                            gameCommander changeBallOwnerToTeam:
-					                            gameCommander teamLeft ];
-		                            yourself.
-
-	rightTeamPossessionButton := self newRadioButton
-		                             label: 'Ball team right';
-		                             whenActivatedDo: [
-			                             gameCommander changeBallOwnerToTeam:
-					                             gameCommander teamRight ];
-		                             yourself.
-
-	neutralPossessionButton := self newRadioButton
-		                           label: 'Ball neutral';
-		                           whenActivatedDo: [
-			                           gameCommander changeBallOwnerToTeam: nil ];
-		                           yourself.
-
-	leftTeamPossessionButton associatedRadioButtons: {
-			neutralPossessionButton.
-			rightTeamPossessionButton }
+	ballPossessionController := STBallPossessionControlArea newOn: self.
+	ballPossessionController initializeButtons
 ]
 
 { #category : 'initialization' }
-STSoccerBoardPresenter >> initializeDropListForOffsideRule [
+STSoccerBoardPresenter >> initializeBasicFrameButtons [
 
-	dropListForOffsideRule := SpDropListPresenter new.
-	dropListForOffsideRule items: (OrderedCollection new
-			 add: (STNoOffsideStrategyCommand forContext: self);
-			 add: (STAncientStrategyCommand forContext: self);
-			 add: (STClassicStrategyCommand forContext: self);
-			 add: (STModernStrategyCommand forContext: self);
-			 yourself).
-	dropListForOffsideRule display: [ :command | command name ].
-	dropListForOffsideRule whenSelectedItemChangedDo: [ :command |
-			command execute.
-			statusbar pushMessage: 'Offside set to ' , command name , '.' ]
+	basicFrameController := STBasicFrameControlArea newOn: self.
+	basicFrameController initializeButtons
 ]
 
 { #category : 'initialization' }
@@ -168,13 +145,19 @@ STSoccerBoardPresenter >> initializePresenters [
 	graphicFactory := STGraphicFactory new.
 	board := self newBoard.
 	statusbar := self newStatusBar.
-	openFilePresenter := self openingFilePresenter.
-	saveFilePresenter := self savingFilePresenter.
+	self initializeBasicFrameButtons. 
 	leftTeamAddPlayerButton := self newButton.
 	rightTeamAddPlayerButton := self newButton.
 	self initializeBallPossessionButtons.
-	self initializeDropListForOffsideRule.
+	self initializeStrategyButtons.
 	self resetBoard
+]
+
+{ #category : 'initialization' }
+STSoccerBoardPresenter >> initializeStrategyButtons [
+
+	strategyController := STStrategyControlArea newOn: self.
+	strategyController initializeDropListForOffsideRule
 ]
 
 { #category : 'presenters' }
@@ -220,17 +203,6 @@ STSoccerBoardPresenter >> newBoard [
 	"Answer my presenter to render the board on."
 
 	^ self instantiate: self scenePlug viewPresenterClass
-]
-
-{ #category : 'presenters' }
-STSoccerBoardPresenter >> openingFilePresenter [
-
-	^ (StOpenFilePresenter on: StFileSystemModel new)
-		  openFolder: FileLocator documents;
-		  extensions: #( 'socxml' );
-		  okAction: [ :selectedFileReference |
-			  self loadFile: selectedFileReference ];
-		  yourself
 ]
 
 { #category : 'loading' }
@@ -295,17 +267,6 @@ STSoccerBoardPresenter >> saveFile: aFileReference [
 	statusbar pushMessage: aFileReference basename , ' saved.'
 ]
 
-{ #category : 'presenters' }
-STSoccerBoardPresenter >> savingFilePresenter [
-
-	^ (StSaveFilePresenter on: StFileSystemModel new)
-		  openFolder: FileLocator documents;
-		  extensions: #( 'socxml' );
-		  okAction: [ :selectedFileReference |
-			  self saveFile: selectedFileReference ];
-		  yourself
-]
-
 { #category : 'loading' }
 STSoccerBoardPresenter >> scenePlug [
 	"Answer the subclass of STSoccerSceneBuilder for rendering the soccer scene."
@@ -324,49 +285,17 @@ STSoccerBoardPresenter >> shapeControlsLayout [
 		  yourself
 ]
 
+{ #category : 'accessing' }
+STSoccerBoardPresenter >> statusbar [
+
+	^ statusbar
+]
+
 { #category : 'layout' }
 STSoccerBoardPresenter >> strategyControlsLayout [
-	"Answer the layout for strategy controls."
+	"Answer the default layout for strategy controls."
 
-	^ SpBoxLayout newLeftToRight
-		  hAlignEnd;
-		  add: dropListForOffsideRule expand: false;
-		  yourself
-]
-
-{ #category : 'presenters' }
-STSoccerBoardPresenter >> toolbarButtonToOpen [
-	"Answer the toolbar button for opening a SoccerML file."
-
-	^ self newToolbarButton
-		  icon: (self iconNamed: #open);
-		  label: 'Open...';
-		  help: 'Open a SoccerML file.';
-		  action: [ openFilePresenter openModal ]
-]
-
-{ #category : 'presenters' }
-STSoccerBoardPresenter >> toolbarButtonToReset [
-	"Answer the toolbar button for resetting the board."
-
-	^ self newToolbarButton
-		  label: 'Reset';
-		  icon: (self iconNamed: #delete);
-		  help:
-			  'Clear irrevocably the scene and initialize it with just two goalkeepers and the ball in the middle.';
-		  action: [ self resetBoard ];
-		  yourself
-]
-
-{ #category : 'presenters' }
-STSoccerBoardPresenter >> toolbarButtonToSave [
-	"Answer the toolbar button for saving a SoccerML file."
-
-	^ self newToolbarButton
-		  icon: (self iconNamed: #save);
-		  label: 'Save...';
-		  help: 'Save the current frame to a SoccerML file.';
-		  action: [ saveFilePresenter openModal ]
+	^ strategyController offsideControlLayout
 ]
 
 { #category : 'update' }
@@ -409,19 +338,12 @@ STSoccerBoardPresenter >> updateControls [
 STSoccerBoardPresenter >> updateDropListForOffsideRule [
 	"Update the corresponding drop list with the current offside value."
 
-	dropListForOffsideRule selectItem:
-		(dropListForOffsideRule items detect: [ :strategyCommand |
-			 gameCommander strategy isMemberOf: strategyCommand strategyClass ])
+	strategyController updateDropListForOffsideRule
 ]
 
 { #category : 'update' }
 STSoccerBoardPresenter >> updateRadioButtonsForBallPossession [
 	"Update the buttons that control the ball possession."
 
-	| owningTeam |
-	owningTeam := gameCommander owningTeam.
-	leftTeamPossessionButton state: owningTeam == gameCommander teamLeft.
-	rightTeamPossessionButton state:
-		owningTeam == gameCommander teamRight.
-	neutralPossessionButton state: owningTeam isNil
+	ballPossessionController updateRadioButtons
 ]

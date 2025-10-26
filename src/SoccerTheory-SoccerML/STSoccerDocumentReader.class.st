@@ -88,6 +88,10 @@ STSoccerDocumentReader >> createCurrentFrameBuilder [
 	"Answer a new STSoccerFrameBuilder to begin the current frame element translation."
 
 	| builder |
+	self teamLeftName = self teamRightName ifTrue: [
+		self error: 'Please ensure different team names.' ].
+
+
 	builder := STSoccerFrameBuilder
 		           newWithTeamLeft: self teamLeftName
 		           teamRight: self teamRightName

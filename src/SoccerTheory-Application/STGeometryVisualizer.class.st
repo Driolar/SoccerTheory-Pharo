@@ -31,19 +31,11 @@ STGeometryVisualizer class >> open [
 		open
 ]
 
-{ #category : 'layout' }
-STGeometryVisualizer >> frameControlsLayout [
-	"Answer the layout for frame controls."
+{ #category : 'initialization' }
+STGeometryVisualizer >> initializeStrategyButtons [
 
-	^ SpBoxLayout newLeftToRight
-		  hAlignStart;
-		  add: (SpToolbarPresenter new
-				   beIcons;
-				   add: self toolbarButtonToOpen;
-				   add: self toolbarButtonToSave;
-				   add: self toolbarButtonToReset;
-				   yourself);
-		  yourself
+	super initializeStrategyButtons.
+	strategyController initializeToggleButtonsForGeometry
 ]
 
 { #category : 'loading' }
@@ -51,4 +43,10 @@ STGeometryVisualizer >> scenePlug [
 	"Answer the plug for connecting with the soccer scene."
 
 	^ STSoccerScenePlug newRoassal 
+]
+
+{ #category : 'layout' }
+STGeometryVisualizer >> strategyControlsLayout [
+
+	^ strategyController geometryAndOffsideControlsLayout
 ]

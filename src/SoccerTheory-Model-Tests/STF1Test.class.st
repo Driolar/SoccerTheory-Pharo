@@ -33,9 +33,10 @@ STF1Test >> testCase2 [
 	"From setup, ball is at (Point x: middle x - 20 y: middle y) and playerA1 at (Point x: middle x - 30 y: middle y)."
 
 	"Let playerA1 overtake the ball."
+
 	actionManager
 		movePlayer: playerA1
-		toPosition: (Point x: playerA1 position x + 20 y: playerA1 position y).
+		toPosition: playerA1 position x + 20 @ playerA1 position y.
 	self assert: playerA1 isOffside.
 	self assert: playerA1 isCovered
 ]
@@ -46,9 +47,18 @@ STF1Test >> testCase3 [
 
 	actionManager
 		movePlayer: playerB1
-		toPosition: (Point x: (playerA1 position x - 10) y: playerB1 position y).
+		toPosition: playerA1 position x - 10 @ playerB1 position y.
 	self deny: playerA1 isOffside.
 
 	"Now playerA1 is not covered, because playerB1 has abandoned the defense zone and there is no defender more within."
 	self deny: playerA1 isCovered
+]
+
+{ #category : 'tests' }
+STF1Test >> testIndividualCoverage [
+
+	self
+		assert:
+		(STIndividualCoverage newWithFrame: actionManager frame) cover size
+		equals: 1
 ]

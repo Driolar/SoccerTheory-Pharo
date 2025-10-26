@@ -194,8 +194,6 @@ STEptsConverter >> isSecondHalf [
 STEptsConverter >> newFrameBuilder [
 	"Answer a new STSoccerFrameBuilder for the current raw line."
 
-	"TODO: Changing fields at half time --> new Sequence element."
-
 	^ (STSoccerFrameBuilder
 		   newWithTeamLeft: self teamLeftName
 		   teamRight: self teamRightName

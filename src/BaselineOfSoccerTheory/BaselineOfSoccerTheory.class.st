@@ -19,13 +19,16 @@ BaselineOfSoccerTheory >> baseline: spec [
 			self blocOn: spec.
 			self xmlParserOn: spec.
 			self neoJsonOn: spec.
+			self graphAlgorithmsOn: spec.
 
 			spec
-				package: 'SoccerTheory-Model';
+				package: 'SoccerTheory-Model'
+				with: [ spec requires: #( 'AIGraphAlgorithms' ) ];
 				package: 'SoccerTheory-Graphics'
 				with: [ spec requires: #( 'SoccerTheory-Model'
 						   'Bloc' ) ];
-				package: 'SoccerTheory-Application' with: [
+				package: 'SoccerTheory-Application'
+				with: [
 					spec requires:
 							#( 'SoccerTheory-Graphics' 'SoccerTheory-SoccerML' ) ];
 				package: 'SoccerTheory-Samples'
@@ -36,7 +39,7 @@ BaselineOfSoccerTheory >> baseline: spec [
 				with: [ spec requires: #( 'SoccerTheory-Graphics' ) ];
 				package: 'SoccerTheory-SoccerML' with: [
 						spec
-							requires: #( 'SoccerTheory-Model' );
+							requires: #( 'SoccerTheory-Model' 'XMLParser' 'NeoJSON' );
 							preLoadDoIt: #saveDtdForSoccerML ];
 				package: 'SoccerTheory-SoccerML-Tests'
 				with: [ spec requires: #( 'SoccerTheory-SoccerML' ) ] ]
@@ -86,6 +89,14 @@ isCatching (true | false) "false">
 <!ELEMENT soc:X (#PCDATA)>
 <!ELEMENT soc:Y (#PCDATA)>
 <!ELEMENT soc:PossessingTeam (#PCDATA)> <!-- Valid values: l, r -->'
+]
+
+{ #category : 'baselines' }
+BaselineOfSoccerTheory >> graphAlgorithmsOn: spec [
+
+	spec
+		baseline: 'AIGraphAlgorithms'
+		with: [ spec repository: 'github://pharo-ai/graph-algorithms' ]
 ]
 
 { #category : 'baselines' }

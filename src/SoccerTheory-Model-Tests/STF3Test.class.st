@@ -63,3 +63,12 @@ STF3Test >> testCase11 [
 	self assert: playerA3 isCovered.
 	self deny: playerA2 isCovered
 ]
+
+{ #category : 'tests' }
+STF3Test >> testIndividualCoverage [
+
+	self
+		assert:
+		(STIndividualCoverage newWithFrame: actionManager frame) cover size
+		equals: 3
+]

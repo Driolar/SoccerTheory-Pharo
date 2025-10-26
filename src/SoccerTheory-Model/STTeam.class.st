@@ -36,11 +36,6 @@ STTeam >> addPlayer: aSTPlayer [
 ]
 
 { #category : 'accessing' }
-STTeam >> attackDirection [
-	^ attackDirection
-]
-
-{ #category : 'accessing' }
 STTeam >> gradientColorHigh [
 	"Answer the hexadecimal string for the high gradient color."
 

@@ -12,12 +12,6 @@ Class {
 }
 
 { #category : 'accessing' }
-STBlocSoccerSceneSample class >> sampleDeviceExtent [
-
-	^ 556 @ 360
-]
-
-{ #category : 'accessing' }
 STBlocSoccerSceneSample >> borderWidth [
 
 	^ 10
@@ -28,7 +22,7 @@ STBlocSoccerSceneSample >> initializeTransformerWithWorldExtent: aPoint [
 
 	transformer := (STCoordinatesTransformer
 		                newWithWorldExtent: aPoint
-		                deviceExtent: self class sampleDeviceExtent)
+		                deviceExtent: self sampleDeviceExtent)
 		               setDeviceToBloc;
 		               yourself
 ]
@@ -39,6 +33,12 @@ STBlocSoccerSceneSample >> initializeWithGameCommander: aSTGameCommander [
 	super initializeWithGameCommander: aSTGameCommander.
 	self renderShapes.
 	self startAnnouncements
+]
+
+{ #category : 'accessing' }
+STBlocSoccerSceneSample >> sampleDeviceExtent [
+
+	^ 556 @ 360
 ]
 
 { #category : 'accessing' }
