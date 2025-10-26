@@ -15,10 +15,10 @@
   </soc:Header>
   <soc:Sequence>
     <soc:Team side="l">
-      <soc:TeamName />
+      <soc:TeamName>Team A</soc:TeamName>
     </soc:Team>
     <soc:Team side="r">
-      <soc:TeamName />
+      <soc:TeamName>Team B</soc:TeamName>
     </soc:Team>
     <soc:Frame time="1">
       <soc:Ball>

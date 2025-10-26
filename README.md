@@ -8,7 +8,7 @@ The suite consists of two applications:
 - With **SoTheReplay**, you can replay a sequence of soccer scene frames on a two-dimensional play field.
 
 ## Load the Soccer Theory Suite
-You can load the Soccer Theory Suite into a fresh Pharo image (version 11 or newer) with:
+You can load the Soccer Theory Suite into a fresh Pharo image (version 12 or newer) with:
 ```smalltalk
 Metacello new
         baseline: 'SoccerTheory';
