@@ -130,6 +130,18 @@ STRoassalPlayerShape >> newMovedAnnouncementWithTarget: aPoint [
 		  targetPosition: aPoint
 ]
 
+{ #category : 'accessing' }
+STRoassalPlayerShape >> player [
+
+	^ self model 
+]
+
+{ #category : 'accessing' }
+STRoassalPlayerShape >> player: aSTPlayer [
+
+	self model: aSTPlayer
+]
+
 { #category : 'private' }
 STRoassalPlayerShape >> refreshShapes [
 

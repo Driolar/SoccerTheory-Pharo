@@ -189,7 +189,8 @@ STCommonSoccerStrategy >> updateCovering [
 		announce: STOffsideSwitchedAnnouncement new;
 		announce: STUncoveredSwitchedAnnouncement new;
 		announce:
-			(STOffsideLineChangedAnnouncement newWithOffsideX: self offsideX)
+			(STOffsideLineChangedAnnouncement newWithOffsideX: self offsideX);
+		announce: STCoverageUpdatedAnnouncement new
 ]
 
 { #category : 'accessing' }

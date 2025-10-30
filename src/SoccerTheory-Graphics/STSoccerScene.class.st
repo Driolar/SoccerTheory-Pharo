@@ -91,6 +91,12 @@ STSoccerScene >> deviceGoalWidth [
 	^ (transformer scaleWorldPoint: 0 @ self pitch goalWidth) y
 ]
 
+{ #category : 'api' }
+STSoccerScene >> frame [
+
+	^ gameCommander frame
+]
+
 { #category : 'accessing' }
 STSoccerScene >> gameAnnouncer [
 	"Answer the announcer I register at."

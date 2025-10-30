@@ -19,7 +19,9 @@ Class {
 { #category : 'initialization' }
 STStrategyControlArea >> connectPresenters [
 
-	coverageButton whenActivatedDo: [ self inform: 'Not yet implemented' ].
+	coverageButton
+		whenActivatedDo: [ self renderIndividualCoverageLayer ];
+		whenDeactivatedDo: [ self removeIndividualCoverageLayer ].
 	shotAngleButton whenActivatedDo: [
 		self inform: 'Not yet implemented' ].
 	goalPathButton whenActivatedDo: [ self inform: 'Not yet implemented' ]
@@ -98,6 +100,26 @@ STStrategyControlArea >> offsideControlLayout [
 		  hAlignEnd;
 		  add: dropListForOffsideRule expand: false;
 		  yourself
+]
+
+{ #category : 'rendering' }
+STStrategyControlArea >> removeIndividualCoverageLayer [
+
+	boardPresenter removeIndividualCoverageLayer
+]
+
+{ #category : 'rendering' }
+STStrategyControlArea >> renderIndividualCoverageLayer [
+
+	boardPresenter renderIndividualCoverageLayer
+]
+
+{ #category : 'initialization' }
+STStrategyControlArea >> resetGeometryButtons [
+
+	coverageButton beUnselected.
+	coverageButton associatedToggleButtons do: [ :each |
+		each beUnselected ]
 ]
 
 { #category : 'update' }

@@ -53,13 +53,6 @@ STSoccerBoardPresenter >> ballPossessionControlsLayout [
 	^ ballPossessionController controlsLayout
 ]
 
-{ #category : 'initialization' }
-STSoccerBoardPresenter >> connectPresenters [
-
-	super connectPresenters.
-	strategyController connectPresenters
-]
-
 { #category : 'layout' }
 STSoccerBoardPresenter >> controlsLayout [
 	"Answer the layout for the common controls row."

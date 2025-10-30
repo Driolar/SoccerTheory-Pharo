@@ -57,7 +57,7 @@ STIndividualCoverage >> cover [
 		from: #player1
 		to: #player2
 		weight: #distance.
-	^ matchingAlgorithm run
+	^ matchingAlgorithm run collect: [ :edge | edge model ]
 ]
 
 { #category : 'initialization' }

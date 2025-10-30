@@ -27,7 +27,7 @@ STRoassalSoccerScene class >> viewPresenterClass [
 { #category : 'api' }
 STRoassalSoccerScene >> addNewShapeOnPlayer: aPlayer [
 
-	canvas addShape: (self newShapeOnPlayer: aPlayer) before: ballShape
+	self renderBeforeBall: (self newShapeOnPlayer: aPlayer)
 ]
 
 { #category : 'paint' }
@@ -36,6 +36,12 @@ STRoassalSoccerScene >> attackLineColor [
 	^ self attackingTeam
 		  ifNotNil: [ :team | Color colorFrom: team gradientColorHigh ]
 		  ifNil: [ Color yellow ]
+]
+
+{ #category : 'accessing' }
+STRoassalSoccerScene >> canvas [
+
+	^ canvas
 ]
 
 { #category : 'private' }
@@ -135,6 +141,13 @@ STRoassalSoccerScene >> newShapeOnPlayer: aSTPlayer [
 ]
 
 { #category : 'api' }
+STRoassalSoccerScene >> renderBeforeBall: aRSShape [
+
+	canvas addShape: aRSShape before: ballShape.
+	aRSShape renderOn: canvas
+]
+
+{ #category : 'api' }
 STRoassalSoccerScene >> renderViewIn: aRSCanvas [
 	"Repopulate the play field with the current shapes."
 
@@ -173,6 +186,12 @@ STRoassalSoccerScene >> rightGoalLineMiddle [
 	^ self playFieldExtent x / 2 @ 0
 ]
 
+{ #category : 'api' }
+STRoassalSoccerScene >> signalUpdate [
+
+	canvas signalUpdate
+]
+
 { #category : 'paint' }
 STRoassalSoccerScene >> updateAttackLineAppearance [
 	"Update the attack line appearance depending on the attacking team."
@@ -186,7 +205,7 @@ STRoassalSoccerScene >> updateAttackLinePositionX: deviceX [
 
 	attackLine ifNil: [
 			attackLine := STGraphicFactory new roassalAttackLine.
-			canvas addShape: attackLine before: ballShape ].
+			self renderBeforeBall: attackLine ].
 
 	attackLine
 		startPoint: deviceX @ self minimalPoint y;
@@ -207,7 +226,7 @@ STRoassalSoccerScene >> updateOffsideLinePositionX: worldX [
 
 	offsideLine ifNil: [
 			offsideLine := STGraphicFactory new roassalOffsideLine.
-			canvas addShape: offsideLine before: ballShape ].
+			self renderBeforeBall: offsideLine ].
 	offsideLine
 		startPoint: deviceX @ self minimalPoint y;
 		endPoint: deviceX @ self maximalPoint y;

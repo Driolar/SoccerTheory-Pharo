@@ -45,6 +45,15 @@ STIndividualCoveragePair >> initializePlayer1: playerOne player2: playerTwo [
 	player2 := playerTwo
 ]
 
+{ #category : 'testing' }
+STIndividualCoveragePair >> isMisplaced [
+	"Answer true if the players are misplaced to cover each other:
+	Each of both players is nearer to the opponent goal line than his respective opponent.
+	In such a situation, most possibly the one cannot hinder the other when needing to defend."
+
+	^ self player1 isMoreAdvancedThanCoordinateX: self player2 position x
+]
+
 { #category : 'accessing' }
 STIndividualCoveragePair >> player1 [
 

@@ -8,6 +8,9 @@ Start me doing this: STGeometryVisualizer open.
 Class {
 	#name : 'STGeometryVisualizer',
 	#superclass : 'STSoccerBoardPresenter',
+	#instVars : [
+		'individualCoverageLayer'
+	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
 	#tag : 'Presenter'
@@ -32,10 +35,40 @@ STGeometryVisualizer class >> open [
 ]
 
 { #category : 'initialization' }
+STGeometryVisualizer >> connectPresenters [
+
+	super connectPresenters.
+	strategyController connectPresenters
+]
+
+{ #category : 'initialization' }
 STGeometryVisualizer >> initializeStrategyButtons [
 
 	super initializeStrategyButtons.
 	strategyController initializeToggleButtonsForGeometry
+]
+
+{ #category : 'rendering' }
+STGeometryVisualizer >> removeIndividualCoverageLayer [
+
+	individualCoverageLayer clearAll.
+	individualCoverageLayer unregisterAtAnnouncer.
+	individualCoverageLayer := nil
+]
+
+{ #category : 'rendering' }
+STGeometryVisualizer >> renderIndividualCoverageLayer [
+
+	individualCoverageLayer ifNotNil: [
+		self removeIndividualCoverageLayer ].
+	individualCoverageLayer := STIndividualCoverageLayer newOn: scene.
+	individualCoverageLayer render
+]
+
+{ #category : 'initialization' }
+STGeometryVisualizer >> resetGeometryButtons [
+
+	strategyController resetGeometryButtons
 ]
 
 { #category : 'loading' }
@@ -49,4 +82,11 @@ STGeometryVisualizer >> scenePlug [
 STGeometryVisualizer >> strategyControlsLayout [
 
 	^ strategyController geometryAndOffsideControlsLayout
+]
+
+{ #category : 'update' }
+STGeometryVisualizer >> updateControls [
+
+	super updateControls.
+	self resetGeometryButtons
 ]

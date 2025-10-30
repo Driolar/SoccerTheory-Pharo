@@ -102,6 +102,7 @@ STRoassalMovableShape >> stepTheArrowWay: aRSKeyDown [
 	(self exceedsLimits: self position + offsetPoint) ifTrue: [ ^ self ].
 
 	self translateBy: offsetPoint.
-	self signalUpdate shape gameAnnouncer announce:
+	self signalUpdate.
+	self shape gameAnnouncer announce:
 		(self newMovedAnnouncementWithTarget: self position)
 ]
