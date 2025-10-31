@@ -1,7 +1,10 @@
 # Using SoTheGeometry - The Soccer Geometry Visualizer
 ## Getting Started
 **SoTheGeometry** is the same application as [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md) but enhanced with some soccer geometry layers. 
-Each layer can be displayed or hidden with one of the following toggle buttons.... 
+Each layer can be displayed or hidden with one of the following toggle buttons:
+
+<img width="92" height="30" alt="image" src="https://github.com/user-attachments/assets/faf61556-aa74-4a9d-a52f-a22045bfb7cf" />
+ 
 At most one layer is rendered at once.
 
 ## Individual Coverage
