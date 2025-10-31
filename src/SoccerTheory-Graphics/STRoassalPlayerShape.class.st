@@ -18,7 +18,8 @@ Class {
 	#traits : 'STTPlayerShape',
 	#classTraits : 'STTPlayerShape classTrait',
 	#instVars : [
-		'centerPoint'
+		'centerPoint',
+		'rotatedRadians'
 	],
 	#category : 'SoccerTheory-Graphics-Roassal',
 	#package : 'SoccerTheory-Graphics',
@@ -102,9 +103,16 @@ STRoassalPlayerShape >> createUncoveredEye [
 
 { #category : 'private' }
 STRoassalPlayerShape >> distinctColor [
-	"Answer a color that won't be coincide with my team color."
+	"Answer a color that won't coincide with my team color."
 
 	^ (Color fromHexString: self teamColor) negated asHexString
+]
+
+{ #category : 'initialization' }
+STRoassalPlayerShape >> initialize [
+
+	super initialize.
+	rotatedRadians := 0
 ]
 
 { #category : 'initialization' }
@@ -146,6 +154,7 @@ STRoassalPlayerShape >> player: aSTPlayer [
 STRoassalPlayerShape >> refreshShapes [
 
 	| group |
+
 	group := RSGroup with: (self player isGoalkeeper
 			          ifTrue: [ self createGoalkeeperShape ]
 			          ifFalse: [ self createFieldPlayerShape ]).
@@ -158,6 +167,20 @@ STRoassalPlayerShape >> refreshShapes [
 		shapes: group;
 		popupText: self hoverTextString;
 		signalUpdate
+]
+
+{ #category : 'showing' }
+STRoassalPlayerShape >> resetRotation [
+
+	self rotateByRadians: rotatedRadians negated.
+	rotatedRadians := 0
+]
+
+{ #category : 'matrix' }
+STRoassalPlayerShape >> rotateByRadians: angle [
+
+	super rotateByRadians: angle.
+	rotatedRadians := angle
 ]
 
 { #category : 'private' }

@@ -31,6 +31,26 @@ STIndividualCoveragePair class >> newPlayer1: player1 player2: player2 [
 ]
 
 { #category : 'accessing' }
+STIndividualCoveragePair >> coverageRotation [
+	"Answer the radians that the defending (covering) player must rotate in order to point directly towards her opponent."
+
+	| x y arctan |
+	x := player2 position x - player1 position x.
+	y := player2 position y - player1 position y.
+	arctan := y arcTan: x.
+	^ arctan
+]
+
+{ #category : 'accessing' }
+STIndividualCoveragePair >> defendingPlayer [
+	"Answer the defending player or nil if no team is possessing the ball."
+
+	player1 isAttacking ifTrue: [ ^ player2 ].
+	player2 isAttacking ifTrue: [ ^ player1 ].
+	^ nil
+]
+
+{ #category : 'accessing' }
 STIndividualCoveragePair >> distance [
 	"Answer the distance between player 1 and 2."
 

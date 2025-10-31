@@ -23,9 +23,13 @@ Class {
 { #category : 'instance creation' }
 STSoccerFrameBuilder class >> emptyFrameWithPitch: aPitch [
 
-	| builder |
-	builder := self new initializeWithPitch: aPitch.
-	^ builder builtFrame
+	^ (self emptyWithPitch: aPitch) builtFrame
+]
+
+{ #category : 'instance creation' }
+STSoccerFrameBuilder class >> emptyWithPitch: aPitch [
+
+^ self new initializeWithPitch: aPitch
 ]
 
 { #category : 'examples' }
