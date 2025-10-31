@@ -16,7 +16,7 @@ Metacello new
         repository: 'github://Driolar/SoccerTheory-Pharo:master/src';
         load
 ```
-You can replace *master* by *v1.3* to load the latest released version.
+You can replace *master* by *v1.4* to load the latest released version.
 
 ## Start SoTheBoard
 Do `STFrameEditor open` to launch the starting window:
