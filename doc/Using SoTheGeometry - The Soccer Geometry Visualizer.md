@@ -2,9 +2,15 @@
 **SoTheGeometry** is the same application as [SoTheBoard](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/Using%20SoTheBoard%20-%20The%20Soccer%20Theory%20Board.md) but enhanced with some soccer geometry layers. 
 Each layer can be displayed or hidden with one of the following toggle buttons:
 
-<img width="92" height="30" alt="image" src="https://github.com/user-attachments/assets/faf61556-aa74-4a9d-a52f-a22045bfb7cf" />
- 
-At most one layer is rendered at once.
+<img width="113" height="24" alt="image" src="https://github.com/user-attachments/assets/713313d9-56f9-4a23-999c-66ec0ded0e79" />
+
+The layers are (from left to right): 
+- Individual coverage
+- shot angle
+- goal path and
+- team spanning tree.
+
+Among the first three layers, at most one layer is rendered at once.
 
 ## Individual Coverage Layer
 In the soccer game, the defending team must be sure that no opponent is ever free. 
@@ -25,10 +31,14 @@ In a first rudimentary approach, the pair connections are calculated by minimizi
 This could certainly be refined, e.g. by weighting how dangerous is the position of each attacker.
 The algorithm currently used to calculate the minimum distance sum does not always find the optimal solution but deviates at most to the double.
 
-
 ## Shot Angle Layer
 Not implemented yet.
 
 ## Goal Path Layer
 Not implemented yet.
 
+## Team Spanning Layer
+The players of a team are connected by a minimum spanning tree with dashed lines.
+This gives an approach of connectivity, specially of pass opportunities.
+The team spanning layer is rendered for the attacking team.
+In case of neutral ball, both spanning trees are rendered.
