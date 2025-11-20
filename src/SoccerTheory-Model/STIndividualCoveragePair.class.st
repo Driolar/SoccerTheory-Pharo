@@ -7,28 +7,11 @@ Thus for this first approach, it doesn't matter which team is ever attacking.
 "
 Class {
 	#name : 'STIndividualCoveragePair',
-	#superclass : 'Object',
-	#instVars : [
-		'player1',
-		'player2'
-	],
+	#superclass : 'STPlayerPair',
 	#category : 'SoccerTheory-Model-Strategy',
 	#package : 'SoccerTheory-Model',
 	#tag : 'Strategy'
 }
-
-{ #category : 'instance creation' }
-STIndividualCoveragePair class >> new [
-
-	self shouldNotImplement
-]
-
-{ #category : 'instance creation' }
-STIndividualCoveragePair class >> newPlayer1: player1 player2: player2 [
-	"Answer a new instance of me with the two given STPlayers."
-
-	^ self basicNew initializePlayer1: player1 player2: player2
-]
 
 { #category : 'accessing' }
 STIndividualCoveragePair >> coverageRotation [
@@ -50,21 +33,6 @@ STIndividualCoveragePair >> defendingPlayer [
 	^ nil
 ]
 
-{ #category : 'accessing' }
-STIndividualCoveragePair >> distance [
-	"Answer the distance between player 1 and 2."
-
-	^ player1 position distanceTo: player2 position
-]
-
-{ #category : 'initialization' }
-STIndividualCoveragePair >> initializePlayer1: playerOne player2: playerTwo [
-
-	self initialize.
-	player1 := playerOne.
-	player2 := playerTwo
-]
-
 { #category : 'testing' }
 STIndividualCoveragePair >> isMisplaced [
 	"Answer true if the players are misplaced to cover each other:
@@ -72,16 +40,4 @@ STIndividualCoveragePair >> isMisplaced [
 	In such a situation, most possibly the one cannot hinder the other when needing to defend."
 
 	^ self player1 isMoreAdvancedThanCoordinateX: self player2 position x
-]
-
-{ #category : 'accessing' }
-STIndividualCoveragePair >> player1 [
-
-	^ player1
-]
-
-{ #category : 'accessing' }
-STIndividualCoveragePair >> player2 [
-
-	^ player2
 ]

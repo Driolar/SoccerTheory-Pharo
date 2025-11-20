@@ -9,7 +9,8 @@ Class {
 	#name : 'STGeometryVisualizer',
 	#superclass : 'STSoccerBoardPresenter',
 	#instVars : [
-		'individualCoverageLayer'
+		'individualCoverageLayer',
+		'teamSpanLayer'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -51,9 +52,15 @@ STGeometryVisualizer >> initializeStrategyButtons [
 { #category : 'rendering' }
 STGeometryVisualizer >> removeIndividualCoverageLayer [
 
-	individualCoverageLayer clearAll.
-	individualCoverageLayer unregisterAtAnnouncer.
+	individualCoverageLayer disappear.
 	individualCoverageLayer := nil
+]
+
+{ #category : 'rendering' }
+STGeometryVisualizer >> removeTeamSpanLayer [
+
+	teamSpanLayer disappear.
+	teamSpanLayer := nil
 ]
 
 { #category : 'rendering' }
@@ -63,6 +70,15 @@ STGeometryVisualizer >> renderIndividualCoverageLayer [
 		self removeIndividualCoverageLayer ].
 	individualCoverageLayer := STIndividualCoverageLayer newOn: scene.
 	individualCoverageLayer render
+]
+
+{ #category : 'rendering' }
+STGeometryVisualizer >> renderTeamSpanLayer [
+
+	teamSpanLayer ifNotNil: [
+		self removeTeamSpanLayer ].
+	teamSpanLayer := STTeamSpanLayer newOn: scene.
+	teamSpanLayer render
 ]
 
 { #category : 'initialization' }

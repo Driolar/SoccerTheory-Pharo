@@ -3,49 +3,17 @@ I render the layer that shows the computed individual coverage pairs.
 "
 Class {
 	#name : 'STIndividualCoverageLayer',
-	#superclass : 'Object',
-	#instVars : [
-		'scene',
-		'shapes'
-	],
+	#superclass : 'STStrategyLayer',
 	#category : 'SoccerTheory-Graphics-Roassal',
 	#package : 'SoccerTheory-Graphics',
 	#tag : 'Roassal'
 }
 
-{ #category : 'instance creation' }
-STIndividualCoverageLayer class >> newOn: aSTRoassalSoccerScene [
-
-	^self new initializeOn: aSTRoassalSoccerScene
-]
-
 { #category : 'rendering' }
 STIndividualCoverageLayer >> clearAll [
 
 	self resetRotation.
-	shapes do: [ :shape | shape remove ].
-	shapes removeAll.
-	scene signalUpdate
-]
-
-{ #category : 'private' }
-STIndividualCoverageLayer >> gameAnnouncer [
-
-	^ scene gameAnnouncer
-]
-
-{ #category : 'initialization' }
-STIndividualCoverageLayer >> initialize [
-
-	super initialize.
-	shapes := OrderedCollection new
-]
-
-{ #category : 'initialization' }
-STIndividualCoverageLayer >> initializeOn: aSTRoassalSoccerScene [
-
-	scene := aSTRoassalSoccerScene.
-	self registerAtAnnouncer
+	super clearAll
 ]
 
 { #category : 'private' }
@@ -91,15 +59,6 @@ STIndividualCoverageLayer >> orientDefender: aSTIndividualCoveragePair [
 				aSTIndividualCoveragePair coverageRotation negated ]
 ]
 
-{ #category : 'initialization' }
-STIndividualCoverageLayer >> registerAtAnnouncer [
-
-	self gameAnnouncer
-		when: STCoverageUpdatedAnnouncement
-		do: [ :ann | self render ]
-		for: self
-]
-
 { #category : 'rendering' }
 STIndividualCoverageLayer >> render [
 
@@ -136,10 +95,4 @@ STIndividualCoverageLayer >> resetRotation [
 STIndividualCoverageLayer >> shapeFromModel: model [
 
 	^ scene canvas shapeFromModel: model
-]
-
-{ #category : 'initialization' }
-STIndividualCoverageLayer >> unregisterAtAnnouncer [
-
-	self gameAnnouncer unsubscribe: self
 ]

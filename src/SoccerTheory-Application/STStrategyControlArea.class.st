@@ -9,6 +9,7 @@ Class {
 		'coverageButton',
 		'shotAngleButton',
 		'goalPathButton',
+		'spanningTreeButton',
 		'geometryToolbar'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
@@ -24,7 +25,10 @@ STStrategyControlArea >> connectPresenters [
 		whenDeactivatedDo: [ self removeIndividualCoverageLayer ].
 	shotAngleButton whenActivatedDo: [
 		self inform: 'Not yet implemented' ].
-	goalPathButton whenActivatedDo: [ self inform: 'Not yet implemented' ]
+	goalPathButton whenActivatedDo: [ self inform: 'Not yet implemented' ].
+	spanningTreeButton
+		whenActivatedDo: [ self renderTeamSpanLayer ];
+		whenDeactivatedDo: [ self removeTeamSpanLayer ]
 ]
 
 { #category : 'layout' }
@@ -70,11 +74,13 @@ STStrategyControlArea >> initializeToggleButtonsForGeometry [
 	coverageButton := self newToolbarToggleButton.
 	shotAngleButton := self newToolbarToggleButton.
 	goalPathButton := self newToolbarToggleButton.
+	spanningTreeButton := self newToolbarToggleButton.
 	geometryToolbar
 		beIcons;
 		add: coverageButton;
 		add: shotAngleButton;
-		add: goalPathButton.
+		add: goalPathButton;
+		add: spanningTreeButton.
 
 
 	coverageButton associatedToggleButtons: {
@@ -89,7 +95,10 @@ STStrategyControlArea >> initializeToggleButtonsForGeometry [
 		icon: graphicFactory shotAngleIconForm.
 	goalPathButton
 		help: 'Goal path layer';
-		icon: graphicFactory goalPathIconForm
+		icon: graphicFactory goalPathIconForm.
+	spanningTreeButton
+		help: 'Team spanning tree layer';
+		icon: graphicFactory spanningTreeIconForm
 ]
 
 { #category : 'layout' }
@@ -109,9 +118,21 @@ STStrategyControlArea >> removeIndividualCoverageLayer [
 ]
 
 { #category : 'rendering' }
+STStrategyControlArea >> removeTeamSpanLayer [ 
+
+	boardPresenter removeTeamSpanLayer
+]
+
+{ #category : 'rendering' }
 STStrategyControlArea >> renderIndividualCoverageLayer [
 
 	boardPresenter renderIndividualCoverageLayer
+]
+
+{ #category : 'rendering' }
+STStrategyControlArea >> renderTeamSpanLayer [
+
+	boardPresenter renderTeamSpanLayer
 ]
 
 { #category : 'initialization' }
