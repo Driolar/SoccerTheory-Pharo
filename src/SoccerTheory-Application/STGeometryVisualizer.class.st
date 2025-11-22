@@ -10,7 +10,8 @@ Class {
 	#superclass : 'STSoccerBoardPresenter',
 	#instVars : [
 		'individualCoverageLayer',
-		'teamSpanLayer'
+		'teamSpanLayer',
+		'shootingAngleLayer'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -57,6 +58,13 @@ STGeometryVisualizer >> removeIndividualCoverageLayer [
 ]
 
 { #category : 'rendering' }
+STGeometryVisualizer >> removeShootingAngleLayer [
+
+	shootingAngleLayer disappear.
+	shootingAngleLayer := nil
+]
+
+{ #category : 'rendering' }
 STGeometryVisualizer >> removeTeamSpanLayer [
 
 	teamSpanLayer disappear.
@@ -70,6 +78,14 @@ STGeometryVisualizer >> renderIndividualCoverageLayer [
 		self removeIndividualCoverageLayer ].
 	individualCoverageLayer := STIndividualCoverageLayer newOn: scene.
 	individualCoverageLayer render
+]
+
+{ #category : 'rendering' }
+STGeometryVisualizer >> renderShootingAngleLayer [
+
+	shootingAngleLayer ifNotNil: [ self removeShootingAngleLayer ].
+	shootingAngleLayer := STShootingAngleLayer newOn: scene.
+	shootingAngleLayer render
 ]
 
 { #category : 'rendering' }

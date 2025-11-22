@@ -66,6 +66,62 @@ STPitch >> initializeWithExtent: aPoint goalWidth: aNumber [
 ]
 
 { #category : 'accessing' }
+STPitch >> leftGoalMiddlePoint [
+	"Answer the middle Point of the left goal."
+
+	^ (self extent x / 2) negated @ self middle y
+]
+
+{ #category : 'accessing' }
+STPitch >> leftLowerGoalPost [
+	"Answer the Point where the left lower goal post stands."
+
+	^ self lowerGoalPostFromMiddle: self leftGoalMiddlePoint
+]
+
+{ #category : 'accessing' }
+STPitch >> leftUpperGoalPost [
+	"Answer the Point where the left upper goal post stands."
+
+	^ self upperGoalPostFromMiddle: self leftGoalMiddlePoint
+]
+
+{ #category : 'accessing' }
+STPitch >> lowerGoalPostFromMiddle: goalMiddlePoint [
+	"Answer the Point where the lower goal post stands."
+
+	^ goalMiddlePoint x @ (goalMiddlePoint y - (self goalWidth / 2))
+]
+
+{ #category : 'accessing' }
 STPitch >> middle [
 	^ Point x: 0 y: 0
+]
+
+{ #category : 'accessing' }
+STPitch >> rightGoalMiddlePoint [
+	"Answer the middle Point of the right goal."
+
+	^ (self extent x / 2) @ self middle y
+]
+
+{ #category : 'accessing' }
+STPitch >> rightLowerGoalPost [
+	"Answer the Point where the right lower goal post stands."
+
+	^ self lowerGoalPostFromMiddle: self rightGoalMiddlePoint
+]
+
+{ #category : 'accessing' }
+STPitch >> rightUpperGoalPost [
+	"Answer the Point where the right upper goal post stands."
+
+	^ self upperGoalPostFromMiddle: self rightGoalMiddlePoint
+]
+
+{ #category : 'accessing' }
+STPitch >> upperGoalPostFromMiddle: goalMiddlePoint [
+	"Answer the Point where the upper goal post stands."
+
+	^ goalMiddlePoint x @ (goalMiddlePoint y + (self goalWidth / 2))
 ]

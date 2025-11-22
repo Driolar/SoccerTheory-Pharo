@@ -144,6 +144,39 @@ STPlayer >> position: aPoint [
 ]
 
 { #category : 'accessing' }
+STPlayer >> shootingAngle [
+	"I answer my shooting angle in degrees.
+	I calculate it by the cosine rule, as illustrated in https://www.geogebra.org/m/war79au3#material/gz8zwy9e (german).
+	Alternative calculations by tangens are shown in:
+	- https://marclamberts.medium.com/correlation-between-shooting-angles-and-expected-goals-xg-68db6f2e6045
+	- https://soccermatics.readthedocs.io/en/latest/lesson2/GeometryOfShooting.html"
+
+	| distanceToUpperTargetGoalPost distanceToLowerTargetGoalPost |
+	distanceToUpperTargetGoalPost := self position distanceTo: self targetGoalUpperPost.
+	distanceToLowerTargetGoalPost := self position distanceTo: self targetGoalLowerPost.
+	^ (distanceToUpperTargetGoalPost squared + distanceToLowerTargetGoalPost squared - frame pitch goalWidth squared
+	   / (2 * distanceToUpperTargetGoalPost * distanceToLowerTargetGoalPost)) arcCos radiansToDegrees
+]
+
+{ #category : 'accessing' }
+STPlayer >> targetGoalLowerPost [
+	"I answer the Point where my target goal's lower post stands."
+
+	^ self team isTeamLeft
+		  ifTrue: [ frame pitch rightLowerGoalPost ]
+		  ifFalse: [ frame pitch leftLowerGoalPost ]
+]
+
+{ #category : 'accessing' }
+STPlayer >> targetGoalUpperPost [
+	"I answer the Point where my target goal's upper post stands."
+
+	^ self team isTeamLeft
+		  ifTrue: [ frame pitch rightUpperGoalPost ]
+		  ifFalse: [ frame pitch leftUpperGoalPost ]
+]
+
+{ #category : 'accessing' }
 STPlayer >> team [
 	"Answer the STTeam where I belong."
 

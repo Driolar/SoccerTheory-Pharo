@@ -108,6 +108,13 @@ STRoassalPlayerShape >> distinctColor [
 	^ (Color fromHexString: self teamColor) negated asHexString
 ]
 
+{ #category : 'private' }
+STRoassalPlayerShape >> hoverTextString [
+	"Answer the string for the hover text element."
+
+	^ '#' , self jerseyString , ' ' , self formattedPlayerPositionString , ' ' , self shootingAngleString
+]
+
 { #category : 'initialization' }
 STRoassalPlayerShape >> initialize [
 
@@ -154,14 +161,12 @@ STRoassalPlayerShape >> player: aSTPlayer [
 STRoassalPlayerShape >> refreshShapes [
 
 	| group |
-
 	group := RSGroup with: (self player isGoalkeeper
 			          ifTrue: [ self createGoalkeeperShape ]
 			          ifFalse: [ self createFieldPlayerShape ]).
 	self isOffside
 		ifTrue: [ group add: self createOffsideFlag ]
-		ifFalse: [
-		self isUncovered ifTrue: [ group add: self createUncoveredEye ] ].
+		ifFalse: [ self isUncovered ifTrue: [ group add: self createUncoveredEye ] ].
 	self
 		resetChildren;
 		shapes: group;
@@ -181,6 +186,13 @@ STRoassalPlayerShape >> rotateByRadians: angle [
 
 	super rotateByRadians: angle.
 	rotatedRadians := angle
+]
+
+{ #category : 'private' }
+STRoassalPlayerShape >> shootingAngleString [ 
+	"Answer the player's shooting angle degrees."
+
+	^ (self player shootingAngle printShowingDecimalPlaces: 1) , '°'
 ]
 
 { #category : 'private' }
