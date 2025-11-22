@@ -6,7 +6,7 @@ Each layer can be displayed or hidden with one of the following toggle buttons:
 
 The layers are (from left to right): 
 - Individual coverage
-- shot angle
+- shooting angle
 - goal path and
 - team spanning tree.
 
@@ -31,8 +31,17 @@ In a first rudimentary approach, the pair connections are calculated by minimizi
 This could certainly be refined, e.g. by weighting how dangerous is the position of each attacker.
 The algorithm currently used to calculate the minimum distance sum does not always find the optimal solution but deviates at most to the double.
 
-## Shot Angle Layer
-Not implemented yet.
+## Shooting Angle Layer
+For the attacking player with the greatest shooting angle, the layer shows the shooting (tri)angle and the circumference where the shooting angle is equal.
+
+The triangle's vertices are the two goalposts and the player's position.
+The larger the angle, the better the chance of a score.
+The triangle is labelled with the shooting angle in degrees.
+
+The circumference passes through the two goalposts and the player's position.
+Outside the rendered circle, the shooting angle is smaller. Inside the circle, the shooting angle is greater.
+
+Each player's hover text contains her shooting angle value.
 
 ## Goal Path Layer
 Not implemented yet.
