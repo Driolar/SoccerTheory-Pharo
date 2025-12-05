@@ -49,6 +49,13 @@ STPlayer >> ball [
 	^ frame ball
 ]
 
+{ #category : 'accessing' }
+STPlayer >> distanceToBall [
+	"Answer my distance to the ball in meters."
+
+	^ self position distanceTo: self ball position
+]
+
 { #category : 'initialization' }
 STPlayer >> initializeWithPosition: aPoint team: aSTTeam frame: aSTSoccerFrame number: aSmallInteger [
 	position := aPoint.

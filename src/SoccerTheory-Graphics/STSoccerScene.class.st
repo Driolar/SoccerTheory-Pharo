@@ -91,7 +91,7 @@ STSoccerScene >> deviceGoalWidth [
 	^ (transformer scaleWorldPoint: 0 @ self pitch goalWidth) y
 ]
 
-{ #category : 'api' }
+{ #category : 'accessing' }
 STSoccerScene >> frame [
 
 	^ gameCommander frame
@@ -118,6 +118,12 @@ STSoccerScene >> initializeWithGameCommander: aSTGameCommander [
 	gameCommander := aSTGameCommander.
 	self initializeTransformerWithWorldExtent:
 		aSTGameCommander pitch extent
+]
+
+{ #category : 'accessing' }
+STSoccerScene >> leftGoalMiddlePoint [
+
+	^ transformer toDevice: self pitch leftGoalMiddlePoint
 ]
 
 { #category : 'private' }
@@ -198,6 +204,12 @@ STSoccerScene >> renderViewIn: aBlSpaceOrRSCanvas [
 	"Repopulate the play field with the current shapes."
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+STSoccerScene >> rightGoalMiddlePoint [
+
+	^ transformer toDevice: self pitch rightGoalMiddlePoint
 ]
 
 { #category : 'initialization' }

@@ -1,6 +1,8 @@
 "
 I connect all players of a team by a minimum spanning tree.
 The spanning tree gives an approach of connectivity, specially of pass opportunities.
+
+Players in offside are considered the same, it doesn't matter.
 "
 Class {
 	#name : 'STTeamSpan',
@@ -25,7 +27,7 @@ STTeamSpan class >> newOnTeam: aSTTeam [
 	^ self basicNew initializeOnTeam: aSTTeam
 ]
 
-{ #category : 'private' }
+{ #category : 'api' }
 STTeamSpan >> allPairs [
 	"Answer all possible team player pairs."
 
@@ -39,7 +41,7 @@ STTeamSpan >> allPairs [
 					  yourself ]
 ]
 
-{ #category : 'private' }
+{ #category : 'api' }
 STTeamSpan >> connect [
 	"Answer a Collection of STPlayerPair representing the minimum spanning tree that connects the team players."
 
@@ -59,4 +61,11 @@ STTeamSpan >> initializeOnTeam: aSTTeam [
 
 	self initialize.
 	team := aSTTeam
+]
+
+{ #category : 'accessing' }
+STTeamSpan >> players [
+	"Answer the involved (node) players."
+
+	^ team players
 ]

@@ -26,7 +26,9 @@ STStrategyControlArea >> connectPresenters [
 	shotAngleButton
 		whenActivatedDo: [ self renderShootingAngleLayer ];
 		whenDeactivatedDo: [ self removeShootingAngleLayer ].
-	goalPathButton whenActivatedDo: [ self inform: 'Not yet implemented' ].
+	goalPathButton
+		whenActivatedDo: [ self renderShortPathToGoalLayer ];
+		whenDeactivatedDo: [ self removeShortPathToGoalLayer ].
 	spanningTreeButton
 		whenActivatedDo: [ self renderTeamSpanLayer ];
 		whenDeactivatedDo: [ self removeTeamSpanLayer ]
@@ -125,6 +127,12 @@ STStrategyControlArea >> removeShootingAngleLayer [
 ]
 
 { #category : 'rendering' }
+STStrategyControlArea >> removeShortPathToGoalLayer [ 
+
+	boardPresenter removeShortPathToGoalLayer 
+]
+
+{ #category : 'rendering' }
 STStrategyControlArea >> removeTeamSpanLayer [ 
 
 	boardPresenter removeTeamSpanLayer
@@ -140,6 +148,12 @@ STStrategyControlArea >> renderIndividualCoverageLayer [
 STStrategyControlArea >> renderShootingAngleLayer [
 
 	boardPresenter renderShootingAngleLayer 
+]
+
+{ #category : 'rendering' }
+STStrategyControlArea >> renderShortPathToGoalLayer [
+
+	boardPresenter renderShortPathToGoalLayer 
 ]
 
 { #category : 'rendering' }

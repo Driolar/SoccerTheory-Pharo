@@ -17,11 +17,10 @@ Class {
 STIndividualCoveragePair >> coverageRotation [
 	"Answer the radians that the defending (covering) player must rotate in order to point directly towards her opponent."
 
-	| x y arctan |
+	| x y |
 	x := player2 position x - player1 position x.
 	y := player2 position y - player1 position y.
-	arctan := y arcTan: x.
-	^ arctan
+	^ y arcTan: x
 ]
 
 { #category : 'accessing' }

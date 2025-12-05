@@ -11,7 +11,8 @@ Class {
 	#instVars : [
 		'individualCoverageLayer',
 		'teamSpanLayer',
-		'shootingAngleLayer'
+		'shootingAngleLayer',
+		'shortPathToGoalLayer'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -51,17 +52,36 @@ STGeometryVisualizer >> initializeStrategyButtons [
 ]
 
 { #category : 'rendering' }
+STGeometryVisualizer >> removeAssociatedLayers [
+
+	individualCoverageLayer ifNotNil: [
+		self removeIndividualCoverageLayer ].
+	shootingAngleLayer ifNotNil: [ self removeShootingAngleLayer ].
+	shortPathToGoalLayer ifNotNil: [ self removeShortPathToGoalLayer ]
+]
+
+{ #category : 'rendering' }
 STGeometryVisualizer >> removeIndividualCoverageLayer [
 
-	individualCoverageLayer disappear.
-	individualCoverageLayer := nil
+	individualCoverageLayer ifNotNil: [ :layer |
+			layer disappear.
+			individualCoverageLayer := nil ]
 ]
 
 { #category : 'rendering' }
 STGeometryVisualizer >> removeShootingAngleLayer [
 
-	shootingAngleLayer disappear.
-	shootingAngleLayer := nil
+	shootingAngleLayer ifNotNil: [ :layer |
+			layer disappear.
+			shootingAngleLayer := nil ]
+]
+
+{ #category : 'rendering' }
+STGeometryVisualizer >> removeShortPathToGoalLayer [
+
+	shortPathToGoalLayer ifNotNil: [ :layer |
+			layer disappear.
+			shortPathToGoalLayer := nil ]
 ]
 
 { #category : 'rendering' }
@@ -74,8 +94,7 @@ STGeometryVisualizer >> removeTeamSpanLayer [
 { #category : 'rendering' }
 STGeometryVisualizer >> renderIndividualCoverageLayer [
 
-	individualCoverageLayer ifNotNil: [
-		self removeIndividualCoverageLayer ].
+	self removeAssociatedLayers.
 	individualCoverageLayer := STIndividualCoverageLayer newOn: scene.
 	individualCoverageLayer render
 ]
@@ -83,9 +102,17 @@ STGeometryVisualizer >> renderIndividualCoverageLayer [
 { #category : 'rendering' }
 STGeometryVisualizer >> renderShootingAngleLayer [
 
-	shootingAngleLayer ifNotNil: [ self removeShootingAngleLayer ].
+	self removeAssociatedLayers.
 	shootingAngleLayer := STShootingAngleLayer newOn: scene.
 	shootingAngleLayer render
+]
+
+{ #category : 'rendering' }
+STGeometryVisualizer >> renderShortPathToGoalLayer [
+
+	self removeAssociatedLayers.
+	shortPathToGoalLayer := STShortPathToGoalLayer newOn: scene.
+	shortPathToGoalLayer render
 ]
 
 { #category : 'rendering' }

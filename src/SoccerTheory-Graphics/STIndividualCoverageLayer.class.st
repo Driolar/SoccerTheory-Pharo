@@ -81,18 +81,3 @@ STIndividualCoverageLayer >> renderCoveragePair: aSTIndividualCoveragePair [
 	shapes add: lineShape.
 	self orientDefender: aSTIndividualCoveragePair 
 ]
-
-{ #category : 'initialization' }
-STIndividualCoverageLayer >> resetRotation [
-
-	(scene canvas shapesFromModels: scene teamLeft players) do: [
-		:playerShape | playerShape resetRotation ].
-	(scene canvas shapesFromModels: scene teamRight players) do: [
-		:playerShape | playerShape resetRotation ]
-]
-
-{ #category : 'private' }
-STIndividualCoverageLayer >> shapeFromModel: model [
-
-	^ scene canvas shapeFromModel: model
-]

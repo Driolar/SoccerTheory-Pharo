@@ -1,8 +1,3 @@
-"
-I am the baseline for the Soccer Theory Suite.
-
-Specially, I save the file soccerML.dtd at the working directory for being resolved as external entity by the validating XML parser.
-"
 Class {
 	#name : 'BaselineOfSoccerTheory',
 	#superclass : 'BaselineOf',

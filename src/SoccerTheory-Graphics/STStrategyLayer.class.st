@@ -69,6 +69,21 @@ STStrategyLayer >> render [
 	^ self subclassResponsibility
 ]
 
+{ #category : 'rendering' }
+STStrategyLayer >> resetRotation [
+
+	(scene canvas shapesFromModels: scene teamLeft players) do: [
+		:playerShape | playerShape resetRotation ].
+	(scene canvas shapesFromModels: scene teamRight players) do: [
+		:playerShape | playerShape resetRotation ]
+]
+
+{ #category : 'private' }
+STStrategyLayer >> shapeFromModel: model [
+
+	^ scene canvas shapeFromModel: model
+]
+
 { #category : 'initialization' }
 STStrategyLayer >> unregisterAtAnnouncer [
 
