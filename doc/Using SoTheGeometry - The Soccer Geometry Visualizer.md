@@ -44,7 +44,15 @@ Outside the rendered circle, the shooting angle is smaller. Inside the circle, t
 Each player's hover text contains her shooting angle value.
 
 ## Goal Path Layer
-Not implemented yet.
+In this layer, two players are identified in the attacking team:
+- the nearest player to the ball (ball owner)
+- the player with the greatest shooting angle (goalgetter).
+  
+Through the team spanning tree, the shortest path from ball owner to goalgetter is rendered.
+Furthermore, the shooting line from goalgetter to goal is drawn.
+And a circumference around the ball extended to the ball owner.
+
+In case of neutral ball, the team whose player is nearest to the ball is considered attacking team.
 
 ## Team Spanning Layer
 The players of a team are connected by a minimum spanning tree with dashed lines.
