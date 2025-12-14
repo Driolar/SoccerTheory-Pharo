@@ -6,9 +6,9 @@ To start viewing the samples do: STDemoPresenter open.
 I am an adapted copy of Bl-Demo package.
 "
 Class {
-	#name : 'ManifestSoccerTheorySamples',
+	#name : 'ManifestSoccerTheoryGraphicsExamples',
 	#superclass : 'PackageManifest',
-	#category : 'SoccerTheory-Samples-Manifest',
-	#package : 'SoccerTheory-Samples',
+	#category : 'SoccerTheory-Graphics-Examples-Manifest',
+	#package : 'SoccerTheory-Graphics-Examples',
 	#tag : 'Manifest'
 }

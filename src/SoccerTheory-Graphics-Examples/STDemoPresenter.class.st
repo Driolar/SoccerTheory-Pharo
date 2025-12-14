@@ -8,8 +8,8 @@ Class {
 		'collector',
 		'tree'
 	],
-	#category : 'SoccerTheory-Samples-Spec2',
-	#package : 'SoccerTheory-Samples',
+	#category : 'SoccerTheory-Graphics-Examples-Spec2',
+	#package : 'SoccerTheory-Graphics-Examples',
 	#tag : 'Spec2'
 }
 

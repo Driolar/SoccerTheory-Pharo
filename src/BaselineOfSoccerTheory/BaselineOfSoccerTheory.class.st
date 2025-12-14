@@ -22,22 +22,17 @@ BaselineOfSoccerTheory >> baseline: spec [
 				package: 'SoccerTheory-Graphics'
 				with: [ spec requires: #( 'SoccerTheory-Model'
 						   'Bloc' ) ];
+				package: 'SoccerTheory-Statistics'
+				with: [ spec requires: #( 'SoccerTheory-Model' ) ];
 				package: 'SoccerTheory-Application'
 				with: [
 					spec requires:
 							#( 'SoccerTheory-Graphics' 'SoccerTheory-SoccerML' ) ];
-				package: 'SoccerTheory-Samples'
-				with: [ spec requires: #( 'SoccerTheory-Graphics' ) ];
-				package: 'SoccerTheory-Model-Tests'
-				with: [ spec requires: #( 'SoccerTheory-Model' ) ];
-				package: 'SoccerTheory-Graphics-Tests'
-				with: [ spec requires: #( 'SoccerTheory-Graphics' ) ];
 				package: 'SoccerTheory-SoccerML' with: [
 						spec
 							requires: #( 'SoccerTheory-Model' 'XMLParser' 'NeoJSON' );
-							preLoadDoIt: #saveDtdForSoccerML ];
-				package: 'SoccerTheory-SoccerML-Tests'
-				with: [ spec requires: #( 'SoccerTheory-SoccerML' ) ] ]
+							preLoadDoIt: #saveDtdForSoccerML ].
+			self testsOn: spec ]
 ]
 
 { #category : 'baselines' }
@@ -108,6 +103,24 @@ BaselineOfSoccerTheory >> saveDtdForSoccerML [
 
 	FileSystem disk workingDirectory / 'soccerML.dtd' writeStreamDo: [
 		:stream | stream nextPutAll: self dtdForSoccerML ]
+]
+
+{ #category : 'baselines' }
+BaselineOfSoccerTheory >> testsOn: spec [
+
+	spec
+		package: 'SoccerTheory-Graphics-Examples'
+		with: [ spec requires: #( 'SoccerTheory-Graphics' ) ];
+		package: 'SoccerTheory-Statistics-Examples'
+		with: [ spec requires: #( 'SoccerTheory-Statistics' ) ];
+		package: 'SoccerTheory-Model-Tests'
+		with: [ spec requires: #( 'SoccerTheory-Model' ) ];
+		package: 'SoccerTheory-Graphics-Tests'
+		with: [ spec requires: #( 'SoccerTheory-Graphics' ) ];
+		package: 'SoccerTheory-Statistics-Tests'
+		with: [ spec requires: #( 'SoccerTheory-Statistics' ) ];
+		package: 'SoccerTheory-SoccerML-Tests'
+		with: [ spec requires: #( 'SoccerTheory-SoccerML' ) ]
 ]
 
 { #category : 'baselines' }

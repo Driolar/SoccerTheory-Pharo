@@ -6,8 +6,8 @@ Only the samples demonstration uses me.
 Class {
 	#name : 'STGraphicFactory2',
 	#superclass : 'STGraphicFactory',
-	#category : 'SoccerTheory-Samples-Bloc',
-	#package : 'SoccerTheory-Samples',
+	#category : 'SoccerTheory-Graphics-Examples-Bloc',
+	#package : 'SoccerTheory-Graphics-Examples',
 	#tag : 'Bloc'
 }
 

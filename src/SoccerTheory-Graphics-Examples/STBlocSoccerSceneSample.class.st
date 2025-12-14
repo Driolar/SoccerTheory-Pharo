@@ -6,8 +6,8 @@ Currently using me: STDemoData and STDemoData2.
 Class {
 	#name : 'STBlocSoccerSceneSample',
 	#superclass : 'STBlocSoccerScene',
-	#category : 'SoccerTheory-Samples-Bloc',
-	#package : 'SoccerTheory-Samples',
+	#category : 'SoccerTheory-Graphics-Examples-Bloc',
+	#package : 'SoccerTheory-Graphics-Examples',
 	#tag : 'Bloc'
 }
 

@@ -6,8 +6,8 @@ Class {
 		'parent',
 		'children'
 	],
-	#category : 'SoccerTheory-Samples-Node',
-	#package : 'SoccerTheory-Samples',
+	#category : 'SoccerTheory-Graphics-Examples-Node',
+	#package : 'SoccerTheory-Graphics-Examples',
 	#tag : 'Node'
 }
 
