@@ -6,23 +6,13 @@ I render a numerical superiority chart composed by the following frame timelines
 "
 Class {
 	#name : 'STNumericalSuperiorityChart',
-	#superclass : 'RSCompositeChart',
+	#superclass : 'STMatchChart',
 	#instVars : [
-		'team1Extract',
-		'team2Extract',
 		'timeLinePlots'
 	],
 	#category : 'SoccerTheory-Statistics',
 	#package : 'SoccerTheory-Statistics'
 }
-
-{ #category : 'as yet unclassified' }
-STNumericalSuperiorityChart class >> team1Extract: aSTMatchEventExtract1 team2Extract: aSTMatchEventExtract2 [
-
-	^ self new
-		  initializeTeam1Extract: aSTMatchEventExtract1
-		  team2Extract: aSTMatchEventExtract2
-]
 
 { #category : 'adding' }
 STNumericalSuperiorityChart >> addIntervalPopups [
@@ -120,30 +110,6 @@ STNumericalSuperiorityChart >> buildLegend2 [
 	legend build
 ]
 
-{ #category : 'private' }
-STNumericalSuperiorityChart >> gradientColorHighOfTeam1 [
-
-	^ Color fromHexString: team1Extract team gradientColorHigh
-]
-
-{ #category : 'private' }
-STNumericalSuperiorityChart >> gradientColorHighOfTeam2 [
-
-	^ Color fromHexString: team2Extract team gradientColorHigh
-]
-
-{ #category : 'private' }
-STNumericalSuperiorityChart >> gradientColorLowOfTeam1 [
-
-	^ Color fromHexString: team1Extract team gradientColorLow
-]
-
-{ #category : 'private' }
-STNumericalSuperiorityChart >> gradientColorLowOfTeam2 [
-
-	^ Color fromHexString: team2Extract team gradientColorLow
-]
-
 { #category : 'initialization' }
 STNumericalSuperiorityChart >> initialize [
 
@@ -152,10 +118,7 @@ STNumericalSuperiorityChart >> initialize [
 ]
 
 { #category : 'initialization' }
-STNumericalSuperiorityChart >> initializeTeam1Extract: aSTMatchEventExtract1 team2Extract: aSTMatchEventExtract2 [
-
-	team1Extract := aSTMatchEventExtract1.
-	team2Extract := aSTMatchEventExtract2.
+STNumericalSuperiorityChart >> initializeChart [
 
 	self
 		title: 'Timeline of Numerical Superiority';
