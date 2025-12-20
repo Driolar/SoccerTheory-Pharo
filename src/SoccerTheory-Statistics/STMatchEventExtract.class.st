@@ -17,6 +17,27 @@ Class {
 	#package : 'SoccerTheory-Statistics'
 }
 
+{ #category : 'private' }
+STMatchEventExtract >> countFramesFromEndpoints: endpointCollection [
+
+	^ endpointCollection
+		  ifNotEmpty: [ :endpoints |
+			  (endpoints pairsCollect: [ :from :to | to - from + 1 ]) sum ]
+		  ifEmpty: [ 0 ]
+]
+
+{ #category : 'accessing' }
+STMatchEventExtract >> countNumericalSuperiorityFrames [
+
+	^ self countFramesFromEndpoints: self numericalSuperiorityEndPoints
+]
+
+{ #category : 'accessing' }
+STMatchEventExtract >> countPossessionFrames [
+
+	^ self countFramesFromEndpoints: self possessionEndpoints
+]
+
 { #category : 'accessing' }
 STMatchEventExtract >> goalMoments [
 
