@@ -1,44 +1,44 @@
 "
-I provide examples of STBallPossessionBarChart.
+I provide examples of STNumericalSuperiorityChart.
 "
 Class {
-	#name : 'STPossessionBarChartExample',
+	#name : 'STFramePossessionTimelineChartExample',
 	#superclass : 'Object',
 	#category : 'SoccerTheory-Statistics-Examples',
 	#package : 'SoccerTheory-Statistics-Examples'
 }
 
 { #category : 'examples' }
-STPossessionBarChartExample >> exampleNemesisVsWE2008 [
+STFramePossessionTimelineChartExample >> exampleNemesisVsWE2008 [
 
 	<script: 'self new exampleNemesisVsWE2008 open'>
 	| fixture |
 	fixture := STMatchEventFixture newNemesisVsWE2008.
-	^ STPossessionBarChart
+	^ STContinuousPossessionTimelineChart
 		  team1Extract: fixture team1Extract
 		  team2Extract: fixture team2Extract
 ]
 
 { #category : 'examples' }
-STPossessionBarChartExample >> exampleOPU_hana_2DvsBrainstormers08 [
+STFramePossessionTimelineChartExample >> exampleOPU_hana_2DvsBrainstormers08 [
 
 	<script: 'self new exampleOPU_hana_2DvsBrainstormers08 open'>
 	| fixture |
 	fixture := STMatchEventFixture newOPU_hana_2DvsBrainstormers08.
-	^ STPossessionBarChart
+	^ STContinuousPossessionTimelineChart
 		  team1Extract: fixture team1Extract
 		  team2Extract: fixture team2Extract
 ]
 
 { #category : 'examples' }
-STPossessionBarChartExample >> exampleWithoutNumericalSuperiority [
+STFramePossessionTimelineChartExample >> exampleWithoutNumericalSuperiority [
 
 	<script: 'self new exampleWithoutNumericalSuperiority open'>
 	| fixture |
 	fixture := STMatchEventFixture newNemesisVsWE2008.
 	fixture team1Extract numericalSuperiorityEndPoints removeAll.
 	fixture team2Extract numericalSuperiorityEndPoints removeAll.
-	^ STPossessionBarChart
+	^ STContinuousPossessionTimelineChart
 		  team1Extract: fixture team1Extract
 		  team2Extract: fixture team2Extract
 ]

@@ -19,7 +19,9 @@ Class {
 STPossessionBarChart >> addBarLabels [
 
 	self labelPossessionBars.
-	self labelNumericalSuperiorityBars
+	(team1Extract numericalSuperiorityEndPoints notEmpty or: [
+		 team2Extract numericalSuperiorityEndPoints notEmpty ]) ifTrue: [
+		self labelNumericalSuperiorityBars ]
 ]
 
 { #category : 'building' }
@@ -33,31 +35,29 @@ STPossessionBarChart >> build [
 { #category : 'building' }
 STPossessionBarChart >> buildLegend1 [
 
-	| legend |
-	legend := RSLegend new
-		          text: 'Total ball possession share'
-		          withBoxColor: self gradientColorLowOfTeam1;
-		          text: 'possession while numerical superiority'
-		          withBoxColor: self gradientColorHighOfTeam1;
-		          yourself.
-
-	legend beFixedWithTitle: team1Extract team teamName.
-	legend container: self canvas.
-	legend build
+	self buildLegendFor: team1Extract
 ]
 
 { #category : 'building' }
 STPossessionBarChart >> buildLegend2 [
 
-	| legend |
-	legend := RSLegend new
-		          text: 'Total ball possession share'
-		          withBoxColor: self gradientColorLowOfTeam2;
-		          text: 'possession while numerical superiority'
-		          withBoxColor: self gradientColorHighOfTeam2;
-		          yourself.
+	self buildLegendFor: team2Extract
+]
 
-	legend beFixedWithTitle: team2Extract team teamName.
+{ #category : 'building' }
+STPossessionBarChart >> buildLegendFor: aSTMatchEventExtract [
+
+	| legend |
+	legend := RSLegend new.
+	legend
+		text: 'Total ball possession share'
+		withBoxColor: aSTMatchEventExtract teamGradientColorLow.
+	team1Extract numericalSuperiorityEndPoints notEmpty ifTrue: [
+			legend
+				text: 'possession while numerical superiority'
+				withBoxColor: aSTMatchEventExtract teamGradientColorHigh ].
+
+	legend beFixedWithTitle: aSTMatchEventExtract teamName.
 	legend container: self canvas.
 	legend build
 ]
@@ -76,10 +76,10 @@ STPossessionBarChart >> colorBars [
 { #category : 'initialization' }
 STPossessionBarChart >> endScoreLabel [
 
-	^ team1Extract team teamName , ' '
+	^ team1Extract teamName , ' '
 	  , team1Extract goalMoments size asString , ' : '
 	  , team2Extract goalMoments size asString , ' '
-	  , team2Extract team teamName
+	  , team2Extract teamName
 ]
 
 { #category : 'initialization' }

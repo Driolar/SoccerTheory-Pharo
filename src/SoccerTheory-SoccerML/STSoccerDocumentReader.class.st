@@ -24,11 +24,11 @@ STSoccerDocumentReader class >> on: aStringOrStream [
 ]
 
 { #category : 'instance creation' }
-STSoccerDocumentReader class >> onFileNamed: aFileName [
-	"Answer a new instance to read the SoccerML file named aFileName."
+STSoccerDocumentReader class >> onFileNamed: fullFileName [
+	"Answer a new instance to read the SoccerML file named fullFileName."
 
 	| domParser |
-	domParser := XMLDOMParser onFileNamed: aFileName.
+	domParser := XMLDOMParser onFileNamed: fullFileName.
 
 	"Undo the setting in #onFileNamed: for not searching soccerML.dtd at aFileName\soccerML.dtd."
 	domParser documentURI: ''.
@@ -44,10 +44,10 @@ STSoccerDocumentReader class >> parse: aStringOrStream [
 ]
 
 { #category : 'instance creation' }
-STSoccerDocumentReader class >> parseFileNamed: aFileName [
+STSoccerDocumentReader class >> parseFileNamed: fullFileName [
 	"Answer a new instance with parsed SoccerML."
 
-	^ (self onFileNamed: aFileName) parse
+	^ (self onFileNamed: fullFileName) parse
 ]
 
 { #category : 'private - building' }

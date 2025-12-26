@@ -24,8 +24,7 @@ STMatchEventFixture class >> newOPU_hana_2DvsBrainstormers08 [
 STMatchEventFixture >> brainstormers08Extract [
 
 	| extract |
-	extract := STMatchEventExtract new.
-	extract team: (STTeam newRightToLeft: 'Brainstormers 08').
+	extract := STMatchEventExtract newAwayTeamName: 'Brainstormers 08'.
 	extract goalMoments:
 		#( 1348 1443 1859 2133 3200 3394 4005 4743 5961 ).
 	extract possessionEndpoints:
@@ -36,7 +35,7 @@ STMatchEventFixture >> brainstormers08Extract [
 		   3585 3717 3719 3733 3791 3817 3835 3864 3906 3940 4005 4043 4057
 		   4191 4260 4379 4554 4659 4743 4776 4820 4832 4885 4928 4958 4985
 		   5017 5043 5096 5183 5268 5301 5311 5458 5600 5655 5676 5743 5794
-		   5804 5961 ).
+		   5804 5961 ) asSortedCollection.
 	extract numericalSuperiorityEndPoints:
 		#( 154 159 170 170 190 195 197 204 207 216 221 242 352 352 709 710
 		   712 728 733 742 751 757 767 777 793 798 1059 1064 1178 1179 1191
@@ -52,7 +51,8 @@ STMatchEventFixture >> brainstormers08Extract [
 		   4223 4224 4226 4230 4241 4242 4385 4387 4392 4398 4409 4409 4426
 		   4426 4428 4429 4435 4440 4499 4541 4550 4554 4659 4664 4879 4883
 		   4928 4954 5045 5096 5183 5190 5259 5267 5301 5306 5310 5311 5528
-		   5531 5587 5587 5598 5600 5655 5664 5873 5885 5888 5941 5943 5961 ).
+		   5531 5587 5587 5598 5600 5655 5664 5873 5885 5888 5941 5943 5961 )
+			asSortedCollection.
 	^ extract
 ]
 
@@ -74,8 +74,7 @@ STMatchEventFixture >> initializeOPU_hana_2DvsBrainstormers08 [
 STMatchEventFixture >> nemesisExtract [
 
 	| extract |
-	extract := STMatchEventExtract new.
-	extract team: (STTeam newLeftToRight: 'Nemesis').
+	extract := STMatchEventExtract newHomeTeamName: 'Nemesis'.
 	extract goalMoments: #( 228 ).
 	extract possessionEndpoints:
 		#( 1 104 118 118 194 228 352 496 724 780 809 973 1114 1183 1200 1257
@@ -84,7 +83,7 @@ STMatchEventFixture >> nemesisExtract [
 		   3130 3283 3291 3324 3472 3568 3579 3680 3731 3751 3780 3803 3882
 		   3899 3910 3922 4020 4088 4114 4117 4172 4204 4244 4267 4353 4454
 		   4550 4682 4691 4713 4807 4935 5080 5107 5125 5172 5181 5300 5401
-		   5516 5596 5701 5778 5828 5901 6000 ).
+		   5516 5596 5701 5778 5828 5901 6000 ) asSortedCollection.
 	extract numericalSuperiorityEndPoints:
 		#( 76 104 118 118 194 196 211 217 228 228 363 496 724 735 737 776
 		   780 780 809 816 819 861 870 973 1143 1155 1173 1183 1255 1255
@@ -98,7 +97,7 @@ STMatchEventFixture >> nemesisExtract [
 		   4251 4261 4267 4384 4424 4427 4428 4447 4454 4614 4681 4697 4699
 		   4807 4935 5172 5172 5181 5244 5255 5294 5401 5401 5406 5408 5410
 		   5411 5414 5442 5448 5507 5514 5516 5603 5665 5670 5701 5787 5789
-		   5795 5823 5901 6000 ).
+		   5795 5823 5901 6000 ) asSortedCollection.
 	^ extract
 ]
 
@@ -106,8 +105,7 @@ STMatchEventFixture >> nemesisExtract [
 STMatchEventFixture >> opu_hana_2DExtract [
 
 	| extract |
-	extract := STMatchEventExtract new.
-	extract team: (STTeam newLeftToRight: 'OPU Hana 2D').
+	extract := STMatchEventExtract newHomeTeamName: 'OPU Hana 2D'.
 	extract goalMoments: #(  ).
 	extract possessionEndpoints:
 		#( 1 33 41 72 110 124 257 351 418 694 778 792 805 929 969 1027 1065
@@ -117,7 +115,7 @@ STMatchEventFixture >> opu_hana_2DExtract [
 		   3586 3716 3720 3732 3792 3816 3836 3863 3907 3939 4006 4042 4058
 		   4190 4261 4378 4555 4658 4744 4775 4821 4831 4886 4927 4959 4984
 		   5018 5042 5097 5182 5269 5300 5312 5457 5601 5654 5677 5742 5795
-		   5803 5962 6000 ).
+		   5803 5962 6000 ) asSortedCollection.
 	extract numericalSuperiorityEndPoints:
 		#( 286 309 313 314 342 343 349 351 430 435 448 450 519 524 540 542
 		   544 544 561 567 878 878 883 896 922 928 1072 1078 1094 1104 1121
@@ -129,7 +127,7 @@ STMatchEventFixture >> opu_hana_2DExtract [
 		   3814 3815 3848 3863 4285 4291 4298 4298 4555 4557 4582 4614 4647
 		   4648 4657 4658 4889 4927 5097 5108 5111 5114 5173 5182 5292 5300
 		   5312 5334 5432 5436 5438 5439 5617 5620 5625 5625 5632 5635 5638
-		   5645 5717 5719 ).
+		   5645 5717 5719 ) asSortedCollection.
 	^ extract
 ]
 
@@ -137,8 +135,7 @@ STMatchEventFixture >> opu_hana_2DExtract [
 STMatchEventFixture >> we2008Extract [
 
 	| extract |
-	extract := STMatchEventExtract new.
-	extract team: (STTeam newRightToLeft: 'WE2008').
+	extract := STMatchEventExtract newAwayTeamName: 'WE2008'.
 	extract goalMoments: #( 4171 ).
 	extract possessionEndpoints:
 		#( 105 117 119 193 229 351 497 723 781 808 974 1113 1184 1199 1258
@@ -147,7 +144,7 @@ STMatchEventFixture >> we2008Extract [
 		   3129 3284 3290 3325 3471 3569 3578 3681 3730 3752 3779 3804 3881
 		   3900 3909 3923 4019 4089 4113 4118 4171 4205 4243 4268 4352 4455
 		   4549 4683 4690 4714 4806 4936 5079 5108 5124 5173 5180 5301 5400
-		   5517 5595 5702 5777 5829 5900 ).
+		   5517 5595 5702 5777 5829 5900 ) asSortedCollection.
 	extract numericalSuperiorityEndPoints:
 		#( 119 152 161 168 178 193 269 277 279 284 286 286 306 308 310 312
 		   317 317 322 322 325 340 343 345 531 570 573 576 579 608 661 677
@@ -170,6 +167,7 @@ STMatchEventFixture >> we2008Extract [
 		   4506 4514 4541 4545 4690 4690 4723 4723 4736 4738 4743 4751 4753
 		   4757 4761 4764 4770 4774 4776 4805 4994 5000 5011 5032 5052 5072
 		   5114 5114 5122 5123 5173 5175 5301 5362 5368 5374 5399 5400 5519
-		   5519 5549 5589 5702 5767 5829 5840 5848 5867 5870 5896 ).
+		   5519 5549 5589 5702 5767 5829 5840 5848 5867 5870 5896 )
+			asSortedCollection.
 	^ extract
 ]

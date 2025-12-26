@@ -6,7 +6,7 @@ Inspired by the chart example at:
 https://www.whoscored.com/matches/1821398/live/england-premier-league-2024-2025-manchester-city-liverpool
 "
 Class {
-	#name : 'STPossessionTimelineChart',
+	#name : 'STMeanPossessionTimelineChart',
 	#superclass : 'STMatchChart',
 	#instVars : [
 		'timelineDivider'
@@ -16,24 +16,24 @@ Class {
 }
 
 { #category : 'building' }
-STPossessionTimelineChart >> buildLegend1 [
+STMeanPossessionTimelineChart >> buildLegend1 [
 
-	self buildLegendForTeam: team1Extract team
+	self buildLegendForTeamExtract: team1Extract
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> buildLegend2 [
+STMeanPossessionTimelineChart >> buildLegend2 [
 
-	self buildLegendForTeam: team2Extract team
+	self buildLegendForTeamExtract: team2Extract
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> buildLegendForTeam: aSTTeam [
+STMeanPossessionTimelineChart >> buildLegendForTeamExtract: aSTMatchEventExtract [
 
 	| legend circleMarker |
 	circleMarker := RSMarker new
 		                shape: (RSShapeFactory circle
-				                 color: aSTTeam gradientColorLow;
+				                 color: aSTMatchEventExtract teamGradientColorLow;
 				                 yourself);
 		                offsetRatio: 0.5;
 		                yourself.
@@ -41,55 +41,55 @@ STPossessionTimelineChart >> buildLegendForTeam: aSTTeam [
 		          text: 'Ball possession' withShape: (RSLine new
 				           startPoint: 0 @ 0;
 				           endPoint: 50 @ 0;
-				           color: aSTTeam gradientColorLow;
+				           color: aSTMatchEventExtract teamGradientColorLow;
 				           markerStart: circleMarker;
 				           yourself);
 		          text: 'Goal moment' withShape: (RSLine new
 			           startPoint: 0 @ 0;
 			           endPoint: 50 @ 0;
-			           color: aSTTeam gradientColorLow;
+			           color: aSTMatchEventExtract teamGradientColorLow;
 			           dashed;
 			           yourself);
 		          yourself.
 
-	legend beFixedWithTitle: aSTTeam teamName.
+	legend beFixedWithTitle: aSTMatchEventExtract teamName.
 	legend container: self canvas.
 	legend build
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> goalMomentLinePlots [
+STMeanPossessionTimelineChart >> goalMomentLinePlots [
 
 	^ self goalMomentLinePlotsTeam1 copyWithAll:
 		  self goalMomentLinePlotsTeam2
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> goalMomentLinePlotsTeam1 [
+STMeanPossessionTimelineChart >> goalMomentLinePlotsTeam1 [
 
 	^ self goalMomentLinePlotsTeamExtract: team1Extract
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> goalMomentLinePlotsTeam2 [
+STMeanPossessionTimelineChart >> goalMomentLinePlotsTeam2 [
 
 	^ self goalMomentLinePlotsTeamExtract: team2Extract
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> goalMomentLinePlotsTeamExtract: teamExtract [
+STMeanPossessionTimelineChart >> goalMomentLinePlotsTeamExtract: teamExtract [
 
 	^ teamExtract goalMoments collect: [ :frameNumber |
 			  (RSLinePlot
 				   x: (Array with: frameNumber with: frameNumber)
 				   y: (Array with: self minChartValueY with: self maxChartValueY))
 				  dashed;
-				  color: teamExtract team gradientColorLow;
+				  color: teamExtract teamGradientColorLow;
 				  yourself ]
 ]
 
 { #category : 'initialization' }
-STPossessionTimelineChart >> initializeChart [
+STMeanPossessionTimelineChart >> initializeChart [
 
 	timelineDivider := STTimelineDivider
 		                   from: self minimumFrameNumber
@@ -118,21 +118,21 @@ STPossessionTimelineChart >> initializeChart [
 ]
 
 { #category : 'private' }
-STPossessionTimelineChart >> maximumFrameNumber [
+STMeanPossessionTimelineChart >> maximumFrameNumber [
 
 	^ team1Extract possessionEndpoints last max:
 		  team2Extract possessionEndpoints last
 ]
 
 { #category : 'private' }
-STPossessionTimelineChart >> minimumFrameNumber [
+STMeanPossessionTimelineChart >> minimumFrameNumber [
 
 	^ team1Extract possessionEndpoints first min:
 		  team2Extract possessionEndpoints first
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> possessionPlotTeam1 [
+STMeanPossessionTimelineChart >> possessionPlotTeam1 [
 
 	^ RSLinePlot new
 		  x: self xValues y: self subIntervalPercentsForTeam1;
@@ -142,7 +142,7 @@ STPossessionTimelineChart >> possessionPlotTeam1 [
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> possessionPlotTeam2 [
+STMeanPossessionTimelineChart >> possessionPlotTeam2 [
 
 	^ RSLinePlot new
 		  x: self xValues y: self subIntervalPercentsForTeam2;
@@ -152,19 +152,19 @@ STPossessionTimelineChart >> possessionPlotTeam2 [
 ]
 
 { #category : 'private' }
-STPossessionTimelineChart >> subIntervalPercentsForTeam1 [
+STMeanPossessionTimelineChart >> subIntervalPercentsForTeam1 [
 
 	^ self subIntervalPercentsForTeamExtract: team1Extract
 ]
 
 { #category : 'private' }
-STPossessionTimelineChart >> subIntervalPercentsForTeam2 [
+STMeanPossessionTimelineChart >> subIntervalPercentsForTeam2 [
 
 	^ self subIntervalPercentsForTeamExtract: team2Extract
 ]
 
 { #category : 'private' }
-STPossessionTimelineChart >> subIntervalPercentsForTeamExtract: teamExtract [
+STMeanPossessionTimelineChart >> subIntervalPercentsForTeamExtract: teamExtract [
 
 	| subIntervals |
 	subIntervals := timelineDivider divideTimeline:
@@ -180,7 +180,7 @@ STPossessionTimelineChart >> subIntervalPercentsForTeamExtract: teamExtract [
 ]
 
 { #category : 'building' }
-STPossessionTimelineChart >> xValues [
+STMeanPossessionTimelineChart >> xValues [
 
 	^ timelineDivider periodRanges collect: [ :periodRange |
 		  periodRange sum // 2 ]

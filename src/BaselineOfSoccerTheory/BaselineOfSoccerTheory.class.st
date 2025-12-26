@@ -23,11 +23,12 @@ BaselineOfSoccerTheory >> baseline: spec [
 				with: [ spec requires: #( 'SoccerTheory-Model'
 						   'Bloc' ) ];
 				package: 'SoccerTheory-Statistics'
-				with: [ spec requires: #( 'SoccerTheory-Model' ) ];
-				package: 'SoccerTheory-Application'
-				with: [
-					spec requires:
-							#( 'SoccerTheory-Graphics' 'SoccerTheory-SoccerML' ) ];
+				with: [ spec requires: #( 'SoccerTheory-Model'
+						   'XMLPullParser' ) ];
+				package: 'SoccerTheory-Application' with: [
+						spec requires:
+								#( 'SoccerTheory-Graphics' 'SoccerTheory-SoccerML'
+								   'SoccerTheory-Statistics' ) ];
 				package: 'SoccerTheory-SoccerML' with: [
 						spec
 							requires: #( 'SoccerTheory-Model' 'XMLParser' 'NeoJSON' );
@@ -129,5 +130,8 @@ BaselineOfSoccerTheory >> xmlParserOn: spec [
 	spec
 		baseline: 'XMLParser'
 		with: [
-		spec repository: 'github://pharo-contributions/XML-XMLParser/src' ]
+			spec repository: 'github://pharo-contributions/XML-XMLParser/src' ];
+		baseline: 'XMLPullParser' with: [
+				spec repository:
+						'github://pharo-contributions/XML-XMLPullParser:main/repository' ]
 ]

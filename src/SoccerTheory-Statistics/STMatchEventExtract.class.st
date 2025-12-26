@@ -8,14 +8,28 @@ Class {
 	#name : 'STMatchEventExtract',
 	#superclass : 'Object',
 	#instVars : [
-		'team',
 		'goalMoments',
 		'possessionEndpoints',
-		'numericalSuperiorityEndPoints'
+		'numericalSuperiorityEndPoints',
+		'teamName',
+		'teamGradientColorLow',
+		'teamGradientColorHigh'
 	],
 	#category : 'SoccerTheory-Statistics',
 	#package : 'SoccerTheory-Statistics'
 }
+
+{ #category : 'instance creation' }
+STMatchEventExtract class >> newAwayTeamName: aString [
+
+	^ self new initializeAwayTeamName: aString
+]
+
+{ #category : 'instance creation' }
+STMatchEventExtract class >> newHomeTeamName: aString [
+
+	^ self new initializeHomeTeamName: aString
+]
 
 { #category : 'private' }
 STMatchEventExtract >> countFramesFromEndpoints: endpointCollection [
@@ -38,7 +52,7 @@ STMatchEventExtract >> countPossessionFrames [
 	^ self countFramesFromEndpoints: self possessionEndpoints
 ]
 
-{ #category : 'accessing' }
+{ #category : 'api' }
 STMatchEventExtract >> goalMoments [
 
 	^ goalMoments
@@ -48,6 +62,31 @@ STMatchEventExtract >> goalMoments [
 STMatchEventExtract >> goalMoments: anObject [
 
 	goalMoments := anObject
+]
+
+{ #category : 'initialization' }
+STMatchEventExtract >> initialize [
+
+	super initialize.
+	goalMoments := SortedCollection new.
+	numericalSuperiorityEndPoints := SortedCollection new.
+	possessionEndpoints := SortedCollection new
+]
+
+{ #category : 'initialization' }
+STMatchEventExtract >> initializeAwayTeamName: aString [
+
+	teamName := aString.
+	teamGradientColorLow := '#00FFFF'.
+	teamGradientColorHigh := '#0000FF'
+]
+
+{ #category : 'initialization' }
+STMatchEventExtract >> initializeHomeTeamName: aString [
+
+	teamName := aString.
+	teamGradientColorLow := '#FF00FF'.
+	teamGradientColorHigh := '#FF0000'
 ]
 
 { #category : 'accessing' }
@@ -62,7 +101,7 @@ STMatchEventExtract >> numericalSuperiorityEndPoints: anObject [
 	numericalSuperiorityEndPoints := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'api' }
 STMatchEventExtract >> possessionEndpoints [
 
 	^ possessionEndpoints
@@ -75,13 +114,25 @@ STMatchEventExtract >> possessionEndpoints: anObject [
 ]
 
 { #category : 'accessing' }
-STMatchEventExtract >> team [
+STMatchEventExtract >> teamGradientColorHigh [
 
-	^ team
+	^ teamGradientColorHigh 
 ]
 
 { #category : 'accessing' }
-STMatchEventExtract >> team: anObject [
+STMatchEventExtract >> teamGradientColorLow [
 
-	team := anObject
+	^ teamGradientColorLow
+]
+
+{ #category : 'accessing' }
+STMatchEventExtract >> teamName [
+
+	^ teamName
+]
+
+{ #category : 'accessing' }
+STMatchEventExtract >> teamName: aString [
+
+	teamName := aString
 ]

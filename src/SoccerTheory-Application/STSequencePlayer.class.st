@@ -27,7 +27,8 @@ Class {
 		'lastStartingFrameIndex',
 		'officialTimeLabel',
 		'saveFilePresenter',
-		'framesPerSecond'
+		'framesPerSecond',
+		'fileReference'
 	],
 	#category : 'SoccerTheory-Application-Presenter',
 	#package : 'SoccerTheory-Application',
@@ -53,6 +54,50 @@ STSequencePlayer class >> open [
 		open
 ]
 
+{ #category : 'private' }
+STSequencePlayer >> alertFileNotFound [
+
+	SpAlertDialog new
+		title: 'Statistic charts';
+		label: 'File: ' , fileReference fullname , ' not found.';
+		acceptLabel: 'Close';
+		openModal
+]
+
+{ #category : 'private' }
+STSequencePlayer >> alertNoFileReference [
+
+	SpAlertDialog new
+		title: 'Statistic charts';
+		label: 'Please load first a SoccerML file.';
+		acceptLabel: 'Close';
+		openModal
+]
+
+{ #category : 'private' }
+STSequencePlayer >> alertNoPossessionData [
+
+	SpAlertDialog new
+		title: 'Statistic charts';
+		label: 'There is no possession data available.';
+		acceptLabel: 'Close';
+		openModal
+]
+
+{ #category : 'private' }
+STSequencePlayer >> checkFileReference [
+	"Answer true if file reference fits, else false.
+	Show appropriate message if file reference is missing or file is not existing."
+
+	fileReference ifNil: [
+			self alertNoFileReference.
+			^ false ].
+	fileReference exists ifFalse: [
+			self alertFileNotFound.
+			^ false ].
+	^ true
+]
+
 { #category : 'presenters' }
 STSequencePlayer >> controlsPresenter [
 	"Answer the SpPresenter with the controls row."
@@ -61,6 +106,7 @@ STSequencePlayer >> controlsPresenter [
 	presenter := SpPresenter new.
 	presenter layout: (SpBoxLayout newLeftToRight
 			 add: self fileControlsLayout;
+			 add: self statisticsButton expand: false;
 			 add: self sequenceControlsLayout;
 			 add: self strategyControlsLayout;
 			 yourself).
@@ -207,8 +253,9 @@ STSequencePlayer >> legendPresenter [
 STSequencePlayer >> loadFile: aFileReference [
 	"Extract the first STSoccerFrame from the given SoccerML file, display it and push a message on the status bar."
 
+	fileReference := aFileReference.
 	reader := STSoccerDocumentReader onFileNamed: aFileReference fullName.
-	reader optimizeForLargeDocuments. 
+	reader optimizeForLargeDocuments.
 	reader parse.
 
 	self updateFrameIndexPresenter.
@@ -253,6 +300,42 @@ STSequencePlayer >> officialTimeLayout [
 		  add: 'official time: ' expand: false;
 		  add: officialTimeLabel width: 100;
 		  yourself
+]
+
+{ #category : 'private' }
+STSequencePlayer >> openContinuousPossessionTimelineChart [
+
+	self openMatchChart: STContinuousPossessionTimelineChart
+]
+
+{ #category : 'private' }
+STSequencePlayer >> openMatchChart: aSTMatchChartSubclass [
+
+	| extractor |
+	self checkFileReference ifFalse: [ ^ self ].
+
+	extractor := STMatchEventExtractor onFileNamed: fileReference.
+	extractor extract.
+
+	(extractor team1Extract possessionEndpoints notEmpty or: [
+		 extractor team2Extract possessionEndpoints notEmpty ])
+		ifTrue: [
+				(aSTMatchChartSubclass
+					 team1Extract: extractor team1Extract
+					 team2Extract: extractor team2Extract) open ]
+		ifFalse: [ self alertNoPossessionData ]
+]
+
+{ #category : 'private' }
+STSequencePlayer >> openMeanPossessionTimelineChart [
+
+	self openMatchChart: STMeanPossessionTimelineChart
+]
+
+{ #category : 'private' }
+STSequencePlayer >> openPossessionBarChart [
+
+	self openMatchChart: STPossessionBarChart
 ]
 
 { #category : 'presenters' }
@@ -388,6 +471,37 @@ STSequencePlayer >> sequenceControlsLayout [
 		  add: self frameIndexLayout expand: false;
 		  add: self framePlayerLayout expand: false;
 		  add: self officialTimeLayout expand: false;
+		  yourself
+]
+
+{ #category : 'presenters' }
+STSequencePlayer >> statisticsButton [
+
+	^ self newButton
+		  label: 'Statistics';
+		  iconName: #arrowDown;
+		  action: [
+			  self statisticsMenuPresenter openWithSpecAt:
+					  self currentHand position ];
+		  yourself
+]
+
+{ #category : 'presenters' }
+STSequencePlayer >> statisticsMenuPresenter [
+
+	^ SpMenuPresenter new
+		  addItem: [ :item |
+				  item
+					  name: 'Possession bar chart';
+					  action: [ self openPossessionBarChart ] ];
+		  addItem: [ :item |
+				  item
+					  name: 'Mean Possession timeline';
+					  action: [ self openMeanPossessionTimelineChart ] ];
+		  addItem: [ :item |
+				  item
+					  name: 'Continuous Possession timeline';
+					  action: [ self openContinuousPossessionTimelineChart ] ];
 		  yourself
 ]
 
