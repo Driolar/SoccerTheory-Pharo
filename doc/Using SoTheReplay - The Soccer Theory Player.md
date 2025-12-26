@@ -34,3 +34,12 @@ On the current static frame, you can *move* every player and the ball like you c
 ### Saving the current frame
 The *save button* opens a modal window to export the current displayed frame into a SoccerML file.
 
+## Statistical charts
+The button "Statistics" offers the following statiscal charts for the loaded game:
+* Possession bar chart
+* Mean Possession timeline
+* Continuous Possession timeline
+
+The statistical charts are documented [here](https://github.com/Driolar/SoccerTheory-Pharo/blob/master/doc/statistical%20charts.md).
+The extraction of numerical superiority is not implemented.
+
