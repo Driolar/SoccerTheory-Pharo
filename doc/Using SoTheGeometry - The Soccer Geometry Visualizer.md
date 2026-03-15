@@ -31,6 +31,8 @@ In a first rudimentary approach, the pair connections are calculated by minimizi
 This could certainly be refined, e.g. by weighting how dangerous is the position of each attacker.
 The algorithm currently used to calculate the minimum distance sum does not always find the optimal solution but deviates at most to the double.
 
+In [CYRUS](https://cyrus2d.com/), the RoboCup2D champion 2021, refined strategies for individual coverage have been developed.[^cyrus]
+
 ## Shooting Angle Layer
 For the attacking player with the greatest shooting angle, the layer shows the shooting (tri)angle and the circumference where the shooting angle is equal.
 
@@ -59,3 +61,5 @@ The players of a team are connected by a minimum spanning tree with dashed lines
 This gives an approach of connectivity, specially of pass opportunities.
 The team spanning layer is rendered for the attacking team.
 In case of neutral ball, both spanning trees are rendered.
+
+[^cyrus]: Zare, N. et al. (2022). Improving Dribbling, Passing, and Marking Actions in Soccer Simulation 2D Games Using Machine Learning. [Section 4.1 Marking Algorithms](https://arxiv.org/html/2401.03406v1/#S4).
